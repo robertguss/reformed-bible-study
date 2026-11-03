@@ -1,0 +1,132 @@
+import { describe, expect, it } from "vitest"
+import {
+  articleProblems,
+  missingCalls,
+  namedArticles,
+  quotedSpans,
+  saysNotCovered,
+  type ToolCall,
+  type Transcript,
+  ungroundedQuotes,
+} from "./grade.ts"
+
+const WCF = {
+  author: "Westminster Assembly of Divines",
+  work: "The Westminster Confession of Faith",
+  edition: "Schaff, The Creeds of Christendom, vol. 3 (1877)",
+  license: "CC-PDM-1.0",
+}
+
+const commentary: ToolCall = {
+  name: "get_commentary",
+  args: { ref: "Romans 8:28", work: "calvin-commentaries" },
+  isError: false,
+  text: "> And we know that to them who love God. So far are afflictions from hindering our salvation.\n\n— John Calvin, Calvin's Collected Commentaries \\(1847\\). License: CC-PDM-1.0.",
+  structured: { items: [] },
+}
+
+const articles: ToolCall = {
+  name: "find_confession_articles",
+  args: { ref: "Romans 8:28" },
+  isError: false,
+  text: "> WCF 5.7 \\(Of Providence\\): Section 7\n> As the providence of God doth, in general, reach to all creatures, so, after a most special manner, it taketh care of his Church.",
+  structured: {
+    items: [{ value: { citation: "WCF 5.7", articleId: "5.7" }, attribution: WCF }],
+  },
+}
+
+const CREDIT = `— ${WCF.author}, ${WCF.work} (${WCF.edition}). License: ${WCF.license}.`
+
+const transcript = (answer: string, calls = [commentary, articles]): Transcript => ({
+  question: "What does Calvin say on Romans 8:28?",
+  answer,
+  calls,
+})
+
+describe("quotedSpans", () => {
+  it("reads inline and blockquoted quotations, skipping attribution lines and short terms", () => {
+    const answer = [
+      'Calvin writes, "So far are afflictions from hindering our salvation."',
+      "He calls it “the special care of his Church” and uses the word “providence”.",
+      "> As the providence of God doth, in general, reach to all creatures",
+      `> ${CREDIT}`,
+    ].join("\n")
+    expect(quotedSpans(answer)).toEqual([
+      "So far are afflictions from hindering our salvation.",
+      "the special care of his Church",
+      "As the providence of God doth, in general, reach to all creatures",
+    ])
+  })
+})
+
+describe("ungroundedQuotes", () => {
+  it("accepts quotations found word for word, through Markdown escapes and ellipses", () => {
+    const answer = [
+      '"So far are afflictions from hindering our salvation."',
+      "> WCF 5.7 (Of Providence): Section 7",
+      "> “As the providence of God doth … reach to all creatures”",
+    ].join("\n")
+    expect(ungroundedQuotes(transcript(answer))).toEqual([])
+  })
+
+  it("flags a quotation no tool returned, such as a verse recalled from memory", () => {
+    const answer =
+      '"So far are afflictions from hindering our salvation." Paul says "all things work together for good."'
+    expect(ungroundedQuotes(transcript(answer))).toEqual(["all things work together for good."])
+  })
+})
+
+describe("namedArticles", () => {
+  it("reads abbreviations and the long forms as tool citations", () => {
+    const answer =
+      "See WCF 3.6, Westminster Confession of Faith, chapter 5, section 7, the Larger Catechism Q. 45 and WSC Q7."
+    expect([...namedArticles(answer)].sort()).toEqual(["WCF 3.6", "WCF 5.7", "WLC Q45", "WSC Q7"])
+  })
+})
+
+describe("articleProblems", () => {
+  it("passes an answer naming only returned articles, each credited", () => {
+    expect(articleProblems(transcript(`WCF 5.7 cites the verse.\n\n${CREDIT}`))).toEqual([])
+  })
+
+  it("flags an article no tool returned and a credit missing its edition", () => {
+    const answer = `WCF 5.7 and WCF 1.1 cite it. — ${WCF.author}, ${WCF.work}. License: ${WCF.license}.`
+    expect(articleProblems(transcript(answer))).toEqual([
+      `WCF 5.7 is not credited with its edition: ${WCF.edition}`,
+      "WCF 1.1 is named but no tool returned it.",
+    ])
+  })
+
+  it("flags an answer that names no article", () => {
+    expect(articleProblems(transcript("Calvin comforts the afflicted."))).toEqual([
+      "The answer names no confession article.",
+    ])
+  })
+})
+
+describe("missingCalls", () => {
+  it("lists expected tools that were not called successfully", () => {
+    const failed = { ...articles, isError: true }
+    expect(
+      missingCalls(transcript("", [commentary, failed]), [
+        "get_commentary",
+        "find_confession_articles",
+      ]),
+    ).toEqual(["find_confession_articles"])
+  })
+})
+
+describe("saysNotCovered", () => {
+  it("recognises an answer saying the source or passage is not there", () => {
+    for (const answer of [
+      "Calvin's commentary on Genesis 1:1 is not yet covered in this dataset.",
+      "Matthew Henry's commentary isn't available from these tools.",
+      "The resources don't include Matthew Henry.",
+    ])
+      expect([answer, saysNotCovered(answer)]).toEqual([answer, true])
+  })
+
+  it("rejects an answer that simply answers", () => {
+    expect(saysNotCovered("Calvin says that God created the heavens out of nothing.")).toBe(false)
+  })
+})

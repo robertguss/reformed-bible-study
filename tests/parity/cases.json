@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Romans 8:28 text",
+    "tool": "get_passage",
+    "args": { "ref": "Romans 8:28" }
+  },
+  {
+    "name": "Calvin on Romans 8:29",
+    "tool": "get_commentary",
+    "args": { "ref": "Romans 8:29", "work": "calvin-commentaries" }
+  },
+  {
+    "name": "confession articles citing Romans 8:28",
+    "tool": "find_confession_articles",
+    "args": { "ref": "Romans 8:28" }
+  },
+  {
+    "name": "cross-references from Romans 8:28, page two",
+    "tool": "get_cross_references",
+    "args": { "ref": "Romans 8:28" },
+    "page": 2
+  },
+  {
+    "name": "original-language words of Romans 8:28",
+    "tool": "get_verse_words",
+    "args": { "ref": "Romans 8:28" }
+  },
+  {
+    "name": "Romans 17",
+    "tool": "get_passage",
+    "args": { "ref": "Romans 17" },
+    "fails": "InvalidReference"
+  }
+]
