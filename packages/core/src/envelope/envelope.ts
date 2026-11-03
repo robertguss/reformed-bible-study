@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { ResourceId } from "../resources/index.ts"
+import { HttpsUrl, ResourceId } from "../resources/index.ts"
 import { ResourceCoverage } from "./coverage.ts"
 
 export const TextRun = Schema.Struct({
@@ -17,7 +17,7 @@ export const Attribution = Schema.Struct({
   license: Schema.String,
   licenseUrl: Schema.String,
   attributionText: Schema.String,
-  sourceUrl: Schema.String,
+  sourceUrl: HttpsUrl,
 })
 export type Attribution = typeof Attribution.Type
 

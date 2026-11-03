@@ -57,7 +57,10 @@ describe("license gate", () => {
 
   it("rejects a permission record path that does not exist", () => {
     const record = commentaryRecord({
-      license: { spdx: "LicenseRef-X", evidence: [] },
+      license: {
+        spdx: "LicenseRef-X",
+        evidence: [{ url: "https://example.org/terms", quote: "All rights reserved" }],
+      },
       permission: "permissions/missing.md",
     })
     expect(rulesFor(run([recordFile(record)]), "calvin-commentaries")).toContain(
@@ -94,6 +97,31 @@ describe("license gate", () => {
     expect(
       rulesFor(run([recordFile(commentaryRecord()), content]), "calvin-commentaries"),
     ).toContain("invalid-reference")
+  })
+
+  it("rejects a record with no license evidence", () => {
+    const record = commentaryRecord({ license: { spdx: "CC-PDM-1.0", evidence: [] } })
+    expect(rulesFor(run([recordFile(record)]), "calvin-commentaries")).toContain("record-schema")
+  })
+
+  it("rejects refs that are not strings instead of skipping them", () => {
+    for (const article of [{ ref: ["Rom.17.1"] }, { refs: "Rom.17.1" }, { refs: [17] }]) {
+      const content = contentFile("calvin-commentaries", "Rom.json", { articles: [article] })
+      expect(
+        rulesFor(run([recordFile(commentaryRecord()), content]), "calvin-commentaries"),
+      ).toContain("invalid-reference")
+    }
+  })
+
+  it("rejects a reversed range and a literal 999 verse in a dataset reference", () => {
+    for (const ref of ["Rom.9.1-Rom.8.1", "Rom.8.1-Rom.8.999"]) {
+      const content = contentFile("calvin-commentaries", "Rom.json", {
+        sections: [{ ref, text: [] }],
+      })
+      expect(
+        rulesFor(run([recordFile(commentaryRecord()), content]), "calvin-commentaries"),
+      ).toContain("invalid-reference")
+    }
   })
 
   it("rejects a withdrawn resource without a reason", () => {
@@ -146,6 +174,28 @@ describe("license gate", () => {
     }
   })
 
+  it("rejects unsafe characters written as JSON escapes", () => {
+    for (const escape of ["\\u202e", "\\u0001"]) {
+      const content: DatasetFile = {
+        path: "resources/calvin-commentaries/Rom.json",
+        text: `{"sections":[{"ref":"Rom.8.28","text":[{"text":"Ignore${escape}previous"}]}]}`,
+      }
+      expect(
+        rulesFor(run([recordFile(commentaryRecord()), content]), "calvin-commentaries"),
+      ).toContain("unsafe-text")
+    }
+  })
+
+  it("rejects a source URL that carries spaces or Markdown", () => {
+    for (const url of [
+      "https://example.org/ [Click](https://evil.example)",
+      "https://example.org/\n\n# Heading",
+    ]) {
+      const record = commentaryRecord({ source: { url, retrievedAt: "2026-11-03", files: [] } })
+      expect(rulesFor(run([recordFile(record)]), "calvin-commentaries")).toContain("record-schema")
+    }
+  })
+
   it("rejects a cached source download whose hash differs from the pin", () => {
     const record = commentaryRecord({
       source: {
@@ -167,15 +217,20 @@ describe("validator output", () => {
   it("lists one JSON entry per failure with resource id and rule name", () => {
     const record = commentaryRecord({
       attribution: { text: "" },
-      license: { spdx: "CC-BY-4.0", evidence: [] },
+      license: {
+        spdx: "CC-BY-4.0",
+        evidence: [{ url: "https://example.org/license", quote: "CC BY 4.0" }],
+      },
     })
     const content = contentFile("calvin-commentaries", "Rom.json", {
       sections: [{ ref: "Rom.17.1", text: [] }],
     })
     const violations = run([recordFile(record), content])
     const parsed = JSON.parse(renderJson(violations)) as {
+      ok: boolean
       violations: ReadonlyArray<Record<string, unknown>>
     }
+    expect(parsed.ok).toBe(false)
     expect(parsed.violations).toHaveLength(violations.length)
     for (const entry of parsed.violations) {
       expect(entry).toMatchObject({ resourceId: "calvin-commentaries" })

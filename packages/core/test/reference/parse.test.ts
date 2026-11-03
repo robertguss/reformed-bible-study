@@ -57,6 +57,20 @@ describe("formatPassage and parseOsis", () => {
     const parsed = parseOsis("Rom.8.40")
     expect(Result.isFailure(parsed) && parsed.failure.reason).toBe("out_of_range")
   })
+
+  it("takes a literal 999 in OSIS as a number, not as the end of the chapter or book", () => {
+    for (const osis of ["Rom.8.1-Rom.8.999", "Rom.8.1-Rom.999.1"]) {
+      const parsed = parseOsis(osis)
+      expect(Result.isFailure(parsed) && parsed.failure.reason).toBe("out_of_range")
+    }
+  })
+
+  it("rejects reversed ranges and ranges with more than two ends", () => {
+    for (const osis of ["Rom.9.1-Rom.8.1", "Rom.8.28-Rom.8.30-Gen.1.1"]) {
+      const parsed = parseOsis(osis)
+      expect(Result.isFailure(parsed) && parsed.failure.reason).toBe("unrecognized")
+    }
+  })
 })
 
 describe("book table", () => {

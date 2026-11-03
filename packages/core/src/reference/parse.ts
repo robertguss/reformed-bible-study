@@ -2,7 +2,7 @@ import { bcv_parser } from "bible-passage-reference-parser"
 import * as english from "bible-passage-reference-parser/esm/lang/en.js"
 import { Result, Schema } from "effect"
 import { isBookId, type BookId } from "./books.ts"
-import { Passage, type VerseRef } from "./passage.ts"
+import { compareVerse, Passage, type VerseRef } from "./passage.ts"
 import { chapterCount, verseCount } from "./versification.ts"
 
 export const InvalidReasons = ["unrecognized", "out_of_range"] as const
@@ -16,7 +16,8 @@ export class InvalidReference extends Schema.TaggedError<
   suggestion: Schema.optional(Passage),
 }) {}
 
-// The parser marks "the whole chapter" or "the whole book" with this placeholder.
+// The free-text parser marks "the whole chapter" or "the whole book" with this placeholder.
+// OSIS written by hand means a literal 999, so only free text expands it.
 const OPEN_ENDED = 999
 
 let parser: bcv_parser | undefined
@@ -63,14 +64,14 @@ const singleVerse = (ref: VerseRef): Passage => ({ start: ref, end: ref })
 
 type Checked = Result.Result<VerseRef, Passage | undefined>
 
-const checkVerse = (raw: RawVerse, position: "start" | "end"): Checked => {
-  const chapter = position === "end" ? lastChapter(raw.book, raw.chapter) : raw.chapter
+const checkVerse = (raw: RawVerse, openEnded: boolean): Checked => {
+  const chapter = openEnded ? lastChapter(raw.book, raw.chapter) : raw.chapter
   const chapters = chapterCount(raw.book)
   if (chapter < 1 || chapter > chapters) {
     return Result.fail(chapters > 0 ? wholeChapter(raw.book, chapters) : undefined)
   }
   const verses = verseCount(raw.book, chapter)
-  const verse = position === "end" && raw.verse === OPEN_ENDED ? verses : raw.verse
+  const verse = openEnded && raw.verse === OPEN_ENDED ? verses : raw.verse
   if (verse < 1 || verse > verses) {
     return Result.fail(singleVerse({ book: raw.book, chapter, verse: verses }))
   }
@@ -86,17 +87,25 @@ const outOfRange = (input: string, suggestion: Passage | undefined) =>
     ),
   )
 
-const checkPassage = (input: string, osis: string): Result.Result<Passage, InvalidReference> => {
-  const [startText = "", endText = startText] = osis.split("-")
+const unrecognized = (input: string) =>
+  Result.fail(new InvalidReference({ input, reason: "unrecognized" }))
+
+const checkPassage = (
+  input: string,
+  osis: string,
+  openEndedEnd: boolean,
+): Result.Result<Passage, InvalidReference> => {
+  const parts = osis.split("-")
+  if (parts.length > 2) return unrecognized(input)
+  const [startText = "", endText = startText] = parts
   const start = readVerse(startText)
   const end = readVerse(endText)
-  if (start === undefined || end === undefined) {
-    return Result.fail(new InvalidReference({ input, reason: "unrecognized" }))
-  }
-  const checkedStart = checkVerse(start, "start")
+  if (start === undefined || end === undefined) return unrecognized(input)
+  const checkedStart = checkVerse(start, false)
   if (Result.isFailure(checkedStart)) return outOfRange(input, checkedStart.failure)
-  const checkedEnd = checkVerse(end, "end")
+  const checkedEnd = checkVerse(end, openEndedEnd)
   if (Result.isFailure(checkedEnd)) return outOfRange(input, checkedEnd.failure)
+  if (compareVerse(checkedStart.success, checkedEnd.success) > 0) return unrecognized(input)
   return Result.succeed({ start: checkedStart.success, end: checkedEnd.success })
 }
 
@@ -108,15 +117,16 @@ export const parseReference = (
   input: string,
 ): Result.Result<ReadonlyArray<Passage>, InvalidReference> => {
   const osis = englishParser().parse(input).osis()
-  if (osis === "") return Result.fail(new InvalidReference({ input, reason: "unrecognized" }))
+  if (osis === "") return unrecognized(input)
   const passages: Array<Passage> = []
   for (const part of osis.split(",")) {
-    const checked = checkPassage(input, part)
+    const checked = checkPassage(input, part, true)
     if (Result.isFailure(checked)) return Result.fail(checked.failure)
     passages.push(checked.success)
   }
   return Result.succeed(passages)
 }
 
+/** Checks one OSIS passage such as "Rom.8.28-Rom.8.30". Every number is taken literally. */
 export const parseOsis = (osis: string): Result.Result<Passage, InvalidReference> =>
-  checkPassage(osis, osis)
+  checkPassage(osis, osis, false)

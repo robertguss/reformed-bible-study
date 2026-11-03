@@ -112,4 +112,72 @@ describe("renderText", () => {
     expect(text).not.toContain("<b>")
     expect(text).toMatch(/^> /m)
   })
+
+  const renderOne = (
+    source: string,
+    extra: { readonly versificationNotes?: ReadonlyArray<string> } = {},
+  ): string => {
+    const decodedOne = decode({
+      ...envelope,
+      ...extra,
+      items: [{ ...envelope.items[0], value: { ref: "Rom.8.28", text: [{ text: source }] } }],
+    })
+    return Result.isSuccess(decodedOne)
+      ? renderText(decodedOne.success, (item) => render(item.text))
+      : ""
+  }
+
+  const quotedLines = (rendered: string): ReadonlyArray<string> =>
+    rendered.split("\n").filter((line) => line.startsWith(">"))
+
+  it("breaks bare URLs in source text so Markdown renderers cannot autolink them", () => {
+    const quoted = quotedLines(
+      renderOne("Visit https://evil.example/path and www.evil.example now"),
+    )
+    for (const line of quoted) {
+      expect(line).not.toMatch(/https?:\/\//)
+      expect(line).not.toMatch(/\bwww\./)
+    }
+    expect(quoted.join("\n")).toContain("evil")
+  })
+
+  it("keeps every source line inside the quote, including lines split by a lone carriage return", () => {
+    const rendered = renderOne("Grace\r\r# Heading\r---\r- item\r1. first")
+    const quoted = quotedLines(rendered)
+    expect(quoted.join("\n")).toContain("Heading")
+    expect(rendered).not.toContain("\r")
+    expect(rendered).not.toMatch(/^(?:#|---|- |1\. )/m)
+    for (const line of quoted) expect(line).not.toMatch(/^> (?:#|-|=|\+|\d+[.)])/)
+  })
+
+  it("starts the credit line as its own paragraph after the quote", () => {
+    expect(renderOne("Grace")).toMatch(/^> Grace\n\n— John Calvin/m)
+  })
+
+  it("wraps the source URL in angle brackets", () => {
+    expect(renderOne("Grace")).toContain("Source: <https://www.ccel.org/ccel/calvin/calcom38.xml>")
+  })
+
+  it("includes versification notes", () => {
+    expect(
+      renderOne("Grace", {
+        versificationNotes: ["Romans 16:25-27 follows 14:23 in some editions."],
+      }),
+    ).toContain("Versification note: Romans 16:25-27 follows 14:23 in some editions.")
+  })
+})
+
+describe("Attribution", () => {
+  it("rejects a source URL that carries Markdown", () => {
+    const decodeAttribution = Schema.decodeUnknownResult(Attribution)
+    expect(Result.isSuccess(decodeAttribution(calvin))).toBe(true)
+    expect(
+      Result.isFailure(
+        decodeAttribution({
+          ...calvin,
+          sourceUrl: "https://example.org/ [Click](https://evil.example)",
+        }),
+      ),
+    ).toBe(true)
+  })
 })

@@ -18,6 +18,8 @@ export const hasUnsafeCharacters = (text: string): boolean => UNSAFE_CHARACTERS.
 const MARKDOWN_LINK = /\[[^\]]*\]\([^)]*\)/
 const HTML_TAG = /<\/?[a-z!][^>]*>/i
 const URL_SCHEME = /\b[a-z][a-z0-9+.-]*:\/\//i
+// Characters a URL never holds raw; rejecting them keeps a URL from carrying Markdown or breaking out of `<...>`.
+const NOT_IN_URL = /[\s<>"\\^`{|}]/
 
 export const PlainText = Schema.String.check(
   Schema.isMaxLength(2000),
@@ -35,6 +37,7 @@ export const HttpsUrl = Schema.String.check(
   Schema.isMaxLength(2000),
   Schema.makeFilter((text: string) => {
     if (hasUnsafeCharacters(text)) return "must not contain invisible characters"
+    if (NOT_IN_URL.test(text)) return "must not contain spaces, quotes, angle brackets or braces"
     try {
       return new URL(text).protocol === "https:" ? undefined : "must use https"
     } catch {

@@ -45,7 +45,9 @@ export const ResourceRecord = Schema.Struct({
   }),
   license: Schema.Struct({
     spdx: Schema.String.check(Schema.isPattern(/^[A-Za-z0-9.+-]+$/)),
-    evidence: Schema.Array(Schema.Struct({ url: HttpsUrl, quote: NonEmptyPlainText })),
+    evidence: Schema.Array(Schema.Struct({ url: HttpsUrl, quote: NonEmptyPlainText })).check(
+      Schema.isMinLength(1),
+    ),
   }),
   attribution: Schema.Struct({
     text: PlainText,

@@ -49,6 +49,8 @@ interface FoundRef {
   readonly value: string
 }
 
+// A ref that is not a string (or a refs list that is not all strings) is recorded as its JSON text,
+// which parseOsis then rejects, so a malformed reference can never skip the check.
 const collectRefs = (node: unknown, into: Array<FoundRef>): void => {
   if (Array.isArray(node)) {
     for (const child of node) collectRefs(child, into)
@@ -56,11 +58,23 @@ const collectRefs = (node: unknown, into: Array<FoundRef>): void => {
   }
   if (node === null || typeof node !== "object") return
   for (const [key, value] of Object.entries(node)) {
-    if (key === "ref" && typeof value === "string") into.push({ key, value })
-    else if (key === "refs" && Array.isArray(value)) {
-      for (const ref of value) if (typeof ref === "string") into.push({ key, value: ref })
+    if (key === "ref")
+      into.push({ key, value: typeof value === "string" ? value : JSON.stringify(value) })
+    else if (key === "refs") {
+      const refs: ReadonlyArray<unknown> = Array.isArray(value) ? value : [value]
+      for (const ref of refs)
+        into.push({ key, value: typeof ref === "string" ? ref : JSON.stringify(ref) })
     } else collectRefs(value, into)
   }
+}
+
+const hasUnsafeString = (node: unknown): boolean => {
+  if (typeof node === "string") return hasUnsafeCharacters(node)
+  if (Array.isArray(node)) return node.some(hasUnsafeString)
+  if (node === null || typeof node !== "object") return false
+  return Object.entries(node).some(
+    ([key, value]) => hasUnsafeCharacters(key) || hasUnsafeString(value),
+  )
 }
 
 const checkRecord = (
@@ -118,7 +132,8 @@ const checkContent = (
   const sections: Array<Passage> = []
   const add = (rule: Rule, message: string) =>
     violations.push({ resourceId: id, rule, path: file.path, message })
-  if (hasUnsafeCharacters(file.text)) add("unsafe-text", Rules["unsafe-text"])
+  const unsafeRaw = hasUnsafeCharacters(file.text)
+  if (unsafeRaw) add("unsafe-text", Rules["unsafe-text"])
   if (!file.path.endsWith(".json")) return { violations, sections }
   let json: unknown
   try {
@@ -127,6 +142,8 @@ const checkContent = (
     add("invalid-json", `${file.path} is not valid JSON`)
     return { violations, sections }
   }
+  // JSON escapes such as \u202e hide unsafe characters from the raw-text check.
+  if (!unsafeRaw && hasUnsafeString(json)) add("unsafe-text", Rules["unsafe-text"])
   const refs: Array<FoundRef> = []
   collectRefs(json, refs)
   for (const ref of refs) {
