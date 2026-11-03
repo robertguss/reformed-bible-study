@@ -15,7 +15,6 @@ type UpdateReturn = Update.Return<Model, Message, AppServices>
 
 const sameSaved = Schema.toEquivalence(Saved)
 
-/** Adds a save of the layout whenever this step changed it, so every change is kept. */
 export const saveIfChanged = (before: Saved, result: UpdateReturn): UpdateReturn =>
   sameSaved(before, result.model.saved)
     ? result
@@ -24,7 +23,6 @@ export const saveIfChanged = (before: Saved, result: UpdateReturn): UpdateReturn
         commands: [...(result.commands ?? []), SaveLayout({ saved: result.model.saved })],
       }
 
-/** The position a passage route names: its chapter, and the first verse it selects. */
 const positionOfRoute = (route: AppRoute): Option.Option<ReadingPosition> =>
   AppRoute.guards.Chapter(route) || AppRoute.guards.Verses(route)
     ? Option.map(validReading(route), ({ book, chapter, selection }) =>
@@ -35,7 +33,6 @@ const positionOfRoute = (route: AppRoute): Option.Option<ReadingPosition> =>
       )
     : Option.none()
 
-/** Records the passage the reader is on as the reading position. `/` itself records nothing. */
 export const recordPosition = (model: Model): Model =>
   Option.match(positionOfRoute(model.route), {
     onNone: () => model,
@@ -45,22 +42,16 @@ export const recordPosition = (model: Model): Model =>
       }),
   })
 
-/** The route of a stored reading position, in the reader's stored translation. */
 export const positionRoute = ({ book, chapter, verse }: ReadingPosition): AppRoute =>
   verse === undefined
     ? AppRoute.Chapter({ book, chapter, t: Option.none() })
     : AppRoute.Verses({ book, chapter, verses: { first: verse, last: verse }, t: Option.none() })
 
-/**
- * Drops stored resources the catalog no longer offers: a commentary panel whose work is unknown or
- * withdrawn, and a chosen translation that is. Returns the layout left and the names dropped.
- */
 export const dropUnavailable = (
   saved: Saved,
   catalog: ReadonlyArray<CatalogResource>,
 ): { readonly saved: Saved; readonly removed: ReadonlyArray<string> } => {
-  /** The name to report for a resource that is gone, or none while it is offered. */
-  const nameIfGone = (id: string, kind: string): Option.Option<string> => {
+  const nameIfGone = (id: string, kind: CatalogResource["kind"]): Option.Option<string> => {
     const resource = catalog.find((entry) => entry.id === id && entry.kind === kind)
     if (resource === undefined) return Option.some(id)
     return resource.status.state === "withdrawn" ? Option.some(resource.title) : Option.none()

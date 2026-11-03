@@ -5,7 +5,6 @@ import { fileURLToPath } from "node:url"
 import { foldkit } from "@foldkit/vite-plugin"
 import { defineConfig, type Plugin } from "vite"
 
-// The locally built dataset release, as `pnpm dataset:build` writes it.
 const RELEASE_DATA = fileURLToPath(new URL("../../dist/release/data", import.meta.url))
 
 const isFile = (path: string): boolean => {
@@ -16,10 +15,6 @@ const isFile = (path: string): boolean => {
   }
 }
 
-/**
- * Serves release files at `/data/<release>/...` for the dev and preview servers, the way the
- * static host does in production. A missing file is a 404, never the app page.
- */
 const serveReleaseData = (
   request: IncomingMessage,
   response: ServerResponse,

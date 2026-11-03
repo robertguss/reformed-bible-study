@@ -8,7 +8,6 @@ import { coverageMessage, coverageView, focusNoun, type PanelContext } from "../
 export const cursorInput = (cursor: Option.Option<string>) =>
   Option.match(cursor, { onNone: () => ({}), onSome: (value) => ({ cursor: value }) })
 
-/** One commentary's sections on the passage in focus, whole and in canonical order. */
 export const fetchCommentary = (resourceId: string, focus: string, cursor: Option.Option<string>) =>
   load(getCommentary.handler({ ref: focus, work: resourceId, ...cursorInput(cursor) }))
 

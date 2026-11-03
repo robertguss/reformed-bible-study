@@ -54,11 +54,6 @@ const fromStored = (stored: StoredLayout): Saved => ({
   readingPosition: Option.fromUndefinedOr(stored.readingPosition),
 })
 
-/**
- * The layout stored on this device. Nothing stored, a record that does not decode (corrupt JSON,
- * another format version) and a store that cannot be read all give the default layout, so stored
- * data never stops the reader from opening.
- */
 export const readSaved = (store: Store): Effect.Effect<Saved> =>
   Effect.gen(function* () {
     const kv = yield* KeyValueStore.KeyValueStore
@@ -71,7 +66,6 @@ export const readSaved = (store: Store): Effect.Effect<Saved> =>
     Effect.catchCause(() => Effect.succeed(defaultSaved)),
   )
 
-/** Stores the layout. A store that cannot be written, such as one that is full, is left as it is. */
 export const writeSaved = (store: Store, saved: Saved): Effect.Effect<void> =>
   Effect.gen(function* () {
     const kv = yield* KeyValueStore.KeyValueStore
@@ -93,7 +87,6 @@ export const SaveLayout = Command.define("SaveLayout", {
     writeSaved(localStorage, saved).pipe(Effect.as(Message.CompletedSaveLayout())),
 })
 
-/** What the app reads before it starts: the layout stored on this device. */
 export const Flags = Schema.Struct({ saved: Saved })
 export type Flags = typeof Flags.Type
 

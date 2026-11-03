@@ -1,4 +1,4 @@
-import { formatPassage, parseReference } from "@reformed-bible/core"
+import { formatPassage, parseReference, passagePath } from "@reformed-bible/core"
 import * as Tabs from "@foldkit/ui/tabs"
 import { Option, Result } from "effect"
 import { type Runtime, Update } from "foldkit"
@@ -28,7 +28,6 @@ import {
   articleOfRoute,
   chapterRouter,
   hrefOfRoute,
-  passageHref,
   urlToAppRoute,
   versesRouter,
 } from "./route.ts"
@@ -38,7 +37,6 @@ type Step = Update.Step<Model, Message, AppServices>
 
 const keepModel: Step = (model) => ({ model })
 
-/** Reload onto the current build, once per page: a file this build expects has left the deploy. */
 const requestReload: Step = (model) =>
   model.reloadRequested
     ? { model }
@@ -47,10 +45,6 @@ const requestReload: Step = (model) =>
         commands: [ReloadOntoCurrentBuild()],
       }
 
-/**
- * Selecting a verse replaces the current history entry with the verse URL, keeping any `t`
- * override. The URL change then moves the panels and records the reading position.
- */
 const selectVerse =
   (verse: number): Step =>
   (model) =>
@@ -141,7 +135,6 @@ const foldDockTabs = Update.foldChild({
     }),
 })
 
-/** The translation shown: the URL's `t` for this view, otherwise the reader's stored choice. */
 export const translationOf = (model: Model): string =>
   Option.getOrElse(
     Option.flatMap(readingOfRoute(model.route), ({ t }) => t),
@@ -175,10 +168,6 @@ const syncConfessionPage: Step = (model) => {
   })
 }
 
-/**
- * Brings the passage text, panels and confession page in line with the current route, and records
- * the passage as the reading position.
- */
 const followRoute = Update.combine([
   (model: Model) => ({ model: recordPosition(model) }),
   syncReader,
@@ -186,10 +175,6 @@ const followRoute = Update.combine([
   syncConfessionPage,
 ])
 
-/**
- * Opens the app on the layout stored on this device. `/` goes back to the stored reading position,
- * replacing the history entry, or opens Romans 1 when there is none.
- */
 export const init: Runtime.RoutingApplicationInit<Model, Message, Flags, AppServices> = (
   { saved },
   url: Url,
@@ -228,7 +213,6 @@ const changeArrangement = (
   change: (panels: Model["saved"]["panels"]) => Model["saved"]["panels"],
 ): Model => modifyFields(model, { saved: (saved) => modifyFields(saved, { panels: change }) })
 
-/** Opens a panel the Add panel menu offers, and points it at the passage in focus. */
 const addPanel =
   (id: string): Step =>
   (model) => {
@@ -248,10 +232,6 @@ const addPanel =
     })
   }
 
-/**
- * Once the catalog is known, drops stored panels and a stored translation it no longer offers,
- * and names them in a notice shown once.
- */
 const dropUnavailableResources: Step = (model) => {
   const { saved, removed } = dropUnavailable(model.saved, catalogOf(model))
   if (removed.length === 0) return { model }
@@ -275,7 +255,7 @@ const goToReference = (model: Model): UpdateReturn => {
               referenceInput: () => "",
               referenceProblem: () => Option.none(),
             }),
-            commands: [NavigateInternal({ url: passageHref(passage) })],
+            commands: [NavigateInternal({ url: passagePath(passage) })],
           },
     onFailure: (invalid) => ({
       model: modifyFields(model, {
@@ -284,7 +264,7 @@ const goToReference = (model: Model): UpdateReturn => {
             message: `"${input}" is not a passage in the Bible.`,
             suggestion: Option.map(Option.fromUndefinedOr(invalid.suggestion), (passage) => ({
               label: formatPassage(passage),
-              href: passageHref(passage),
+              href: passagePath(passage),
             })),
           }),
       }),
@@ -366,9 +346,10 @@ const updateModel = (model: Model, message: Message): UpdateReturn =>
       model: changeArrangement(model, (panels) => movePanel(panels, panelId, 1)),
     }),
     ChosePanelToAdd: ({ panelId }) => addPanel(panelId)(model),
-    ChangedViewportWidth: ({ isNarrow }) => ({
-      model: modifyFields(model, { isNarrow: () => isNarrow }),
-    }),
+    ChangedViewportWidth: ({ isNarrow }) =>
+      isNarrow === model.isNarrow
+        ? { model }
+        : { model: modifyFields(model, { isNarrow: () => isNarrow }) },
     StartedReload: () => ({ model }),
     DeclinedRepeatReload: () => ({ model }),
     CompletedSaveLayout: () => ({ model }),

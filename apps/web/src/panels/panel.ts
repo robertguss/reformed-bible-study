@@ -22,10 +22,6 @@ import { crossReferencesView, fetchCrossReferences } from "./cross-references/in
 import { fetchVerseWords, originalLanguageView } from "./original-language/index.ts"
 import { loadErrorView, loadingView } from "../load-views.ts"
 
-/**
- * What a panel shows. A commentary panel reads one work; the other kinds gather every catalogued
- * resource of their kind. This is the part of a panel the arrangement stores.
- */
 export const PanelSpec = defineTaggedUnion({
   Commentary: { resourceId: Schema.String },
   Confessions: {},
@@ -34,7 +30,6 @@ export const PanelSpec = defineTaggedUnion({
 })
 export type PanelSpec = typeof PanelSpec.Type
 
-/** A stable id per panel, so each resource can be open at most once. */
 export const panelId = (spec: PanelSpec): string =>
   PanelSpec.match(spec, {
     Commentary: ({ resourceId }) => `commentary:${resourceId}`,
@@ -51,13 +46,8 @@ export const PanelResult = defineTaggedUnion({
 })
 export type PanelResult = typeof PanelResult.Type
 
-/** Progress of a Show more request on a result that carries a cursor. */
 const More = Schema.Literals(["Idle", "Loading", "Failed"])
 
-/**
- * Every state names the passage it is for (`focus`, an OSIS reference), so a response for a verse
- * the reader has since left is recognised and dropped.
- */
 export const LoadState = defineTaggedUnion({
   Idle: {},
   Loading: { focus: Schema.String },
@@ -78,7 +68,6 @@ export const Message = defineMessageUnion({
 export type Message = typeof Message.Type
 
 export const OutMessage = defineMessageUnion({
-  /** A file this build expects is gone from the deploy, so the build itself is out of date. */
   DetectedMissingContent: {},
 })
 export type OutMessage = typeof OutMessage.Type
@@ -105,7 +94,6 @@ const fetchResult = (
       Effect.map(fetchVerseWords(focus), (envelope) => PanelResult.OriginalLanguage({ envelope })),
   })
 
-/** Runs the panel's capability handler in the browser for one passage, or its next page. */
 export const FetchPanel = Command.define("FetchPanel", {
   args: { spec: PanelSpec, focus: Schema.String, cursor: Schema.Option(Schema.String) },
   messages: [Message.SucceededFetchPanel, Message.FailedFetchPanel],
@@ -133,7 +121,6 @@ const startLoading = (model: Model, focus: string): UpdateReturn => ({
   commands: [FetchPanel({ spec: model.spec, focus, cursor: Option.none() })],
 })
 
-/** Points the panel at a passage; a panel already showing or loading it keeps what it has. */
 export const informFocusChanged = (model: Model, focus: string): UpdateReturn =>
   !LoadState.guards.Idle(model.load) && model.load.focus === focus
     ? { model }
@@ -147,7 +134,6 @@ const appendEnvelope = <A>(earlier: Envelope<A>, later: Envelope<A>): Envelope<A
   items: [...earlier.items, ...later.items],
 })
 
-/** Adds a further page to the result already shown. */
 const appendResult = (earlier: PanelResult, later: PanelResult): PanelResult =>
   PanelResult.match(later, {
     Commentary: ({ envelope }) =>
@@ -167,7 +153,6 @@ const missingContent = (error: LoadError): OutMessage | undefined =>
 
 const withLoad = (model: Model, load: LoadState): Model => modifyFields(model, { load: () => load })
 
-/** The passage a panel's current state is for; an idle panel is for none yet. */
 const focusOfLoad = (load: LoadState): string | undefined =>
   LoadState.guards.Idle(load) ? undefined : load.focus
 
@@ -175,7 +160,6 @@ export const update = (model: Model, message: Message): UpdateReturn =>
   Message.match<UpdateReturn>(message, {
     SucceededFetchPanel: ({ focus, result, append }) => {
       const { load } = model
-      // A response for a passage the reader has since left is dropped.
       if (focusOfLoad(load) !== focus) return { model }
       if (append)
         return LoadState.guards.Loaded(load)

@@ -1,8 +1,12 @@
-import { type CrossReferenceItem, type Envelope, getCrossReferences } from "@reformed-bible/core"
+import {
+  type CrossReferenceItem,
+  type Envelope,
+  getCrossReferences,
+  passagePath,
+} from "@reformed-bible/core"
 import { Option } from "effect"
 import type { HtmlBuilder } from "foldkit/html"
 import { load } from "../../content.ts"
-import { passageHref } from "../../route.ts"
 import { cursorInput } from "../commentary/index.ts"
 import {
   coverageMessage,
@@ -12,7 +16,6 @@ import {
   passageOfFocus,
 } from "../context.ts"
 
-/** Related passages for each verse in focus, strongest first, a page at a time. */
 export const fetchCrossReferences = (focus: string, cursor: Option.Option<string>) =>
   load(getCrossReferences.handler({ ref: focus, ...cursorInput(cursor) }))
 
@@ -45,7 +48,7 @@ export const crossReferencesView = <M>(
               [
                 Option.match(passageOfFocus(value.target), {
                   onNone: () => value.display,
-                  onSome: (passage) => h.a([h.Href(passageHref(passage))], [value.display]),
+                  onSome: (passage) => h.a([h.Href(passagePath(passage))], [value.display]),
                 }),
               ],
             ),

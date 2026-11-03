@@ -2,6 +2,7 @@ import {
   type CatalogResource,
   getConfessionArticle,
   getConfessionArticleContract,
+  passagePath,
 } from "@reformed-bible/core"
 import { Effect, Option, Schema } from "effect"
 import { Command, Submodel, type Update } from "foldkit"
@@ -13,15 +14,12 @@ import { attributionFooter } from "../attribution.ts"
 import { type AppServices, load, LoadError } from "../content.ts"
 import { loadErrorView, loadingView } from "../load-views.ts"
 import { catalogEntry, passageOfFocus } from "../panels/context.ts"
-import { passageHref } from "../route.ts"
 import { paragraphsView, runsView } from "../text.ts"
 
-/** One article of one confession, by its canonical id such as `3.6` or `Q30`. */
 export const ArticleKey = Schema.Struct({ confession: Schema.String, article: Schema.String })
 export type ArticleKey = typeof ArticleKey.Type
 
-const sameKey = (a: ArticleKey, b: ArticleKey) =>
-  a.confession === b.confession && a.article === b.article
+const sameKey = Schema.toEquivalence(ArticleKey)
 
 export const LoadState = defineTaggedUnion({
   Idle: {},
@@ -47,7 +45,6 @@ export type Message = typeof Message.Type
 export const OutMessage = defineMessageUnion({ DetectedMissingContent: {} })
 export type OutMessage = typeof OutMessage.Type
 
-/** Runs the confession-article handler in the browser. */
 export const FetchConfessionArticle = Command.define("FetchConfessionArticle", {
   args: ArticleKey.fields,
   messages: [Message.SucceededFetchConfessionArticle, Message.FailedFetchConfessionArticle],
@@ -93,7 +90,6 @@ export const update = (model: Model, message: Message): UpdateReturn =>
 
 export type ViewInputs = Readonly<{ catalog: ReadonlyArray<CatalogResource> }>
 
-/** An article with its text and its Scripture proofs, each proof a link to its passage. */
 export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { catalog }, h): Html =>
   h.article(
     [h.Class("confession-article")],
@@ -131,7 +127,7 @@ export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { ca
                         ...(index === 0 ? [] : ["; "]),
                         Option.match(passageOfFocus(ref.osis), {
                           onNone: () => ref.display,
-                          onSome: (passage) => h.a([h.Href(passageHref(passage))], [ref.display]),
+                          onSome: (passage) => h.a([h.Href(passagePath(passage))], [ref.display]),
                         }),
                       ]),
                     ],

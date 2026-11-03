@@ -1,4 +1,10 @@
-import { bookByOsis, type CatalogResource, formatPassage, verseCount } from "@reformed-bible/core"
+import {
+  bookByOsis,
+  type CatalogResource,
+  formatPassage,
+  passagePath,
+  verseCount,
+} from "@reformed-bible/core"
 import { Option } from "effect"
 import type { Document, Html, HtmlBuilder } from "foldkit/html"
 import * as ConfessionPage from "./confession-page/index.ts"
@@ -8,7 +14,7 @@ import { addablePanels, panelTitle } from "./panels/arrangement.ts"
 import * as Panel from "./panels/panel.ts"
 import * as Reader from "./reader/index.ts"
 import { problemOf, type Reading, readingOfRoute, validReading } from "./reading.ts"
-import { AppRoute, articleOfRoute, homeRouter, passageHref } from "./route.ts"
+import { AppRoute, articleOfRoute, homeRouter } from "./route.ts"
 import { DockTabs, translationOf } from "./update.ts"
 
 const SITE_NAME = "Reformed Bible Study"
@@ -92,7 +98,6 @@ const headerView = (model: Model, h: HtmlBuilder<Message>) =>
     ],
   )
 
-/** Says once which stored resources were dropped at load because they are no longer offered. */
 const layoutNoticeView = (model: Model, h: HtmlBuilder<Message>): Html =>
   Option.match(model.layoutNotice, {
     onNone: () => null,
@@ -186,7 +191,6 @@ const panelSection = (
   )
 }
 
-/** Lists each panel kind and catalogued commentary not already open, so each appears once. */
 const addPanelMenu = (model: Model, placement: "column" | "dock", h: HtmlBuilder<Message>) => {
   const options = addablePanels(model.saved.panels, catalogOf(model))
   return options.length === 0
@@ -212,7 +216,6 @@ const addPanelMenu = (model: Model, placement: "column" | "dock", h: HtmlBuilder
       )
 }
 
-/** Wide screens: one column beside the text, panels stacked in stored order. */
 const panelColumn = (model: Model, h: HtmlBuilder<Message>) =>
   h.aside(
     [h.Class("panel-column"), h.AriaLabel("Study panels")],
@@ -222,7 +225,6 @@ const panelColumn = (model: Model, h: HtmlBuilder<Message>) =>
     ],
   )
 
-/** Narrow screens: the panels as tabs in a dock pinned to the lower part of the viewport. */
 const panelDock = (model: Model, h: HtmlBuilder<Message>) => {
   const ids = model.saved.panels.map(Panel.panelId)
   const [firstId] = ids
@@ -300,7 +302,6 @@ const workbench = (model: Model, reading: Reading, h: HtmlBuilder<Message>) =>
     ],
   )
 
-/** A passage URL that names no real passage, with a link to the nearest one. */
 const invalidPassageView = (reading: Reading, h: HtmlBuilder<Message>) => {
   const book = bookByOsis(reading.book)?.name ?? reading.book
   const asked = Option.match(reading.selection, {
@@ -317,7 +318,7 @@ const invalidPassageView = (reading: Reading, h: HtmlBuilder<Message>) => {
         {
           onNone: () => [],
           onSome: (passage) => [
-            h.a([h.Href(passageHref(passage))], [`Open ${formatPassage(passage)}`]),
+            h.a([h.Href(passagePath(passage))], [`Open ${formatPassage(passage)}`]),
           ],
         },
       ),

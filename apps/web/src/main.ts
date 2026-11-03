@@ -19,7 +19,6 @@ const application = Runtime.makeApplication({
     onUrlRequest: (request) => Message.ClickedLink({ request }),
     onUrlChange: (url) => Message.ChangedUrl({ url }),
   },
-  // The handlers read this origin's static release files; the app never calls the public API.
   resources: contentLayer(window.location.origin),
   devTools: { Message },
 })

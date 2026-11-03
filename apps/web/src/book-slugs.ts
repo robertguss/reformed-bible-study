@@ -7,10 +7,6 @@ const KnownSlug = Schema.String.check(
   ),
 )
 
-/**
- * A book as it appears in a passage URL. The slug table is frozen in core, so a URL that works
- * today keeps working; an unknown slug fails to decode and the URL falls through to not found.
- */
 export const BookSlug = KnownSlug.pipe(
   Schema.decodeTo(Schema.Literals(BOOK_IDS), {
     // The check above admits only known slugs, so the lookup always finds a book.

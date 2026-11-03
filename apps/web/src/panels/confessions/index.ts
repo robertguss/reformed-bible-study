@@ -5,17 +5,12 @@ import { confessionArticleHref } from "../../route.ts"
 import { paragraphsView, runsView } from "../../text.ts"
 import { catalogEntry, coverageView, focusNoun, type PanelContext } from "../context.ts"
 
-/** The confession and catechism articles whose proof texts cite the passage in focus. */
 export const fetchConfessionArticles = (focus: string) =>
   load(findConfessionArticles.handler({ ref: focus }))
 
 const titleOf = (context: PanelContext, id: string) =>
   catalogEntry(context.catalog, id)?.title ?? id
 
-/**
- * Confessions with citing articles come first, each with its articles; then one line naming the
- * confessions this release does not hold yet, and one naming those with no article on the verse.
- */
 export const confessionsView = <M>(
   envelope: Envelope<CitingArticle>,
   context: PanelContext,

@@ -2,7 +2,6 @@ import { type BookId, type InvalidReference, parseOsis } from "@reformed-bible/c
 import { Option, Result } from "effect"
 import { AppRoute, type VerseSpan } from "./route.ts"
 
-/** The chapter a passage route shows, the verses it focuses on, and any translation override. */
 export interface Reading {
   readonly book: BookId
   readonly chapter: number
@@ -10,7 +9,6 @@ export interface Reading {
   readonly t: Option.Option<string>
 }
 
-/** `/` opens Romans 1, with no verse highlighted. */
 const HOME_READING: Reading = {
   book: "Rom",
   chapter: 1,
@@ -29,10 +27,6 @@ export const readingOfRoute = (route: AppRoute): Option.Option<Reading> =>
     NotFound: () => Option.none(),
   })
 
-/**
- * The OSIS reference the panels follow: the selected verses, or verse 1 of the chapter until the
- * reader selects one.
- */
 export const focusOf = ({ book, chapter, selection }: Reading): string =>
   Option.match(selection, {
     onNone: () => `${book}.${chapter}.1`,
@@ -42,10 +36,8 @@ export const focusOf = ({ book, chapter, selection }: Reading): string =>
         : `${book}.${chapter}.${first}-${book}.${chapter}.${last}`,
   })
 
-/** Why a reading names no real passage, such as Romans 17, with the nearest passage that exists. */
 export const problemOf = (reading: Reading): Option.Option<InvalidReference> =>
   Result.getFailure(parseOsis(focusOf(reading)))
 
-/** A reading the app can show: its route names a passage, and the passage exists. */
 export const validReading = (route: AppRoute): Option.Option<Reading> =>
   Option.filter(readingOfRoute(route), (reading) => Option.isNone(problemOf(reading)))

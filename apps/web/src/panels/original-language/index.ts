@@ -4,10 +4,8 @@ import type { HtmlBuilder } from "foldkit/html"
 import { load } from "../../content.ts"
 import { coverageMessage, coverageView, focusNoun, type PanelContext } from "../context.ts"
 
-/** The Greek or Hebrew words of the passage in focus, with Strong's numbers and glosses. */
 export const fetchVerseWords = (focus: string) => load(getVerseWords.handler({ ref: focus }))
 
-// Hebrew reads right to left and needs the language tag for correct shaping and fonts.
 const script = (language: VerseWords["language"]) =>
   language === "hbo" ? { lang: "he", dir: "rtl" } : { lang: "grc", dir: "ltr" }
 

@@ -17,7 +17,6 @@ import { loadErrorView, loadingView } from "../load-views.ts"
 import type { VerseSpan } from "../route.ts"
 import { runsView } from "../text.ts"
 
-/** One chapter in one translation: what the passage text shows and what a request loads. */
 export const ChapterKey = Schema.Struct({
   book: Schema.Literals(BOOK_IDS),
   chapter: Schema.Int,
@@ -25,8 +24,7 @@ export const ChapterKey = Schema.Struct({
 })
 export type ChapterKey = typeof ChapterKey.Type
 
-const sameKey = (a: ChapterKey, b: ChapterKey): boolean =>
-  a.book === b.book && a.chapter === b.chapter && a.translation === b.translation
+const sameKey = Schema.toEquivalence(ChapterKey)
 
 export const LoadState = defineTaggedUnion({
   Idle: {},
@@ -51,12 +49,10 @@ export type Message = typeof Message.Type
 export const OutMessage = defineMessageUnion({
   SelectedVerse: { verse: Schema.Int },
   LoadedChapter: {},
-  /** A file this build expects is gone from the deploy, so the build itself is out of date. */
   DetectedMissingContent: {},
 })
 export type OutMessage = typeof OutMessage.Type
 
-/** Runs the passage handler in the browser for a whole chapter. */
 export const FetchPassage = Command.define("FetchPassage", {
   args: ChapterKey.fields,
   messages: [Message.SucceededFetchPassage, Message.FailedFetchPassage],
@@ -83,7 +79,6 @@ const startLoading = (model: Model, key: ChapterKey): UpdateReturn => ({
   commands: [FetchPassage(key)],
 })
 
-/** Shows a chapter in a translation; the chapter already shown or loading is kept. */
 export const informChapterChanged = (model: Model, key: ChapterKey): UpdateReturn =>
   !LoadState.guards.Idle(model.load) && sameKey(model.load.key, key)
     ? { model }
@@ -128,10 +123,6 @@ const isSelected = (selection: Option.Option<VerseSpan>, verse: number): boolean
 const enterSelects = (verse: number) => (key: string) =>
   key === "Enter" ? Option.some(Message.PressedEnterOnVerse({ verse })) : Option.none()
 
-/**
- * Each verse is focusable in reading order and selects itself on click, tap or Enter. A verse the
- * translation omits keeps its place, marked as not in this translation, so numbering never shifts.
- */
 const verseView = (
   value: PassageVerse,
   selection: Option.Option<VerseSpan>,
