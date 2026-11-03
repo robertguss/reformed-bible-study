@@ -143,7 +143,7 @@ describe("MCP tools", () => {
       const text = textOf(message)
       expect(text).not.toContain("[the full gloss](https://evil.example/x)")
       const line = text.split("\n").find((l) => l.includes("the full gloss"))
-      expect(line).toBe("> Read \\[the full gloss\\]\\(https://evil.example/x\\) now.")
+      expect(line).toBe("> Read \\[the full gloss\\]\\(https:\\/\\/evil.example/x\\) now.")
     }),
   )
 })
