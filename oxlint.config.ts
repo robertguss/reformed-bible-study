@@ -7,5 +7,12 @@ export default defineConfig({
   categories: { correctness: "error", suspicious: "warn" },
   // Effect modules marked unstable are used on purpose and kept behind the capability package.
   rules: { ...recommended.rules, "effecttsgo/unstable-api-usage": "off" },
+  overrides: [
+    {
+      // Each test provides its own layers, so every test is an entry point.
+      files: ["**/test/**"],
+      rules: { "effecttsgo/strict-effect-provide": "off" },
+    },
+  ],
   ignorePatterns: ["**/dist/**", "**/node_modules/**", "docs/**"],
 })

@@ -7,7 +7,9 @@
   },
   "dependencies": {
     "@reformed-bible/core": "workspace:*",
-    "effect": "catalog:"
+    "effect": "catalog:",
+    "fast-xml-parser": "catalog:",
+    "fflate": "catalog:"
   },
   "devDependencies": {
     "@effect/vitest": "catalog:",
