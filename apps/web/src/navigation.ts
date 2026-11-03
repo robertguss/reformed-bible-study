@@ -22,10 +22,10 @@ export const LoadExternal = Command.define("LoadExternal", {
 })
 
 export const ScrollToVerse = Command.define("ScrollToVerse", {
-  args: { verse: Schema.Int },
+  args: { verse: Schema.Int, block: Schema.Literals(["center", "nearest"]) },
   messages: [Message.CompletedScrollToVerse],
-  execute: ({ verse }) =>
-    Dom.scrollIntoViewAfterPaint(`#v${verse}`, { block: "center" }).pipe(
+  execute: ({ verse, block }) =>
+    Dom.scrollIntoViewAfterPaint(`#v${verse}`, { block }).pipe(
       Effect.ignore,
       Effect.as(Message.CompletedScrollToVerse()),
     ),

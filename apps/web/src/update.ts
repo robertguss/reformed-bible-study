@@ -65,9 +65,34 @@ const scrollToSelection: Step = (model) =>
     Option.flatMap(validReading(model.route), ({ selection }) => selection),
     {
       onNone: () => ({ model }),
-      onSome: ({ first }) => ({ model, commands: [ScrollToVerse({ verse: first })] }),
+      onSome: ({ first }) => ({
+        model,
+        commands: [ScrollToVerse({ verse: first, block: "center" })],
+      }),
     },
   )
+
+const firstSelectedIn = (route: AppRoute, book: string, chapter: number): Option.Option<number> =>
+  Option.flatMap(
+    Option.filter(validReading(route), (r) => r.book === book && r.chapter === chapter),
+    ({ selection }) => Option.map(selection, ({ first }) => first),
+  )
+
+// A chapter already on screen loads nothing, so no LoadedChapter arrives to scroll to a newly
+// selected verse. "nearest" leaves a verse the reader just clicked where it is.
+const scrollWithinLoadedChapter =
+  (previous: AppRoute): Step =>
+  (model) => {
+    const { load } = model.reader
+    if (!Reader.LoadState.guards.Loaded(load)) return { model }
+    const { book, chapter, translation } = load.key
+    if (translation !== translationOf(model)) return { model }
+    const first = firstSelectedIn(model.route, book, chapter)
+    if (Option.isNone(first)) return { model }
+    if (first.value === Option.getOrUndefined(firstSelectedIn(previous, book, chapter)))
+      return { model }
+    return { model, commands: [ScrollToVerse({ verse: first.value, block: "nearest" })] }
+  }
 
 const readerFold = <Input>(update: (reader: Reader.Model, input: Input) => Reader.UpdateReturn) =>
   Update.foldChild({
@@ -283,7 +308,7 @@ const updateModel = (model: Model, message: Message): UpdateReturn =>
         External: ({ href }) => ({ model, commands: [LoadExternal({ href })] }),
       }),
     ChangedUrl: ({ url }) =>
-      followRoute(
+      Update.combine([followRoute, scrollWithinLoadedChapter(model.route)])(
         modifyFields(model, {
           route: () => urlToAppRoute(url),
           referenceProblem: () => Option.none(),

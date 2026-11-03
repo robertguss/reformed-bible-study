@@ -87,6 +87,14 @@ describe("selecting a verse", () => {
     expect(panelFocuses(await settle(moved))).toEqual(Array(4).fill("Loaded Rom.8.31"))
   })
 
+  it("scrolls to a newly selected verse in the chapter already on screen", async () => {
+    const opened = await boot("/romans/8/28")
+    const moved = update(opened, Message.ChangedUrl({ url: urlOf("/romans/8/1") }))
+    expect(argsOf(moved.commands, "ScrollToVerse")).toEqual([{ verse: 1, block: "nearest" }])
+    const same = update(moved.model, Message.ChangedUrl({ url: urlOf("/romans/8/1") }))
+    expect(argsOf(same.commands, "ScrollToVerse")).toEqual([])
+  })
+
   it("keeps the panels on 8:31 when the 8:28 response arrives after 8:31 was selected", async () => {
     const opened = init(FIRST_VISIT, urlOf("/romans/8/28"))
     const late = await runCommand(
