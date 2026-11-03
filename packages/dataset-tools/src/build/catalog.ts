@@ -16,6 +16,8 @@ export interface IngestedChapters {
   readonly commentaries: ReadonlyArray<CommentaryChapter>
   readonly crossReferences: ReadonlyArray<CrossReferenceChapter>
   readonly originals: ReadonlyArray<OriginalChapter>
+  /** Resources published as one whole work rather than by chapter, such as confessions and lexicons. */
+  readonly wholeWorks: ReadonlySet<string>
 }
 
 const canonOrder = new Map<string, number>(books.map((b) => [b.id, b.ordinal]))
@@ -40,6 +42,12 @@ const ingestedFor = (id: string, content: IngestedChapters): CatalogResource["in
     .map(([book, chapters]) => ({ book, chapters: [...chapters].sort((a, b) => a - b) }))
 }
 
+const availability = (record: ResourceRecord, content: IngestedChapters) => {
+  if (record.status.state === "withdrawn") return { available: false, ingested: [] }
+  const ingested = ingestedFor(record.id, content)
+  return { available: ingested.length > 0 || content.wholeWorks.has(record.id), ingested }
+}
+
 export const buildCatalog = (
   records: ReadonlyArray<ResourceRecord>,
   content: IngestedChapters,
@@ -60,7 +68,7 @@ export const buildCatalog = (
       surfaces: record.surfaces,
       status: record.status,
       ...(record.scope === undefined ? {} : { scope: record.scope }),
-      ingested: record.status.state === "withdrawn" ? [] : ingestedFor(record.id, content),
+      ...availability(record, content),
     }
   }),
 })

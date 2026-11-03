@@ -1,0 +1,17 @@
+{
+  "name": "@reformed-bible/capability",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./http-api": "./src/http-api.ts",
+    "./toolkit": "./src/toolkit.ts"
+  },
+  "dependencies": {
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/vitest": "catalog:",
+    "vitest": "catalog:"
+  }
+}

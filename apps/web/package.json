@@ -11,10 +11,10 @@
     "foldkit": "catalog:"
   },
   "devDependencies": {
+    "@effect/vitest": "catalog:",
     "@foldkit/devtools": "catalog:",
     "@foldkit/oxlint-plugin": "catalog:",
     "@foldkit/vite-plugin": "catalog:",
-    "@effect/vitest": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
   }
