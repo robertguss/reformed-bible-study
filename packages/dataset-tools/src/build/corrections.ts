@@ -1,5 +1,11 @@
-import type { CommentaryBook, TextRun, TranslationChapter } from "@reformed-bible/core"
-import { parseOsis } from "@reformed-bible/core"
+import type {
+  CommentaryBook,
+  CommentarySection,
+  TextRun,
+  TranslationChapter,
+  VerseRef,
+} from "@reformed-bible/core"
+import { compareVerse, parseOsis } from "@reformed-bible/core"
 import { Result } from "effect"
 
 export interface Correction {
@@ -54,18 +60,33 @@ export const correctTranslations = (
   return Result.succeed(current)
 }
 
+const sectionHolds = (section: CommentarySection, start: VerseRef): boolean => {
+  const passage = parseOsis(section.ref)
+  return (
+    Result.isSuccess(passage) &&
+    compareVerse(passage.success.start, start) <= 0 &&
+    compareVerse(start, passage.success.end) <= 0
+  )
+}
+
 export const correctCommentaries = (
   books: ReadonlyArray<CommentaryBook>,
   corrections: ReadonlyArray<Correction>,
 ): Result.Result<ReadonlyArray<CommentaryBook>, string> => {
   let current = [...books]
   for (const correction of corrections) {
-    const position = current.findIndex((b) => b.resourceId === correction.resourceId)
+    const ref = parseOsis(correction.ref)
+    if (Result.isFailure(ref))
+      return Result.fail(`correction reference ${correction.ref} is invalid`)
+    const start = ref.success.start
+    const position = current.findIndex(
+      (b) => b.resourceId === correction.resourceId && b.book === start.book,
+    )
     const target = current[position]
     if (target === undefined) continue
     let applied = false
     const sections = target.sections.map((section) => {
-      if (applied || !section.ref.startsWith(correction.ref)) return section
+      if (applied || !sectionHolds(section, start)) return section
       const paragraphs = section.paragraphs.map((runs) => {
         if (applied) return runs
         const replaced = replaceInRuns(runs, correction.find, correction.replace)

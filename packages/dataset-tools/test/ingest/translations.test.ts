@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { describe, expect, it } from "@effect/vitest"
@@ -6,10 +6,13 @@ import { chapterCount, verseCount, type BookId } from "@reformed-bible/core"
 import { Effect, Layer } from "effect"
 import { HttpClient, HttpClientResponse } from "effect/http"
 import { parseUsj } from "../../src/ingest/bsb-usj.ts"
-import { DownloadError } from "../../src/ingest/download.ts"
+import { zipSync } from "fflate"
+import { DownloadError, sha256Hex } from "../../src/ingest/download.ts"
 import {
+  ingestTranslation,
   ingestTranslations,
   reconcileBook,
+  VersificationMismatch,
   reconcileChapter,
   TRANSLATION_SOURCES,
   WEB_DOXOLOGY_REMAP,
@@ -144,6 +147,39 @@ describe("translation ingest", () => {
       const error = yield* Effect.flip(ingestTranslations(root))
       expect(error).toBeInstanceOf(DownloadError)
       expect(error instanceof DownloadError && error.reason).toBe("hash-mismatch")
+    }).pipe(Effect.provide(offline))
+  })
+
+  it.effect("refuses a translation with problems and writes no normalized files", () => {
+    const root = mkdtempSync(join(tmpdir(), "translations-"))
+    const usfm =
+      "\\id JUD\n\\c 1\n\\v 1 Jude, a servant of Jesus Christ.\n\\v 99 Beyond the KJV count.\n"
+    const zip = zipSync({ "JUD.usfm": new TextEncoder().encode(usfm) })
+    const url = "https://ebible.org/test-kjv.zip"
+    const cached = sourceCachePath(root, url)
+    mkdirSync(dirname(cached), { recursive: true })
+    writeFileSync(cached, zip)
+    const offline = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.succeed(HttpClientResponse.fromWeb(request, new Response(null, { status: 503 }))),
+      ),
+    )
+    return Effect.gen(function* () {
+      const error = yield* Effect.flip(
+        ingestTranslation(root, {
+          resourceId: "kjv",
+          url,
+          sha256: sha256Hex(zip),
+          format: "usfm",
+          exact: true,
+        }),
+      )
+      expect(error).toBeInstanceOf(VersificationMismatch)
+      const problems = error instanceof VersificationMismatch ? error.problems : []
+      expect(problems).toContain("Gen is missing")
+      expect(problems).toContain("Jude.1.99 is outside KJV versification")
+      expect(existsSync(join(root, ".cache/normalized/kjv"))).toBe(false)
     }).pipe(Effect.provide(offline))
   })
 })

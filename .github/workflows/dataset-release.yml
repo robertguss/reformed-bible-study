@@ -3,7 +3,8 @@ name: dataset-release
 on:
   push:
     branches: [main]
-    paths: ["dataset/**", "packages/dataset-tools/**", "packages/core/**"]
+    paths:
+      ["dataset/**", "!dataset/release.lock.json", "packages/dataset-tools/**", "packages/core/**"]
   workflow_dispatch:
 
 permissions:
@@ -11,6 +12,7 @@ permissions:
 
 jobs:
   release:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: dataset-release
     permissions:
@@ -29,18 +31,26 @@ jobs:
       - run: pnpm dataset:ingest all
       - name: Re-validate with cached downloads against source pins
         run: pnpm dataset:validate
+      - name: Read the committed release lock
+        id: committed
+        run: echo "release=$(node -p "require('./dataset/release.lock.json').release")" >> "$GITHUB_OUTPUT"
       - run: pnpm dataset:build
       - name: Publish the archive and propose the new release lock
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           release=$(node -p "require('./dataset/release.lock.json').release")
+          committed="${{ steps.committed.outputs.release }}"
+          if [ "${release##*-}" = "${committed##*-}" ]; then
+            echo "content unchanged since dataset-$committed"
+            exit 0
+          fi
           if gh release view "dataset-$release" >/dev/null 2>&1; then
             echo "dataset-$release already published"
             exit 0
           fi
           gh release create "dataset-$release" "dist/release/dataset-$release.zip" \
-            --title "Dataset $release" --notes "Dataset release $release."
+            --target "$GITHUB_SHA" --title "Dataset $release" --notes "Dataset release $release."
           branch="dataset-lock-$release"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

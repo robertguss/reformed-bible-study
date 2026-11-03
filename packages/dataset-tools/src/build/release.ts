@@ -116,22 +116,6 @@ export const buildRelease = (
     const overBudget = exceedsBudget(payloads.size, options.maxFiles ?? DEFAULT_FILE_BUDGET)
     if (overBudget !== undefined) return yield* fail(overBudget)
 
-    const hash = createHash("sha256").update("[")
-    for (const [i, path] of [...payloads.keys()].sort((a, b) => (a < b ? -1 : 1)).entries())
-      hash.update(`${i === 0 ? "" : ","}${JSON.stringify([path, payloads.get(path)])}`)
-    hash.update(`]${JSON.stringify(input.records.map((r) => r.id).sort())}`)
-    const contentHash = hash.digest("hex")
-    const release = `${options.date}-${contentHash.slice(0, 8)}`
-
-    const files = new Map<string, unknown>()
-    for (const [path, payload] of payloads) {
-      const schema = shardSchemaFor(path) as Schema.Codec<unknown, unknown>
-      const encoded = yield* Schema.encodeUnknownEffect(schema)({ release, payload }).pipe(
-        Effect.mapError((error) => new ReleaseBuildError({ message: `${path}: ${error.message}` })),
-      )
-      files.set(path, encoded)
-    }
-
     const archive = new Map<string, Uint8Array>()
     const pathsByResource = new Map<string, Array<string>>()
     const addArchive = (resourceId: string, name: string, value: unknown) => {
@@ -157,12 +141,34 @@ export const buildRelease = (
       archive.set(`resources/${record.id}/resource.json`, json(record))
     }
     for (const [path, bytes] of input.licenseFiles ?? []) archive.set(path, bytes)
+
+    const byPath = ([a]: readonly [string, unknown], [b]: readonly [string, unknown]) =>
+      a < b ? -1 : 1
+    const hash = createHash("sha256").update("[")
+    for (const [i, [path, payload]] of [...payloads].sort(byPath).entries())
+      hash.update(`${i === 0 ? "" : ","}${JSON.stringify([path, payload])}`)
+    hash.update(`]${JSON.stringify(input.records.map((r) => r.id).sort())}`)
+    for (const [path, bytes] of [...archive].sort(byPath))
+      hash.update(`\n${path}\t${sha256Hex(bytes)}`)
+    const release = `${options.date}-${hash.digest("hex").slice(0, 8)}`
+
+    const files = new Map<string, unknown>()
+    for (const [path, payload] of payloads) {
+      const schema = shardSchemaFor(path) as Schema.Codec<unknown, unknown>
+      const encoded = yield* Schema.encodeUnknownEffect(schema)({ release, payload }).pipe(
+        Effect.mapError((error) => new ReleaseBuildError({ message: `${path}: ${error.message}` })),
+      )
+      files.set(path, encoded)
+    }
     archive.set(
       "datapackage.json",
       json(buildDatapackage(release, archivedRecords, pathsByResource)),
     )
 
-    const mtime = new Date(`${options.date}T00:00:00Z`)
+    // fflate writes DOS timestamps from local date parts, so build the date locally to keep the
+    // archive bytes the same in every timezone.
+    const [year = 1980, month = 1, day = 1] = options.date.split("-").map(Number)
+    const mtime = new Date(year, month - 1, day)
     const archiveBytes = zipSync(
       Object.fromEntries(
         [...archive]

@@ -186,6 +186,76 @@ describe("release builder", () => {
     }),
   )
 
+  it.effect("applies a commentary correction to the section that holds the verse", () =>
+    Effect.gen(function* () {
+      const release = yield* build({
+        corrections: [
+          {
+            resourceId: "calvin-commentaries",
+            ref: "Rom.8.29",
+            find: "afflictions",
+            replace: "trials",
+            reason: "Modernize",
+          },
+        ],
+      })
+      const file = decoded(
+        CommentaryShard,
+        release.files.get(shardPaths.commentary("calvin-commentaries", "Rom", 8)),
+      )
+      const section = file.payload.sections.find((s) => s.ref === "Rom.8.28-Rom.8.30")
+      expect(section?.paragraphs[0]?.[0]?.text).toBe("So far are trials from hindering")
+    }),
+  )
+
+  it.effect("fails a commentary correction whose verse no section holds", () =>
+    Effect.gen(function* () {
+      const error = yield* Effect.flip(
+        build({
+          corrections: [
+            {
+              resourceId: "calvin-commentaries",
+              ref: "Rom.8.2",
+              find: "afflictions",
+              replace: "trials",
+              reason: "Wrong verse",
+            },
+          ],
+        }),
+      )
+      expect(error.message).toMatch(/afflictions/)
+    }),
+  )
+
+  it.effect("changes the release id when only a license file changes", () =>
+    Effect.gen(function* () {
+      const license = (text: string) =>
+        new Map([["LICENSES/CC-BY-4.0.txt", new TextEncoder().encode(text)]])
+      const a = yield* build({ licenseFiles: license("first") })
+      const b = yield* build({ licenseFiles: license("second") })
+      expect(a.release).not.toBe(b.release)
+    }),
+  )
+
+  it.effect("builds the same archive bytes in every timezone", () =>
+    Effect.gen(function* () {
+      const original = process.env["TZ"]
+      try {
+        process.env["TZ"] = "UTC"
+        const utc = yield* build()
+        process.env["TZ"] = "Asia/Tokyo"
+        const tokyo = yield* build()
+        process.env["TZ"] = "America/New_York"
+        const newYork = yield* build()
+        expect(tokyo.archiveSha256).toBe(utc.archiveSha256)
+        expect(newYork.archiveSha256).toBe(utc.archiveSha256)
+      } finally {
+        if (original === undefined) delete process.env["TZ"]
+        else process.env["TZ"] = original
+      }
+    }),
+  )
+
   it.effect("produces the same release id for the same content", () =>
     Effect.gen(function* () {
       const a = yield* build()
