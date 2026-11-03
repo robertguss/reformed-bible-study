@@ -1,0 +1,39 @@
+{
+  "id": "bsb",
+  "kind": "translation",
+  "title": "Berean Standard Bible",
+  "creator": "Berean Bible Translation Committee",
+  "edition": "Berean Standard Bible, USJ book files from bereanbible.com (bsb_usj.zip), retrieved 2026-11-03",
+  "language": "en",
+  "source": {
+    "url": "https://berean.bible/downloads.htm",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://bereanbible.com/bsb_usj.zip",
+        "sha256": "062785c0621e0976e7bf3d5a0c32d3d38c5e9d8f71215217c5d33be03bdfaede"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "LicenseRef-BSB-Dedication",
+    "evidence": [
+      {
+        "url": "https://berean.bible/terms.htm",
+        "quote": "The Berean Bible and Majority Bible texts are officially dedicated to the public domain as of April 30, 2023. All uses are freely permitted."
+      },
+      {
+        "url": "https://berean.bible/terms.htm",
+        "quote": "For derivative works that vary from the official text, we respectfully request that the Berean name is not used."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "The Holy Bible, Berean Standard Bible, BSB is produced in cooperation with Bible Hub, Discovery Bible, OpenBible.com, and the Berean Bible Translation Committee. This text of God's Word has been dedicated to the public domain."
+  },
+  "modifications": "Converted from USJ to plain text, one entry per verse in KJV verse numbering. The words of the text are unaltered, so the Berean name is kept; the publisher asks that altered text not use it. Footnotes and parallel-passage reference lines are omitted for now, and section headings are kept. Verses the BSB does not include, such as Romans 16:24, are marked as not in this translation.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

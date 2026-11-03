@@ -1,0 +1,72 @@
+{
+  "id": "stepbible-tagnt",
+  "kind": "original-language",
+  "title": "Translators Amalgamated Greek NT (TAGNT)",
+  "creator": "STEPBible.org, based on work at Tyndale House Cambridge",
+  "edition": "STEPBible-Data repository at commit 5de0a47 (2026-11-02)",
+  "language": "grc",
+  "scope": [
+    "Matt",
+    "Mark",
+    "Luke",
+    "John",
+    "Acts",
+    "Rom",
+    "1Cor",
+    "2Cor",
+    "Gal",
+    "Eph",
+    "Phil",
+    "Col",
+    "1Thess",
+    "2Thess",
+    "1Tim",
+    "2Tim",
+    "Titus",
+    "Phlm",
+    "Heb",
+    "Jas",
+    "1Pet",
+    "2Pet",
+    "1John",
+    "2John",
+    "3John",
+    "Jude",
+    "Rev"
+  ],
+  "source": {
+    "url": "https://github.com/STEPBible/STEPBible-Data",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Mat-Jhn%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC-BY.txt",
+        "sha256": "d4c0c820fdf9f2b450c9f96ce6103d6875028affd2e44094d753f1329ca1fd85"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Act-Rev%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC-BY.txt",
+        "sha256": "122040eeeaeba50d6abbf67b39cacaff687211bda69b080e5d53927c830d9968"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "evidence": [
+      {
+        "url": "https://github.com/STEPBible/STEPBible-Data",
+        "quote": "STEPBible Data Repository CC BY 4.0"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Act-Rev%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC-BY.txt",
+        "quote": "Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0)"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Translators Amalgamated Greek NT, STEP Bible (STEPBible.org), data created by STEPBible.org based on work at Tyndale House Cambridge, CC BY 4.0. Source: STEPBible.github.io/STEPBible-Data."
+  },
+  "modifications": "Used for the Strong's numbers, grammar, glosses and edition lists of the SBL Greek New Testament words, and for the words of verses the SBL text lacks. Rows are renumbered to KJV verses. Every change to STEPBible data is listed in resources/stepbible-tagnt/CHANGES.md.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

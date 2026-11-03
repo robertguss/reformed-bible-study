@@ -1,0 +1,39 @@
+{
+  "id": "kjv",
+  "kind": "translation",
+  "title": "King James Version",
+  "creator": "Translators of the Authorized Version of 1611",
+  "edition": "King James Version, standardized 1769 text, protocanon only (eBible.org eng-kjv2006 USFM, source files dated 2026-09-26)",
+  "language": "en",
+  "source": {
+    "url": "https://ebible.org/find/details.php?id=eng-kjv2006",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://ebible.org/Scriptures/eng-kjv2006_usfm.zip",
+        "sha256": "ce1f526c64c2376f407308c2c23cb2d2fb58efaf5296327d2d8e408c3700650d"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://ebible.org/eng-kjv2006/copyright.htm",
+        "quote": "This royal decree has no effect outside of the UK, where this work is firmly in the Public Domain."
+      },
+      {
+        "url": "https://ebible.org/eng-kjv2006/copyright.htm",
+        "quote": "You may copy the King James Version of the Holy Bible freely."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "King James Version (Authorized Version), 1769 standard text. Public domain outside the United Kingdom. In the United Kingdom the text is under Crown copyright by letters patent, and printing it there needs permission."
+  },
+  "modifications": "Converted from USFM to plain text, one entry per verse. Strong's numbers, footnotes and the italic markup for the translators' supplied words are removed; the supplied words themselves are kept. The epistle subscriptions printed after the last verse of some books are omitted.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}
