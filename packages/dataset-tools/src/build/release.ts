@@ -110,6 +110,10 @@ export const buildRelease = (
         commentaries: chaptersOfCommentary,
         crossReferences: only(input.crossReferences, activeIds),
         originals: only(input.originals, activeIds),
+        wholeWorks: new Set([
+          ...only(input.confessions, staticIds).map((c) => c.resourceId),
+          ...only(input.lexicon, staticIds).map((e) => e.resourceId),
+        ]),
       }),
     )
 

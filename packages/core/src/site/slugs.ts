@@ -1,0 +1,91 @@
+import { type Book, type BookId, bookByOsis } from "../reference/index.ts"
+
+/**
+ * Book slugs used in web URLs. URLs are a public contract, so this table is frozen: a slug is never
+ * renamed, and a new one must not collide with a reserved top-level path.
+ */
+export const BOOK_SLUGS: Readonly<Record<BookId, string>> = Object.freeze({
+  Gen: "genesis",
+  Exod: "exodus",
+  Lev: "leviticus",
+  Num: "numbers",
+  Deut: "deuteronomy",
+  Josh: "joshua",
+  Judg: "judges",
+  Ruth: "ruth",
+  "1Sam": "1-samuel",
+  "2Sam": "2-samuel",
+  "1Kgs": "1-kings",
+  "2Kgs": "2-kings",
+  "1Chr": "1-chronicles",
+  "2Chr": "2-chronicles",
+  Ezra: "ezra",
+  Neh: "nehemiah",
+  Esth: "esther",
+  Job: "job",
+  Ps: "psalms",
+  Prov: "proverbs",
+  Eccl: "ecclesiastes",
+  Song: "song-of-solomon",
+  Isa: "isaiah",
+  Jer: "jeremiah",
+  Lam: "lamentations",
+  Ezek: "ezekiel",
+  Dan: "daniel",
+  Hos: "hosea",
+  Joel: "joel",
+  Amos: "amos",
+  Obad: "obadiah",
+  Jonah: "jonah",
+  Mic: "micah",
+  Nah: "nahum",
+  Hab: "habakkuk",
+  Zeph: "zephaniah",
+  Hag: "haggai",
+  Zech: "zechariah",
+  Mal: "malachi",
+  Matt: "matthew",
+  Mark: "mark",
+  Luke: "luke",
+  John: "john",
+  Acts: "acts",
+  Rom: "romans",
+  "1Cor": "1-corinthians",
+  "2Cor": "2-corinthians",
+  Gal: "galatians",
+  Eph: "ephesians",
+  Phil: "philippians",
+  Col: "colossians",
+  "1Thess": "1-thessalonians",
+  "2Thess": "2-thessalonians",
+  "1Tim": "1-timothy",
+  "2Tim": "2-timothy",
+  Titus: "titus",
+  Phlm: "philemon",
+  Heb: "hebrews",
+  Jas: "james",
+  "1Pet": "1-peter",
+  "2Pet": "2-peter",
+  "1John": "1-john",
+  "2John": "2-john",
+  "3John": "3-john",
+  Jude: "jude",
+  Rev: "revelation",
+})
+
+export const RESERVED_PATHS: ReadonlyArray<string> = Object.freeze([
+  "v1",
+  "mcp",
+  "confessions",
+  "data",
+  ".well-known",
+])
+
+const bySlug = new Map<string, BookId>(
+  Object.entries(BOOK_SLUGS).map(([id, slug]) => [slug, id as BookId]),
+)
+
+export const bookBySlug = (slug: string): Book | undefined => {
+  const id = bySlug.get(slug)
+  return id === undefined ? undefined : bookByOsis(id)
+}

@@ -1,3 +1,4 @@
+export { layerFs as layerContentStoreFs } from "./content-store-fs.ts"
 export { ingestCalvin, CALVIN_RESOURCE_ID } from "./ingest/calvin.ts"
 export { ConfessionIngestError, indexProofTexts, ingestConfessions } from "./ingest/confession.ts"
 export {

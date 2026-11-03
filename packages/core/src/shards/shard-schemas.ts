@@ -61,7 +61,9 @@ export const CatalogResource = Schema.Struct({
   status: ResourceStatus,
   /** Books the work itself covers. Absent means the whole Bible. */
   scope: Schema.optionalKey(Schema.Array(Book)),
-  /** Chapters with content in this release, by book. */
+  /** Whether this release holds the resource's content. A missing file for an available resource is an error. */
+  available: Schema.Boolean,
+  /** Chapters with content in this release, by book. Empty for whole-work resources such as confessions. */
   ingested: Schema.Array(Schema.Struct({ book: Book, chapters: Schema.Array(PositiveInt) })),
 })
 export type CatalogResource = typeof CatalogResource.Type

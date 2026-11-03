@@ -1,0 +1,15 @@
+{
+  "name": "@reformed-bible/edge",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@reformed-bible/capability": "workspace:*",
+    "@reformed-bible/core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
+    "@effect/vitest": "catalog:",
+    "vitest": "catalog:"
+  }
+}
