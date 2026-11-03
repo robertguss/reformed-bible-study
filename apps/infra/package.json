@@ -13,5 +13,9 @@
     "@reformed-bible/edge": "workspace:*",
     "alchemy": "catalog:",
     "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/vitest": "catalog:",
+    "vitest": "catalog:"
   }
 }

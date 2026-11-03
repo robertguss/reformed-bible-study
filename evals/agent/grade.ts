@@ -151,7 +151,13 @@ export const missingCalls = (
 ): ReadonlyArray<string> =>
   tools.filter((tool) => !transcript.calls.some((call) => call.name === tool && !call.isError))
 
+const NEGATION = String.raw`\b(?:not|isn't|aren't|doesn't|don't|cannot|can't)`
+const LINKING_WORDS = String.raw`(?:\s+(?:yet|currently|be|been|any|in|of|one|part|among|the|this|these|its|our))*`
+const COVERAGE = String.raw`\s+(?:cover(?:s|ed)?|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|dataset|catalog|collection|resources|tools)\b`
+const NOT_COVERED = new RegExp(
+  String.raw`\bunavailable\b|${NEGATION}${LINKING_WORDS}${COVERAGE}`,
+  "i",
+)
+
 export const saysNotCovered = (answer: string): boolean =>
-  /\bunavailable\b|\b(?:not|no|isn't|aren't|doesn't|don't|cannot|can't)\b[^.\n]{0,60}?\b(?:cover(?:s|ed|age)?|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|part of|among)\b/i.test(
-    answer.replace(/[‘’]/g, "'"),
-  )
+  NOT_COVERED.test(answer.replace(/[‘’]/g, "'"))

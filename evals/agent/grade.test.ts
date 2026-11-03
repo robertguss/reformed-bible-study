@@ -122,11 +122,20 @@ describe("saysNotCovered", () => {
       "Calvin's commentary on Genesis 1:1 is not yet covered in this dataset.",
       "Matthew Henry's commentary isn't available from these tools.",
       "The resources don't include Matthew Henry.",
+      "Matthew Henry's commentary is not in this dataset.",
     ])
       expect([answer, saysNotCovered(answer)]).toEqual([answer, true])
   })
 
   it("rejects an answer that simply answers", () => {
     expect(saysNotCovered("Calvin says that God created the heavens out of nothing.")).toBe(false)
+  })
+
+  it("rejects an answer that answers anyway with a negation elsewhere in the sentence", () => {
+    for (const answer of [
+      "Matthew Henry argues that God does not abandon his people, and his commentary has a lovely section on providence.",
+      "Calvin says creation is not an accident; the commentary includes a long discussion of it.",
+    ])
+      expect([answer, saysNotCovered(answer)]).toEqual([answer, false])
   })
 })

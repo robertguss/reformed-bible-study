@@ -76,6 +76,9 @@ const only = <A extends { readonly resourceId: string }>(
   ids: ReadonlySet<string>,
 ) => items.filter((item) => ids.has(item.resourceId))
 
+/** Every resource record, written to the archive only when some record has no folder in it. */
+export const RECORDS_MANIFEST = "records.json"
+
 export const buildRelease = (
   input: ReleaseInput,
   options: ReleaseOptions,
@@ -144,6 +147,10 @@ export const buildRelease = (
     for (const record of archivedRecords) {
       archive.set(`resources/${record.id}/resource.json`, json(record))
     }
+    // The catalog and the release id cover every record, but only archived resources have a folder
+    // here. When some record has none, list them all so a deploy can rebuild both from the archive.
+    if (archivedRecords.length < input.records.length)
+      archive.set(RECORDS_MANIFEST, json(input.records))
     for (const [path, bytes] of input.licenseFiles ?? []) archive.set(path, bytes)
 
     const byPath = ([a]: readonly [string, unknown], [b]: readonly [string, unknown]) =>
@@ -205,7 +212,7 @@ const readJsonFiles = (dir: string): ReadonlyArray<unknown> =>
         .map((name) => JSON.parse(readFileSync(join(dir, name), "utf8")) as unknown)
     : []
 
-export const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
+const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
   schema: S,
   values: ReadonlyArray<unknown>,
   where: string,
@@ -216,30 +223,28 @@ export const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
     ),
   )
 
-export const loadReleaseInput = (
-  repoRoot: string,
+/** Where a release's input comes from: the dataset checkout, or a published archive. */
+export interface ReleaseSource {
+  /** Undecoded resource records, sorted by id. */
+  readonly records: ReadonlyArray<unknown>
+  /** A resource's undecoded normalized files, sorted by file name. */
+  readonly normalizedOf: (resourceId: string) => ReadonlyArray<unknown>
+  readonly corrections: ReadonlyArray<Correction>
+  readonly licenseFiles: ReadonlyMap<string, Uint8Array>
+}
+
+export const assembleReleaseInput = (
+  source: ReleaseSource,
 ): Effect.Effect<ReleaseInput, ReleaseBuildError> =>
   Effect.gen(function* () {
-    const datasetRoot = join(repoRoot, "dataset")
-    const resourcesDir = join(datasetRoot, "resources")
-    const records = yield* decodeAll(
-      ResourceRecord,
-      readdirSync(resourcesDir)
-        .sort()
-        .map(
-          (id) =>
-            JSON.parse(readFileSync(join(resourcesDir, id, "resource.json"), "utf8")) as unknown,
-        ),
-      "resource records",
-    )
-    const dirOf = (id: string) => join(repoRoot, NORMALIZED_DIR, id)
+    const records = yield* decodeAll(ResourceRecord, source.records, "resource records")
     const ofKind = (kind: ResourceRecord["kind"]) => records.filter((r) => r.kind === kind)
     const load = <S extends Schema.Codec<unknown, unknown>>(
       kind: ResourceRecord["kind"],
       schema: S,
     ) =>
       Effect.map(
-        Effect.forEach(ofKind(kind), (r) => decodeAll(schema, readJsonFiles(dirOf(r.id)), r.id)),
+        Effect.forEach(ofKind(kind), (r) => decodeAll(schema, source.normalizedOf(r.id), r.id)),
         (lists) => lists.flat(),
       )
     const translations = yield* load("translation", TranslationChapter)
@@ -248,16 +253,6 @@ export const loadReleaseInput = (
     const originals = yield* load("original-language", OriginalChapter)
     const confessions = yield* load("confession", Confession)
     const lexiconLists = yield* load("lexicon", Schema.Array(LexiconEntry))
-    const correctionsDir = join(datasetRoot, "corrections")
-    const corrections = readJsonFiles(correctionsDir).flatMap(
-      (file) => (file as { corrections?: ReadonlyArray<Correction> }).corrections ?? [],
-    )
-    const licenseFiles = new Map<string, Uint8Array>([
-      ["REUSE.toml", readFileSync(join(datasetRoot, "REUSE.toml"))],
-    ])
-    const licensesDir = join(datasetRoot, "LICENSES")
-    for (const name of readdirSync(licensesDir))
-      licenseFiles.set(`LICENSES/${name}`, readFileSync(join(licensesDir, name)))
     return {
       records,
       translations,
@@ -266,10 +261,36 @@ export const loadReleaseInput = (
       originals,
       lexicon: lexiconLists.flat(),
       confessions,
-      corrections,
-      licenseFiles,
+      corrections: source.corrections,
+      licenseFiles: source.licenseFiles,
     }
   })
+
+export const loadReleaseInput = (
+  repoRoot: string,
+): Effect.Effect<ReleaseInput, ReleaseBuildError> => {
+  const datasetRoot = join(repoRoot, "dataset")
+  const resourcesDir = join(datasetRoot, "resources")
+  const licenseFiles = new Map<string, Uint8Array>([
+    ["REUSE.toml", readFileSync(join(datasetRoot, "REUSE.toml"))],
+  ])
+  const licensesDir = join(datasetRoot, "LICENSES")
+  for (const name of readdirSync(licensesDir))
+    licenseFiles.set(`LICENSES/${name}`, readFileSync(join(licensesDir, name)))
+  return assembleReleaseInput({
+    records: readdirSync(resourcesDir)
+      .sort()
+      .map(
+        (id) =>
+          JSON.parse(readFileSync(join(resourcesDir, id, "resource.json"), "utf8")) as unknown,
+      ),
+    normalizedOf: (id) => readJsonFiles(join(repoRoot, NORMALIZED_DIR, id)),
+    corrections: readJsonFiles(join(datasetRoot, "corrections")).flatMap(
+      (file) => (file as { corrections?: ReadonlyArray<Correction> }).corrections ?? [],
+    ),
+    licenseFiles,
+  })
+}
 
 export const writeStaticFiles = (release: Release, outDir: string): void => {
   const dataDir = join(outDir, "data", release.release)

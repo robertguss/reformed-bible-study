@@ -19,14 +19,14 @@ const decodeAll = <A>(schema: Schema.Codec<A, unknown>, values: ReadonlyArray<un
 
 // The dataset build decodes everything it reads, in file order, before building a release, so
 // the published release is built from decoded records sorted by id here too.
-const published = () => {
+const published = (adjust: (record: ResourceRecord) => ResourceRecord = (record) => record) => {
   const fixture = input()
   return buildRelease(
     {
       records: decodeAll(
         ResourceRecord,
         fixture.records
-          .map((r) => ({ ...r, license: { ...r.license, evidence } }))
+          .map((r) => adjust({ ...r, license: { ...r.license, evidence } }))
           .sort((a, b) => (a.id < b.id ? -1 : 1)),
       ),
       translations: decodeAll(TranslationChapter, fixture.translations),
@@ -49,6 +49,28 @@ describe("rebuilding static files from a release archive", () => {
       const rebuilt = yield* rebuildFromArchive(release.archiveBytes, releaseLock(release))
       expect(rebuilt.release).toBe(release.release)
       expect([...rebuilt.files.keys()].sort()).toEqual([...release.files.keys()].sort())
+      for (const [path, file] of release.files) expect(rebuilt.files.get(path)).toEqual(file)
+    }),
+  )
+
+  it.effect.each([
+    [
+      "a withdrawn resource",
+      (r: ResourceRecord): ResourceRecord =>
+        r.id === "wcf"
+          ? { ...r, status: { state: "withdrawn", reason: "Permission revoked." } }
+          : r,
+    ],
+    [
+      "a resource kept out of the dataset",
+      (r: ResourceRecord): ResourceRecord =>
+        r.id === "wcf" ? { ...r, surfaces: ["web", "api", "mcp"] } : r,
+    ],
+  ] as const)("reproduces a release that has %s", ([, adjust]) =>
+    Effect.gen(function* () {
+      const release = yield* published(adjust)
+      const rebuilt = yield* rebuildFromArchive(release.archiveBytes, releaseLock(release))
+      expect(rebuilt.release).toBe(release.release)
       for (const [path, file] of release.files) expect(rebuilt.files.get(path)).toEqual(file)
     }),
   )
