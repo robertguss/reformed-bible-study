@@ -6,7 +6,6 @@ import { HttpApiBuilder, OpenApi } from "effect/http-api"
 import { contentLayer, type ContentOptions } from "./content.ts"
 import { RETRY_AFTER_SECONDS } from "./rate-limit.ts"
 
-/** The body of a 429, documented on every route. The Worker refuses before any handler runs. */
 export const RateLimited = Schema.Struct({
   error: Schema.Literal("rate_limited"),
   retry_after_seconds: Schema.Int,
@@ -33,7 +32,6 @@ const platform = Layer.mergeAll(Path.layer, Etag.layerWeak, HttpPlatform.layer).
   Layer.provideMerge(FileSystem.layerNoop({})),
 )
 
-/** The `/v1` routes generated from the capability registry, with the OpenAPI document. */
 export const apiHandler = (content: ContentOptions) => {
   const { handler } = HttpRouter.toWebHandler(
     HttpApiBuilder.layer(api, { openapiPath: "/v1/openapi.json" }).pipe(

@@ -1,11 +1,5 @@
 import { Effect } from "effect"
 
-/**
- * Session ids for older MCP clients are minted by the Worker and signed with a deploy secret, so a
- * request carrying an id the Worker did not issue is refused before it reaches the session store.
- * An id reads `<uuid>.<issued, base 36 milliseconds>.<HMAC-SHA256, base64url>`.
- */
-
 /** How long an id is honoured after it was issued, however active the session. */
 export const SESSION_LIFETIME_MS = 24 * 60 * 60 * 1000
 
@@ -18,7 +12,7 @@ const toBase64Url = (bytes: ArrayBuffer): string =>
     .replace(/=+$/, "")
 
 const fromBase64Url = (text: string): Uint8Array<ArrayBuffer> | undefined => {
-  if (!/^[\w-]+$/.test(text)) return undefined
+  if (!/^[\w-]+$/.test(text) || text.length % 4 === 1) return undefined
   const binary = atob(text.replace(/-/g, "+").replace(/_/g, "/"))
   return Uint8Array.from(binary, (c) => c.charCodeAt(0))
 }
@@ -50,7 +44,6 @@ export const mintSessionId = (secret: string, now: number): Effect.Effect<string
     return `${payload}.${toBase64Url(signature)}`
   })
 
-/** True when the id carries this deploy's signature and is still within its lifetime. */
 export const verifySessionId = (secret: string, id: string, now: number): Effect.Effect<boolean> =>
   Effect.gen(function* () {
     const [uuid, issuedText, signatureText, ...rest] = id.split(".")

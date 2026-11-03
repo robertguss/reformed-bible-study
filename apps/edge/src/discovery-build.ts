@@ -1,8 +1,6 @@
 import { parseArgs } from "node:util"
 import { writeDiscoveryFiles } from "./discovery.ts"
 
-// Writes the discovery files into the static assets directory at build time:
-//   node apps/edge/src/discovery-build.ts <directory> --origin <https://...> --archive-url <https://...>
 const { positionals, values } = parseArgs({
   allowPositionals: true,
   options: { origin: { type: "string" }, "archive-url": { type: "string" } },

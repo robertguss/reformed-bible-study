@@ -33,7 +33,6 @@ import {
 
 const NAME = "get_cross_references"
 
-/** Cross-references per page, and the most a caller may ask for. */
 export const CROSS_REFERENCE_PAGE = 25
 
 export const CrossReferenceItem = Schema.Struct({
@@ -82,13 +81,14 @@ export const getCrossReferences = implement(getCrossReferencesContract, (input) 
     const offset = yield* decodeCursor(input.cursor, store.release, NAME)
     const limit = input.limit ?? CROSS_REFERENCE_PAGE
     const chapters = chaptersOf(passages)
+    const spans = chapterSpans(passages)
 
     const all: Array<{ value: CrossReferenceItem; attribution: Attribution }> = []
     const resources: Array<ResourceCoverage> = []
     for (const resource of ofKind(catalog, "cross-references")) {
       const attribution = attributionOf(resource)
       const before = all.length
-      for (const span of chapterSpans(passages)) {
+      for (const span of spans) {
         if (!hasChapter(resource, span)) continue
         const { payload } = yield* store.read(
           shardPaths.crossReferences(span.book, span.chapter),

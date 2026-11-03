@@ -14,7 +14,6 @@ export const ResolvedPassage = Schema.Struct({
 })
 export type ResolvedPassage = typeof ResolvedPassage.Type
 
-/** Resolution rests on the reference parser and its KJV verse-count table, so results credit them. */
 const REFERENCE_ATTRIBUTION: Attribution = {
   resourceId: "bible-passage-reference-parser",
   author: "OpenBible.info",

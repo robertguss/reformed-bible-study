@@ -15,7 +15,6 @@ export const passagePath = ({ start, end }: Passage): string => {
   return `${chapter}/${start.verse}-${end.verse}`
 }
 
-/** Web path of a confession or catechism. */
 export const confessionPath = (confession: string): string => `/confessions/${confession}`
 
 /**

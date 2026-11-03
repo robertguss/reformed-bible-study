@@ -17,11 +17,9 @@ import { type CatalogResource, CatalogShard, ConfessionShard, shardPaths } from 
 import { passagePath, Site } from "../site/index.ts"
 import { UnknownResource } from "./errors.ts"
 
-/** Agent-facing description of the reference grammar, shared by every passage capability. */
 export const REFERENCE_GRAMMAR =
   'A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion.'
 
-/** Agent-facing description of what every result carries. */
 export const RESULT_SHAPE =
   "Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. `resources` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a `cursor` means more results are available by repeating the request with it."
 
@@ -71,7 +69,6 @@ export interface ChapterRef {
   readonly chapter: number
 }
 
-/** One chapter of a request and the verse ranges asked for within it. */
 export interface ChapterSpan extends ChapterRef {
   readonly ranges: ReadonlyArray<{ readonly from: number; readonly to: number }>
 }
@@ -82,7 +79,6 @@ const nextChapter = ({ book, chapter }: ChapterRef): ChapterRef | undefined => {
   return next === undefined ? undefined : { book: next.id, chapter: 1 }
 }
 
-/** Splits passages into chapters, merging consecutive ranges that fall in the same chapter. */
 export const chapterSpans = (passages: ReadonlyArray<Passage>): ReadonlyArray<ChapterSpan> => {
   const spans: Array<{
     book: BookId
@@ -108,7 +104,6 @@ export const chapterSpans = (passages: ReadonlyArray<Passage>): ReadonlyArray<Ch
   return spans
 }
 
-/** Every distinct chapter a request touches, in order. */
 export const chaptersOf = (passages: ReadonlyArray<Passage>): ReadonlyArray<ChapterRef> => {
   const seen = new Set<string>()
   return chapterSpans(passages).filter(({ book, chapter }) => {
@@ -134,10 +129,6 @@ export const hasChapter = (resource: CatalogResource, chapter: ChapterRef): bool
   inScope(resource, chapter.book) &&
   isIngested(resource, chapter)
 
-/**
- * Coverage of a request, from the catalog alone: outside the work's scope, in scope but not
- * ingested, ingested with no item for the verses, or covered.
- */
 export const coverageOf = (
   resource: CatalogResource,
   chapters: ReadonlyArray<ChapterRef>,
@@ -150,15 +141,15 @@ export const coverageOf = (
 }
 
 /** Whether this release holds a confession's text, as the catalog records it. */
-export const confessionIngested = (resource: CatalogResource): Effect.Effect<boolean> =>
-  Effect.succeed(resource.status.state === "active" && resource.available)
+export const holdsConfession = (resource: CatalogResource): boolean =>
+  resource.status.state === "active" && resource.available
 
 /**
  * A confession's full text, or undefined when the catalog says the release does not hold it.
  * A missing file for a confession the catalog lists as available is a content error.
  */
 export const readConfession = (resource: CatalogResource) =>
-  resource.status.state !== "active" || !resource.available
+  !holdsConfession(resource)
     ? Effect.undefined
     : Effect.gen(function* () {
         const store = yield* ContentStore
@@ -168,30 +159,31 @@ export const readConfession = (resource: CatalogResource) =>
 
 export const parsePassages = (ref: string) => Effect.fromResult(parseReference(ref))
 
-export const passageOfOsis = (osis: string): Passage | undefined => {
-  const parsed = parseOsis(osis)
-  return Result.isSuccess(parsed) ? parsed.success : undefined
-}
+export const passageOfOsis = (osis: string): Passage | undefined =>
+  Result.getOrUndefined(parseOsis(osis))
 
 export const overlapsAny = (osis: string, passages: ReadonlyArray<Passage>): boolean => {
   const passage = passageOfOsis(osis)
   return passage !== undefined && passages.some((p) => overlaps(p, passage))
 }
 
-/** Display form and web URL of an OSIS reference, such as a proof text or a cross-reference target. */
+const urlOf = (origin: string, passage: Passage | undefined): string =>
+  passage === undefined ? `${origin}/` : `${origin}${passagePath(passage)}`
+
 export const linkOf = (origin: string, osis: string) => {
   const passage = passageOfOsis(osis)
-  return passage === undefined
-    ? { osis, display: osis, url: `${origin}/` }
-    : { osis, display: formatPassage(passage), url: `${origin}${passagePath(passage)}` }
+  return {
+    osis,
+    display: passage === undefined ? osis : formatPassage(passage),
+    url: urlOf(origin, passage),
+  }
 }
 
 export const passageUrl = Effect.fnUntraced(function* (passage: Passage | undefined) {
   const { origin } = yield* Site
-  return passage === undefined ? `${origin}/` : `${origin}${passagePath(passage)}`
+  return urlOf(origin, passage)
 })
 
-/** Assembles a result envelope stamped with the store's dataset release. */
 export const envelope = <A>(fields: {
   readonly items: Envelope<A>["items"]
   readonly resources: Envelope<A>["resources"]

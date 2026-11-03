@@ -5,14 +5,8 @@ import { Tool } from "effect/ai"
 import { MCP_INSTRUCTIONS, PROTOCOL_VERSIONS, SERVER_INFO } from "./mcp.ts"
 import { RATE_LIMITS, RETRY_AFTER_SECONDS } from "./rate-limit.ts"
 
-/**
- * Agent discovery files, generated from the capability registry at build time and served as static
- * assets: `/llms.txt`, `/llms-full.txt` and `/.well-known/mcp.json`.
- */
 export interface DiscoveryOptions {
-  /** Origin the site, API and MCP endpoint are served from. */
   readonly origin: string
-  /** Where the dataset release archive can be downloaded. */
   readonly archiveUrl: string
 }
 
@@ -129,7 +123,6 @@ const mcpServerCard = ({ origin }: DiscoveryOptions) => ({
   })),
 })
 
-/** Each discovery file by its path under the site root. */
 export const discoveryFiles = (options: DiscoveryOptions): ReadonlyMap<string, string> =>
   new Map([
     ["llms.txt", llmsTxt(options)],

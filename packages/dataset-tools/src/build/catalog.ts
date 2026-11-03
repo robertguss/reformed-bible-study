@@ -16,7 +16,6 @@ export interface IngestedChapters {
   readonly commentaries: ReadonlyArray<CommentaryChapter>
   readonly crossReferences: ReadonlyArray<CrossReferenceChapter>
   readonly originals: ReadonlyArray<OriginalChapter>
-  /** Resources published as one whole work rather than by chapter, such as confessions and lexicons. */
   readonly wholeWorks: ReadonlySet<string>
 }
 

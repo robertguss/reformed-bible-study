@@ -14,10 +14,6 @@ const isMissing = (error: unknown): boolean =>
   "code" in error &&
   (error.code === "ENOENT" || error.code === "ENOTDIR")
 
-/**
- * Reads a published release from disk, such as `dist/release/data/<release>/`. Used by the build,
- * the CLI and tests; it lives here so Node code never reaches the browser or the Worker.
- */
 export const layerFs = (options: {
   /** The release directory that holds `catalog.json`. */
   readonly directory: string

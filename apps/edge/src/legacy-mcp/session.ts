@@ -1,4 +1,5 @@
 import { Effect, Option, Schema } from "effect"
+import { withHeader } from "../cache.ts"
 import { sessionNotFound, type WebHandler } from "../mcp.ts"
 
 /**
@@ -8,7 +9,6 @@ import { sessionNotFound, type WebHandler } from "../mcp.ts"
  * Follows the legacy MCP session object in rat-stack (MIT, github.com/joelhooks/rat-stack).
  */
 
-/** The parts of Durable Object storage a session uses. */
 export interface SessionStorage {
   readonly get: <T>(key: string) => Promise<T | undefined>
   readonly put: <T>(key: string, value: T) => Promise<void>
@@ -16,7 +16,6 @@ export interface SessionStorage {
   readonly setAlarm: (scheduledTime: number) => Promise<void>
 }
 
-/** A session with no request for this long is forgotten when its alarm fires. */
 export const SESSION_IDLE_MS = 60 * 60 * 1000
 
 const SESSION_HEADER = "mcp-session-id"
@@ -58,15 +57,11 @@ const withSession = (
 /** The response as the client sees it: carrying the session id the Worker minted. */
 const presentAs = (response: Response, external: string): Response => {
   if (!response.headers.has(SESSION_HEADER)) return response
-  const headers = new Headers(response.headers)
-  headers.set(SESSION_HEADER, external)
-  return new Response(response.body, { status: response.status, headers })
+  return withHeader(response, SESSION_HEADER, external)
 }
 
-/** The session logic of one object, over its storage and a lazily built in-memory MCP server. */
 const openSession = (storage: SessionStorage, makeHandler: () => WebHandler) => {
   let handler: WebHandler | undefined
-  /** The in-memory server's id for this session, while this object is alive. */
   let runtimeSession: string | undefined
 
   const forward = (request: Request): Effect.Effect<Response> => {
@@ -75,7 +70,6 @@ const openSession = (storage: SessionStorage, makeHandler: () => WebHandler) => 
     return Effect.promise(() => serve(request))
   }
 
-  /** Starts a session in the in-memory server and remembers its id. */
   const open = (request: Request): Effect.Effect<Response> =>
     Effect.tap(forward(request), (response) =>
       Effect.sync(() => {
@@ -84,7 +78,6 @@ const openSession = (storage: SessionStorage, makeHandler: () => WebHandler) => 
       }),
     )
 
-  /** Rebuilds the session after a restart by replaying the stored `initialize`. */
   const restore = (url: string): Effect.Effect<string | undefined> =>
     Effect.gen(function* () {
       const stored = yield* Effect.promise(() => storage.get<StoredInitialize>(INITIALIZE_KEY))
@@ -140,7 +133,6 @@ const openSession = (storage: SessionStorage, makeHandler: () => WebHandler) => 
   return { handle, forget }
 }
 
-/** The session object's behaviour; the Worker's Durable Object class delegates to it. */
 export class LegacyMcpSession {
   private readonly session: ReturnType<typeof openSession>
 
@@ -152,7 +144,6 @@ export class LegacyMcpSession {
     return Effect.runPromise(this.session.handle(request))
   }
 
-  /** Forgets the session once it has been idle for `SESSION_IDLE_MS`. */
   alarm(): Promise<void> {
     return Effect.runPromise(this.session.forget)
   }

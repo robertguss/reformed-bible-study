@@ -13,15 +13,12 @@ import { VENDOR_RANGES } from "./vendor-ranges.ts"
  * `RATE_LIMITS`, and `LEGACY_MCP` binds the `LegacyMcpObject` class below.
  */
 export interface Env {
-  /** The static build: the web app, the data files of the pinned release, the discovery files. */
   readonly ASSETS: AssetsBinding
   readonly API_RATE_LIMIT: RateLimitBinding
   readonly MCP_RATE_LIMIT: RateLimitBinding
   readonly VENDOR_RATE_LIMIT: RateLimitBinding
   readonly LEGACY_MCP: SessionNamespace
-  /** Origin of the site, such as https://example.org, for canonical URLs and the MCP origin check. */
   readonly SITE_ORIGIN: string
-  /** Secret that signs MCP session ids. Unique to each deploy stage. */
   readonly MCP_SESSION_SECRET: string
 }
 
@@ -60,7 +57,6 @@ export default {
   },
 }
 
-/** The Durable Object that keeps one session of an older MCP client. */
 export class LegacyMcpObject {
   private readonly session: LegacyMcpSession
 

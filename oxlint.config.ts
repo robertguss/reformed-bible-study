@@ -9,8 +9,6 @@ export default defineConfig({
   rules: { ...recommended.rules, "effecttsgo/unstable-api-usage": "off" },
   overrides: [
     {
-      // The browser runs the capability handlers itself: Node-only dataset tools and the API and
-      // MCP projections must stay out of its bundle.
       files: ["apps/web/**"],
       rules: {
         "no-restricted-imports": [
@@ -41,7 +39,6 @@ export default defineConfig({
       },
     },
     {
-      // The Worker reads content through the assets binding, never through Node-only dataset tools.
       files: ["apps/edge/**"],
       rules: {
         "no-restricted-imports": [

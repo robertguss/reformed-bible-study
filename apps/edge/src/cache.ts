@@ -1,7 +1,6 @@
 import { capabilities } from "@reformed-bible/core"
 import { Effect } from "effect"
 
-/** Cloudflare's Cache API, reduced to the two calls the Worker makes. */
 export interface EdgeCache {
   readonly match: (request: Request) => Promise<Response | undefined>
   readonly put: (request: Request, response: Response) => Promise<void>
@@ -13,7 +12,6 @@ const pathParams = (path: string): ReadonlyArray<string> =>
     .filter((segment) => segment.startsWith(":"))
     .map((segment) => segment.slice(1))
 
-/** Every query parameter some route reads: the input fields its path does not carry. */
 export const ALLOWED_QUERY_PARAMETERS: ReadonlySet<string> = new Set(
   capabilities.flatMap(({ contract }) => {
     const inPath = pathParams(contract.http.path)
@@ -21,10 +19,6 @@ export const ALLOWED_QUERY_PARAMETERS: ReadonlySet<string> = new Set(
   }),
 )
 
-/**
- * The cache key: the dataset release, the path, and the allowed query parameters in sorted order.
- * Any other parameter is dropped, so it cannot create a new entry.
- */
 export const cacheKey = (request: Request, release: string): Request => {
   const url = new URL(request.url)
   const allowed = [...url.searchParams]
@@ -35,19 +29,17 @@ export const cacheKey = (request: Request, release: string): Request => {
   return new Request(key, { method: "GET" })
 }
 
-/** Successes and deterministic typed failures. Never a 429 or a server error. */
 const CACHEABLE_STATUSES: ReadonlySet<number> = new Set([200, 404, 422])
 
 /** Entries live as long as their release; this bounds how long a client or the edge keeps one. */
 const CACHEABLE = "public, max-age=3600"
 
-const withHeader = (response: Response, name: string, value: string): Response => {
+export const withHeader = (response: Response, name: string, value: string): Response => {
   const headers = new Headers(response.headers)
   headers.set(name, value)
   return new Response(response.body, { status: response.status, headers })
 }
 
-/** Serves a GET from the edge cache, or computes it and stores it when its status is cacheable. */
 export const withEdgeCache =
   (cache: EdgeCache, release: string, handle: (request: Request) => Effect.Effect<Response>) =>
   (request: Request): Effect.Effect<Response> =>

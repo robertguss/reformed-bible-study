@@ -73,7 +73,6 @@ export const BOOK_SLUGS: Readonly<Record<BookId, string>> = Object.freeze({
   Rev: "revelation",
 })
 
-/** Top-level paths owned by the site itself; no book slug may use one. */
 export const RESERVED_PATHS: ReadonlyArray<string> = Object.freeze([
   "v1",
   "mcp",

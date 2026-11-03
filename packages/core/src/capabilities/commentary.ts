@@ -34,7 +34,6 @@ import {
 
 const NAME = "get_commentary"
 
-/** Sections per call, and the character budget a page may not pass unless it holds a single section. */
 export const COMMENTARY_SECTION_CAP = 3
 export const COMMENTARY_CHARACTER_CAP = 12_000
 
@@ -79,7 +78,6 @@ const lengthOf = (section: CommentarySection): number =>
     .flat()
     .reduce((total, run) => total + run.text.length, 0)
 
-/** Whole sections from `offset`: up to three, stopping before one that would pass the character cap. */
 const takePage = <A extends { readonly section: CommentarySection }>(
   sections: ReadonlyArray<A>,
   offset: number,

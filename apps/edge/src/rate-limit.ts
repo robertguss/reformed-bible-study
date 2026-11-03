@@ -6,17 +6,12 @@ export interface RateLimitBinding {
   readonly limit: (options: { readonly key: string }) => Promise<{ readonly success: boolean }>
 }
 
-/** Separate namespaces for the API, for MCP, and for the ceiling each agent vendor shares. */
 export interface RateLimitBindings {
   readonly api: RateLimitBinding
   readonly mcp: RateLimitBinding
   readonly vendor: RateLimitBinding
 }
 
-/**
- * Starting limits per key and per 60 seconds, to be tuned after launch. The deploy declares each
- * binding with these values; the Worker only asks whether a key is within its limit.
- */
 export const RATE_LIMITS = {
   api: { limit: 120, period: 60 },
   mcp: { limit: 60, period: 60 },
@@ -91,7 +86,6 @@ const blockOf = (vendor: string, cidr: string): Block => {
 
 const compiled = new WeakMap<ReadonlyArray<VendorRanges>, ReadonlyArray<Block>>()
 
-/** The vendor whose published egress range holds the address, if any. */
 export const vendorOf = (
   address: string,
   ranges: ReadonlyArray<VendorRanges>,
@@ -104,10 +98,8 @@ export const vendorOf = (
   return blocks.find((block) => block.matches(address))?.vendor
 }
 
-/** The address Cloudflare saw. Forwarding headers are client-controlled, so they are never read. */
 const connectingAddress = (headers: Headers): string => headers.get("cf-connecting-ip") ?? "unknown"
 
-/** The caller's rate-limit key: its IPv4 address, or its IPv6 /64, which one subscriber usually holds. */
 export const clientAddress = (headers: Headers): string => {
   const address = connectingAddress(headers)
   const v6 = parseIpv6(address)
@@ -122,11 +114,6 @@ interface Check {
   readonly key: string
 }
 
-/**
- * Which buckets a request draws on. A direct caller has one bucket per address. Vendor traffic has
- * one bucket per vendor and verified session when it carries a session, and always also counts
- * against the vendor's shared ceiling; without a session it has only that ceiling.
- */
 export const checksFor = (options: {
   readonly surface: Surface
   readonly headers: Headers
@@ -144,7 +131,6 @@ export const checksFor = (options: {
   ]
 }
 
-/** True when every bucket the request draws on still has room. */
 export const withinLimits = (
   bindings: RateLimitBindings,
   checks: ReadonlyArray<Check>,

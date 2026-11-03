@@ -1,6 +1,6 @@
 import { Effect } from "effect"
 import { apiHandler, rateLimitedResponse } from "./api.ts"
-import { type EdgeCache, withEdgeCache } from "./cache.ts"
+import { type EdgeCache, withEdgeCache, withHeader } from "./cache.ts"
 import type { ContentOptions } from "./content.ts"
 import { mintSessionId, verifySessionId } from "./legacy-mcp/session-id.ts"
 import {
@@ -12,24 +12,20 @@ import {
 import { checksFor, type RateLimitBindings, withinLimits } from "./rate-limit.ts"
 import type { VendorRanges } from "./vendor-ranges.ts"
 
-/** Durable Objects addressed by name, one per session of an older MCP client. */
 export interface SessionNamespace {
   readonly getByName: (name: string) => {
     readonly fetch: (request: Request) => Promise<Response>
   }
 }
 
-/** Everything the Worker reads from its environment. */
 export interface EdgeOptions extends ContentOptions {
   readonly rateLimits: RateLimitBindings
   readonly vendorRanges: ReadonlyArray<VendorRanges>
   readonly cache: EdgeCache
   readonly sessions: SessionNamespace
-  /** Signs the session ids minted for older MCP clients. A Worker secret, distinct per stage. */
   readonly sessionSecret: string
 }
 
-/** Paths an MCP client probes for OAuth metadata before connecting. */
 const OAUTH_PROBES = [
   "/.well-known/oauth-protected-resource",
   "/.well-known/oauth-authorization-server",
@@ -39,7 +35,6 @@ const OAUTH_PROBES = [
 const isUnder = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`)
 
-/** The answer to an OAuth probe: there is no authorization server, so connect without credentials. */
 const noAuthorization = (origin: string): Response =>
   Response.json(
     {
@@ -50,16 +45,9 @@ const noAuthorization = (origin: string): Response =>
   )
 
 /** The API is open to any origin; it is GET-only, so browsers need no preflight. */
-const withCors = (response: Response): Response => {
-  const headers = new Headers(response.headers)
-  headers.set("access-control-allow-origin", "*")
-  return new Response(response.body, { status: response.status, headers })
-}
+const withCors = (response: Response): Response =>
+  withHeader(response, "access-control-allow-origin", "*")
 
-/**
- * The Worker: `/v1` behind per-caller limits and the edge cache, `/mcp` behind an origin check,
- * limits and, for older clients, signed sessions, and the OAuth probes. Static files never reach it.
- */
 export const makeApp = (options: EdgeOptions) => {
   const api = withEdgeCache(options.cache, options.release, apiHandler(options))
   const modernMcp = modernMcpHandler(options)
@@ -77,7 +65,6 @@ export const makeApp = (options: EdgeOptions) => {
 
   const serveMcp = (request: Request) =>
     Effect.gen(function* () {
-      // Browsers send an Origin; one that is not the site, including "null", is refused.
       const origin = request.headers.get("origin")
       if (origin !== null && origin !== options.origin) return new Response(null, { status: 403 })
 

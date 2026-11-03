@@ -36,7 +36,6 @@ import { RETRY_AFTER_SECONDS } from "./rate-limit.ts"
 
 export type { ContentOptions } from "./content.ts"
 
-/** Server instructions. `mcp-instructions.md` holds the reviewed copy, and a test keeps the two equal. */
 export const MCP_INSTRUCTIONS = [
   "Reformed Bible Study serves openly licensed Reformed resources on the Bible: translations, John Calvin's commentaries, the Westminster Confession and Catechisms with their Scripture proofs, cross-references, and the Greek and Hebrew words of each verse with lexicon entries.",
   'References: write a passage in plain English, such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or as an OSIS id, such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every resource. An invalid reference returns a tool error naming the nearest valid passage; resolve_reference checks a reference before other calls.',
@@ -61,7 +60,6 @@ const LEGACY_PROTOCOLS = [
 
 const plain = (runs: ReadonlyArray<TextRun>): string => runs.map((run) => run.text).join("")
 
-/** An article's heading: its citation, the chapter it belongs to when it has one, and its label. */
 const heading = (article: {
   readonly citation: string
   readonly division: string
@@ -76,7 +74,6 @@ const lines = (...parts: ReadonlyArray<string | undefined>): string =>
 
 type TextForm = (structured: unknown) => string | undefined
 
-/** The Markdown form of one tool's result, decoded from its structured content. */
 const form = <A>(
   contract: { readonly name: string; readonly output: Schema.Codec<Envelope<A>, unknown> },
   renderItem: (item: A) => string,
@@ -91,7 +88,6 @@ const form = <A>(
   ]
 }
 
-/** One renderer per tool. Items are rendered as plain text; `renderText` quotes and escapes them. */
 const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
   form(listResourcesContract, (resource: CatalogResource) =>
     lines(
@@ -170,7 +166,6 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
 
 const InvalidReferenceText = Schema.fromJsonString(Schema.toCodecJson(InvalidReference))
 
-/** An invalid reference as a sentence for the model, then a machine-readable line with the suggestion. */
 const invalidReferenceText = ({ input, reason, suggestion }: InvalidReference): string =>
   lines(
     suggestion === undefined
@@ -204,7 +199,6 @@ const withTextForm = (tool: string, result: McpSchema.CallToolResult): McpSchema
     : new McpSchema.CallToolResult({ ...result, content: text(markdown) })
 }
 
-/** The server as the toolkit sees it: every tool it registers answers with the Markdown text form. */
 const textFormServer = Layer.effect(McpServer.McpServer)(
   Effect.map(McpServer.McpServer, (server) =>
     McpServer.McpServer.of({
@@ -225,7 +219,6 @@ const textFormServer = Layer.effect(McpServer.McpServer)(
 
 const toolkit = toToolkit(capabilities)
 
-/** One read-only tool per capability, reading the pinned release. */
 const tools = (content: ContentOptions) =>
   McpServer.toolkit(toolkit.toolkit).pipe(
     Layer.provide(textFormServer),
@@ -233,7 +226,6 @@ const tools = (content: ContentOptions) =>
     Layer.provide(contentLayer(content)),
   )
 
-/** How the server names itself to clients and in the discovery files. */
 export const SERVER_INFO = {
   name: "reformed-bible-study",
   title: "Reformed Bible Study",
@@ -242,7 +234,6 @@ export const SERVER_INFO = {
     "Openly licensed Reformed resources on the Bible: text, commentary, confessions, cross-references and original languages.",
 } as const
 
-/** Every revision `/mcp` serves, newest first. */
 export const PROTOCOL_VERSIONS: ReadonlyArray<string> = [
   MODERN_PROTOCOL,
   ...LEGACY_PROTOCOLS.map((protocol) => protocol.protocolVersion),
@@ -264,7 +255,6 @@ export type WebHandler = (request: Request) => Promise<Response>
 const webHandler = <E>(layer: Layer.Layer<never, E, HttpRouter.HttpRouter>): WebHandler =>
   HttpRouter.toWebHandler(layer, { disableLogger: true }).handler
 
-/** The stateless endpoint for 2026-07-28: each POST runs its own server and keeps nothing. */
 export const modernMcpHandler = (content: ContentOptions): WebHandler =>
   webHandler(
     tools(content).pipe(
@@ -277,7 +267,6 @@ export const modernMcpHandler = (content: ContentOptions): WebHandler =>
     ),
   )
 
-/** The sessionful endpoint for older revisions, run inside one session object per session. */
 export const legacyMcpHandler = (content: ContentOptions): WebHandler =>
   webHandler(
     tools(content).pipe(
@@ -297,7 +286,6 @@ const JsonRpcRequest = Schema.fromJsonString(
   }),
 )
 
-/** What the Worker reads from an MCP request before deciding where it goes. */
 export interface McpRequestInfo {
   /** The request speaks the stateless revision. */
   readonly modern: boolean
@@ -324,10 +312,6 @@ export const inspectMcpRequest = (request: Request): Effect.Effect<McpRequestInf
 
 const MCP_HEADERS = { "retry-after": String(RETRY_AFTER_SECONDS) }
 
-/**
- * A refused MCP request. A tool call gets a tool error result, so the model sees when to retry; any
- * other request gets a JSON-RPC error with the same hint, and a notification an empty 429.
- */
 export const rateLimitedMcpResponse = (info: McpRequestInfo): Response => {
   if (info.id === undefined) return new Response(null, { status: 429, headers: MCP_HEADERS })
   const message = `Rate limit reached. Retry after ${RETRY_AFTER_SECONDS} seconds.`
@@ -348,7 +332,6 @@ export const rateLimitedMcpResponse = (info: McpRequestInfo): Response => {
   )
 }
 
-/** The reply to a session id the Worker did not issue, or one that has expired. */
 export const sessionNotFound = (id: McpRequestInfo["id"]): Response =>
   Response.json(
     { jsonrpc: "2.0", id: id ?? null, error: { code: -32_001, message: "Session not found" } },

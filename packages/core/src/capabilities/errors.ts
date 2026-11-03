@@ -10,7 +10,6 @@ export class UnknownResource extends Schema.TaggedError<
   }
 }
 
-/** A resource exists but has no entry with the requested identifier. */
 export class EntryNotFound extends Schema.TaggedError<
   EntryNotFound,
   { readonly brand: unique symbol }
@@ -22,7 +21,6 @@ export class EntryNotFound extends Schema.TaggedError<
 
 export const InvalidCursorReasons = ["malformed", "other_release"] as const
 
-/** A continuation cursor that cannot be used: unreadable, or issued for another dataset release. */
 export class InvalidCursor extends Schema.TaggedError<
   InvalidCursor,
   { readonly brand: unique symbol }

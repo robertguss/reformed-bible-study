@@ -31,7 +31,6 @@ export const ConfessionOutline = Schema.Struct({
           citation: Schema.String,
           label: Schema.String,
           url: Schema.String,
-          /** A catechism question, so the outline of a catechism reads as its questions. */
           question: Schema.optionalKey(TextRuns),
         }),
       ),

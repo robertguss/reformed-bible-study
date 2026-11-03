@@ -3,7 +3,6 @@ import { ConfessionIds, type ConfessionId, formatArticleIdentifier } from "../co
 import type { Confession, ConfessionArticle } from "../content/index.ts"
 import { TextRuns } from "../envelope/index.ts"
 
-/** Fields every confession article result shares. */
 export const ArticleFields = {
   confession: Schema.String,
   abbreviation: Schema.String,
@@ -32,7 +31,6 @@ export interface LocatedArticle {
   readonly division: string
 }
 
-/** Articles of a confession by id, in document order, with the title of their division. */
 export const articlesById = (confession: Confession): ReadonlyMap<string, LocatedArticle> =>
   new Map(
     confession.divisions.flatMap((division) =>

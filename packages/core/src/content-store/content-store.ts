@@ -11,7 +11,6 @@ import {
  * service; the filesystem, fetch and assets-binding stores differ only in how they load a file.
  */
 export interface ContentStoreService {
-  /** The dataset release every file is read from. */
   readonly release: string
   /** Reads a file by its path within the release and decodes it with the given schema. */
   readonly read: <A>(

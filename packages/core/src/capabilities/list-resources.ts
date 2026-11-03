@@ -6,9 +6,9 @@ import { type CatalogResource, CatalogResource as CatalogResourceSchema } from "
 import { Site } from "../site/index.ts"
 import {
   attributionOf,
-  confessionIngested,
   coverageEntry,
   envelope,
+  holdsConfession,
   READ_ONLY,
   readCatalog,
   RESULT_SHAPE,
@@ -23,28 +23,18 @@ export const listResourcesContract = defineContract("list_resources", {
   http: { method: "GET", path: "/v1/resources" },
 })
 
-/**
- * Whether the release holds any of a resource's content. Chapter-keyed resources say so in the
- * catalog; a confession is a whole work, so its file decides; a lexicon is keyed by word number and
- * counts as covered while it is active.
- */
-const releaseCoverage = (resource: CatalogResource) => {
-  if (resource.kind === "confession")
-    return Effect.map(confessionIngested(resource), (ingested): Coverage =>
-      ingested ? "covered" : "not_ingested",
-    )
+const releaseCoverage = (resource: CatalogResource): Coverage => {
+  if (resource.kind === "confession") return holdsConfession(resource) ? "covered" : "not_ingested"
   if (resource.kind === "lexicon")
-    return Effect.succeed<Coverage>(resource.status.state === "active" ? "covered" : "not_ingested")
-  return Effect.succeed<Coverage>(resource.ingested.length > 0 ? "covered" : "not_ingested")
+    return resource.status.state === "active" ? "covered" : "not_ingested"
+  return resource.ingested.length > 0 ? "covered" : "not_ingested"
 }
 
 export const listResources = implement(listResourcesContract, () =>
   Effect.gen(function* () {
     const { origin } = yield* Site
     const catalog = yield* readCatalog
-    const resources = yield* Effect.forEach(catalog, (resource) =>
-      Effect.map(releaseCoverage(resource), (coverage) => coverageEntry(resource, coverage)),
-    )
+    const resources = catalog.map((resource) => coverageEntry(resource, releaseCoverage(resource)))
     return yield* envelope({
       items: catalog.map((value) => ({ value, attribution: attributionOf(value) })),
       resources,

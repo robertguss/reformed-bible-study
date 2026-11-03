@@ -20,11 +20,9 @@ const fromBase64Url = (text: string): string =>
       .padEnd(Math.ceil(text.length / 4) * 4, "="),
   )
 
-/** An opaque cursor naming the release, the capability and how many items earlier pages returned. */
 export const encodeCursor = (release: string, capability: string, offset: number): string =>
   toBase64Url(JSON.stringify({ release, capability, offset }))
 
-/** The offset a cursor resumes from, or 0 without one. A cursor from another release fails cleanly. */
 export const decodeCursor = (
   cursor: string | undefined,
   release: string,
@@ -46,7 +44,6 @@ export const decodeCursor = (
   )
 }
 
-/** The cursor for the next page, when items remain after this one. */
 export const nextCursor = (
   release: string,
   capability: string,
