@@ -8,7 +8,8 @@
     "format:check": "oxfmt --check",
     "lint": "effect-tsgo oxlint --type-aware",
     "typecheck": "effect-tsgo tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dataset:validate": "node packages/dataset-tools/src/cli.ts validate"
   },
   "devDependencies": {
     "@effect/tsgo": "catalog:",
