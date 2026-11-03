@@ -4,6 +4,9 @@ packages:
 
 # Exact pins for the whole workspace. Upgrades are deliberate pull requests.
 catalog:
+  "@alchemy.run/cloudflare": 2.0.0-beta.85
+  alchemy: 2.0.0-beta.85
+  "@effect/platform-node": 4.1.2
   "@cloudflare/workers-types": 5.20261030.1
   "@effect/platform-browser": 4.1.2
   "@foldkit/devtools": 0.170.0
@@ -44,6 +47,24 @@ minimumReleaseAgeExclude:
   - "@effect/vitest@4.1.2"
   - "@effect/tsgo@0.64.1"
   - vitest@5.1.0
+  - alchemy@2.0.0-beta.85
+  - "@alchemy.run/cloudflare@2.0.0-beta.85"
+  - "@effect/platform-node@4.1.2"
+  - "@alchemy.run/acme@2.0.0-beta.85"
+  - "@alchemy.run/cloudflare-runtime@2.0.0-beta.85"
+  - "@alchemy.run/docker@2.0.0-beta.85"
+  - "@alchemy.run/node-utils@2.0.0-beta.85"
+  - "@alchemy.run/sql@2.0.0-beta.85"
+  - "@distilled.cloud/acme@1.0.0-rc.18"
+  - "@distilled.cloud/aws4signer@1.0.0-rc.18"
+  - "@distilled.cloud/aws@1.0.0-rc.18"
+  - "@distilled.cloud/cloudflare@1.0.0-rc.18"
+  - "@distilled.cloud/core@1.0.0-rc.18"
+  - "@distilled.cloud/iceberg@1.0.0-rc.18"
+  - "@effect/platform-node-shared@4.1.2"
 
 # Dependency install scripts stay off unless a package is named here.
 onlyBuiltDependencies: []
+# workerd's install script fetches the local Workers runtime for `alchemy dev`; deploys do not need it.
+allowBuilds:
+  workerd: false

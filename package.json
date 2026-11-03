@@ -11,7 +11,10 @@
     "test": "vitest run",
     "dataset:validate": "node packages/dataset-tools/src/cli.ts validate",
     "dataset:ingest": "node packages/dataset-tools/src/cli.ts ingest",
-    "dataset:build": "node packages/dataset-tools/src/cli.ts build"
+    "dataset:build": "node packages/dataset-tools/src/cli.ts build",
+    "dataset:from-archive": "node packages/dataset-tools/src/cli.ts from-archive",
+    "deploy:assemble": "node apps/infra/src/assemble.ts",
+    "deploy:smoke": "node apps/infra/src/smoke.ts"
   },
   "devDependencies": {
     "@effect/tsgo": "catalog:",

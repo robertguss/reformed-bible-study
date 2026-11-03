@@ -205,7 +205,7 @@ const readJsonFiles = (dir: string): ReadonlyArray<unknown> =>
         .map((name) => JSON.parse(readFileSync(join(dir, name), "utf8")) as unknown)
     : []
 
-const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
+export const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
   schema: S,
   values: ReadonlyArray<unknown>,
   where: string,
@@ -271,13 +271,18 @@ export const loadReleaseInput = (
     }
   })
 
-export const writeRelease = (repoRoot: string, release: Release, outDir: string): ReleaseLock => {
+/** Writes the release's static files under `<outDir>/data/<release>/`. */
+export const writeStaticFiles = (release: Release, outDir: string): void => {
   const dataDir = join(outDir, "data", release.release)
   for (const [path, value] of release.files) {
     const target = join(dataDir, path)
     mkdirSync(dirname(target), { recursive: true })
     writeFileSync(target, JSON.stringify(value))
   }
+}
+
+export const writeRelease = (repoRoot: string, release: Release, outDir: string): ReleaseLock => {
+  writeStaticFiles(release, outDir)
   const lock = releaseLock(release)
   writeFileSync(join(outDir, lock.archive), release.archiveBytes)
   writeFileSync(

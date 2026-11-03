@@ -2,6 +2,11 @@
   "name": "@reformed-bible/edge",
   "private": true,
   "type": "module",
+  "exports": {
+    "./discovery": "./src/discovery.ts",
+    "./rate-limit": "./src/rate-limit.ts",
+    "./worker": "./src/worker.ts"
+  },
   "dependencies": {
     "@reformed-bible/capability": "workspace:*",
     "@reformed-bible/core": "workspace:*",

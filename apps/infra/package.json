@@ -1,0 +1,17 @@
+{
+  "name": "@reformed-bible/infra",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "plan": "alchemy plan",
+    "deploy": "alchemy deploy",
+    "destroy": "alchemy destroy"
+  },
+  "dependencies": {
+    "@alchemy.run/cloudflare": "catalog:",
+    "@effect/platform-node": "catalog:",
+    "@reformed-bible/edge": "workspace:*",
+    "alchemy": "catalog:",
+    "effect": "catalog:"
+  }
+}

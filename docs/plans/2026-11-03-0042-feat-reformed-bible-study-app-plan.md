@@ -810,20 +810,10 @@ These are review items left for the author. They do not block implementation.
 
 ### From 2026-11-03 review
 
-- **Edge Worker daily request allowance under the free plan** — Planning Contract, KTD9 and KTD10 (P1, feasibility, security-lens, adversarial, confidence 75)
-
-  One caller staying inside its own limits can spend the free plan's 100,000 Worker requests a day, after which the public API and MCP fail for everyone until the daily reset. A single API key at 120 a minute alone reaches about 173,000 a day. The free plan's 10 ms CPU limit per request is also tight for a fresh MCP server per request plus decoding a commentary chapter. Static reading is unaffected either way.
-  Change: run the edge Worker on the Workers Paid plan with a spending notification and size limits against that budget, or keep the free plan and cut the per-key and per-vendor limits so their total fits under 100,000 a day, with a per-key daily cap and a CPU check for the heaviest call.
-
 - **MCP excerpts may carry instructions to agents** — KTD8, MCP text and structured results (P2, security-lens via independent model, confidence 75)
 
   A malicious contribution could place instructions inside an excerpt that a connected model follows. The MCP result format becomes a public contract at launch, so changing it later is costly.
   Change: label and delimit corpus excerpts as untrusted source data in both the structured and text forms of every MCP result.
-
-- **MCP session signing key has no storage or rotation rule** — KTD8, sessions for older MCP clients (P2, security-lens via independent model, confidence 75)
-
-  A leaked or shared signing key would let callers forge session ids and reach the session store, which undoes the guard against forged sessions.
-  Change: keep the signing key as a Worker secret unique to each deploy stage, and define a rotation that rejects old signatures.
 
 - **Identifier parsing for confessions that do not ship in the slice** — U7, Westminster Standards transcription (P3, scope-guardian, confidence 75)
 
