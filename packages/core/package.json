@@ -3,9 +3,12 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./content-store/fetch": "./src/content-store/fetch.ts",
+    "./content-store/assets": "./src/content-store/assets.ts"
   },
   "dependencies": {
+    "@reformed-bible/capability": "workspace:*",
     "bible-passage-reference-parser": "catalog:",
     "effect": "catalog:"
   },

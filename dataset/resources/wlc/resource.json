@@ -1,0 +1,30 @@
+{
+  "id": "wlc",
+  "kind": "confession",
+  "creator": "Westminster Assembly of Divines",
+  "language": "en",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  },
+  "title": "The Westminster Larger Catechism",
+  "edition": "The Larger Catechism of the Westminster Assembly (1647), with the Scripture proofs, as printed in The Confession of Faith, the Larger and Shorter Catechisms, with the Scripture Proofs at Large (Edinburgh: Johnstone and Hunter, 1855), checked against the Edinburgh printing of 1894 (Johnstone, Hunter and Co.)",
+  "source": {
+    "url": "https://archive.org/details/confessionoffait0000scot",
+    "retrievedAt": "2026-11-03",
+    "files": []
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://archive.org/details/humbleadviceofas200west",
+        "quote": "NOT_IN_COPYRIGHT"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Westminster Assembly, The Larger Catechism (1647), with Scripture proofs, as printed at Edinburgh in 1855. Public domain."
+  },
+  "modifications": "Questions, answers and proof references were drafted from the Creeds.json structure and checked word by word and reference by reference against scans of the 1855 and 1894 Edinburgh printings; where the printings differ from the draft, the printings' reading was taken and listed in source.md. Proof references are OSIS in KJV versification; each answer is split into runs that end where a proof note attaches."
+}

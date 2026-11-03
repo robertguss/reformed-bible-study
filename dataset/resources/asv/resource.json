@@ -1,0 +1,35 @@
+{
+  "id": "asv",
+  "kind": "translation",
+  "title": "American Standard Version",
+  "creator": "American Revision Committee",
+  "edition": "American Standard Version (1901) (eBible.org eng-asv USFM, source files dated 2026-10-30)",
+  "language": "en",
+  "source": {
+    "url": "https://ebible.org/find/details.php?id=eng-asv",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://ebible.org/Scriptures/eng-asv_usfm.zip",
+        "sha256": "00b7b6c76cb1eb67b22ca51bd5ac13c2df526c13e1c38e78b862a7a2367f7071"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://ebible.org/eng-asv/copyright.htm",
+        "quote": "The American Standard Version of the Holy Bible is in the Public Domain. Copy freely."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "American Standard Version (1901), public domain."
+  },
+  "modifications": "Converted from USFM to plain text, one entry per verse. Strong's numbers, footnotes and the italic markup for supplied words are removed; the supplied words themselves are kept. The acrostic letters of Psalm 119 are kept as headings. Verses the ASV leaves to footnotes, such as Romans 16:24, are marked as not in this translation. The note printed after Habakkuk 3:19 is omitted.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

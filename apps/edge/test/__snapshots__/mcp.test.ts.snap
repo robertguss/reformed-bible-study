@@ -1,0 +1,252 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MCP tools > lists one read-only, idempotent tool per capability, with the snapshot descriptions 1`] = `
+[
+  {
+    "description": "Lists every resource in the dataset (translations, commentaries, confessions and catechisms, cross-references, original-language texts and lexicons) with its kind, title, creator, edition, license, source and status. Each item gives the books the work covers (scope; absent means the whole Bible) and the chapters ingested in this release, so you can learn what exists and what is covered before asking for a passage. Use the ids it returns with the other tools. A withdrawn resource is listed with the reason it was withdrawn. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object",
+    },
+    "name": "list_resources",
+  },
+  {
+    "description": "Resolves a free-form Bible reference to canonical passages: OSIS ids, a readable form, the first and last verse, and the web link for each. Use it to check a reference before calling other tools, or to turn a reader's wording into OSIS ids. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "q": {
+          "description": "The reference to resolve, such as Rom 8:28-30.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "q",
+      ],
+      "type": "object",
+    },
+    "name": "resolve_reference",
+  },
+  {
+    "description": "Returns the text of a Bible passage in one translation, one chapter per call; a passage spanning chapters returns a cursor for the next chapter. Text comes as runs of plain text with emphasis flags. Where the translation omits a verse that KJV numbering includes (such as Romans 16:24 in the BSB), the item is marked absent with the translation's note. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "description": "Cursor from a previous page of this request.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+        "ref": {
+          "description": "The passage, such as Romans 8:28-30.",
+          "type": "string",
+        },
+        "translation": {
+          "anyOf": [
+            {
+              "description": "Translation id from list_resources, such as bsb, kjv, web or asv. Defaults to bsb.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "ref",
+      ],
+      "type": "object",
+    },
+    "name": "get_passage",
+  },
+  {
+    "description": "Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A call returns at most 3 sections or about 12000 characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "description": "Cursor from a previous page of this request.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+        "ref": {
+          "description": "The passage, such as Romans 8:28.",
+          "type": "string",
+        },
+        "work": {
+          "anyOf": [
+            {
+              "description": "Commentary id from list_resources, such as calvin-commentaries.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+      },
+      "required": [
+        "ref",
+      ],
+      "type": "object",
+    },
+    "name": "get_commentary",
+  },
+  {
+    "description": "Finds the confession and catechism articles whose Scripture proofs cite a passage, such as the Westminster Confession, Larger Catechism and Shorter Catechism articles citing Romans 8:28. Each item gives the article's citation (for example "WCF 3.6" or "WLC Q45"), its text, and which verses of the request it cites; get_confession_article returns its full proof texts. Coverage is reported for every catalogued confession: not_ingested for one not yet transcribed, no_entry when none of its articles cite the passage. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "ref": {
+          "description": "The passage, such as Romans 8:28.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "ref",
+      ],
+      "type": "object",
+    },
+    "name": "find_confession_articles",
+  },
+  {
+    "description": "Returns one confession or catechism article with its text and Scripture proof texts, each proof with a readable reference and a web link. Identify the confession by id (wcf for the Westminster Confession of Faith, wlc for the Larger Catechism, wsc for the Shorter Catechism) and the article as chapter and section for the Confession ("3.6") or question number for a catechism ("45" or "Q45"). A confession catalogued but not yet transcribed returns no items with coverage not_ingested. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "article": {
+          "description": "Article within the confession, such as 3.6 for WCF or Q45 for WLC.",
+          "type": "string",
+        },
+        "id": {
+          "description": "Confession id, such as wcf, wlc or wsc.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+        "article",
+      ],
+      "type": "object",
+    },
+    "name": "get_confession_article",
+  },
+  {
+    "description": "Returns the outline of a confession or catechism: its chapters with their titles and the articles in each, or a catechism's questions, each with its citation and web link. Use it to find an article, then get_confession_article to read it. Confession ids come from list_resources, such as wcf, wlc and wsc. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "description": "Confession id, such as wcf, wlc or wsc.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "id",
+      ],
+      "type": "object",
+    },
+    "name": "get_confession_outline",
+  },
+  {
+    "description": "Returns cross-references from each verse of a passage to related passages, strongest first within each verse, 25 per page with a cursor for the next page. Each item names the verse it starts from, the target as an OSIS id and a readable reference, and a web link. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "description": "Cursor from a previous page of this request.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "description": "Page size, at most 25.",
+              "maximum": 25,
+              "minimum": 1,
+              "type": "integer",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+        "ref": {
+          "description": "The passage, such as Romans 8:28.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "ref",
+      ],
+      "type": "object",
+    },
+    "name": "get_cross_references",
+  },
+  {
+    "description": "Returns the original-language words of a passage, Greek for the New Testament and Hebrew for the Old, one chapter per call with a cursor for the next. Each word has its surface form, transliteration, lemma, classic Strong's number (strongs), STEPBible number (stepStrongs, which get_lexicon_entry accepts), morphology code, English gloss and the editions that contain it. A reference is plain English such as "Romans 8:28", "Rom 8:28-30", "Psalm 23" or "1 John 4:7-8, 19", or an OSIS id such as "Rom.8.28" or "Rom.8.28-Rom.8.30". Verse numbers follow the King James Version in every translation and resource. An invalid reference fails with InvalidReference and, when the book exists, the nearest valid passage as a suggestion. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "description": "Cursor from a previous page of this request.",
+              "type": "string",
+            },
+            {
+              "type": "null",
+            },
+          ],
+        },
+        "ref": {
+          "description": "The passage, such as Romans 8:28.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "ref",
+      ],
+      "type": "object",
+    },
+    "name": "get_verse_words",
+  },
+  {
+    "description": "Returns the lexicon entry for a Greek or Hebrew word: lemma, transliteration, gloss and definition, from STEPBible's brief lexicons. Pass a STEPBible number such as G6063 (the stepStrongs of a word from get_verse_words), or a classic Strong's number such as G1492, which returns the entries filed under that number. A number with no entry fails with EntryNotFound. Every item carries its attribution: resource id, author, work, edition, SPDX license, license URL, attribution text and source URL. Quote only from returned items and name the source. \`resources\` reports each resource's coverage of the request (covered, not_ingested, outside_work or no_entry; treat any other value as no_entry) and its status, with the reason when withdrawn. Results carry the dataset release and a canonical web URL; a \`cursor\` means more results are available by repeating the request with it.",
+    "inputSchema": {
+      "additionalProperties": true,
+      "properties": {
+        "strongs": {
+          "description": "Strong's or STEPBible number: G or H, digits, and an optional letter.",
+          "type": "string",
+        },
+      },
+      "required": [
+        "strongs",
+      ],
+      "type": "object",
+    },
+    "name": "get_lexicon_entry",
+  },
+]
+`;

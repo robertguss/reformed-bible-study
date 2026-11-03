@@ -1,0 +1,43 @@
+{
+  "id": "stepbible-lexicons",
+  "kind": "lexicon",
+  "title": "Translators Brief Lexicons of Extended Strongs for Greek (TBESG) and Hebrew (TBESH)",
+  "creator": "STEPBible.org, based on work at Tyndale House Cambridge, abridged from Abbott-Smith and Brown-Driver-Briggs",
+  "edition": "STEPBible-Data repository at commit 5de0a47 (2026-11-02)",
+  "language": "en",
+  "source": {
+    "url": "https://github.com/STEPBible/STEPBible-Data",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Lexicons/TBESG%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Greek%20-%20STEPBible.org%20CC%20BY.txt",
+        "sha256": "734a5b64a1152f67604bf09d32f15c0ba537151961752fcf168087b41b4d93ea"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Lexicons/TBESH%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Hebrew%20-%20STEPBible.org%20CC%20BY.txt",
+        "sha256": "848eef2ac16753a43694897dbb9e8f266725e7cc9da4809f367ee5b990f05dbb"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "evidence": [
+      {
+        "url": "https://github.com/STEPBible/STEPBible-Data",
+        "quote": "STEPBible Data Repository CC BY 4.0"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Lexicons/TBESH%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Hebrew%20-%20STEPBible.org%20CC%20BY.txt",
+        "quote": "Data created by www.STEPBible.org based on work at Tyndale House Cambridge (CC BY 4.0)"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Translators Brief Lexicons of Extended Strongs, STEP Bible (STEPBible.org), data created by STEPBible.org based on work at Tyndale House Cambridge, CC BY 4.0. Source: STEPBible.github.io/STEPBible-Data."
+  },
+  "modifications": "One entry per STEPBible number, with the classic Strong's number added and the HTML definitions converted to plain text. Every change to STEPBible data is listed in resources/stepbible-tagnt/CHANGES.md.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

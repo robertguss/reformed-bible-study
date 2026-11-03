@@ -35,6 +35,18 @@ Allowed licenses without a permission record: `CC-PDM-1.0` for public domain by 
 
 Content files are JSON. Any field named `ref` holds one OSIS reference such as `Rom.8.28` or `Rom.8.28-Rom.8.30`, and any field named `refs` holds a list of them. Every reference uses KJV verse numbering and must exist in `versification/kjv.json`. Within one commentary, no two `ref` sections may cover the same verse.
 
+## Proof texts in confessions
+
+A confession article stores its text as paragraphs of runs and its proof texts as a list. The n-th proof text in an article supports the clause that ends the n-th run, counted across the article's paragraphs in order. A Shorter Catechism answer is a single run with one or more proof texts.
+
+## Ingest
+
+```sh
+pnpm dataset:ingest all            # or: translations, cross-references, original-language, calvin, confessions
+```
+
+Ingest downloads each pinned source into `.cache/sources/`, checks its SHA-256, and writes normalized content to `.cache/normalized/<resource id>/`. Neither directory is committed.
+
 ## The license gate
 
 ```sh

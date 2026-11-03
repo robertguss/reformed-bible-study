@@ -9,7 +9,9 @@
     "lint": "effect-tsgo oxlint --type-aware",
     "typecheck": "effect-tsgo tsc -p tsconfig.json",
     "test": "vitest run",
-    "dataset:validate": "node packages/dataset-tools/src/cli.ts validate"
+    "dataset:validate": "node packages/dataset-tools/src/cli.ts validate",
+    "dataset:ingest": "node packages/dataset-tools/src/cli.ts ingest",
+    "dataset:build": "node packages/dataset-tools/src/cli.ts build"
   },
   "devDependencies": {
     "@effect/tsgo": "catalog:",

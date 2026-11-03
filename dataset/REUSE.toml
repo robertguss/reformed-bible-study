@@ -1,3 +1,88 @@
 # Machine-readable license map for the dataset (REUSE 3.3, https://reuse.software/spec-3.3/).
 # Each resource adds one annotation for its directory, and the license text it uses goes in LICENSES/.
 version = 1
+
+[[annotations]]
+path = "resources/bsb/**"
+SPDX-FileCopyrightText = "Berean Standard Bible, dedicated to the public domain"
+SPDX-License-Identifier = "LicenseRef-BSB-Dedication"
+
+[[annotations]]
+path = "resources/web/**"
+SPDX-FileCopyrightText = "World English Bible, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/kjv/**"
+SPDX-FileCopyrightText = "King James Version, public domain in the United States; Crown copyright in the United Kingdom"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/asv/**"
+SPDX-FileCopyrightText = "American Standard Version (1901), public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/openbible-xrefs/**"
+SPDX-FileCopyrightText = "OpenBible.info cross-references"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "resources/sblgnt/**"
+SPDX-FileCopyrightText = "SBL Greek New Testament, Society of Biblical Literature and Logos Bible Software"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "resources/stepbible-tagnt/**"
+SPDX-FileCopyrightText = "STEP Bible (www.STEPBible.org), Tyndale House Cambridge"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "resources/stepbible-tahot/**"
+SPDX-FileCopyrightText = "STEP Bible (www.STEPBible.org), Tyndale House Cambridge"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "resources/stepbible-lexicons/**"
+SPDX-FileCopyrightText = "STEP Bible (www.STEPBible.org), Tyndale House Cambridge"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "resources/calvin-commentaries/**"
+SPDX-FileCopyrightText = "John Calvin, commentaries, Calvin Translation Society, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/wcf/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1647, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/wlc/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1648, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/wsc/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1648, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/wcf/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1647, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/wlc/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1648, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/wsc/**"
+SPDX-FileCopyrightText = "Westminster Assembly, 1648, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "versification/kjv.json"
+SPDX-FileCopyrightText = "Copyright (c) OpenBible.info; verse counts from bible-passage-reference-parser"
+SPDX-License-Identifier = "MIT"

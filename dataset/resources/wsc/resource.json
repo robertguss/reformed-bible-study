@@ -1,0 +1,35 @@
+{
+  "id": "wsc",
+  "kind": "confession",
+  "creator": "Westminster Assembly of Divines",
+  "language": "en",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  },
+  "title": "The Westminster Shorter Catechism",
+  "edition": "The Shorter Catechism of the Westminster Assembly (1647), text as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877), corrected to The Confession of Faith, the Larger and Shorter Catechisms, with the Scripture Proofs at Large (Edinburgh: Johnstone and Hunter, 1855), whose Scripture proofs are given",
+  "source": {
+    "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "sha256": "756adf1ddd466d237221c76b99d25d55cab7e83d08914f28a289c3b90dccddf3"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "quote": "Public Domain"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Westminster Assembly, The Shorter Catechism (1647), text as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877), with the Scripture proofs of the Edinburgh printing of 1855. Public domain."
+  },
+  "modifications": "Took the English questions and answers from Schaff, corrected to the 1855 Edinburgh printing where it differs and with that printing's spelling. Proof references were read from scans of the 1855 printing, checked against the quoted Scripture text and against the 1894 Edinburgh printing, and converted to OSIS in KJV versification. Every correction and gap is listed in source.md."
+}
