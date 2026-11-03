@@ -6,6 +6,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "bible-passage-reference-parser": "catalog:",
     "effect": "catalog:"
   },
   "devDependencies": {
