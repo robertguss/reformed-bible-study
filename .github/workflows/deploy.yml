@@ -42,9 +42,11 @@ jobs:
       - run: pnpm --filter @reformed-bible/infra exec alchemy deploy --stage preview --no-input --yes
       - run: pnpm deploy:smoke --stage preview
 
+  # GitHub offers no required reviewers on this private repository's plan, so production deploys
+  # only when the owner runs the workflow by hand; pushes to main stop after preview.
   production:
     needs: preview
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: production
     env:

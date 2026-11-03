@@ -30,7 +30,7 @@ Alchemy keeps deployment state in the account's `alchemy-state-store` Worker, so
    - Account > Secrets Store > Edit (Alchemy's state store keeps its credentials there)
    - Account > Account Settings > Read
    - Account > Notifications > Edit (the production usage alert)
-3. **GitHub environments.** Create `preview` and `production`, each limited to the `main` branch. Give `production` required reviewers.
+3. **GitHub environments.** Create `preview` and `production`, each limited to the `main` branch. Required reviewers are not available for a private repository on this plan, so the workflow gates production by requiring a manual run instead.
 4. **GitHub secrets and variables.**
    - Repository variable `CLOUDFLARE_ACCOUNT_ID`: `3be56c3c31972ae39fd3478cdd4eb34f`
    - Secret `CLOUDFLARE_API_TOKEN` in both environments: the token from step 2
@@ -38,7 +38,7 @@ Alchemy keeps deployment state in the account's `alchemy-state-store` Worker, so
 
 ## Deploying
 
-`.github/workflows/deploy.yml` runs on every push to `main`. It deploys preview, runs the smoke probes against it, then waits for a reviewer before deploying production and probing that.
+`.github/workflows/deploy.yml` runs on every push to `main`: it deploys preview and runs the smoke probes against it. Production deploys only when you run the workflow by hand (Actions > deploy > Run workflow on `main`), which deploys and probes preview again first, then deploys production and probes that.
 
 Each job:
 
