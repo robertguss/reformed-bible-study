@@ -3,7 +3,6 @@ import { Effect, Result, Schema } from "effect"
 
 export const OPENBIBLE_RESOURCE_ID = "openbible-xrefs"
 
-/** Verses openbible.info numbers differently from the KJV, mapped to the KJV verse that holds their words. */
 const KJV_EQUIVALENTS: Readonly<Record<string, string>> = {
   // The KJV joins the last two verses of 3 John into verse 14.
   "3John.1.15": "3John.1.14",
@@ -27,10 +26,6 @@ interface Target {
   readonly votes: number
 }
 
-/**
- * Turns the openbible.info cross-reference table into one record per canonical chapter. Rows without
- * positive votes are dropped, targets keep their ranges, and each verse lists its strongest targets first.
- */
 export const parseCrossReferences = (
   tsv: string,
 ): Effect.Effect<ReadonlyArray<CrossReferenceChapter>, CrossReferenceError> =>

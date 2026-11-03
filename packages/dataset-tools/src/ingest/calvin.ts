@@ -6,7 +6,6 @@ import { download, unzipSafe } from "./download.ts"
 
 export const CALVIN_RESOURCE_ID = "calvin-commentaries"
 
-/** CrossWire's CalvinCommentaries SWORD module, version 1.1 (2022-08-01). */
 export const CALVIN_SOURCE = {
   url: "https://www.crosswire.org/ftpmirror/pub/sword/packages/rawzip/CalvinCommentaries.zip",
   sha256: "df66fc8c03537499ad006d069481d2c95b600887cdbd6ce75ec5d264b573192a",

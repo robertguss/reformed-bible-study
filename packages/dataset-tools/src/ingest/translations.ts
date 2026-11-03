@@ -19,9 +19,7 @@ export const ABSENT_NOTE = "Not in this translation."
 export interface TranslationSource extends SourceSpec {
   readonly resourceId: string
   readonly format: "usj" | "usfm"
-  /** True when every KJV verse must have text, as for the KJV itself. */
   readonly exact: boolean
-  /** Source verses that the KJV numbers elsewhere in the same book, as OSIS verse to OSIS verse. */
   readonly remap?: Readonly<Record<string, string>>
 }
 
@@ -69,7 +67,6 @@ export const CROSS_REFERENCE_SOURCE: SourceSpec = {
   sha256: "24f07bcd61280f9dc0c5a451151fc9c9d0d2e45fe0cf3c903b5db4ca6b878878",
 }
 
-/** A translation whose verse numbering cannot be reconciled with the KJV versification table. */
 export class VersificationMismatch extends Schema.TaggedError<
   VersificationMismatch,
   { readonly brand: unique symbol }
@@ -83,10 +80,6 @@ export interface ReconcileOptions {
   readonly remap?: Readonly<Record<string, string>>
 }
 
-/**
- * Lays one source chapter onto KJV numbering. Every KJV verse gets an entry: its text, or an absence
- * marker when the translation prints nothing there. A verse the KJV table lacks is a problem, never kept.
- */
 export const reconcileChapter = (
   resourceId: string,
   book: BookId,
@@ -136,7 +129,6 @@ const remapKey = (
   return { chapter: Number(mappedChapter), verse: Number(mappedVerse) }
 }
 
-/** Lays a whole source book onto KJV numbering, after moving any verses the KJV numbers elsewhere. */
 export const reconcileBook = (
   resourceId: string,
   book: BookId,
@@ -194,7 +186,6 @@ export interface TranslationSummary {
   readonly unplacedHeadings: number
 }
 
-/** Downloads, parses and reconciles one translation, then writes one normalized file per chapter. */
 export const ingestTranslation = (repoRoot: string, source: TranslationSource) =>
   Effect.gen(function* () {
     const archive = yield* download(repoRoot, source)
@@ -251,7 +242,6 @@ export const ingestTranslation = (repoRoot: string, source: TranslationSource) =
     return summary
   })
 
-/** Ingests the BSB, WEB, KJV and ASV in turn. */
 export const ingestTranslations = (repoRoot: string) =>
   Effect.forEach(TRANSLATION_SOURCES, (source) => ingestTranslation(repoRoot, source))
 

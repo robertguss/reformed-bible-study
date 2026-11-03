@@ -7,7 +7,6 @@ import {
   type SourceBook,
 } from "./usfm.ts"
 
-/** A USJ node: the JSON form of USX that the Berean Standard Bible publishes. */
 interface UsjNode {
   readonly type?: unknown
   readonly marker?: unknown
@@ -21,7 +20,6 @@ const fail = (detail: string) => Effect.fail(new SourceFormatError({ source: "us
 const toNumber = (value: unknown): number | undefined =>
   typeof value === "string" && /^\d+$/.test(value) ? Number(value) : undefined
 
-/** Parses one USJ book of the Berean Standard Bible into verse text and headings, dropping notes. */
 export const parseUsj = (json: string): Effect.Effect<SourceBook, SourceFormatError> =>
   Effect.gen(function* () {
     const document = yield* Effect.try({

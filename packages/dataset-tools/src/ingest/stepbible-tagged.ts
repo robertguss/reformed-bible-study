@@ -11,19 +11,16 @@ import { mapHebrewVerse, stepBookToOsis, verseKey, type TvtmsTable } from "./tvt
 
 export const TAHOT_RESOURCE_ID = "stepbible-tahot"
 
-/** One lexical tag: a STEPBible number and its grammar code. */
 export interface Tag {
   readonly dStrong: string
   readonly grammar: string
 }
 
-/** An edition containing a word; `movedTo` is set when the edition places the word at another verse. */
 export interface EditionMark {
   readonly code: string
   readonly movedTo?: { readonly chapter: number; readonly verse: number }
 }
 
-/** An alternative reading recorded on a TAGNT row, with the editions that follow it. */
 export interface Reading {
   readonly greek: string
   readonly transliteration: string
@@ -32,14 +29,11 @@ export interface Reading {
   readonly editions: ReadonlyArray<EditionMark>
 }
 
-/** One word row of STEPBible's Translators Amalgamated Greek NT. */
 export interface TagntRow {
   readonly book: BookId
-  /** Verse in KJV numbering: the bracketed KJV reference when given, otherwise the NRSV reference. */
   readonly kjv: VerseRef
   /** Verse in Nestle-Aland numbering, which the SBLGNT shares. */
   readonly na: VerseRef
-  /** Another tradition's number for this verse, from the curly-bracket reference. */
   readonly other?: { readonly chapter: number; readonly verse: number }
   readonly word: number
   readonly type: string
@@ -47,11 +41,9 @@ export interface TagntRow {
   readonly transliteration: string
   readonly tags: ReadonlyArray<Tag>
   readonly lemma: string
-  /** Lexicon gloss of the word's dictionary form. */
   readonly gloss: string
   readonly editions: ReadonlyArray<EditionMark>
   readonly variants: ReadonlyArray<Reading>
-  /** Spellings other editions use for this same word. */
   readonly spellings: ReadonlyArray<{
     readonly editions: ReadonlyArray<string>
     readonly form: string
@@ -123,7 +115,6 @@ const parseSpellings = (text: string) =>
         ]
   })
 
-/** Reads the word rows of TAGNT, skipping comments, verse summaries and repeated header lines. */
 export const parseTagnt = (text: string): ReadonlyArray<TagntRow> =>
   removeUnsafe(text)
     .split(/\r?\n/)
@@ -163,27 +154,22 @@ export const parseTagnt = (text: string): ReadonlyArray<TagntRow> =>
       return [other === undefined ? row : { ...row, other }]
     })
 
-/** One word row of STEPBible's Translators Amalgamated Hebrew OT. */
 export interface TahotRow {
   /** English (KJV) reference; verse 0 is a psalm title. */
   readonly english: { readonly book: BookId; readonly chapter: number; readonly verse: number }
-  /** Reference in Hebrew Bibles. */
   readonly hebrew: VerseRef
   readonly word: number
   readonly type: string
   readonly text: string
   readonly transliteration: string
-  /** STEPBible number of the root word, without prefixes or suffixes. */
   readonly root: string
   readonly grammar: string
-  /** TAHOT's own dictionary form and gloss for the root, used when the lexicon has no entry for it. */
   readonly rootLemma: string
   readonly rootGloss: string
 }
 
 const TAHOT_REF = /^([1-3]?[A-Za-z]{2,3})\.(\d+)\.(\d+)(?:\((\d+)\.(\d+)\))?#(\d+)=(\S+)$/
 
-/** Reads the word rows of TAHOT, skipping comments, interlinear lines and empty Qere placeholders. */
 export const parseTahot = (text: string): ReadonlyArray<TahotRow> =>
   removeUnsafe(text)
     .split(/\r?\n/)
@@ -239,7 +225,6 @@ const HEBREW_SOURCES: Readonly<Record<string, string>> = {
   V: "Variant",
 }
 
-/** Sources that contain a Hebrew word, from the letters before any bracketed variants in its type. */
 const hebrewEditions = (type: string): ReadonlyArray<string> =>
   [...(type.split("(")[0] ?? "")].flatMap((letter) => {
     const name = HEBREW_SOURCES[letter]
@@ -322,11 +307,6 @@ const agrees = (row: TahotRow, table: TvtmsTable): boolean => {
   )
 }
 
-/**
- * Places TAHOT's Hebrew words on KJV verses. TVTMS maps each Hebrew verse to its KJV verse; where
- * English Bibles divide a Hebrew verse differently, STEPBible's word-level English reference decides,
- * and any word on which the two disagree is reported as a problem. Psalm titles open verse 1.
- */
 export const buildHebrewChapters = (
   rows: ReadonlyArray<TahotRow>,
   table: TvtmsTable,

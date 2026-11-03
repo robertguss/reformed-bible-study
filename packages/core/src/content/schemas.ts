@@ -5,7 +5,6 @@ import { ResourceId } from "../resources/index.ts"
 
 const Book = Schema.Literals(BOOK_IDS)
 const PositiveInt = Schema.Int.check(Schema.isGreaterThanOrEqualTo(1))
-/** One canonical OSIS reference or range, such as `Rom.8.28` or `Rom.8.28-Rom.8.30`. */
 const OsisRef = Schema.String.check(
   Schema.isPattern(/^[1-3]?[A-Za-z]+\.\d+\.\d+(?:-[1-3]?[A-Za-z]+\.\d+\.\d+)?$/),
 )

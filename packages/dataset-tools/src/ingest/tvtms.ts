@@ -77,23 +77,16 @@ const stepToOsis = new Map<string, BookId>(
   }),
 )
 
-/** The canonical book id for a STEPBible book abbreviation such as `Psa` or `1Jn`. */
 export const stepBookToOsis = (abbreviation: string): BookId | undefined =>
   stepToOsis.get(abbreviation)
 
-/** Where TVTMS puts a Hebrew verse in KJV numbering. */
 export type HebrewTarget =
   | { readonly kind: "verse"; readonly ref: VerseRef }
   | { readonly kind: "title"; readonly book: BookId; readonly chapter: number }
-  /** The English Bible divides this Hebrew verse between several verses, so each word needs its own reference. */
   | { readonly kind: "divided"; readonly refs: ReadonlyArray<VerseRef> }
 
 export interface TvtmsTable {
   readonly hebrew: ReadonlyMap<string, HebrewTarget>
-  /**
-   * Verses whose words English and Hebrew Bibles divide differently: English starts the verse on a
-   * different word, or Hebrew Bibles leave the verse empty and its text sits in a neighbouring verse.
-   */
   readonly dividedDifferently: ReadonlySet<string>
 }
 
@@ -101,7 +94,6 @@ export const verseKey = (ref: VerseRef): string => `${ref.book}.${ref.chapter}.$
 
 const SINGLE_SOURCE = /^([1-3]?[A-Za-z]{2,3})\.(\d+):(\d+)$/
 
-/** Parses a TVTMS standard reference such as `Mal.4:1`, `Num.26:1!a`, `Psa.13:5-6`, `Isa.63:19; 64:1` or `Psa.51:Title`. */
 const parseTargets = (text: string): HebrewTarget | undefined => {
   const head = /^([1-3]?[A-Za-z]{2,3})\.(.*)$/.exec(text.trim())
   const book = head?.[1] === undefined ? undefined : stepBookToOsis(head[1])
@@ -143,10 +135,6 @@ const merge = (a: HebrewTarget, b: HebrewTarget): HebrewTarget => {
     : { kind: "divided", refs }
 }
 
-/**
- * Reads the expanded section of STEPBible's TVTMS table: every Hebrew-tradition verse that English
- * Bibles number differently, and the verses English Bibles start on a different word.
- */
 export const parseTvtms = (text: string): TvtmsTable => {
   const hebrew = new Map<string, HebrewTarget>()
   const dividedDifferently = new Set<string>()
@@ -177,6 +165,5 @@ export const parseTvtms = (text: string): TvtmsTable => {
   return { hebrew, dividedDifferently }
 }
 
-/** The KJV place of a verse in Hebrew numbering; a verse the table does not mention keeps its number. */
 export const mapHebrewVerse = (table: TvtmsTable, ref: VerseRef): HebrewTarget =>
   table.hebrew.get(verseKey(ref)) ?? { kind: "verse", ref }

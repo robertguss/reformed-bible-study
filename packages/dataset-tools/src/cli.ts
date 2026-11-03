@@ -107,7 +107,6 @@ const main = Effect.gen(function* () {
   return false
 })
 
-// The CLI is the application entry point, so it provides the HTTP layer here.
 // oxlint-disable-next-line effecttsgo/strict-effect-provide
 Effect.runPromise(main.pipe(Effect.provide(FetchHttpClient.layer))).then(
   (ok) => {

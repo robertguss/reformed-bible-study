@@ -9,7 +9,6 @@ export default defineConfig({
   rules: { ...recommended.rules, "effecttsgo/unstable-api-usage": "off" },
   overrides: [
     {
-      // Each test provides its own layers, so every test is an entry point.
       files: ["**/test/**"],
       rules: { "effecttsgo/strict-effect-provide": "off" },
     },

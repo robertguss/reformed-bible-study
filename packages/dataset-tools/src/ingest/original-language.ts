@@ -24,7 +24,6 @@ import {
 import { parseTvtms } from "./tvtms.ts"
 import { writeNormalized } from "../normalized.ts"
 
-// STEPBible-Data at commit 5de0a47 (2026-11-02) and the SBLGNT at commit d7f35ad (2026-10-25).
 export const STEPBIBLE_SOURCES = {
   tagntMatJhn: {
     url: "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/5de0a47f35f0fc13dfe1430d104e5db8a4285f9c/Translators%20Amalgamated%20OT%2BNT/TAGNT%20Mat-Jhn%20-%20Translators%20Amalgamated%20Greek%20NT%20-%20STEPBible.org%20CC-BY.txt",
@@ -64,7 +63,6 @@ export const STEPBIBLE_SOURCES = {
   },
 } as const satisfies Record<string, SourceSpec>
 
-/** One plain-text file per book of the SBL Greek New Testament, keyed by book id. */
 export const SBLGNT_SOURCES: ReadonlyArray<SourceSpec & { readonly book: BookId }> = [
   {
     book: "Matt",
@@ -209,7 +207,6 @@ export class OriginalLanguageError extends Schema.TaggedError<
   problems: Schema.Array(Schema.String),
 }) {}
 
-/** What one ingest run produced. */
 export interface OriginalLanguageSummary {
   readonly greekChapters: number
   readonly greekWords: number

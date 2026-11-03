@@ -4,7 +4,6 @@ import { Result, Schema } from "effect"
 export const ConfessionIds = ["wcf", "wlc", "wsc", "hc", "bc", "cd", "lbcf"] as const
 export type ConfessionId = (typeof ConfessionIds)[number]
 
-/** How a confession numbers its articles. */
 type Numbering = "section" | "question" | "article" | "head"
 
 interface ConfessionForm {

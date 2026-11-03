@@ -6,7 +6,6 @@ import { HttpClient } from "effect/http"
 import { unzipSync } from "fflate"
 import { sourceCachePath } from "../source-cache.ts"
 
-/** Hosts sources may be downloaded from. Adding a host is a maintainer decision. */
 export const APPROVED_HOSTS: ReadonlySet<string> = new Set([
   "a.openbible.info",
   "berean.bible",
@@ -46,13 +45,12 @@ export interface SourceSpec {
   readonly maxBytes?: number
 }
 
-export const sha256Hex = (bytes: Uint8Array): string =>
+export const sha256Hex = (bytes: Uint8Array | string): string =>
   createHash("sha256").update(bytes).digest("hex")
 
 const fail = (url: string, reason: DownloadError["reason"], detail: string) =>
   Effect.fail(new DownloadError({ url, reason, detail }))
 
-/** Checks scheme and host before any network request is made. */
 export const checkSourceUrl = (url: string): Effect.Effect<URL, DownloadError> =>
   Effect.gen(function* () {
     const parsed = yield* Effect.try({

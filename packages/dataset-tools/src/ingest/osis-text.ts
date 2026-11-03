@@ -9,17 +9,12 @@ export class OsisTextError extends Schema.TaggedError<
   detail: Schema.String,
 }) {}
 
-/** One commentary entry as plain text runs: the body paragraphs and, separately, its notes. */
 export interface OsisEntry {
-  /** The verse reference the entry's own section marker names, such as `Rom.8.28`. */
   readonly ref: string | undefined
   readonly paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>
   readonly notes: ReadonlyArray<ReadonlyArray<TextRun>>
 }
 
-// Entity processing is off, so a document type definition in the source can never declare
-// entities that get expanded. The five predefined XML entities and character references are
-// decoded below instead, and every other entity reference stays literal text.
 const parser = new XMLParser({
   preserveOrder: true,
   ignoreAttributes: false,
@@ -53,7 +48,6 @@ type XmlNode = Readonly<Record<string, unknown>>
 const ATTRIBUTES = ":@"
 const TEXT = "#text"
 
-/** Collects runs into paragraphs, starting a new paragraph at each break. */
 class Paragraphs {
   readonly done: Array<Array<TextRun>> = []
   private current: Array<TextRun> = []
@@ -87,7 +81,6 @@ const trimRuns = (runs: ReadonlyArray<TextRun>): Array<TextRun> => {
   return trimmed.filter((run) => run.text !== "")
 }
 
-/** Joins a note's paragraphs into one list of runs, with a blank line between paragraphs. */
 const joinParagraphs = (paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>): Array<TextRun> => {
   const runs: Array<TextRun> = []
   paragraphs.forEach((paragraph, i) => {
@@ -116,12 +109,6 @@ const attribute = (node: XmlNode, name: string): string | undefined => {
   return typeof value === "string" ? value : undefined
 }
 
-/**
- * Converts one OSIS commentary entry into plain text runs. Only text inside the entry's section
- * markers is kept; text after the section ends, such as the translation of the next passage, is
- * left out. Notes are moved out of the body into their own list, and `hi` elements become
- * emphasis. All other markup is dropped and only its text kept, so nothing in the result is HTML.
- */
 export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextError> =>
   Effect.gen(function* () {
     const tree = yield* Effect.try({

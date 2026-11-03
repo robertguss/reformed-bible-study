@@ -1,20 +1,16 @@
-import { UNSAFE_CHARACTERS, type LexiconEntry } from "@reformed-bible/core"
+import { lexiconBucket, UNSAFE_CHARACTERS, type LexiconEntry } from "@reformed-bible/core"
+import { normalizeSpace } from "./usfm.ts"
 
 export const LEXICON_RESOURCE_ID = "stepbible-lexicons"
 
-/** One row of STEPBible's TBESG (abridged Abbott-Smith) or TBESH (abridged BDB) lexicon. */
 export interface StepLexiconRow {
-  /** Extended Strong's number, such as `G1492` or `H2603a`. */
   readonly eStrong: string
-  /** STEPBible's disambiguated number, such as `G1492H` or `G6063`, which the tagged texts use. */
   readonly dStrong: string
-  /** STEPBible's unified numbers, which point a form or meaning at its main entry. */
   readonly uStrongs: ReadonlyArray<string>
   readonly lemma: string
   readonly transliteration: string
   readonly morph: string
   readonly gloss: string
-  /** The definition as STEPBible publishes it, with HTML markup. */
   readonly meaning: string
 }
 
@@ -24,10 +20,8 @@ const STRONGS = /^([GH])(\d+)/
 const CLASSIC_LIMIT: Readonly<Record<string, number>> = { G: 5624, H: 8674 }
 const UNSAFE_GLOBAL = new RegExp(UNSAFE_CHARACTERS.source, "gu")
 
-/** Removes characters the dataset forbids, such as byte-order marks and bidirectional controls. */
 export const removeUnsafe = (text: string): string => text.replace(UNSAFE_GLOBAL, "")
 
-/** Reads the data rows of a STEPBible lexicon, skipping its introduction and proper-name records. */
 export const parseStepLexicon = (text: string): ReadonlyArray<StepLexiconRow> =>
   removeUnsafe(text)
     .split(/\r?\n/)
@@ -59,7 +53,6 @@ export const parseStepLexicon = (text: string): ReadonlyArray<StepLexiconRow> =>
       ]
     })
 
-/** Indexes lexicon rows by disambiguated number; the first row for a number wins. */
 export const indexLexicon = (rows: ReadonlyArray<StepLexiconRow>): Lexicon => {
   const index = new Map<string, StepLexiconRow>()
   for (const row of rows) if (!index.has(row.dStrong)) index.set(row.dStrong, row)
@@ -73,10 +66,6 @@ const classicOf = (number: string): string | undefined => {
   return value >= 1 && value <= (CLASSIC_LIMIT[match[1]] ?? 0) ? `${match[1]}${value}` : undefined
 }
 
-/**
- * The classic Strong's number readers know, such as `G1492`, for a STEPBible number. Numbers past
- * Strong's range, like `G6063` for οἶδα, take the number of the main entry STEPBible links them to.
- */
 export const classicStrongs = (dStrong: string, lexicon: Lexicon): string => {
   const own = classicOf(dStrong)
   if (own !== undefined) return own
@@ -98,7 +87,6 @@ const ENTITIES: Readonly<Record<string, string>> = {
   nbsp: " ",
 }
 
-/** Turns a STEPBible definition into plain text: line breaks kept, markup and links dropped. */
 export const plainDefinition = (html: string): string =>
   removeUnsafe(html)
     .replace(/<br\s*\/?>/gi, "\n")
@@ -110,11 +98,10 @@ export const plainDefinition = (html: string): string =>
     )
     .replace(/_{2,}/g, "")
     .split("\n")
-    .map((line) => line.replace(/\s+/g, " ").trim())
+    .map(normalizeSpace)
     .filter((line) => line !== "")
     .join("\n")
 
-/** Lexicon rows in the normalized content contract, one entry per STEPBible number. */
 export const lexiconEntries = (
   rows: ReadonlyArray<StepLexiconRow>,
 ): ReadonlyArray<LexiconEntry> => {
@@ -131,7 +118,4 @@ export const lexiconEntries = (
 }
 
 /** The normalized file holding an entry: `G14.json` holds G1400 to G1499, with or without a letter. */
-export const lexiconFileName = (stepStrongs: string): string => {
-  const match = STRONGS.exec(stepStrongs)
-  return match === null ? "other.json" : `${match[1]}${Math.floor(Number(match[2]) / 100)}.json`
-}
+export const lexiconFileName = (stepStrongs: string): string => `${lexiconBucket(stepStrongs)}.json`

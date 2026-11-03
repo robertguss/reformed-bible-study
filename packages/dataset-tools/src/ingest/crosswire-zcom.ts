@@ -24,24 +24,20 @@ export class ZComError extends Schema.TaggedError<ZComError, { readonly brand: u
 
 export type Testament = "ot" | "nt"
 
-/** The three files of one testament of a SWORD zCom module: block index, verse index, compressed blocks. */
 export interface ZComFiles {
   readonly bzs: Uint8Array
   readonly bzv: Uint8Array
   readonly bzz: Uint8Array
 }
 
-/** One distinct entry of a module, at the first verse slot that points to it. */
 export interface ZComEntry {
   readonly book: BookId | undefined
   readonly chapter: number
   readonly verse: number
-  /** OSIS form of the slot, such as `Rom.8.28`; a chapter or book introduction slot is `Rom.8` or `Rom`. */
   readonly slot: string
   readonly text: string
 }
 
-/** A slot whose entry names a different verse than the slot it sits in. */
 export interface MisplacedEntry {
   readonly slot: string
   readonly ref: string | undefined
@@ -58,10 +54,6 @@ interface Slot {
   readonly verse: number
 }
 
-/**
- * SWORD's verse slots for one testament under KJV versification: two testament heading slots, then
- * for each book a heading slot, and for each chapter a heading slot followed by its verses.
- */
 const testamentSlots = (testament: Testament): ReadonlyArray<Slot> => {
   const books =
     testament === "ot"
@@ -83,14 +75,12 @@ const testamentSlots = (testament: Testament): ReadonlyArray<Slot> => {
   return slots
 }
 
-const slotLabel = ({ book, chapter, verse }: Slot): string =>
-  book === undefined
-    ? ""
-    : chapter === 0
-      ? book
-      : verse === 0
-        ? `${book}.${chapter}`
-        : `${book}.${chapter}.${verse}`
+const slotLabel = ({ book, chapter, verse }: Slot): string => {
+  if (book === undefined) return ""
+  if (chapter === 0) return book
+  if (verse === 0) return `${book}.${chapter}`
+  return `${book}.${chapter}.${verse}`
+}
 
 const view = (bytes: Uint8Array) => new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
 
@@ -170,18 +160,11 @@ export const readZCom = (
     return entries
   })
 
-/** The verse just before one, crossing back into the previous chapter when needed. */
 const verseBefore = (ref: VerseRef): VerseRef =>
   ref.verse > 1
     ? { ...ref, verse: ref.verse - 1 }
     : { ...ref, chapter: ref.chapter - 1, verse: verseCount(ref.book, ref.chapter - 1) }
 
-/**
- * Builds one book of a commentary from module entries. Each entry's own verse reference decides
- * where its section starts, and a section ends where the next one starts, or at the end of the
- * book. An entry whose reference disagrees with the slot it sits in is reported as misplaced and
- * left out, never placed by guesswork.
- */
 export const commentaryBookFromZCom = (
   resourceId: string,
   book: BookId,

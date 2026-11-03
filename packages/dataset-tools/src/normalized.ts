@@ -2,7 +2,6 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { Effect, Schema } from "effect"
 
-/** Directory, relative to the repository root, where ingest writes normalized resource content. */
 export const NORMALIZED_DIR = ".cache/normalized"
 
 export const normalizedPath = (repoRoot: string, resourceId: string, name: string): string =>
@@ -23,7 +22,6 @@ export const writeNormalized = <S extends Schema.Codec<unknown, unknown>>(
     writeFileSync(path, `${JSON.stringify(encoded)}\n`)
   })
 
-/** Reads and decodes one normalized file through its schema. */
 export const readNormalized = <S extends Schema.Codec<unknown, unknown>>(
   repoRoot: string,
   resourceId: string,

@@ -39,7 +39,6 @@ export const translationPayloads = (
     into.set(shardPaths.text(chapter.resourceId, chapter.book, chapter.chapter), chapter)
 }
 
-/** Splits commentary books into per-chapter files; a section spanning two chapters appears in both. */
 export const commentaryChapters = (
   books: ReadonlyArray<CommentaryBook>,
 ): ReadonlyArray<CommentaryChapter> => {
@@ -94,7 +93,6 @@ export const lexiconPayloads = (entries: ReadonlyArray<LexiconEntry>, into: Payl
   for (const [bucket, list] of buckets) into.set(shardPaths.lexicon(bucket), list)
 }
 
-/** One file per confession, plus a per-chapter index of the articles citing each verse. */
 export const confessionPayloads = (
   confessions: ReadonlyArray<Confession>,
   into: Payloads,

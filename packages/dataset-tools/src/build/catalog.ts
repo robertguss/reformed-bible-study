@@ -40,7 +40,6 @@ const ingestedFor = (id: string, content: IngestedChapters): CatalogResource["in
     .map(([book, chapters]) => ({ book, chapters: [...chapters].sort((a, b) => a - b) }))
 }
 
-/** Lists every resource, withdrawn ones included, with its credit line and the chapters this release covers. */
 export const buildCatalog = (
   records: ReadonlyArray<ResourceRecord>,
   content: IngestedChapters,

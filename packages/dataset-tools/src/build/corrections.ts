@@ -2,7 +2,6 @@ import type { CommentaryBook, TextRun, TranslationChapter } from "@reformed-bibl
 import { parseOsis } from "@reformed-bible/core"
 import { Result } from "effect"
 
-/** A reviewed fix to one passage of an ingested resource, applied on every build. */
 export interface Correction {
   readonly resourceId: string
   readonly ref: string
@@ -26,7 +25,6 @@ const replaceInRuns = (
 const describe = (c: Correction) =>
   `correction to ${c.resourceId} at ${c.ref}: "${c.find}" not present`
 
-/** Applies corrections to translation verses; any correction that no longer matches its text is an error. */
 export const correctTranslations = (
   chapters: ReadonlyArray<TranslationChapter>,
   corrections: ReadonlyArray<Correction>,
@@ -56,7 +54,6 @@ export const correctTranslations = (
   return Result.succeed(current)
 }
 
-/** Applies corrections to commentary sections, matched by the section's starting reference. */
 export const correctCommentaries = (
   books: ReadonlyArray<CommentaryBook>,
   corrections: ReadonlyArray<Correction>,

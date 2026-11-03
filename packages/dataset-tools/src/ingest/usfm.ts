@@ -1,7 +1,6 @@
 import { BOOK_IDS, type BookId } from "@reformed-bible/core"
 import { Effect, Schema } from "effect"
 
-/** A verse as the source numbers it, before mapping to KJV versification. Empty text means the source prints no words there. */
 export interface SourceVerse {
   readonly chapter: number
   readonly verse: number
@@ -14,13 +13,10 @@ export interface SourceHeading {
   readonly text: string
 }
 
-/** One book of a translation as parsed from its source file, in the source's own numbering. */
 export interface SourceBook {
-  /** The USFM book code, such as `ROM`. */
   readonly code: string
   readonly verses: ReadonlyArray<SourceVerse>
   readonly headings: ReadonlyArray<SourceHeading>
-  /** Headings no verse follows before the book ends, such as the KJV's epistle subscriptions. */
   readonly unplacedHeadings: ReadonlyArray<{ readonly chapter: number; readonly text: string }>
 }
 
@@ -106,7 +102,6 @@ export const USFM_BOOKS: ReadonlyMap<string, BookId> = new Map(
   USFM_CODES.map((code, index) => [code, BOOK_IDS[index] as BookId]),
 )
 
-/** How a paragraph marker's text is treated. Shared by the USFM and USJ parsers. */
 export type ParagraphRole = "text" | "heading" | "skip"
 
 const TEXT_PARAGRAPHS = [
@@ -162,7 +157,6 @@ export const PARAGRAPH_ROLES: ReadonlyMap<string, ParagraphRole> = new Map([
   ...SKIPPED_PARAGRAPHS.map((m) => [m, "skip"] as const),
 ])
 
-/** Character markers whose words stay in the text while the markup is dropped. */
 export const INLINE_MARKERS: ReadonlySet<string> = new Set([
   "w",
   "add",
@@ -178,19 +172,12 @@ export const INLINE_MARKERS: ReadonlySet<string> = new Set([
   "wh",
 ])
 
-/** Footnote and cross-reference markers, whose contents are left for a later component. */
 const NOTE_PATTERN = /\\(f|fe|x)\s[\s\S]*?\\\1\*/g
-/** Word attributes such as `|strong="H1870"` just before a closing character marker. */
 const ATTRIBUTE_PATTERN = /\|[^\\]*(?=\\\+?[a-z0-9]+\*)/g
-/** A marker, its closing star, or the single space that ends an opening marker. */
 const MARKER_PATTERN = /\\(\+?)([a-z][a-z0-9]*)(\*|[ \t]|\r?\n)?/g
 
 export const normalizeSpace = (text: string): string => text.replace(/\s+/g, " ").trim()
 
-/**
- * Collects verse text and headings as a parser walks a book in reading order. A verse marker always
- * opens verse text, even inside a heading paragraph, matching how publishers number titled verses.
- */
 export class BookBuilder {
   private chapter = 0
   private verse: { chapter: number; verse: number; parts: Array<string> } | undefined
@@ -222,7 +209,6 @@ export class BookBuilder {
     this.pending = []
   }
 
-  /** A heading still pending here, such as a psalter division, belongs before the next chapter's first verse. */
   startChapter(chapter: number): void {
     this.endParagraph()
     this.chapter = chapter
@@ -289,7 +275,6 @@ const leadingNumber = (text: string): { number: number; rest: string } | undefin
     : { number: Number(match[1]), rest: text.slice(match[0].length) }
 }
 
-/** Parses one USFM book into verse text and headings, dropping notes and word-level markup. */
 export const parseUsfm = (usfm: string): Effect.Effect<SourceBook, SourceFormatError> =>
   Effect.gen(function* () {
     const idMatch = /\\id\s+([A-Z0-9]{3})/.exec(usfm)

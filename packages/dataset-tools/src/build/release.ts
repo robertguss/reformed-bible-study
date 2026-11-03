@@ -14,7 +14,9 @@ import {
 } from "@reformed-bible/core"
 import { Effect, Result, Schema } from "effect"
 import { zipSync } from "fflate"
-import { normalizedPath } from "../normalized.ts"
+import { sha256Hex } from "../ingest/download.ts"
+import { CONFESSION_FILE } from "../ingest/confession.ts"
+import { NORMALIZED_DIR } from "../normalized.ts"
 import { DEFAULT_FILE_BUDGET, exceedsBudget } from "./budget.ts"
 import { buildCatalog } from "./catalog.ts"
 import { type Correction, correctCommentaries, correctTranslations } from "./corrections.ts"
@@ -35,7 +37,6 @@ export class ReleaseBuildError extends Schema.TaggedError<
   { readonly brand: unique symbol }
 >()("ReleaseBuildError", { message: Schema.String }) {}
 
-/** Everything a release is built from: records, normalized content, corrections and license files. */
 export interface ReleaseInput {
   readonly records: ReadonlyArray<ResourceRecord>
   readonly translations: ReadonlyArray<TranslationChapter>
@@ -45,21 +46,17 @@ export interface ReleaseInput {
   readonly lexicon: ReadonlyArray<LexiconEntry>
   readonly confessions: ReadonlyArray<Confession>
   readonly corrections: ReadonlyArray<Correction>
-  /** REUSE map and license texts copied into the archive, keyed by archive path. */
   readonly licenseFiles?: ReadonlyMap<string, Uint8Array>
 }
 
 export interface ReleaseOptions {
-  /** Release date as YYYY-MM-DD; the release id is this date plus a hash of the content. */
   readonly date: string
   readonly maxFiles?: number
 }
 
 export interface Release {
   readonly release: string
-  /** Published static files, already encoded through their schemas, keyed by path within the release. */
   readonly files: ReadonlyMap<string, unknown>
-  /** Files inside the dataset archive, keyed by archive path. */
   readonly archive: ReadonlyMap<string, Uint8Array>
   readonly archiveBytes: Uint8Array
   readonly archiveSha256: string
@@ -68,7 +65,6 @@ export interface Release {
 const fail = (message: string) => Effect.fail(new ReleaseBuildError({ message }))
 const encoder = new TextEncoder()
 const json = (value: unknown) => encoder.encode(`${JSON.stringify(value)}\n`)
-const sha256 = (bytes: Uint8Array | string) => createHash("sha256").update(bytes).digest("hex")
 
 const allows = (
   record: ResourceRecord,
@@ -80,7 +76,6 @@ const only = <A extends { readonly resourceId: string }>(
   ids: ReadonlySet<string>,
 ) => items.filter((item) => ids.has(item.resourceId))
 
-/** Builds the static files, catalog and archive for one release. Pure: nothing is written to disk. */
 export const buildRelease = (
   input: ReleaseInput,
   options: ReleaseOptions,
@@ -94,7 +89,8 @@ export const buildRelease = (
     const staticIds = new Set(
       input.records.filter((r) => allows(r, "web", "dataset")).map((r) => r.id),
     )
-    const archiveIds = new Set(input.records.filter((r) => allows(r, "dataset")).map((r) => r.id))
+    const archivedRecords = input.records.filter((r) => allows(r, "dataset"))
+    const archiveIds = new Set(archivedRecords.map((r) => r.id))
     const activeIds = new Set(
       input.records.filter((r) => r.status.state === "active").map((r) => r.id),
     )
@@ -120,10 +116,11 @@ export const buildRelease = (
     const overBudget = exceedsBudget(payloads.size, options.maxFiles ?? DEFAULT_FILE_BUDGET)
     if (overBudget !== undefined) return yield* fail(overBudget)
 
-    const contentHash = sha256(
-      JSON.stringify([...payloads].sort(([a], [b]) => (a < b ? -1 : 1))) +
-        JSON.stringify(input.records.map((r) => r.id).sort()),
-    )
+    const hash = createHash("sha256").update("[")
+    for (const [i, path] of [...payloads.keys()].sort((a, b) => (a < b ? -1 : 1)).entries())
+      hash.update(`${i === 0 ? "" : ","}${JSON.stringify([path, payloads.get(path)])}`)
+    hash.update(`]${JSON.stringify(input.records.map((r) => r.id).sort())}`)
+    const contentHash = hash.digest("hex")
     const release = `${options.date}-${contentHash.slice(0, 8)}`
 
     const files = new Map<string, unknown>()
@@ -140,7 +137,9 @@ export const buildRelease = (
     const addArchive = (resourceId: string, name: string, value: unknown) => {
       const path = `normalized/${resourceId}/${name}`
       archive.set(path, json(value))
-      pathsByResource.set(resourceId, [...(pathsByResource.get(resourceId) ?? []), path])
+      const paths = pathsByResource.get(resourceId) ?? []
+      paths.push(path)
+      pathsByResource.set(resourceId, paths)
     }
     for (const c of only(translations.success, archiveIds))
       addArchive(c.resourceId, `${c.book}.${c.chapter}.json`, c)
@@ -151,14 +150,13 @@ export const buildRelease = (
     for (const c of only(input.originals, archiveIds))
       addArchive(c.resourceId, `${c.book}.${c.chapter}.json`, c)
     for (const c of only(input.confessions, archiveIds))
-      addArchive(c.resourceId, "confession.json", c)
+      addArchive(c.resourceId, CONFESSION_FILE, c)
     const lexicon = only(input.lexicon, archiveIds)
     if (lexicon.length > 0) addArchive(lexicon[0]?.resourceId ?? "lexicon", "entries.json", lexicon)
-    for (const record of input.records.filter((r) => archiveIds.has(r.id))) {
+    for (const record of archivedRecords) {
       archive.set(`resources/${record.id}/resource.json`, json(record))
     }
     for (const [path, bytes] of input.licenseFiles ?? []) archive.set(path, bytes)
-    const archivedRecords = input.records.filter((r) => archiveIds.has(r.id))
     archive.set(
       "datapackage.json",
       json(buildDatapackage(release, archivedRecords, pathsByResource)),
@@ -172,7 +170,7 @@ export const buildRelease = (
           .map(([path, bytes]) => [path, [bytes, { mtime }]]),
       ),
     )
-    return { release, files, archive, archiveBytes, archiveSha256: sha256(archiveBytes) }
+    return { release, files, archive, archiveBytes, archiveSha256: sha256Hex(archiveBytes) }
   })
 
 export interface ReleaseLock {
@@ -182,7 +180,6 @@ export interface ReleaseLock {
   readonly fileCount: number
 }
 
-/** The record an app build and a deploy pin, so both use exactly this release. */
 export const releaseLock = (release: Release): ReleaseLock => ({
   release: release.release,
   archive: `dataset-${release.release}.zip`,
@@ -209,7 +206,6 @@ const decodeAll = <S extends Schema.Codec<unknown, unknown>>(
     ),
   )
 
-/** Reads records, normalized content, corrections and license files from a checkout after ingest has run. */
 export const loadReleaseInput = (
   repoRoot: string,
 ): Effect.Effect<ReleaseInput, ReleaseBuildError> =>
@@ -226,7 +222,7 @@ export const loadReleaseInput = (
         ),
       "resource records",
     )
-    const dirOf = (id: string) => dirname(normalizedPath(repoRoot, id, "x"))
+    const dirOf = (id: string) => join(repoRoot, NORMALIZED_DIR, id)
     const ofKind = (kind: ResourceRecord["kind"]) => records.filter((r) => r.kind === kind)
     const load = <S extends Schema.Codec<unknown, unknown>>(
       kind: ResourceRecord["kind"],
@@ -265,7 +261,6 @@ export const loadReleaseInput = (
     }
   })
 
-/** Writes the static files under `<outDir>/data/<release>/`, the archive beside them, and the release lock. */
 export const writeRelease = (repoRoot: string, release: Release, outDir: string): ReleaseLock => {
   const dataDir = join(outDir, "data", release.release)
   for (const [path, value] of release.files) {

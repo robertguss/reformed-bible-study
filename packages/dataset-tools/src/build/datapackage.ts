@@ -1,6 +1,5 @@
 import { type ResourceRecord, licenseUrl } from "@reformed-bible/core"
 
-/** A Frictionless Data Package (v2) index of the release archive, one data resource per dataset resource. */
 export const buildDatapackage = (
   release: string,
   records: ReadonlyArray<ResourceRecord>,

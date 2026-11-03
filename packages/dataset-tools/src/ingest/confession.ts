@@ -7,12 +7,11 @@ import {
   verseCount,
   type InvalidReference,
   type Passage,
-  type VerseRef,
 } from "@reformed-bible/core"
 import { Effect, Result, Schema } from "effect"
 import { writeNormalized } from "../normalized.ts"
+import { verseKey } from "./tvtms.ts"
 
-/** Directory, relative to the repository root, holding one curated transcription per confession. */
 export const CONFESSIONS_DIR = "dataset/confessions"
 export const CONFESSION_FILE = "confession.json"
 
@@ -70,9 +69,6 @@ export const ingestConfessions = (repoRoot: string) =>
     )
   })
 
-const verseKey = (ref: VerseRef): string => `${ref.book}.${ref.chapter}.${ref.verse}`
-
-/** Every verse a passage covers, in order, under KJV versification. */
 const versesOf = ({ start, end }: Passage): ReadonlyArray<string> => {
   const keys: Array<string> = []
   const lastChapter = Math.min(end.chapter, chapterCount(start.book))

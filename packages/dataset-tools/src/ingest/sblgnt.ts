@@ -12,12 +12,10 @@ import { hasEdition, type EditionMark, type Tag, type TagntRow } from "./stepbib
 
 export const SBLGNT_RESOURCE_ID = "sblgnt"
 
-/** One word of the SBL Greek New Testament, in the SBLGNT's own (Nestle-Aland) verse numbering. */
 export interface SblToken {
   readonly book: BookId
   readonly chapter: number
   readonly verse: number
-  /** The word as printed, with its punctuation but without the edition's text-critical signs. */
   readonly surface: string
 }
 
@@ -25,7 +23,6 @@ export interface SblToken {
 const SIGLA = new RegExp(`[${String.fromCodePoint(0x2e00)}-${String.fromCodePoint(0x2e0f)}]`, "gu")
 const LETTER = /\p{L}/u
 
-/** Reads one book of the SBLGNT plain-text edition (`Rom 8:28<TAB>words...`). */
 export const parseSblgnt = (book: BookId, text: string): ReadonlyArray<SblToken> =>
   removeUnsafe(text)
     .split(/\r?\n/)
@@ -41,7 +38,6 @@ export const parseSblgnt = (book: BookId, text: string): ReadonlyArray<SblToken>
         .map((surface) => ({ book, chapter, verse, surface }))
     })
 
-/** Accent-, case- and punctuation-free form used to compare spellings. */
 export const comparable = (word: string): string =>
   word
     .normalize("NFD")
@@ -97,7 +93,6 @@ const LETTERS: Readonly<Record<string, string>> = {
 }
 const ROUGH = String.fromCodePoint(0x0314)
 
-/** Latin transliteration in STEPBible's style, for SBL spellings TAGNT does not transliterate. */
 export const transliterateGreek = (word: string): string => {
   const letters =
     word
@@ -123,7 +118,6 @@ export const transliterateGreek = (word: string): string => {
   return /^[A-ZĒŌ]/.test(out) ? `H${out.charAt(0).toLowerCase()}${out.slice(1)}` : `h${out}`
 }
 
-/** One reading the SBL text could match: a TAGNT row's main word, or one word of a variant. */
 interface Candidate {
   readonly row: TagntRow
   readonly greek: string
@@ -189,7 +183,6 @@ const similarity = (token: string, candidate: Candidate): number => {
     : 0
 }
 
-/** Pairs tokens with candidates in order, maximizing similarity; returns candidate index per token. */
 const alignInOrder = (
   tokens: ReadonlyArray<string>,
   candidates: ReadonlyArray<Candidate>,
@@ -314,18 +307,12 @@ const textusReceptusNote = (
 
 export interface GreekBuild {
   readonly chapters: ReadonlyArray<OriginalChapter>
-  /** SBLGNT words no TAGNT row could be matched to; they are shown without tags. */
   readonly untagged: ReadonlyArray<SblToken>
   /** SBLGNT words matched to a TAGNT reading that does not list SBL among its editions. */
   readonly sblAdded: number
   readonly problems: ReadonlyArray<string>
 }
 
-/**
- * Builds the Greek New Testament on KJV verses: every displayed word is the SBLGNT's own, aligned to
- * the TAGNT reading the SBL text follows for its Strong's numbers, grammar and gloss, and placed on that
- * reading's KJV verse. Verses the SBL text lacks show the other editions' words with a note.
- */
 export const buildGreekChapters = (
   tokens: ReadonlyArray<SblToken>,
   rows: ReadonlyArray<TagntRow>,
@@ -344,9 +331,10 @@ export const buildGreekChapters = (
     const sblByVerse = new Map<string, Array<Candidate>>()
     const otherByVerse = new Map<string, Array<Candidate>>()
     const verseOrder: Array<string> = []
+    const verseIndex = new Map<string, number>()
     for (const row of bookRows) {
       const key = verseOf(row.na)
-      if (!verseOrder.includes(key)) verseOrder.push(key)
+      if (!verseIndex.has(key)) verseIndex.set(key, verseOrder.push(key) - 1)
       for (const reading of readingsOf(row, lexicon)) {
         const target = reading.sbl ? sblByVerse : otherByVerse
         const list = target.get(key) ?? []
@@ -380,7 +368,7 @@ export const buildGreekChapters = (
     }
     // Words displaced or numbered differently: look in the same verse, then the neighbouring ones.
     const neighbours = (key: string) => {
-      const index = verseOrder.indexOf(key)
+      const index = verseIndex.get(key) ?? -1
       return [key, verseOrder[index - 1], verseOrder[index + 1]].filter(
         (k): k is string => k !== undefined,
       )

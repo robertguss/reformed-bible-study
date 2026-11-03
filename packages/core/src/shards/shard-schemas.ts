@@ -98,7 +98,6 @@ export const lexiconBucket = (stepStrongs: string): string => {
   return match === null ? "other" : `${match[1]}${Math.floor(Number(match[2]) / 100)}`
 }
 
-/** The schema a published file decodes with, chosen by its path. */
 export const shardSchemaFor = (path: string): Schema.Top => {
   if (path === shardPaths.catalog) return CatalogShard
   const [kind] = path.split("/")
