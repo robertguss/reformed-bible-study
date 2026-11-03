@@ -41,8 +41,8 @@ jobs:
         run: |
           release=$(node -p "require('./dataset/release.lock.json').release")
           committed="${{ steps.committed.outputs.release }}"
-          if [ "${release##*-}" = "${committed##*-}" ]; then
-            echo "content unchanged since dataset-$committed"
+          if [ "${release##*-}" = "${committed##*-}" ] && gh release view "dataset-$committed" >/dev/null 2>&1; then
+            echo "content unchanged since published dataset-$committed"
             exit 0
           fi
           if gh release view "dataset-$release" >/dev/null 2>&1; then
