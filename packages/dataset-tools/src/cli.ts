@@ -2,6 +2,11 @@ import { createHash } from "node:crypto"
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs"
 import { join, relative, resolve } from "node:path"
 import { Console, Effect } from "effect"
+import { FetchHttpClient } from "effect/http"
+import { ingestCalvin } from "./ingest/calvin.ts"
+import { ingestConfessions } from "./ingest/confession.ts"
+import { ingestOriginalLanguage } from "./ingest/original-language.ts"
+import { ingestCrossReferences, ingestTranslations } from "./ingest/translations.ts"
 import { sourceCachePath } from "./source-cache.ts"
 import { renderJson, renderReport, validateDataset, type DatasetFile } from "./validate/validate.ts"
 
@@ -36,9 +41,36 @@ const cachedSourceHashes = (
   return hashes
 }
 
+const repoRoot = resolve(import.meta.dirname, "../../..")
+
+const INGESTS = {
+  translations: () => ingestTranslations(repoRoot),
+  "cross-references": () => ingestCrossReferences(repoRoot),
+  "original-language": () => ingestOriginalLanguage(repoRoot),
+  calvin: () => ingestCalvin(repoRoot),
+  confessions: () => ingestConfessions(repoRoot),
+} as const
+
+const isIngestName = (name: string): name is keyof typeof INGESTS => Object.hasOwn(INGESTS, name)
+
+const ingest = (names: ReadonlyArray<string>) =>
+  Effect.gen(function* () {
+    const selected = names.length === 0 || names.includes("all") ? Object.keys(INGESTS) : names
+    for (const name of selected) {
+      if (!isIngestName(name)) {
+        yield* Console.error(
+          `unknown ingest "${name}"; choose from ${Object.keys(INGESTS).join(", ")} or all`,
+        )
+        return false
+      }
+      yield* Console.log(`ingest ${name}`)
+      yield* INGESTS[name]()
+    }
+    return true
+  })
+
 const validate = (args: ReadonlyArray<string>) =>
   Effect.gen(function* () {
-    const repoRoot = resolve(import.meta.dirname, "../../..")
     const datasetRoot = join(repoRoot, "dataset")
     const paths = listFiles(datasetRoot).map((path) => relative(datasetRoot, path))
     const files = paths.map((path) => ({
@@ -57,11 +89,14 @@ const validate = (args: ReadonlyArray<string>) =>
 const main = Effect.gen(function* () {
   const [command, ...args] = process.argv.slice(2)
   if (command === "validate") return yield* validate(args)
-  yield* Console.error("usage: dataset-tools validate [--json]")
+  if (command === "ingest") return yield* ingest(args)
+  yield* Console.error("usage: dataset-tools validate [--json] | ingest [all | <name>...]")
   return false
 })
 
-Effect.runPromise(main).then(
+// The CLI is the application entry point, so it provides the HTTP layer here.
+// oxlint-disable-next-line effecttsgo/strict-effect-provide
+Effect.runPromise(main.pipe(Effect.provide(FetchHttpClient.layer))).then(
   (ok) => {
     process.exitCode = ok ? 0 : 1
   },
