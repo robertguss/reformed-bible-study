@@ -1,0 +1,53 @@
+name: dataset-release
+
+on:
+  push:
+    branches: [main]
+    paths: ["dataset/**", "packages/dataset-tools/**", "packages/core/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Publishing needs write access, so it runs only from main behind a protected environment.
+    environment: dataset-release
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm dataset:validate
+      - run: pnpm dataset:ingest all
+      # Validate again with the downloads cached, so every source hash is checked against its pin.
+      - run: pnpm dataset:validate
+      - run: pnpm dataset:build
+      - name: Publish the archive and propose the new release lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          release=$(node -p "require('./dataset/release.lock.json').release")
+          if gh release view "dataset-$release" >/dev/null 2>&1; then
+            echo "dataset-$release already published"
+            exit 0
+          fi
+          gh release create "dataset-$release" "dist/release/dataset-$release.zip" \
+            --title "Dataset $release" --notes "Dataset release $release."
+          branch="dataset-lock-$release"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add dataset/release.lock.json
+          git commit -m "chore(dataset): pin release $release"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$branch"
+          gh pr create --base main --head "$branch" --title "chore(dataset): pin release $release" \
+            --body "Pins the app build and deploy to dataset release $release."

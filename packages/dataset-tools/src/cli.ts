@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto"
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs"
 import { join, relative, resolve } from "node:path"
-import { Console, Effect } from "effect"
+import { Console, DateTime, Effect } from "effect"
+import { buildRelease, loadReleaseInput, writeRelease } from "./build/release.ts"
 import { FetchHttpClient } from "effect/http"
 import { ingestCalvin } from "./ingest/calvin.ts"
 import { ingestConfessions } from "./ingest/confession.ts"
@@ -69,6 +70,17 @@ const ingest = (names: ReadonlyArray<string>) =>
     return true
   })
 
+const build = Effect.gen(function* () {
+  const input = yield* loadReleaseInput(repoRoot)
+  const now = yield* DateTime.now
+  const release = yield* buildRelease(input, { date: DateTime.formatIsoDate(now) })
+  const lock = writeRelease(repoRoot, release, join(repoRoot, "dist", "release"))
+  yield* Console.log(
+    `release ${lock.release}: ${lock.fileCount} static files, archive ${lock.archive} (${release.archiveBytes.byteLength} bytes)`,
+  )
+  return true
+})
+
 const validate = (args: ReadonlyArray<string>) =>
   Effect.gen(function* () {
     const datasetRoot = join(repoRoot, "dataset")
@@ -90,7 +102,8 @@ const main = Effect.gen(function* () {
   const [command, ...args] = process.argv.slice(2)
   if (command === "validate") return yield* validate(args)
   if (command === "ingest") return yield* ingest(args)
-  yield* Console.error("usage: dataset-tools validate [--json] | ingest [all | <name>...]")
+  if (command === "build") return yield* build
+  yield* Console.error("usage: dataset-tools validate [--json] | ingest [all | <name>...] | build")
   return false
 })
 
