@@ -1,0 +1,87 @@
+{
+  "id": "calvin-commentaries",
+  "kind": "commentary",
+  "title": "Calvin's Collected Commentaries",
+  "creator": "John Calvin",
+  "edition": "Calvin Translation Society English translations as transcribed by the Christian Classics Ethereal Library, collected in the CrossWire SWORD module CalvinCommentaries version 1.1 (2022-08-01); Commentary on Romans translated by John Owen",
+  "language": "en",
+  "scope": [
+    "Gen",
+    "Exod",
+    "Lev",
+    "Num",
+    "Deut",
+    "Josh",
+    "Ps",
+    "Isa",
+    "Jer",
+    "Lam",
+    "Ezek",
+    "Dan",
+    "Hos",
+    "Joel",
+    "Amos",
+    "Obad",
+    "Jonah",
+    "Mic",
+    "Nah",
+    "Hab",
+    "Zeph",
+    "Hag",
+    "Zech",
+    "Mal",
+    "Matt",
+    "Mark",
+    "Luke",
+    "John",
+    "Acts",
+    "Rom",
+    "1Cor",
+    "2Cor",
+    "Gal",
+    "Eph",
+    "Phil",
+    "Col",
+    "1Thess",
+    "2Thess",
+    "1Tim",
+    "2Tim",
+    "Titus",
+    "Phlm",
+    "Heb",
+    "Jas",
+    "1Pet",
+    "2Pet",
+    "1John",
+    "Jude"
+  ],
+  "source": {
+    "url": "https://www.crosswire.org/sword/modules/ModInfo.jsp?modName=CalvinCommentaries",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/packages/rawzip/CalvinCommentaries.zip",
+        "sha256": "df66fc8c03537499ad006d069481d2c95b600887cdbd6ce75ec5d264b573192a"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/raw/mods.d/calvincommentaries.conf",
+        "quote": "DistributionLicense=Public Domain"
+      },
+      {
+        "url": "https://www.ccel.org/ccel/calvin/calcom38.xml",
+        "quote": "Public Domain"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "John Calvin, Commentary on the Epistle to the Romans, translated by John Owen for the Calvin Translation Society. Public domain. Text from the Christian Classics Ethereal Library by way of the CrossWire SWORD module CalvinCommentaries."
+  },
+  "modifications": "Converted from OSIS markup to plain text paragraphs with emphasis. Footnotes moved from the body into a separate notes list. Each section is keyed to the range from its own verse to the verse before the next section, or to the end of the book. Left out: the English and Latin translation table printed before each passage with its notes, the chapter headings, the appended translation of Calvin's version of the whole epistle, and links to pages on the Christian Classics Ethereal Library site.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": { "state": "active" }
+}
