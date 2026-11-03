@@ -1,0 +1,38 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+
+# Exact pins for the whole workspace. Upgrades are deliberate pull requests.
+catalog:
+  bible-passage-reference-parser: 4.0.0
+  "@types/node": 24.19.2
+  "@effect/tsgo": 0.64.1
+  "@effect/vitest": 4.1.2
+  effect: 4.1.2
+  oxfmt: 0.75.0
+  oxlint: 1.90.0
+  oxlint-tsgolint: 7.0.2005
+  typescript: 7.0.2
+  vitest: 5.1.0
+
+# Refuse packages published less than three days ago (minutes).
+minimumReleaseAge: 4320
+# Exact-version exceptions for pins newer than three days. Remove each entry
+# once it is older than the window; all of these expire on 2026-11-06.
+minimumReleaseAgeExclude:
+  - "@effect/tsgo-darwin-arm64@0.64.1"
+  - "@effect/tsgo-darwin-x64@0.64.1"
+  - "@effect/tsgo-linux-arm64@0.64.1"
+  - "@effect/tsgo-linux-arm@0.64.1"
+  - "@effect/tsgo-linux-x64@0.64.1"
+  - "@effect/tsgo-win32-arm64@0.64.1"
+  - "@effect/tsgo-win32-x64@0.64.1"
+  - "@vitest/mocker@5.1.0"
+  - "@vitest/spy@5.1.0"
+  - effect@4.1.2
+  - "@effect/vitest@4.1.2"
+  - "@effect/tsgo@0.64.1"
+  - vitest@5.1.0
+
+# Dependency install scripts stay off unless a package is named here.
+onlyBuiltDependencies: []

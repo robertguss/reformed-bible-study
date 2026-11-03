@@ -1,0 +1,30 @@
+{
+  "parses": [
+    { "input": "Romans 8:28", "osis": "Rom.8.28" },
+    { "input": "Rom 8.28", "osis": "Rom.8.28" },
+    { "input": "Ro 8:28", "osis": "Rom.8.28" },
+    { "input": "Rom 8:28-9:3", "osis": "Rom.8.28-Rom.9.3" },
+    { "input": "Romans 8", "osis": "Rom.8.1-Rom.8.39" },
+    { "input": "1 Jn 1:9", "osis": "1John.1.9" },
+    { "input": "1John 1:9", "osis": "1John.1.9" },
+    { "input": "Ps 23", "osis": "Ps.23.1-Ps.23.6" },
+    { "input": "Psalm 23", "osis": "Ps.23.1-Ps.23.6" },
+    { "input": "Psa 23", "osis": "Ps.23.1-Ps.23.6" },
+    { "input": "Rom 16:24", "osis": "Rom.16.24" },
+    { "input": "3 John 14", "osis": "3John.1.14" }
+  ],
+  "failures": [
+    { "input": "Romans 17", "reason": "out_of_range", "suggestion": "Rom.16.1-Rom.16.27" },
+    { "input": "Rom 8:40", "reason": "out_of_range", "suggestion": "Rom.8.39" },
+    { "input": "xyz 3:4", "reason": "unrecognized" },
+    { "input": "", "reason": "unrecognized" }
+  ],
+  "formats": [
+    { "osis": "Rom.8.28", "display": "Romans 8:28" },
+    { "osis": "Rom.8.28-Rom.9.3", "display": "Romans 8:28-9:3" },
+    { "osis": "Rom.8.28-Rom.8.30", "display": "Romans 8:28-30" },
+    { "osis": "Rom.8.1-Rom.8.39", "display": "Romans 8" },
+    { "osis": "Ps.23.1-Ps.23.6", "display": "Psalm 23" },
+    { "osis": "1John.1.9", "display": "1 John 1:9" }
+  ]
+}
