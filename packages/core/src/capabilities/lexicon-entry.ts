@@ -42,7 +42,7 @@ export const getLexiconEntry = implement(getLexiconEntryContract, (input) =>
     const lexicons = ofKind(yield* readCatalog, "lexicon")
     const active = lexicons.filter((r) => r.status.state === "active")
 
-    // Entries are filed by STEPBible number; a classic number is looked up in its own bucket.
+    // The release files every entry under both its STEPBible and its classic number's bucket.
     const entries =
       active.length === 0
         ? []

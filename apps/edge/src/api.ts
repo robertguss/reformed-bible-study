@@ -1,7 +1,7 @@
 import { toHttpApi } from "@reformed-bible/capability/http-api"
 import { capabilities } from "@reformed-bible/core"
 import { Effect, FileSystem, Layer, Path, Schema } from "effect"
-import { Etag, HttpPlatform, HttpRouter } from "effect/http"
+import { Etag, HttpPlatform, HttpRouter, HttpServerResponse } from "effect/http"
 import { HttpApiBuilder, OpenApi } from "effect/http-api"
 import { contentLayer, type ContentOptions } from "./content.ts"
 import { RETRY_AFTER_SECONDS } from "./rate-limit.ts"
@@ -21,6 +21,17 @@ const DESCRIPTION =
 
 export const apiProjection = toHttpApi("Reformed Bible Study API", capabilities, {
   errors: [RateLimited],
+  decodeRefusal: (refusal) =>
+    Effect.succeed(
+      HttpServerResponse.jsonUnsafe(
+        {
+          error: "invalid_request",
+          part: refusal.kind,
+          message: `The request ${refusal.kind.toLowerCase()} did not match this endpoint's parameters.`,
+        },
+        { status: 400 },
+      ),
+    ),
 })
 
 const api = apiProjection.api.annotateMerge(

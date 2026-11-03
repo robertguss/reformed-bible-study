@@ -84,11 +84,17 @@ export const wordPayloads = (chapters: ReadonlyArray<OriginalChapter>, into: Pay
 
 export const lexiconPayloads = (entries: ReadonlyArray<LexiconEntry>, into: Payloads): void => {
   const buckets = new Map<string, Array<LexiconEntry>>()
-  for (const entry of entries) {
-    const bucket = lexiconBucket(entry.stepStrongs)
+  const add = (bucket: string, entry: LexiconEntry) => {
     const list = buckets.get(bucket) ?? []
     list.push(entry)
     buckets.set(bucket, list)
+  }
+  for (const entry of entries) {
+    const bucket = lexiconBucket(entry.stepStrongs)
+    add(bucket, entry)
+    // A classic Strong's lookup reads only its own bucket, so file the entry there as well.
+    const classic = lexiconBucket(entry.strongs)
+    if (entry.strongs !== "" && classic !== bucket) add(classic, entry)
   }
   for (const [bucket, list] of buckets) into.set(shardPaths.lexicon(bucket), list)
 }

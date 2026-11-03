@@ -116,4 +116,29 @@ describe("edge cache", () => {
       expect(keys.some((key) => key.includes("Rom.8.31"))).toBe(false)
     }),
   )
+
+  it.effect("answers an unknown confession with 404 on every confession route", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      for (const path of ["/v1/confessions/foo/1", "/v1/confessions/foo/outline"]) {
+        const response = yield* get(app, path)
+        expect(response.status).toBe(404)
+        expect(yield* Effect.promise(() => response.json())).toMatchObject({
+          _tag: "UnknownResource",
+        })
+      }
+    }),
+  )
+
+  it.effect("explains a refused parameter in a JSON 400 body", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const response = yield* get(app, "/v1/cross-references/Rom.8.28?limit=30")
+      expect(response.status).toBe(400)
+      expect(yield* Effect.promise(() => response.json())).toMatchObject({
+        error: "invalid_request",
+        part: "Query",
+      })
+    }),
+  )
 })

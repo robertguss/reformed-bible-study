@@ -55,6 +55,14 @@ export const getConfessionArticle = implement(getConfessionArticleContract, (inp
     const { origin } = yield* Site
     const { confession: id, article: articleId } = yield* Effect.fromResult(
       parseArticleIdentifier(`${input.id} ${input.article}`),
+    ).pipe(
+      Effect.catchIf(
+        (error) => error.reason === "unknown_confession",
+        () =>
+          Effect.fail(
+            new UnknownResource({ resourceId: input.id.trim().toLowerCase(), kind: "confession" }),
+          ),
+      ),
     )
     const resource = yield* findResource(yield* readCatalog, id, "confession")
     const canonicalUrl = `${origin}${confessionArticlePath(id, articleId)}`

@@ -8,6 +8,7 @@ import {
   type ConfessionOutline,
   type CrossReferenceItem,
   type Envelope,
+  escapeMarkdown,
   findConfessionArticlesContract,
   formatPassage,
   getCommentaryContract,
@@ -93,6 +94,11 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
     lines(
       `${resource.id} (${resource.kind}): ${resource.title}`,
       resource.scope === undefined ? undefined : `Books: ${resource.scope.join(", ")}`,
+      resource.ingested.length > 0
+        ? `Chapters in this release: ${resource.ingested
+            .map(({ book, chapters }) => `${book} ${chapters.join(",")}`)
+            .join("; ")}`
+        : `In this release: ${resource.available ? "yes" : "no"}`,
     ),
   ),
   form(
@@ -136,10 +142,13 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
   form(getConfessionOutlineContract, (outline: ConfessionOutline) =>
     lines(
       outline.title,
-      ...outline.divisions.map(
-        (division) =>
-          `${division.title}: ${division.articles.map((article) => article.citation).join(", ")}`,
-      ),
+      ...outline.divisions.flatMap((division) => [
+        division.title,
+        ...division.articles.map(
+          (article) =>
+            `${article.citation}: ${article.question === undefined ? article.label : plain(article.question)}`,
+        ),
+      ]),
     ),
   ),
   form(
@@ -152,7 +161,7 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
       verse.osis,
       ...verse.words.map(
         (word) =>
-          `${word.surface} (${word.transliteration}) ${word.strongs} ${word.morphology}: ${word.gloss}`,
+          `${word.surface} (${word.transliteration}) ${word.lemma} ${word.stepStrongs}${word.strongs !== "" && word.strongs !== word.stepStrongs ? ` (Strong's ${word.strongs})` : ""} ${word.morphology}: ${word.gloss}`,
       ),
       ...verse.notes,
     ),
@@ -169,8 +178,8 @@ const InvalidReferenceText = Schema.fromJsonString(Schema.toCodecJson(InvalidRef
 const invalidReferenceText = ({ input, reason, suggestion }: InvalidReference): string =>
   lines(
     suggestion === undefined
-      ? `"${input}" is not a Bible reference. Write one like "Romans 8:28" or "Rom.8.28".`
-      : `"${input}" is out of range. The nearest valid passage is ${formatPassage(suggestion)}.`,
+      ? `"${escapeMarkdown(input)}" is not a Bible reference. Write one like "Romans 8:28" or "Rom.8.28".`
+      : `"${escapeMarkdown(input)}" is out of range. The nearest valid passage is ${formatPassage(suggestion)}.`,
     JSON.stringify({
       error: "invalid_reference",
       reason,

@@ -91,7 +91,7 @@ ${MCP_INSTRUCTIONS}
 
 ## HTTP API
 
-Base URL: ${origin}. Every route is a GET under \`/v1\`, open to any origin, and documented as OpenAPI at ${origin}/v1/openapi.json. A caller may make ${RATE_LIMITS.api.limit} requests a minute; past that the API answers 429 with a Retry-After header of ${RETRY_AFTER_SECONDS} seconds. An invalid reference answers 422 with the nearest valid passage as a suggestion; an unknown resource or entry answers 404.
+Base URL: ${origin}. Every route is a GET under \`/v1\`, open to any origin, and documented as OpenAPI at ${origin}/v1/openapi.json. A caller may make ${RATE_LIMITS.api.limit} requests a minute; past that the API answers 429 with a Retry-After header of ${RETRY_AFTER_SECONDS} seconds. An invalid reference answers 422 with the nearest valid passage as a suggestion; an unknown resource or entry answers 404; a malformed parameter, such as a limit out of range, answers 400 with a JSON body naming the part of the request that was refused.
 
 ${routes.join("\n\n")}
 

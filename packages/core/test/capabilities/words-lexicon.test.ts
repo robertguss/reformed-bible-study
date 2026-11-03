@@ -35,7 +35,7 @@ describe("get_lexicon_entry", () => {
   it.effect("finds the entries filed under a classic Strong's number", () =>
     Effect.gen(function* () {
       const result = yield* call(getLexiconEntry, { strongs: "g1492" })
-      expect(result.items.map((item) => item.value.stepStrongs)).toEqual(["G1492G"])
+      expect(result.items.map((item) => item.value.stepStrongs)).toEqual(["G6063", "G1492G"])
     }),
   )
 

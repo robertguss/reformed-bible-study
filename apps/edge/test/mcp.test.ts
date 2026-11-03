@@ -102,6 +102,31 @@ describe("MCP tools", () => {
     }),
   )
 
+  it.effect("escapes Markdown in a rejected reference echoed back in the text", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_passage", { ref: "[x](https://evil.example/)" })
+      expect(message?.result?.isError).toBe(true)
+      expect(textOf(message)).not.toContain("[x](https://evil.example/)")
+    }),
+  )
+
+  it.effect("gives text-only clients the fields the tool descriptions point them to", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const words = textOf(
+        (yield* callTool(app, "get_verse_words", { ref: "Romans 8:28" })).message,
+      )
+      expect(words).toContain("G6063")
+      const outline = textOf(
+        (yield* callTool(app, "get_confession_outline", { id: "wsc" })).message,
+      )
+      expect(outline).toContain("What is the chief end of man?")
+      const resources = textOf((yield* callTool(app, "list_resources", {})).message)
+      expect(resources).toContain("Chapters in this release: Rom")
+    }),
+  )
+
   it.effect("names the author, work, edition and license of every excerpt in the text", () =>
     Effect.gen(function* () {
       const { app } = testApp()
