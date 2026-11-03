@@ -1,0 +1,35 @@
+{
+  "id": "openbible-xrefs",
+  "kind": "cross-references",
+  "title": "Bible Cross References",
+  "creator": "OpenBible.info",
+  "edition": "OpenBible.info cross-reference data dated 2026-11-02 (cross-references.zip)",
+  "language": "en",
+  "source": {
+    "url": "https://www.openbible.info/labs/cross-references/",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://a.openbible.info/data/cross-references.zip",
+        "sha256": "24f07bcd61280f9dc0c5a451151fc9c9d0d2e45fe0cf3c903b5db4ca6b878878"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-BY-4.0",
+    "evidence": [
+      {
+        "url": "https://www.openbible.info/labs/cross-references/",
+        "quote": "Unless otherwise indicated, all content is licensed under a Creative Commons Attribution License"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Cross references from OpenBible.info, licensed under CC BY 4.0, drawn mainly from the public domain Treasury of Scripture Knowledge. Filtered and reordered by this project."
+  },
+  "modifications": "Rows with zero or negative votes are removed, and each verse's targets are ordered by votes, highest first. References to 3 John 1:15 are renumbered to 3 John 1:14 to follow KJV verse numbering. Split into one file per chapter.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "web",
+  "kind": "translation",
+  "title": "World English Bible",
+  "creator": "World English Bible volunteers, published by eBible.org",
+  "edition": "World English Bible, 2020 stable text edition, protocanon only (eBible.org engwebp USFM, source files dated 2026-10-30)",
+  "language": "en",
+  "source": {
+    "url": "https://ebible.org/find/details.php?id=engwebp",
+    "retrievedAt": "2026-11-03",
+    "files": [
+      {
+        "url": "https://ebible.org/Scriptures/engwebp_usfm.zip",
+        "sha256": "a93df5571009fed56f77e3ac1d3ce71c9a3a3df1486f7570cc7a8f823192fdba"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://ebible.org/engwebp/copyright.htm",
+        "quote": "The World English Bible is in the Public Domain. That means that it is not copyrighted. However, \"World English Bible\" is a Trademark of eBible.org."
+      },
+      {
+        "url": "https://ebible.org/engwebp/copyright.htm",
+        "quote": "All we ask is that if you CHANGE the actual text of the World English Bible in any way, you not call the result the World English Bible any more."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "World English Bible, public domain. \"World English Bible\" is a trademark of eBible.org."
+  },
+  "modifications": "Converted from USFM to plain text, one entry per verse in KJV verse numbering. The words of the text are unaltered. Strong's numbers, footnotes and cross-reference notes are removed, and headings are kept. Romans 14:24-26, which this edition prints after Romans 14:23, is stored at Romans 16:25-27 where the KJV numbers it. Verses this edition leaves to footnotes, such as Luke 17:36, are marked as not in this translation.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}
