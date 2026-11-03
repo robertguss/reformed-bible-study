@@ -1,7 +1,8 @@
 import { Option } from "effect"
-import { Command, given, message, model, story } from "foldkit/story"
+import { Command, given, message, story } from "foldkit/story"
 import { describe, expect, it } from "vitest"
 import { Message } from "../src/message.ts"
+import { defaultSaved } from "../src/model.ts"
 import { ReplaceUrl } from "../src/navigation.ts"
 import * as Panel from "../src/panels/panel.ts"
 import * as Reader from "../src/reader/index.ts"
@@ -16,6 +17,9 @@ const DEFAULT_PANELS = [
   Panel.PanelSpec.CrossReferences(),
   Panel.PanelSpec.OriginalLanguage(),
 ]
+
+/** Nothing stored on this device yet. */
+const FIRST_VISIT = { saved: defaultSaved }
 
 const panelFetches = (focus: string) =>
   DEFAULT_PANELS.map((spec) => ({ spec, focus, cursor: Option.none() }))
@@ -32,7 +36,7 @@ const panelFocuses = (state: { readonly panels: ReadonlyArray<Panel.Model> }) =>
 
 describe("opening a passage URL", () => {
   it("opens /romans/8/28 in the default translation with every default panel on 8:28", () => {
-    const opened = init(urlOf("/romans/8/28"))
+    const opened = init(FIRST_VISIT, urlOf("/romans/8/28"))
     expect(argsOf(opened.commands, "FetchPassage")).toEqual([
       { book: "Rom", chapter: 8, translation: "bsb" },
     ])
@@ -40,7 +44,7 @@ describe("opening a passage URL", () => {
   })
 
   it("shows the KJV for ?t=kjv and leaves the stored translation unchanged", () => {
-    const opened = init(urlOf("/romans/8/28?t=kjv"))
+    const opened = init(FIRST_VISIT, urlOf("/romans/8/28?t=kjv"))
     expect(argsOf(opened.commands, "FetchPassage")).toEqual([
       { book: "Rom", chapter: 8, translation: "kjv" },
     ])
@@ -48,12 +52,12 @@ describe("opening a passage URL", () => {
   })
 
   it("points the panels at verse 1 for a chapter URL with no verse", () => {
-    const opened = init(urlOf("/romans/8"))
+    const opened = init(FIRST_VISIT, urlOf("/romans/8"))
     expect(argsOf(opened.commands, "FetchPanel")).toEqual(panelFetches("Rom.8.1"))
   })
 
   it("opens Romans 1 in the default arrangement on a first visit to /", () => {
-    const opened = init(urlOf("/"))
+    const opened = init(FIRST_VISIT, urlOf("/"))
     expect(argsOf(opened.commands, "FetchPassage")).toEqual([
       { book: "Rom", chapter: 1, translation: "bsb" },
     ])
@@ -71,9 +75,6 @@ describe("selecting a verse", () => {
       message(Message.GotReaderMessage({ message: Reader.Message.ClickedVerse({ verse: 31 }) })),
       Command.expectExact(ReplaceUrl({ url: "/romans/8/31?t=kjv" })),
       Command.resolve(ReplaceUrl, Message.CompletedReplaceUrl()),
-      model((state) => {
-        expect(state.saved.readingPosition).toEqual(Option.some("/romans/8/31?t=kjv"))
-      }),
     )
   })
 
@@ -87,7 +88,7 @@ describe("selecting a verse", () => {
   })
 
   it("keeps the panels on 8:31 when the 8:28 response arrives after 8:31 was selected", async () => {
-    const opened = init(urlOf("/romans/8/28"))
+    const opened = init(FIRST_VISIT, urlOf("/romans/8/28"))
     const late = await runCommand(
       Panel.FetchPanel({ spec: DEFAULT_PANELS[0]!, focus: "Rom.8.28", cursor: Option.none() }),
     )
@@ -118,7 +119,7 @@ describe("a data file replaced by a newer deploy", () => {
   })
 
   it("reloads once onto the current build instead of reporting the passage as not covered", async () => {
-    const opened = init(urlOf("/romans/8/28"))
+    const opened = init(FIRST_VISIT, urlOf("/romans/8/28"))
     const missing = await runCommand(
       Panel.FetchPanel({ spec: DEFAULT_PANELS[0]!, focus: "Rom.8.28", cursor: Option.none() }),
       appPageForCommentary,

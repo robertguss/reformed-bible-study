@@ -4,6 +4,7 @@ import { Option, Schema } from "effect"
 import { defineTaggedUnion } from "foldkit/schema"
 import * as ConfessionPage from "./confession-page/index.ts"
 import { LoadError } from "./content.ts"
+import { ReadingPosition } from "./layout/layout-schema.ts"
 import { DEFAULT_PANELS } from "./panels/arrangement.ts"
 import * as Panel from "./panels/panel.ts"
 import * as Reader from "./reader/index.ts"
@@ -19,8 +20,8 @@ export const DEFAULT_TRANSLATION = "bsb"
 export const Saved = Schema.Struct({
   translation: Schema.String,
   panels: Schema.Array(Panel.PanelSpec),
-  /** The URL of the last verse the reader selected. */
-  readingPosition: Schema.Option(Schema.String),
+  /** The last chapter and verse the reader opened, where `/` takes them back to. */
+  readingPosition: Schema.Option(ReadingPosition),
 })
 export type Saved = typeof Saved.Type
 
@@ -57,6 +58,8 @@ export const Model = Schema.Struct({
   dockTabs: Tabs.Model,
   activeTab: Schema.Option(Schema.String),
   reloadRequested: Schema.Boolean,
+  /** Names of stored resources dropped at load because they are gone, until dismissed. */
+  layoutNotice: Schema.Option(Schema.Array(Schema.String)),
 })
 export type Model = typeof Model.Type
 

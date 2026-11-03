@@ -1,5 +1,6 @@
 import { Runtime } from "foldkit"
 import { contentLayer } from "./content.ts"
+import { Flags, flags } from "./layout/storage.ts"
 import { Message } from "./message.ts"
 import { Model } from "./model.ts"
 import { subscriptions } from "./subscriptions.ts"
@@ -8,6 +9,7 @@ import { view } from "./view.ts"
 
 const application = Runtime.makeApplication({
   Model,
+  Flags,
   init,
   update,
   view,
@@ -22,4 +24,4 @@ const application = Runtime.makeApplication({
   devTools: { Message },
 })
 
-Runtime.run(application)
+Runtime.run(application, { flags })

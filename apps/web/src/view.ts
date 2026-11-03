@@ -92,6 +92,25 @@ const headerView = (model: Model, h: HtmlBuilder<Message>) =>
     ],
   )
 
+/** Says once which stored resources were dropped at load because they are no longer offered. */
+const layoutNoticeView = (model: Model, h: HtmlBuilder<Message>): Html =>
+  Option.match(model.layoutNotice, {
+    onNone: () => null,
+    onSome: (removed) =>
+      h.div(
+        [h.Class("layout-notice"), h.Role("status")],
+        [
+          h.p(
+            [],
+            [
+              `Removed from your saved layout because they are no longer available: ${removed.join(", ")}.`,
+            ],
+          ),
+          h.button([h.Type("button"), h.OnClick(Message.DismissedLayoutNotice())], ["Dismiss"]),
+        ],
+      ),
+  })
+
 const panelControls = (
   model: Model,
   spec: Panel.PanelSpec,
@@ -368,6 +387,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Document => ({
     [h.Class("app")],
     [
       headerView(model, h),
+      layoutNoticeView(model, h),
       AppRoute.match(model.route, {
         Home: () => passageView(model, h),
         Chapter: () => passageView(model, h),

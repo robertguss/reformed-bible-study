@@ -8,8 +8,15 @@ import { toString as urlToString, type Url } from "foldkit/url"
 import { FetchCatalog } from "./catalog.ts"
 import * as ConfessionPage from "./confession-page/index.ts"
 import { type AppServices, LoadError } from "./content.ts"
+import {
+  dropUnavailable,
+  positionRoute,
+  recordPosition,
+  saveIfChanged,
+} from "./layout/layout-update.ts"
+import type { Flags } from "./layout/storage.ts"
 import { Message } from "./message.ts"
-import { CatalogState, catalogOf, defaultSaved, type Model } from "./model.ts"
+import { CatalogState, catalogOf, type Model } from "./model.ts"
 import { LoadExternal, NavigateInternal, ReplaceUrl, ScrollToVerse } from "./navigation.ts"
 import { addablePanels, movePanel, removePanel } from "./panels/arrangement.ts"
 import * as Panel from "./panels/panel.ts"
@@ -20,6 +27,7 @@ import {
   AppRoute,
   articleOfRoute,
   chapterRouter,
+  hrefOfRoute,
   passageHref,
   urlToAppRoute,
   versesRouter,
@@ -41,22 +49,21 @@ const requestReload: Step = (model) =>
 
 /**
  * Selecting a verse replaces the current history entry with the verse URL, keeping any `t`
- * override, and records it as the reading position. The URL change then moves the panels.
+ * override. The URL change then moves the panels and records the reading position.
  */
 const selectVerse =
   (verse: number): Step =>
   (model) =>
     Option.match(readingOfRoute(model.route), {
       onNone: () => ({ model }),
-      onSome: ({ book, chapter, t }) => {
-        const url = versesRouter({ book, chapter, verses: { first: verse, last: verse }, t })
-        return {
-          model: modifyFields(model, {
-            saved: (saved) => modifyFields(saved, { readingPosition: () => Option.some(url) }),
+      onSome: ({ book, chapter, t }) => ({
+        model,
+        commands: [
+          ReplaceUrl({
+            url: versesRouter({ book, chapter, verses: { first: verse, last: verse }, t }),
           }),
-          commands: [ReplaceUrl({ url })],
-        }
-      },
+        ],
+      }),
     })
 
 const scrollToSelection: Step = (model) =>
@@ -168,18 +175,35 @@ const syncConfessionPage: Step = (model) => {
   })
 }
 
-/** Brings the passage text, panels and confession page in line with the current route. */
-const followRoute = Update.combine([syncReader, syncPanels, syncConfessionPage])
+/**
+ * Brings the passage text, panels and confession page in line with the current route, and records
+ * the passage as the reading position.
+ */
+const followRoute = Update.combine([
+  (model: Model) => ({ model: recordPosition(model) }),
+  syncReader,
+  syncPanels,
+  syncConfessionPage,
+])
 
-export const init: Runtime.RoutingApplicationInit<Model, Message, void, AppServices> = (
+/**
+ * Opens the app on the layout stored on this device. `/` goes back to the stored reading position,
+ * replacing the history entry, or opens Romans 1 when there is none.
+ */
+export const init: Runtime.RoutingApplicationInit<Model, Message, Flags, AppServices> = (
+  { saved },
   url: Url,
 ) => {
+  const asked = urlToAppRoute(url)
+  const resume = AppRoute.guards.Home(asked)
+    ? Option.map(saved.readingPosition, positionRoute)
+    : Option.none()
   const opened = followRoute({
-    route: urlToAppRoute(url),
-    saved: defaultSaved,
+    route: Option.getOrElse(resume, () => asked),
+    saved,
     catalog: CatalogState.Loading(),
     reader: Reader.init(),
-    panels: defaultSaved.panels.map(Panel.init),
+    panels: saved.panels.map(Panel.init),
     confessionPage: ConfessionPage.init(),
     referenceInput: "",
     referenceProblem: Option.none(),
@@ -187,8 +211,16 @@ export const init: Runtime.RoutingApplicationInit<Model, Message, void, AppServi
     dockTabs: Tabs.init({ id: "panel-tabs" }),
     activeTab: Option.none(),
     reloadRequested: false,
+    layoutNotice: Option.none(),
   })
-  return { model: opened.model, commands: [FetchCatalog(), ...(opened.commands ?? [])] }
+  return saveIfChanged(saved, {
+    model: opened.model,
+    commands: [
+      FetchCatalog(),
+      ...Option.toArray(Option.map(resume, (route) => ReplaceUrl({ url: hrefOfRoute(route) }))),
+      ...(opened.commands ?? []),
+    ],
+  })
 }
 
 const changeArrangement = (
@@ -215,6 +247,22 @@ const addPanel =
       onSome: (reading) => foldPanelFocus(added, id, focusOf(reading)),
     })
   }
+
+/**
+ * Once the catalog is known, drops stored panels and a stored translation it no longer offers,
+ * and names them in a notice shown once.
+ */
+const dropUnavailableResources: Step = (model) => {
+  const { saved, removed } = dropUnavailable(model.saved, catalogOf(model))
+  if (removed.length === 0) return { model }
+  const kept = new Set(saved.panels.map(Panel.panelId))
+  const dropped = modifyFields(model, {
+    saved: () => saved,
+    panels: (panels) => panels.filter(({ id }) => kept.has(id)),
+    layoutNotice: () => Option.some(removed),
+  })
+  return saved.translation === model.saved.translation ? { model: dropped } : syncReader(dropped)
+}
 
 const goToReference = (model: Model): UpdateReturn => {
   const input = model.referenceInput.trim()
@@ -245,6 +293,9 @@ const goToReference = (model: Model): UpdateReturn => {
 }
 
 export const update = (model: Model, message: Message): UpdateReturn =>
+  saveIfChanged(model.saved, updateModel(model, message))
+
+const updateModel = (model: Model, message: Message): UpdateReturn =>
   Message.match<UpdateReturn>(message, {
     ClickedLink: ({ request }) =>
       UrlRequest.match<UpdateReturn>(request, {
@@ -262,9 +313,10 @@ export const update = (model: Model, message: Message): UpdateReturn =>
     CompletedReplaceUrl: () => ({ model }),
     CompletedLoadExternal: () => ({ model }),
     CompletedScrollToVerse: () => ({ model }),
-    SucceededFetchCatalog: ({ resources }) => ({
-      model: modifyFields(model, { catalog: () => CatalogState.Loaded({ resources }) }),
-    }),
+    SucceededFetchCatalog: ({ resources }) =>
+      dropUnavailableResources(
+        modifyFields(model, { catalog: () => CatalogState.Loaded({ resources }) }),
+      ),
     FailedFetchCatalog: ({ error }) =>
       Update.combine(modifyFields(model, { catalog: () => CatalogState.Failed({ error }) }), [
         LoadError.guards.Missing(error) ? requestReload : keepModel,
@@ -319,6 +371,10 @@ export const update = (model: Model, message: Message): UpdateReturn =>
     }),
     StartedReload: () => ({ model }),
     DeclinedRepeatReload: () => ({ model }),
+    CompletedSaveLayout: () => ({ model }),
+    DismissedLayoutNotice: () => ({
+      model: modifyFields(model, { layoutNotice: () => Option.none() }),
+    }),
   })
 
 export { DockTabs }

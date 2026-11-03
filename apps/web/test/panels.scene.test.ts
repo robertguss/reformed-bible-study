@@ -4,6 +4,7 @@ import { UrlRequest } from "foldkit/navigation"
 import { assert, describe, it } from "vitest"
 import { Message } from "../src/message.ts"
 import type { Model } from "../src/model.ts"
+import { SaveLayout } from "../src/layout/storage.ts"
 import { NavigateInternal, ReplaceUrl } from "../src/navigation.ts"
 import { coverageMessage, passageOfFocus } from "../src/panels/context.ts"
 import * as Panel from "../src/panels/panel.ts"
@@ -318,11 +319,14 @@ describe("arranging panels", () => {
       app,
       given(opened),
       click(role("button", { name: "Move Cross-references up" })),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       expect(Scene.nth(headings(), 1)).toHaveText("Cross-references"),
       expect(Scene.nth(headings(), 2)).toHaveText("Confessions"),
       click(role("button", { name: "Move Calvin's Commentaries down" })),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       expect(Scene.nth(headings(), 0)).toHaveText("Cross-references"),
       click(role("button", { name: "Remove Original language" })),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       expect(panel("Original language")).toBeAbsent(),
       inside(
         Scene.label("Add panel"),
@@ -336,7 +340,9 @@ describe("arranging panels", () => {
           focus: "Rom.8.28",
           cursor: Option.none(),
         }),
+        SaveLayout,
       ),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       Scene.Command.resolve(
         Panel.FetchPanel,
         await runCommand(

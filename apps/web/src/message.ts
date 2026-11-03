@@ -32,5 +32,7 @@ export const Message = defineMessageUnion({
   ChangedViewportWidth: { isNarrow: Schema.Boolean },
   StartedReload: {},
   DeclinedRepeatReload: {},
+  CompletedSaveLayout: {},
+  DismissedLayoutNotice: {},
 })
 export type Message = typeof Message.Type

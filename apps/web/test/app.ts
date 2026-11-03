@@ -2,7 +2,7 @@ import { Option } from "effect"
 import type { Command } from "foldkit"
 import { fromString, type Url } from "foldkit/url"
 import { Message } from "../src/message.ts"
-import type { Model } from "../src/model.ts"
+import { defaultSaved, type Model } from "../src/model.ts"
 import { init, update } from "../src/update.ts"
 import { ORIGIN, runCommand, staticHost } from "./fixture.ts"
 
@@ -22,11 +22,12 @@ export const argsOf = (commands: ReadonlyArray<AnyCommand> | undefined, name: st
 /**
  * Runs every content Command against the fixture release and folds its result back through
  * update, until no content work is pending. Browser-only Commands (navigation, scrolling,
- * reloading) are left unrun: a test that cares about them asserts on them directly.
+ * reloading, saving) are left unrun; those the content results produce go to `onOther`.
  */
 export const settle = async (
   start: { readonly model: Model; readonly commands?: ReadonlyArray<unknown> },
   host = staticHost(),
+  onOther: (command: unknown) => void = () => {},
 ): Promise<Model> => {
   let model = start.model
   let pending = [...(start.commands ?? [])] as Array<{
@@ -40,11 +41,14 @@ export const settle = async (
     for (const message of messages) {
       const next = update(model, message)
       model = next.model
-      pending.push(...((next.commands ?? []) as typeof pending))
+      const produced = (next.commands ?? []) as typeof pending
+      produced.filter((command) => !command.name.startsWith("Fetch")).forEach(onOther)
+      pending.push(...produced)
     }
   }
   return model
 }
 
 /** The app as it stands once a URL has opened and its content has loaded. */
-export const boot = (path: string, host = staticHost()) => settle(init(urlOf(path)), host)
+export const boot = (path: string, host = staticHost()) =>
+  settle(init({ saved: defaultSaved }, urlOf(path)), host)
