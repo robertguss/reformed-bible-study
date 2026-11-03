@@ -1,4 +1,3 @@
-/** Licenses a resource may carry without a written permission record. */
 export const ALLOWED_LICENSES: ReadonlySet<string> = new Set([
   "CC-PDM-1.0",
   "CC0-1.0",
@@ -9,7 +8,6 @@ export const ALLOWED_LICENSES: ReadonlySet<string> = new Set([
   "LicenseRef-BSB-Dedication",
 ])
 
-/** Licenses whose terms require crediting the creator wherever the content appears. */
 export const ATTRIBUTION_REQUIRED: ReadonlySet<string> = new Set([
   "CC-BY-4.0",
   "CC-BY-SA-4.0",
@@ -26,5 +24,4 @@ const LICENSE_URLS: Readonly<Record<string, string>> = {
   "LicenseRef-BSB-Dedication": "https://berean.bible/terms.htm",
 }
 
-/** Where a reader can read the terms of an SPDX license, when the project knows one. */
 export const licenseUrl = (spdx: string): string | undefined => LICENSE_URLS[spdx]

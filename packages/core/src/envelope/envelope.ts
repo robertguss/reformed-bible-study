@@ -2,7 +2,6 @@ import { Schema } from "effect"
 import { ResourceId } from "../resources/index.ts"
 import { ResourceCoverage } from "./coverage.ts"
 
-/** Inline text as plain runs with an emphasis flag. Content never carries HTML. */
 export const TextRun = Schema.Struct({
   text: Schema.String,
   emphasis: Schema.optionalKey(Schema.Boolean),
@@ -10,7 +9,6 @@ export const TextRun = Schema.Struct({
 export type TextRun = typeof TextRun.Type
 export const TextRuns = Schema.Array(TextRun)
 
-/** Everything a reader or agent needs to credit one item correctly. */
 export const Attribution = Schema.Struct({
   resourceId: ResourceId,
   author: Schema.String,
@@ -23,7 +21,6 @@ export const Attribution = Schema.Struct({
 })
 export type Attribution = typeof Attribution.Type
 
-/** The result shape every capability returns, generic over the item it carries. */
 export const makeEnvelope = <S extends Schema.Top>(item: S) =>
   Schema.Struct({
     items: Schema.Array(Schema.Struct({ value: item, attribution: Attribution })),

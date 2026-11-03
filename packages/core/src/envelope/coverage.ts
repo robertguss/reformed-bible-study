@@ -9,7 +9,6 @@ export const CoverageStates = ["covered", "not_ingested", "outside_work", "no_en
 export const Coverage = Schema.Literals(CoverageStates)
 export type Coverage = typeof Coverage.Type
 
-/** Coverage and status of one resource for the requested passage. */
 export const ResourceCoverage = Schema.Struct({
   resourceId: ResourceId,
   coverage: Coverage,

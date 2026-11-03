@@ -1,4 +1,3 @@
-/** Every way a dataset change can fail the license gate. */
 export const Rules = {
   "missing-record": "Content exists for a resource that has no resource.json record.",
   "record-schema": "The resource record does not match the required shape or text rules.",

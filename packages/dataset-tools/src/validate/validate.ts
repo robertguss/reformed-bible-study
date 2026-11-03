@@ -20,7 +20,6 @@ export interface DatasetFile {
 
 export interface DatasetSnapshot {
   readonly files: ReadonlyArray<DatasetFile>
-  /** Every path present in the dataset, used to confirm that permission files exist. */
   readonly existingPaths: ReadonlySet<string>
   /** SHA-256 of each source download already in the local cache, keyed by URL. */
   readonly sourceHashes?: ReadonlyMap<string, string>
@@ -36,7 +35,6 @@ export interface Violation {
 const CONTENT_ROOTS = new Set(["resources", "confessions"])
 const RECORD_FILE = "resource.json"
 
-/** The resource a path belongs to, or undefined for files outside resource content. */
 const ownerOf = (path: string): string | undefined => {
   const [root, id] = path.split("/")
   return root !== undefined && CONTENT_ROOTS.has(root) && id !== undefined ? id : undefined
@@ -51,7 +49,6 @@ interface FoundRef {
   readonly value: string
 }
 
-/** Collects every `ref` string and every string inside a `refs` array, at any depth. */
 const collectRefs = (node: unknown, into: Array<FoundRef>): void => {
   if (Array.isArray(node)) {
     for (const child of node) collectRefs(child, into)
@@ -146,7 +143,7 @@ const findOverlaps = (
   path: string,
   sections: ReadonlyArray<Passage>,
 ): ReadonlyArray<Violation> => {
-  const sorted = [...sections].sort((a, b) => compareVerse(a.start, b.start))
+  const sorted = sections.toSorted((a, b) => compareVerse(a.start, b.start))
   const violations: Array<Violation> = []
   for (let i = 1; i < sorted.length; i++) {
     const previous = sorted[i - 1]
@@ -163,7 +160,6 @@ const findOverlaps = (
   return violations
 }
 
-/** Runs every license-gate rule over a snapshot of the dataset and returns all violations. */
 export const validateDataset = (snapshot: DatasetSnapshot): ReadonlyArray<Violation> => {
   const violations: Array<Violation> = []
   const records = new Map<string, ResourceRecord | undefined>()

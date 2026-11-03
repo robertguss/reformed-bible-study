@@ -1,6 +1,5 @@
 import type { DatasetFile } from "../src/validate/validate.ts"
 
-/** A valid public-domain commentary record; tests override individual fields. */
 export const commentaryRecord = (
   overrides: Record<string, unknown> = {},
 ): Record<string, unknown> => ({

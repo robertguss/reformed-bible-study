@@ -67,15 +67,12 @@ const BOOKS = [
   ["Rev", "Revelation"],
 ] as const
 
-/** OSIS abbreviation of one of the 66 books of the Protestant canon. */
 export type BookId = (typeof BOOKS)[number][0]
 
 export interface Book {
   readonly id: BookId
-  /** Position in the 66-book canon, Genesis = 1. Not the USFM book number. */
   readonly ordinal: number
   readonly name: string
-  /** Name used before a chapter number, such as "Psalm 23". */
   readonly chapterName: string
 }
 

@@ -29,11 +29,6 @@ const SourceFile = Schema.Struct({
   sha256: Schema.String.check(Schema.isPattern(/^[0-9a-f]{64}$/)),
 })
 
-const uniqueSurfaces = Schema.makeFilter((surfaces: ReadonlyArray<string>) =>
-  new Set(surfaces).size === surfaces.length ? undefined : "must not repeat a surface",
-)
-
-/** The provenance and license record every resource in the dataset carries. */
 export const ResourceRecord = Schema.Struct({
   id: ResourceId,
   kind: Schema.Literals(ResourceKinds),
@@ -57,11 +52,13 @@ export const ResourceRecord = Schema.Struct({
     perQuoteSuffix: Schema.optionalKey(PlainText),
   }),
   modifications: PlainText,
-  /** Path of a written permission inside the dataset, required for any license outside the allowlist. */
   permission: Schema.optionalKey(
     Schema.String.check(Schema.isPattern(/^permissions\/[a-z0-9-]+\.(?:md|txt|pdf)$/)),
   ),
-  surfaces: Schema.Array(Schema.Literals(Surfaces)).check(Schema.isMinLength(1), uniqueSurfaces),
+  surfaces: Schema.Array(Schema.Literals(Surfaces)).check(
+    Schema.isMinLength(1),
+    Schema.isUnique({ message: "must not repeat a surface" }),
+  ),
   status: ResourceStatus,
 })
 export type ResourceRecord = typeof ResourceRecord.Type

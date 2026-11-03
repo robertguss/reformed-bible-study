@@ -13,22 +13,27 @@ export class InvalidReference extends Schema.TaggedError<
 >()("InvalidReference", {
   input: Schema.String,
   reason: Schema.Literals(InvalidReasons),
-  /** The nearest valid passage, offered when the book exists but the chapter or verse does not. */
   suggestion: Schema.optional(Passage),
 }) {}
 
 // The parser marks "the whole chapter" or "the whole book" with this placeholder.
 const OPEN_ENDED = 999
 
-const parser = new bcv_parser(english)
-parser.set_options({
-  versification_system: "kjv",
-  passage_existence_strategy: "b",
-  osis_compaction_strategy: "bcv",
-  book_alone_strategy: "full",
-  invalid_passage_strategy: "include",
-  invalid_sequence_strategy: "include",
-})
+let parser: bcv_parser | undefined
+
+const englishParser = (): bcv_parser => {
+  if (parser !== undefined) return parser
+  parser = new bcv_parser(english)
+  parser.set_options({
+    versification_system: "kjv",
+    passage_existence_strategy: "b",
+    osis_compaction_strategy: "bcv",
+    book_alone_strategy: "full",
+    invalid_passage_strategy: "include",
+    invalid_sequence_strategy: "include",
+  })
+  return parser
+}
 
 const OSIS_VERSE = /^([1-3]?[A-Za-z]+)\.(\d+)\.(\d+)$/
 
@@ -58,7 +63,6 @@ const singleVerse = (ref: VerseRef): Passage => ({ start: ref, end: ref })
 
 type Checked = Result.Result<VerseRef, Passage | undefined>
 
-/** Resolves placeholders and checks a verse against the canonical table, suggesting the nearest valid passage. */
 const checkVerse = (raw: RawVerse, position: "start" | "end"): Checked => {
   const chapter = position === "end" ? lastChapter(raw.book, raw.chapter) : raw.chapter
   const chapters = chapterCount(raw.book)
@@ -73,6 +77,15 @@ const checkVerse = (raw: RawVerse, position: "start" | "end"): Checked => {
   return Result.succeed({ book: raw.book, chapter, verse })
 }
 
+const outOfRange = (input: string, suggestion: Passage | undefined) =>
+  Result.fail(
+    new InvalidReference(
+      suggestion === undefined
+        ? { input, reason: "out_of_range" }
+        : { input, reason: "out_of_range", suggestion },
+    ),
+  )
+
 const checkPassage = (input: string, osis: string): Result.Result<Passage, InvalidReference> => {
   const [startText = "", endText = startText] = osis.split("-")
   const start = readVerse(startText)
@@ -81,21 +94,9 @@ const checkPassage = (input: string, osis: string): Result.Result<Passage, Inval
     return Result.fail(new InvalidReference({ input, reason: "unrecognized" }))
   }
   const checkedStart = checkVerse(start, "start")
+  if (Result.isFailure(checkedStart)) return outOfRange(input, checkedStart.failure)
   const checkedEnd = checkVerse(end, "end")
-  if (Result.isFailure(checkedStart) || Result.isFailure(checkedEnd)) {
-    const suggestion = Result.isFailure(checkedStart)
-      ? checkedStart.failure
-      : Result.isFailure(checkedEnd)
-        ? checkedEnd.failure
-        : undefined
-    return Result.fail(
-      new InvalidReference(
-        suggestion === undefined
-          ? { input, reason: "out_of_range" }
-          : { input, reason: "out_of_range", suggestion },
-      ),
-    )
-  }
+  if (Result.isFailure(checkedEnd)) return outOfRange(input, checkedEnd.failure)
   return Result.succeed({ start: checkedStart.success, end: checkedEnd.success })
 }
 
@@ -106,7 +107,7 @@ const checkPassage = (input: string, osis: string): Result.Result<Passage, Inval
 export const parseReference = (
   input: string,
 ): Result.Result<ReadonlyArray<Passage>, InvalidReference> => {
-  const osis = parser.parse(input).osis()
+  const osis = englishParser().parse(input).osis()
   if (osis === "") return Result.fail(new InvalidReference({ input, reason: "unrecognized" }))
   const passages: Array<Passage> = []
   for (const part of osis.split(",")) {
@@ -117,6 +118,5 @@ export const parseReference = (
   return Result.succeed(passages)
 }
 
-/** Parses a canonical OSIS reference such as `Rom.8.28` or `Rom.8.28-Rom.9.3`. */
 export const parseOsis = (osis: string): Result.Result<Passage, InvalidReference> =>
   checkPassage(osis, osis)

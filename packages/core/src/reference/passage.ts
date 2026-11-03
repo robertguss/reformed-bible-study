@@ -10,7 +10,6 @@ export const VerseRef = Schema.Struct({
 })
 export type VerseRef = typeof VerseRef.Type
 
-/** A canonical range of verses, inclusive at both ends, keyed by KJV versification. */
 export const Passage = Schema.Struct({
   start: VerseRef,
   end: VerseRef,
@@ -19,6 +18,5 @@ export type Passage = typeof Passage.Type
 
 const ordinalOf = (ref: VerseRef): number => bookByOsis(ref.book)?.ordinal ?? 0
 
-/** Orders verse references by canon position, then chapter, then verse. */
 export const compareVerse = (a: VerseRef, b: VerseRef): number =>
   ordinalOf(a) - ordinalOf(b) || a.chapter - b.chapter || a.verse - b.verse
