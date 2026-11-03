@@ -1,0 +1,337 @@
+/* Plain, readable styles. No framework; colours meet WCAG AA contrast on the page background. */
+
+:root {
+  --ink: #1d1b18;
+  --muted: #5b564e;
+  --paper: #fbfaf7;
+  --panel: #ffffff;
+  --rule: #d8d3c9;
+  --accent: #6b2d1f;
+  --highlight: #fbe7a8;
+  --focus: #1a5fb4;
+  --header-height: 3.5rem;
+  --dock-height: 45vh;
+  color-scheme: light;
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+button {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  padding: 0.15rem 0.6rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  color: var(--muted);
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  min-height: var(--header-height);
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--panel);
+}
+
+.site-name {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.reference-form,
+.translation-picker,
+.add-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reference-form input {
+  width: 12rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.reference-problem {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--accent);
+}
+
+/* Workbench: text on the left, one panel column on the right. */
+
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  height: calc(100vh - var(--header-height));
+}
+
+.passage-scroll {
+  overflow-y: auto;
+  padding: 1rem 2rem 4rem;
+}
+
+.passage {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.verses {
+  font-size: 1.15rem;
+}
+
+.section-heading {
+  font-size: 1rem;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--muted);
+}
+
+.verse {
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.verse:hover {
+  background: #f2efe7;
+}
+
+.verse.selected {
+  background: var(--highlight);
+}
+
+.verse-number {
+  color: var(--muted);
+  font-size: 0.7em;
+  font-family: system-ui, sans-serif;
+}
+
+.absent {
+  color: var(--muted);
+}
+
+.panel-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  padding: 0.75rem;
+  border-left: 1px solid var(--rule);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--panel);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.panel-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Each panel scrolls on its own. */
+.panel-body,
+.panel > .loading,
+.panel > .load-error {
+  overflow-y: auto;
+  padding: 0.5rem 0.75rem;
+}
+
+.panel-body h3 {
+  font-size: 0.95rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.coverage {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.load-error {
+  color: var(--accent);
+}
+
+.loading {
+  color: var(--muted);
+}
+
+.attribution {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-family: system-ui, sans-serif;
+}
+
+.attribution p {
+  margin: 0.25rem 0;
+}
+
+.cross-references {
+  columns: 2;
+  padding-left: 1.25rem;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.word {
+  display: flex;
+  flex-direction: column;
+}
+
+.word .surface {
+  font-size: 1.25rem;
+}
+
+.word .transliteration,
+.word .strongs,
+.word .gloss {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.textual-notes {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.show-more {
+  margin: 0.5rem 0;
+}
+
+.not-found,
+.confession-page {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Narrow screens: panels become tabs in a dock pinned to the lower part of the viewport, and the
+   text scrolls above it. Keep the width in step with NARROW_QUERY in subscriptions.ts. */
+
+@media (max-width: 48rem) {
+  .workbench {
+    display: block;
+    height: auto;
+  }
+
+  .passage-scroll {
+    height: calc(100vh - var(--header-height) - var(--dock-height));
+    padding: 1rem 1rem 2rem;
+  }
+
+  .panel-dock {
+    position: fixed;
+    inset: auto 0 0 0;
+    height: var(--dock-height);
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--rule);
+    background: var(--panel);
+  }
+
+  .dock-tabs {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+  }
+
+  .tablist {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tablist [role="tab"] {
+    border: 0;
+    border-radius: 0;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .tablist [aria-selected="true"] {
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .dock-panel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .dock-panel .panel {
+    max-height: none;
+    border: 0;
+  }
+
+  .panel-dock .add-panel {
+    padding: 0.25rem 0.75rem;
+  }
+}
