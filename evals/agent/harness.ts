@@ -1,16 +1,6 @@
-/**
- * Runs a real model as an MCP client: the server's tools become Anthropic tools, each tool call goes
- * to the server, and the loop ends when the model answers. Developer tooling only: it runs on a
- * developer machine with the developer's own key, never in the deployed app, which calls no model.
- *
- * By default the server is the Worker in process over the test release, so tool results are
- * deterministic and nothing leaves the machine but the model calls. Set EVAL_ENDPOINT to a deployed
- * `/mcp` URL to run the same evals against it.
- */
-import { ORIGIN, testApp } from "../../apps/edge/test/support.ts"
+import { MODERN, ORIGIN, testApp } from "../../apps/edge/test/support.ts"
 import type { ToolCall, Transcript } from "./grade.ts"
 
-const PROTOCOL = "2026-07-28"
 const MESSAGES_URL = "https://api.anthropic.com/v1/messages"
 const MAX_TURNS = 16
 
@@ -36,7 +26,6 @@ interface McpReply {
 
 type Send = (request: Request) => Promise<Response>
 
-/** A stateless MCP client: each request carries the protocol version and client details. */
 export const mcpClient = (endpoint: string, send: Send) => {
   let nextId = 1
   const request = async (method: string, params: Record<string, unknown> = {}) => {
@@ -47,7 +36,7 @@ export const mcpClient = (endpoint: string, send: Send) => {
         headers: {
           "content-type": "application/json",
           accept: "application/json, text/event-stream",
-          "mcp-protocol-version": PROTOCOL,
+          "mcp-protocol-version": MODERN,
           "mcp-method": method,
           ...(typeof name === "string" ? { "mcp-name": name } : {}),
         },
@@ -58,7 +47,7 @@ export const mcpClient = (endpoint: string, send: Send) => {
           params: {
             ...params,
             _meta: {
-              "io.modelcontextprotocol/protocolVersion": PROTOCOL,
+              "io.modelcontextprotocol/protocolVersion": MODERN,
               "io.modelcontextprotocol/clientCapabilities": {},
               "io.modelcontextprotocol/clientInfo": { name: "agent-evals", version: "0.0.0" },
             },
@@ -103,7 +92,6 @@ export type McpClient = ReturnType<typeof mcpClient>
 export interface Settings {
   readonly apiKey: string
   readonly model: string
-  /** A deployed `/mcp` URL; the in-process Worker when undefined. */
   readonly endpoint: string | undefined
 }
 
@@ -118,7 +106,6 @@ export const settings = (): Settings => {
   }
 }
 
-/** A client for the configured server: a fresh in-process Worker, or the deployed endpoint. */
 export const connect = (endpoint: string | undefined): McpClient => {
   if (endpoint !== undefined) return mcpClient(endpoint, (request) => fetch(request))
   const { app } = testApp()
@@ -165,10 +152,6 @@ const createMessage = async (
   return (await response.json()) as ModelReply
 }
 
-/**
- * Asks the model a question with the server's tools and instructions, running every tool call it
- * makes against the server, and returns its final answer with every tool result it saw.
- */
 export const ask = async (
   question: string,
   options: Settings = settings(),
@@ -212,7 +195,6 @@ export const ask = async (
   throw new Error(`The model did not answer within ${MAX_TURNS} turns.`)
 }
 
-/** Prints a transcript so a developer can read what the agent did and said. */
 export const report = (transcript: Transcript): void => {
   const calls = transcript.calls.map(
     (call) => `  ${call.name} ${JSON.stringify(call.args)}${call.isError ? " (error)" : ""}`,

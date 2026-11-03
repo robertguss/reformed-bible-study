@@ -1,19 +1,8 @@
-import { readFileSync } from "node:fs"
-import { join } from "node:path"
-import { parseArgs } from "node:util"
-import { isStage, siteFor } from "./stage.ts"
+import releaseLock from "../../../dataset/release.lock.json" with { type: "json" }
+import { siteFor, stageFromArgs } from "./stage.ts"
 
-/** Probes every public surface of a deployed stage and exits non-zero if any probe fails. */
-const { values } = parseArgs({ options: { stage: { type: "string" } } })
-const stage = values.stage ?? ""
-if (!isStage(stage)) {
-  console.error("usage: smoke --stage <preview | production>")
-  process.exit(1)
-}
-const { origin } = siteFor(stage)
-const { release } = JSON.parse(
-  readFileSync(join(import.meta.dirname, "../../../dataset/release.lock.json"), "utf8"),
-) as { readonly release: string }
+const { origin } = siteFor(stageFromArgs("smoke"))
+const { release } = releaseLock
 
 const MODERN = "2026-07-28"
 

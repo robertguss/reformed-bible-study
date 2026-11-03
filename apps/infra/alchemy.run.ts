@@ -28,8 +28,8 @@ const WORKER_FIRST = [
   "/.well-known/openid-configuration/*",
 ]
 
-/** Workers Paid includes 10 million requests a month; warn at 80% of that. */
-const MONTHLY_REQUEST_ALERT = 8_000_000
+const WORKERS_PAID_MONTHLY_REQUESTS = 10_000_000
+const MONTHLY_REQUEST_ALERT = WORKERS_PAID_MONTHLY_REQUESTS * 0.8
 
 export default Alchemy.Stack(
   "ReformedBible",

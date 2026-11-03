@@ -1,8 +1,3 @@
-/**
- * A reader asks their agent what Calvin says on Romans 8:28 and which confession articles cite it.
- * The agent should call the commentary and confession-article tools and answer from their results,
- * quoting them with their source attribution.
- */
 import { beforeAll, describe, expect, it } from "vitest"
 import { articleProblems, missingCalls, type Transcript, ungroundedQuotes } from "./grade.ts"
 import { ask, report } from "./harness.ts"

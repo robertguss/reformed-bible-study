@@ -1,10 +1,9 @@
 import { createHash } from "node:crypto"
 import { fileURLToPath } from "node:url"
+import { parseArgs } from "node:util"
 
-/** The Cloudflare account's workers.dev subdomain, where every stage is served until a custom domain is attached. */
 export const WORKERS_SUBDOMAIN = "howtocode"
 
-/** The GitHub repository whose releases carry the dataset archive. */
 export const REPOSITORY = "robertguss/reformed-bible-study"
 
 export const STAGES = ["preview", "production"] as const
@@ -13,19 +12,24 @@ export type Stage = (typeof STAGES)[number]
 export const isStage = (value: string): value is Stage =>
   (STAGES as ReadonlyArray<string>).includes(value)
 
+/** Reads `--stage` from the command line, exiting with a usage line when it names no stage. */
+export const stageFromArgs = (command: string): Stage => {
+  const { values } = parseArgs({ options: { stage: { type: "string" } } })
+  const stage = values.stage ?? ""
+  if (!isStage(stage)) {
+    console.error(`usage: ${command} --stage <preview | production>`)
+    process.exit(1)
+  }
+  return stage
+}
+
 export interface Site {
   readonly stage: Stage
   readonly workerName: string
-  /** The public origin the discovery files and the Worker's MCP origin check name. */
   readonly origin: string
-  /** The assembled static assets: the web build, the release data and the discovery files. */
   readonly assetsDirectory: string
 }
 
-/**
- * The deploy target for a stage. Attaching a custom domain means giving the Worker a `domain` and
- * pointing `origin` at it.
- */
 export const siteFor = (stage: Stage): Site => {
   const workerName = stage === "production" ? "reformed-bible" : `reformed-bible-${stage}`
   return {

@@ -1,7 +1,3 @@
-/**
- * Questions the dataset cannot answer. The agent should say so instead of filling the gap from
- * memory, and quote nothing the tools did not return.
- */
 import { describe, expect, it } from "vitest"
 import { saysNotCovered, ungroundedQuotes } from "./grade.ts"
 import { ask, report } from "./harness.ts"

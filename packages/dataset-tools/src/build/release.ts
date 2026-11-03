@@ -271,7 +271,6 @@ export const loadReleaseInput = (
     }
   })
 
-/** Writes the release's static files under `<outDir>/data/<release>/`. */
 export const writeStaticFiles = (release: Release, outDir: string): void => {
   const dataDir = join(outDir, "data", release.release)
   for (const [path, value] of release.files) {

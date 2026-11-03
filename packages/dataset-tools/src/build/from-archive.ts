@@ -63,7 +63,6 @@ const releaseInputFrom = (
       originals: yield* load("original-language", OriginalChapter),
       lexicon: lexiconLists.flat(),
       confessions: yield* load("confession", Confession),
-      // The archive holds texts with every correction already applied.
       corrections: [],
       licenseFiles: new Map(
         paths
@@ -73,11 +72,6 @@ const releaseInputFrom = (
     }
   })
 
-/**
- * Rebuilds a published release's static files from its archive, so a deploy serves exactly the
- * published data without re-ingesting sources. Fails unless the archive matches the lock's hash
- * and the rebuild reproduces the locked release id, which covers every static file's content.
- */
 export const rebuildFromArchive = (
   archiveBytes: Uint8Array,
   lock: ReleaseLock,
