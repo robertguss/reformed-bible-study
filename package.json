@@ -1,0 +1,28 @@
+{
+  "name": "reformed-bible-study",
+  "private": true,
+  "description": "A free, open-source Reformed Bible study app built on openly licensed resources.",
+  "type": "module",
+  "scripts": {
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "effect-tsgo oxlint --type-aware",
+    "typecheck": "effect-tsgo tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@effect/tsgo": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@types/node": "catalog:",
+    "effect": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=24.18.0"
+  },
+  "packageManager": "pnpm@12.16.1"
+}

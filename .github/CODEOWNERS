@@ -1,0 +1,8 @@
+# Changes to licensing rules, agent-facing contracts and automation need the maintainer's review.
+/.github/                                   @robertguss
+/packages/dataset-tools/src/validate/       @robertguss
+/dataset/permissions/                       @robertguss
+/packages/core/src/capabilities/registry.ts @robertguss
+/apps/edge/src/mcp-instructions.md          @robertguss
+/apps/edge/test/__snapshots__/              @robertguss
+/apps/edge/src/vendor-ranges.ts             @robertguss
