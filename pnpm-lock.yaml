@@ -259,6 +259,9 @@ importers:
 
   apps/edge:
     dependencies:
+      '@reformed-bible/capability':
+        specifier: workspace:*
+        version: link:../../packages/capability
       '@reformed-bible/core':
         specifier: workspace:*
         version: link:../../packages/core
