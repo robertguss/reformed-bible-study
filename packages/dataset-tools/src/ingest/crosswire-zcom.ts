@@ -342,6 +342,13 @@ const rangeOf = (
   return parallels.length === 0 ? { ref } : { ref, parallels }
 }
 
+interface VerseEntry {
+  readonly entry: ZComEntry
+  readonly opening: boolean
+  /** The module slots whose texts make up the entry's text, in order. */
+  readonly sources: ReadonlyArray<string>
+}
+
 /**
  * The book's verse entries in slot order, each with whether it opens its chapter. The entry in a
  * chapter's own slot, such as a chapter introduction, is read as the start of the chapter's first
@@ -351,14 +358,18 @@ const rangeOf = (
 const verseEntries = (
   book: BookId,
   entries: ReadonlyArray<ZComEntry>,
-): ReadonlyArray<{ readonly entry: ZComEntry; readonly opening: boolean }> => {
-  const read: Array<{ readonly entry: ZComEntry; readonly opening: boolean }> = []
+): ReadonlyArray<VerseEntry> => {
+  const read: Array<VerseEntry> = []
   let chapterSlot: ZComEntry | undefined
   let chapter = 0
   const standAlone = () => {
     if (chapterSlot === undefined) return
     const slot = `${book}.${chapterSlot.chapter}.1`
-    read.push({ entry: { ...chapterSlot, verse: 1, slot }, opening: true })
+    read.push({
+      entry: { ...chapterSlot, verse: 1, slot },
+      opening: true,
+      sources: [chapterSlot.slot],
+    })
     chapterSlot = undefined
   }
   for (const entry of entries) {
@@ -371,11 +382,15 @@ const verseEntries = (
     const opening = entry.chapter !== chapter
     chapter = entry.chapter
     if (chapterSlot?.chapter === entry.chapter) {
-      read.push({ entry: { ...entry, text: chapterSlot.text + entry.text }, opening })
+      read.push({
+        entry: { ...entry, text: chapterSlot.text + entry.text },
+        opening,
+        sources: [chapterSlot.slot, entry.slot],
+      })
       chapterSlot = undefined
     } else {
       standAlone()
-      read.push({ entry, opening })
+      read.push({ entry, opening, sources: [entry.slot] })
     }
   }
   standAlone()
@@ -416,7 +431,7 @@ export const commentaryBookFromZCom = (
   Effect.gen(function* () {
     const placed = new Map<string, Placed>()
     const misplaced: Array<MisplacedEntry> = []
-    for (const { entry, opening: opensChapter } of verseEntries(book, entries)) {
+    for (const { entry, opening: opensChapter, sources } of verseEntries(book, entries)) {
       const { sections: parsed } = yield* parseOsisEntry(entry.text)
       if (parsed.length === 0) {
         const section = yield* parseOsisText(entry.text, opensChapter ? chapterStart : undefined)
@@ -432,7 +447,7 @@ export const commentaryBookFromZCom = (
           })
         continue
       }
-      const headings = pericopes.get(entry.slot) ?? []
+      const headings = sources.flatMap((slot) => pericopes.get(slot) ?? [])
       const found: Array<Placed & { readonly ref: string }> = []
       const strays: Array<MisplacedEntry> = []
       const begun = new Set<number>()
