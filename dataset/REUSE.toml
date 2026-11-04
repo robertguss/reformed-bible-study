@@ -128,6 +128,21 @@ SPDX-FileCopyrightText = "John Owen, A Continuation of the Exposition of the Epi
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "resources/westminster-annotations/**"
+SPDX-FileCopyrightText = "The divines appointed by Parliament, Annotations upon all the Books of the Old and New Testament (1645); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/diodati-annotations/**"
+SPDX-FileCopyrightText = "Giovanni Diodati, Pious Annotations upon the Holy Bible (1643); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/jackson-annotations/**"
+SPDX-FileCopyrightText = "Arthur Jackson, A Help for the Understanding of the Holy Scripture and Annotations on the Old Testament (1643, 1646, 1658, 1682); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "resources/matthew-henry/**"
 SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"

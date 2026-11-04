@@ -1,0 +1,54 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A36033, Diodati, Pious annotations upon the Holy Bible (1643), CC0 1.0, as keyed: 1 Chronicles 3 to 5. Chapter 3 and the resumed part of chapter 4 are whole; chapter 4 keeps its notes on verses 1 to 3, and chapter 5 its notes on verses 1 and 2. The argument and chapter 2 are left out. -->
+   <text>
+      <body>
+         <div type="commentary_on_book">
+            <pb n="30" facs="tcp:59460:118"/>
+            <head>THE FIRST BOOK OF THE <hi>CHRONICLES.</hi>
+            </head>
+            <div n="3" type="chapter">
+               <head>CHAP. III. VERS. I.</head>
+               <p>
+                  <hi>DAniel]</hi> who seemeth to be the same as <hi>Chileab, 2 Sam.</hi> 3. 3.</p>
+               <p>V. 5. <hi>Bathshua]</hi> called also <hi>Bathshebah,</hi> the daugh<g ref="char:EOLhyphen"/>ter of <hi>Eliam, 2 Sam.</hi> 11. 3.</p>
+               <p>V. 6. <hi>Elishama]</hi> called also <hi>Elishua, 2 Sam.</hi> 5. 15.</p>
+               <p>V. 8. <hi>Eliada]</hi> who is the same as <hi>Beliada, 1 Chron.</hi> 14. 7.</p>
+               <p>V. 15. <hi>Iohanan]</hi> who according to some is the same as <hi>Iehoahaz, 2 Kin.</hi> 23. 30. &amp; <hi>Shallum, Ier.</hi> 22. 11.</p>
+               <p>V. 16. <hi>His sonne]</hi> that is to say, his successor, as if he had beene his sonne according to the Law, <hi>Num.</hi> 27. 10. for otherwise <hi>Zedekiah</hi> was Vncle to <hi>Jeconiah,</hi> vers. 15.</p>
+               <p>V. 17. <hi>The Sonnes]</hi> successor, though not with the Title of King, but onely as head or chiefe of the Nation, for in <hi>Iechonia</hi> failed <hi>Solomons</hi> line, <hi>Ier.</hi> 22. 30. and <hi>Nathans</hi> line succeeded, of which was <hi>Sala<g ref="char:EOLhyphen"/>thiel, Luke</hi> 3. 27. 31.</p>
+               <p>V. 21. <hi>The Sonnes]</hi> it seemes that these were the Families of the royall bloud after the captivity.</p>
+            </div>
+            <div n="4" type="chapter">
+               <head>CHAP. IV. VERS. I.</head>
+               <p>
+                  <hi>THe sonnes]</hi> the lineall descents from father to sonne, although there were some interrupti<g ref="char:EOLhyphen"/>ons, 1 <hi>Chron. 2. 5. 9. 19. 50. [Carmi]</hi> it is not likely that it is the same of 1 <hi>Chron.</hi> 2. 7. whereupon many believe him to bee the same as <hi>Chalubai</hi> or <hi>Calch; 1 Chron. 2. 9. 18.</hi>
+               </p>
+               <p>V. 2. <hi>Reaiah]</hi> called <hi>Haroe,</hi> or according to the Italian, <hi>Roe, 1 Chron. 2. 52. [these are]</hi> from these descended the Inhabitants of <hi>Zereah</hi> a city of <hi>Iu<g ref="char:EOLhyphen"/>d<gap reason="illegible" resp="#APEX" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>h. Iosh.</hi> 15. 33.</p>
+               <p>V. 3. <hi>Of the Father]</hi> of him from whence issued those who inhabited and peopled the city of <hi>Eram, 2 Clron.</hi> 11. 6. which were the families of the above named.</p>
+            </div>
+            <div n="4" type="chapter">
+               <pb n="32" facs="tcp:59460:119"/>
+               <head>CHAP. IV. VERS. XXIV.</head>
+               <p>
+                  <hi>NEmuel]</hi> in these names, and in those which fol<g ref="char:EOLhyphen"/>low there is great diversity, <hi>Gen.</hi> 38. 5. for what reason, it is unknown.</p>
+               <p>V. 31. <hi>Vnto th<gap reason="illegible" resp="#APEX" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>]</hi> so long as the Kingdome of <hi>Iudah</hi> remained in <hi>Davids</hi> posterity: untill the cap<g ref="char:EOLhyphen"/>tivity of <hi>Babylon.</hi>
+               </p>
+               <p>V. 40. <hi>For they]</hi> that land was excellent, for ex<g ref="char:EOLhyphen"/>ceeding good pastures: for the <hi>Arabians</hi> being the posterity of <hi>Ham,</hi> who use the trade of grasing, had chosen it for that purpose.</p>
+               <p>V. 41. <hi>And the habitations]</hi> or the <hi>Maonites;</hi> as though it were the proper name of those scevite <hi>Arabians,</hi> who lived under tents.</p>
+               <p>V. 43. <hi>The rest]</hi> the remainder of them whom <hi>Saul</hi> had destroyed, 1 <hi>Sam.</hi> 15. 7. and <hi>David 2 Sam.</hi> 8. 12.</p>
+            </div>
+            <div n="5" type="chapter">
+               <head>CHAP. V. VERS. I.</head>
+               <p>
+                  <hi>WAs given]</hi> for <hi>Ioseph</hi> in the person of his two sonnes, which <hi>Iacob</hi> had adopted, had a double portion in the land of <hi>canaan, Gen.</hi> 48. 5. according to the right of the first borne, <hi>Deut. 21. 17. [is not]</hi> hee was to be the first, and have prehe<g ref="char:EOLhyphen"/>minence in the family, as the first borne had, besides his double share. So one of the prerogatives of the first borne, was conferred upon <hi>Ioseph,</hi> and the other upon <hi>Iudah, Gen.</hi> 49. 8. And this seemeth to be touched in this place, to shew the reason why <hi>Iu<g ref="char:EOLhyphen"/>dah</hi> is set foremost in these genealogies, and not <hi>Ioseph.</hi>
+               </p>
+               <p>V. 2. <hi>Chiefe rulers]</hi> before <hi>David</hi> the tribe of <hi>Iu<g ref="char:EOLhyphen"/>dah,</hi> had but only the preheminence of place, and honour; in <hi>David</hi> is got the degree of the King<g ref="char:EOLhyphen"/>dome, untill the captivity of <hi>Babylon:</hi> and after that it had the governors: and when they failed, it kept that of the great Senate, or Councell of the nation, see <hi>Psal.</hi> 60. 7.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

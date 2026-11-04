@@ -1,0 +1,27 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A36033, Diodati, Pious annotations upon the Holy Bible (1643), CC0 1.0, as keyed: the opening of Genesis. The argument keeps only its heading, and the annotations division keeps its heading and the notes on Genesis 1:1 to 3. -->
+   <text>
+      <body>
+         <div type="commentary_on_book">
+            <pb n="1" facs="tcp:59460:7"/>
+            <head>THE FIRST BOOK OF MOSES, called Genesis.</head>
+            <div type="argument">
+               <head>THE ARGVMENT.</head>
+            </div>
+            <div type="annotations">
+               <pb n="3" facs="tcp:59460:8"/>
+               <head>ANNOTATIONS VPON <hi>GENESIS.</hi>
+               </head>
+               <div n="1" type="chapter">
+                  <head>CHAP. I. VERS. 1.</head>
+                  <p>
+                     <hi>
+                        <seg rend="decorInit">I</seg>N the beginning]</hi> God giving the world its first being, began with the creation of the two generall parts of it, and then went to the particulars. <hi>[The Heaven]</hi> that is the highest and aethereall part; under which it is very likely the Angels are comprehended, <hi>Gen. 2. 1. [The Earth]</hi> The lower and elementall part of the Universe, here indifferently called, earth, waters, and abysse, be<g ref="char:EOLhyphen"/>cause it was a consused masse of all the Elements.</p>
+                  <p>V. 2. <hi>Without forme]</hi> Without any particular, or di<g ref="char:EOLhyphen"/>stinct creature; without order, forme, or ornament. <hi>The Spirit]</hi> that is the 3d person of the most holy Tri<g ref="char:EOLhyphen"/>nity, immediatly and through its proper operation: which is to preserve, and maintaine all things in their being, which they have received by the supreame will of the Father, and the productive action of the Son: see <hi>Psal 104. 2. 29. 30. Moved]</hi> the <hi>Hebrew</hi> terme signifieth, the moving or beating of the wings, which a bird useth over her young ones, to signifie the a<g ref="char:EOLhyphen"/>ction of the holy Ghost, in maintaining and cheri<g ref="char:EOLhyphen"/>shing of that shapelesse masse, to prepare it for the subsequent productions.</p>
+                  <p>V. 3. <hi>Let there be]</hi> It is likely that the light was at first imprinted in some part of the heaven, whose turning made the first three dayes, and the fourth it was restrained into the body of the Sun, or of all the other Stars: but in a different degree.</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

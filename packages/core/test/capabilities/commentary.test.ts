@@ -18,6 +18,9 @@ const HENRY = "matthew-henry"
 const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
 const DICKSON = "dickson"
+const DIODATI = "diodati-annotations"
+const JACKSON = "jackson-annotations"
+const WESTMINSTER = "westminster-annotations"
 
 interface CatalogFile {
   readonly release: string
@@ -136,7 +139,10 @@ describe("get_commentary", () => {
         [HENRY, "not_ingested", "active"],
         [JFB, "not_ingested", "active"],
         [DICKSON, "covered", "active"],
+        [DIODATI, "not_ingested", "active"],
+        [JACKSON, "outside_work", "active"],
         [OWEN, "outside_work", "active"],
+        [WESTMINSTER, "not_ingested", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
     }),
@@ -163,7 +169,10 @@ describe("get_commentary", () => {
           JFB,
           "aaa-commentary",
           DICKSON,
+          DIODATI,
+          JACKSON,
           OWEN,
+          WESTMINSTER,
           "withdrawn-commentary",
         ])
         expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN, DICKSON])
@@ -212,7 +221,10 @@ describe("get_commentary", () => {
           [HENRY, "not_ingested"],
           [JFB, "not_ingested"],
           [DICKSON, "outside_work"],
+          [DIODATI, "not_ingested"],
+          [JACKSON, "not_ingested"],
           [OWEN, "outside_work"],
+          [WESTMINSTER, "not_ingested"],
           ["withdrawn-commentary", "not_ingested"],
         ])
         expect(result.items.map((item) => [item.value.ref, item.value.paragraphs])).toEqual([
@@ -278,7 +290,10 @@ describe("get_commentary", () => {
         [HENRY, "covered"],
         [JFB, "covered"],
         [DICKSON, "outside_work"],
+        [DIODATI, "not_ingested"],
+        [JACKSON, "outside_work"],
         [OWEN, "outside_work"],
+        [WESTMINSTER, "not_ingested"],
         ["withdrawn-commentary", "not_ingested"],
       ])
       // Hodge has no source that declares a license, so no record ships for him.

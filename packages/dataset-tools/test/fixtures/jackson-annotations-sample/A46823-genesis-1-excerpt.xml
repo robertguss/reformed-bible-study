@@ -1,0 +1,46 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A46823, Jackson, A help for the understanding of the Holy Scripture, the first part (1643), CC0 1.0, as keyed: Genesis 1:1 to 3. Every quotation and note on those verses is kept in order. -->
+   <text>
+      <body>
+         <div n="Genesis" type="book">
+            <pb facs="tcp:103385:5"/>
+            <head>
+               <pb n="1" facs="tcp:103385:5" rendition="simple:additions"/>
+               <hi>ANNOTATIONS</hi> On the firſt book of MOSES called <hi>GENESIS.</hi>
+            </head>
+            <div n="1" type="chapter">
+               <head>CHAP. I.</head>
+               <q>
+                  <seg rend="decorInit">I</seg>N the beginning God created the heaven and the earth.]</q>
+               <p>Many of our beſt Expoſitours, and that not without good probabilitie, conceive theſe words to be a generall propoſition concerning the whole creation (which is afterwards more particularly unfolded, by ſetting down in what time, and in what order and manner this was done, and what were the ſe<g ref="char:EOLhyphen"/>verall works of the ſix dayes;) to wit, <hi>That in the beginning God created the heaven and the earth,</hi> that is, that all things were at firſt created by God, <hi>the heavens, &amp; the earth, and all the hoſt of them,</hi> as it is afterwards expreſſed chap. 2. 1. or <hi>the world, and all therein,</hi> as S. Paul ſpake, Act. 17. 24. This Moſes affirmeth here in the firſt verſe; but then how, after what man<g ref="char:EOLhyphen"/>ner, and in what order they were created, that is afterwards related in the follow<g ref="char:EOLhyphen"/>ing part of the chapter. Yet others again (&amp; that I think moſt probably) underſtand this which is here ſaid, to be the work of the firſt dayes creation, to wit, that God in the beginning, on the firſt day, created <hi>the heaven,</hi> that is, the higheſt heaven, the dwelling place of the Angels, called <hi>the heaven of heavens,</hi> 1. King. 8. 27. and <hi>the earth,</hi> that whole confuſed Chaos of earth and water, which was as yet without form and void, as it is afterwards deſcribed in the ſecond verſe. And indeed becauſe it is ſaid, Job 38. 6, 7. <hi>that the morning ſtarres ſang together, and the ſonnes of God ſhouted for joy, when God laid the foundations of the earth,</hi> which is meant of the Angels; it ſeems moſt probable, that this higheſt heaven, and ſo the Angels together with it, were firſt created, and ſo was a main part of the work of the firſt day. It is true, there is no mention made of the angels, neither here, nor in any other part of the chapter; but that is, becauſe Moſes purpoſely intended to relate
+<pb facs="tcp:103385:6"/>
+                  <gap reason="duplicate" extent="1 page">
+                     <desc>〈1 page duplicate〉</desc>
+                  </gap>
+                  <pb n="1" facs="tcp:103385:6" rendition="simple:additions"/>
+                  <gap reason="duplicate" extent="1 page">
+                     <desc>〈1 page duplicate〉</desc>
+                  </gap>
+                  <pb n="2" facs="tcp:103385:7" rendition="simple:additions"/>
+onely the creation of things corporall and viſible, &amp; that happily as having regard therein to the rudeneſſe and weakneſſe of that infant-Church of the Jews, for whom he wrote this hiſtory. For that the angels were at firſt created by God of nothing, as all other things were, is evident by many other places of Scripture, as Pſal. 104. 4. <hi>Who maketh his angels ſpirits.</hi> Col. 1. 16. <hi>By him were all things created, that are in heaven, and that are in earth, viſible, and inviſible,</hi> &amp;c. Pſal. 148. 2<g ref="char:punc">▪</g> 5. <hi>Praiſe ye him all his angels, let them praiſe the name of the Lord, for he commanded, and they were created.</hi> And though we cannot expreſly ſay, on which of the ſix dayes the angels were created, becauſe there is no expreſſe mention made of them<g ref="char:punc">▪</g> yet it is moſt likely that they were created together with the higheſt heavens, the chief place of their habitation; and that on the firſt day, becauſe then at the laying of the foun<g ref="char:EOLhyphen"/>dations of the earth the angels did praiſe their Creatour, as was before noted, Job 38.</p>
+               <q>
+                  <bibl>Verſ. 2.</bibl> And the earth was without form, and void.]</q>
+               <p>That is, the earth was on the firſt day created, and when it was at firſt created, it had neither the ſhap<gap reason="illegible" resp="#APEX" extent="1 letter">
+                     <desc>•</desc>
+                  </gap> nor ornaments that it hath now: it was not round, ſolid, drie, diſtinguiſht here and there with valleys and hills; <hi>it was without form,</hi> a rude and indigeſted lump; and again it was <hi>void,</hi> or emptie, not having trees, herbs, and ſlowers to adorn it, nor beaſts, birds, or people to inhabit it<g ref="char:punc">▪</g> as it hath now.</p>
+               <q>And darkneſſe was upon the face of the deep.]</q>
+               <p>By the <hi>deep,</hi> is meant that confu<g ref="char:EOLhyphen"/>ſed Chaos, or indigeſted Maſſe of earth and water<g ref="char:punc">▪</g> of which before he had ſpoken; by <hi>darkneſſe<g ref="char:punc">▪</g>
+                  </hi> is meant a mere privation of light: this Chaos or deep was wholy hid and involved in darkneſſe; in the whole ſurface of it<g ref="char:punc">▪</g> there was no light at all, wherewith it ſhould be ſeen.</p>
+               <q>And the Spirit of God moved upon the face of the waters.]</q>
+               <p>The word here tranſlated <hi>moved,</hi> is metaphoricall, taken from the motion of birds, that flutter over their young, and implies that the holy Ghoſt did ſuſtain and cheriſh this Cha<g ref="char:EOLhyphen"/>os, or Deep, by his ſecret, but effectuall power and motion, even as birds do their new-hatcht young ones, by ſo fluttering over them.</p>
+               <q>
+                  <bibl>Verſ. 3.</bibl> And God ſaid let there be light.]</q>
+               <p>That is, God the Father, having created of nothing, this confuſed Chaos of earth and water, did the ſame firſt day create alſo the light, which was a bright ſhining quality upon the face of this deep, whereby it became apparent and viſible; and this he did by ſaying, <hi>Let there be light,</hi> that is, by his almighty word and command, Pſal. 33. 6. <hi>By the word of the Lord were the heavens made, and all the host of them by the breath of his mouth:</hi> not any <hi>word</hi> uttered or ſpoken after the manner of men, but by his <gap reason="illegible" resp="#APEX" extent="1 letter">
+                     <desc>•</desc>
+                  </gap>ſſentiall <hi>Word,</hi> the Sonne of God, who is <hi>the word and wiſdome of the Father.</hi> John 1. 1. <hi>In the beginning was the word, and the word was with God, and the word was God.</hi> 1. Cor. 1. 24. <hi>Christ the power of God, and the wiſdome of God,</hi> and by whom the Father made all things whatſoever. John 1. 3. <hi>All things were made by him, and without him was not any thing made that was made.</hi>
+               </p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

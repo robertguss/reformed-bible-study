@@ -307,6 +307,157 @@ describe("readTeiCommentary", () => {
     }),
   )
 
+  it.effect("opens a section only at a verse label printed at the start of a quotation", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("jackson-annotations-sample/A46823-genesis-1-excerpt.xml"),
+        "Gen",
+        {
+          bookDivisions: new Set(["book"]),
+          chapterDivisions: new Set(["chapter"]),
+          openingLabel: /^Vers\. (\d+)\./,
+        },
+      )
+      expect(refs(sections)).toEqual(["Gen.1.1", "Gen.1.2", "Gen.1.3-Gen.1.31"])
+      // The unlabelled quotation before the first label is verse 1, though its note names the
+      // second verse in prose.
+      const first = sections[0]?.paragraphs.map(plain) ?? []
+      expect(first[0]).toBe("IN the beginning God created the heaven and the earth.]")
+      expect(first[1]).toContain("as it is afterwards described in the second verse")
+      // An unlabelled quotation continues the verse before it.
+      expect(section(sections, "Gen.1.2")?.paragraphs.map(plain)).toEqual([
+        "Vers. 2. And the earth was without form, and void.]",
+        expect.stringMatching(/^That is, the earth was on the first day created/),
+        "And darknesse was upon the face of the deep.]",
+        expect.stringMatching(/^By the deep, is meant that confused Chaos/),
+        "And the Spirit of God moved upon the face of the waters.]",
+        expect.stringMatching(/^The word here translated moved, is metaphoricall/),
+      ])
+    }),
+  )
+
+  const DIODATI: TeiCommentaryLayout = {
+    bookDivisions: new Set(["commentary_on_book"]),
+    chapterDivisions: new Set(["chapter"]),
+    openingLabel: /^V\. (\d+)\./,
+  }
+
+  it.effect("reads the chapters a division inside the book gathers as the book's own", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("diodati-annotations-sample/A36033-genesis-1-excerpt.xml"),
+        "Gen",
+        { ...DIODATI, chapterGroups: new Set(["annotations"]) },
+      )
+      expect(refs(sections)).toEqual(["Gen.1.1", "Gen.1.2", "Gen.1.3-Gen.1.31"])
+      const first = sections[0]?.paragraphs.map(plain) ?? []
+      expect(first[0]).toBe("THE ARGVMENT.")
+      expect(first[1]).toMatch(/^IN the beginning\] God giving the world its first being/)
+      expect(JSON.stringify(sections)).not.toContain("ANNOTATIONS VPON")
+    }),
+  )
+
+  const CHRONICLES = fixture("diodati-annotations-sample/A36033-1-chronicles-3-to-5-excerpt.xml")
+
+  it.effect("keys a chapter's unlabelled first note to the verse its heading names", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(CHRONICLES, "1Chr", {
+        ...DIODATI,
+        chaptersResume: true,
+        headingVerse: /\bVERS\. ([IVXLC]+)\./,
+      })
+      const opening = (ref: string) => plain(section(sections, ref)?.paragraphs[0] ?? [])
+      // CHAP. III. VERS. I. and CHAP. IV. VERS. XXIV., in Roman figures.
+      expect(opening("1Chr.3.1-1Chr.3.4")).toMatch(/^DAniel\] who seemeth to be the same as/)
+      expect(opening("1Chr.4.24-1Chr.4.30")).toMatch(/^NEmuel\] in these names/)
+    }),
+  )
+
+  it.effect("continues a chapter where the print resumes it under a heading of its own", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(CHRONICLES, "1Chr", {
+        ...DIODATI,
+        chaptersResume: true,
+        headingVerse: /\bVERS\. ([IVXLC]+)\./,
+      })
+      expect(refs(sections).filter((ref) => ref.startsWith("1Chr.4."))).toEqual([
+        "1Chr.4.1",
+        "1Chr.4.2",
+        "1Chr.4.3-1Chr.4.23",
+        "1Chr.4.24-1Chr.4.30",
+        "1Chr.4.31-1Chr.4.39",
+        "1Chr.4.40",
+        "1Chr.4.41-1Chr.4.42",
+        "1Chr.4.43",
+      ])
+      expect(refs(sections).at(-1)).toBe("1Chr.5.2-1Chr.5.26")
+    }),
+  )
+
+  it.effect("starts the next chapter where a label after missing pages falls back", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("jackson-annotations-sample/A46807-psalms-4-to-6-excerpt.xml"),
+        "Ps",
+        {
+          bookDivisions: new Set(["book"]),
+          chapterDivisions: new Set(["Psalm"]),
+          openingLabel: /^Vers\. (\d+)\./,
+        },
+      )
+      expect(refs(sections)).toEqual([
+        "Ps.4.1-Ps.4.3",
+        "Ps.4.4-Ps.4.8",
+        "Ps.5.3",
+        "Ps.5.4-Ps.5.12",
+        "Ps.6.1-Ps.6.10",
+      ])
+      expect(plain(section(sections, "Ps.5.3")?.paragraphs[0] ?? [])).toMatch(
+        /^Vers\. 3\. My voice shalt thou hear in the morning/,
+      )
+    }),
+  )
+
+  it.effect("moves a run the transcription keys out of order back to where it was printed", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("westminster-annotations-sample/A36467-1-kings-8-and-9-excerpt.xml"),
+        "1Kgs",
+        {
+          bookDivisions: new Set(["book"]),
+          chapterDivisions: new Set(["chapter"]),
+          openingLabel: /^V(?:ers)?\. (\d+)\./,
+          misplaced: [
+            {
+              from: "Solomon discerning this to be a sign",
+              through: "Call to minde their sins.",
+              after: "Upon that manifestation of Gods glory,",
+            },
+          ],
+        },
+      )
+      expect(refs(sections)).toEqual([
+        "1Kgs.8.11",
+        "1Kgs.8.12",
+        "1Kgs.8.13-1Kgs.8.46",
+        "1Kgs.8.47-1Kgs.8.48",
+        "1Kgs.8.49",
+        "1Kgs.8.50-1Kgs.8.66",
+        "1Kgs.9.1-1Kgs.9.14",
+        "1Kgs.9.15",
+        "1Kgs.9.16-1Kgs.9.28",
+      ])
+      expect(section(sections, "1Kgs.8.12")?.paragraphs.map(plain)).toEqual([
+        "V. 12. Then] Upon that manifestation of Gods glory, Solomon discerning this to be a sign of Gods gracious presence quickly makes known as much.",
+        expect.stringMatching(/^said\] 2 Chron\. 6\. 1\./),
+      ])
+      // The note on Millo, which the misplaced pages interrupted, still ends verse 15.
+      expect(section(sections, "1Kgs.9.15")?.paragraphs.map(plain).at(-1)).toMatch(
+        /^Hezekiah repaired it, 2 Chron\. 32\. 5\./,
+      )
+    }),
+  )
+
   it.effect("prints the long s as s in headings, paragraphs and margin notes", () =>
     Effect.gen(function* () {
       const sections = yield* read(

@@ -63,6 +63,47 @@ export interface TeiCommentaryLayout {
   readonly verseLabelMoves?: ReadonlyMap<string, number>
   /** The last verse the work expounds, where its last section ends instead of at the chapter's end. */
   readonly lastVerse?: VerseRef
+  /**
+   * Given when each note opens with its verse printed at the start of a paragraph or quotation,
+   * such as `V. 4.` or `Vers. 12.`, and no `n` attribute numbers it. The pattern must match at the
+   * start of the block's own text, leaving its notes out, and its first group is the verse. A
+   * labelled block opens a section at that verse, and every other block continues the section
+   * before it, so a verse named inside a note is never read. The blocks before a chapter's first
+   * label are verse 1, or the verse the chapter's heading names under `headingVerse`. After a
+   * missing-pages gap, a label lower than the one before it starts the next chapter, whose heading
+   * was lost with the pages.
+   */
+  readonly openingLabel?: RegExp
+  /**
+   * Given with `openingLabel` when a chapter's heading names the verse of the note that follows it
+   * unlabelled, as `CHAP. XXVII. VERS. 4.` does. Its first group is the verse, in Arabic or Roman
+   * figures.
+   */
+  readonly headingVerse?: RegExp
+  /**
+   * Division types inside a book that only gather its chapter divisions, such as an `annotations`
+   * division printed after the book's argument. Their chapters are read as the book's own, and
+   * their own heading is left out.
+   */
+  readonly chapterGroups?: ReadonlySet<string>
+  /**
+   * Given when a chapter division may repeat the number of the one before it, as where the print
+   * resumes chapter 4 at verse 24 under a heading of its own. Its text continues that chapter.
+   */
+  readonly chaptersResume?: boolean
+  /**
+   * Runs of text the transcription keys out of the order they were printed in, as where the two
+   * pages of one image are keyed in reverse. Each run, from the start of `from` to the end of
+   * `through`, is moved to just after `after`, with a space before it. Each string is the first
+   * place it occurs, and each end of a run lies inside a paragraph, so the run closes the paragraph
+   * it joins and the paragraph it left stays whole. A run the text does not hold, as in an excerpt
+   * of the volume, is left alone.
+   */
+  readonly misplaced?: ReadonlyArray<{
+    readonly from: string
+    readonly through: string
+    readonly after: string
+  }>
 }
 
 const childrenOf = (node: XmlNode): ReadonlyArray<XmlNode> => {
@@ -357,6 +398,70 @@ const verseDivisionItems = (
     : [...intro.map((piece): Item => ({ kind: "lead", piece })), ...items]
 }
 
+/** A block's own text as printed, without its notes, so a label is read only where it is printed. */
+const ownTextOf = (nodes: ReadonlyArray<XmlNode>): string =>
+  nodes
+    .map((node) => {
+      const text = node[TEXT]
+      if (typeof text === "string") return printed(text)
+      return elementName(node) === "note" ? "" : ownTextOf(childrenOf(node))
+    })
+    .join("")
+
+const ROMAN: Readonly<Record<string, number>> = { i: 1, v: 5, x: 10, l: 50, c: 100 }
+
+/** A number printed in Arabic figures, such as `24`, or Roman ones, such as `XXIV`. */
+const figures = (number: string): number | undefined => {
+  if (/^\d+$/.test(number)) return Number(number)
+  if (!/^[ivxlc]+$/i.test(number)) return undefined
+  const values = [...number.toLowerCase()].map((c) => ROMAN[c] as number)
+  return values.reduce((sum, value, i) => sum + (value < (values[i + 1] ?? 0) ? -value : value), 0)
+}
+
+const LABELLED_BLOCKS = new Set(["p", "q"])
+
+/**
+ * The items of a chapter whose notes open with printed verse labels. A paragraph or quotation whose
+ * own text starts with the label is a verse item; a later heading opens the verse after it, and
+ * anything else continues the verse before it. The chapter's own heading is left out, and the
+ * blocks before the first label are one verse item at the verse that heading names, or verse 1.
+ */
+const openingLabelItems = (
+  nodes: ReadonlyArray<XmlNode>,
+  openingLabel: RegExp,
+  headingVerse: RegExp | undefined,
+): ReadonlyArray<Item> => {
+  const intro: Array<Piece> = []
+  const items: Array<Item> = []
+  let headed: number | undefined
+  let label = true
+  for (const node of nodes) {
+    const name = elementName(node)
+    if (name === "pb" || (name === undefined && textOf([node]).trim() === "")) continue
+    const first = label
+    label = false
+    if (name === "head" && first) {
+      const named = headingVerse?.exec(textOf(childrenOf(node)).replace(/\s+/g, " "))?.[1]
+      headed = named === undefined ? undefined : figures(named)
+      continue
+    }
+    const pieces = name === undefined ? [pieceOf([node])] : piecesOf([node])
+    const opening =
+      name !== undefined && LABELLED_BLOCKS.has(name)
+        ? openingLabel.exec(ownTextOf(childrenOf(node)).replace(/\s+/g, " ").trim())
+        : null
+    if (opening !== null && opening.index === 0) {
+      items.push({ kind: "verse", marker: figures(opening[1] ?? ""), piece: joinPieces(pieces) })
+    } else if (items.length === 0) intro.push(...pieces)
+    else {
+      const kind = name === "head" ? "lead" : "trail"
+      for (const piece of pieces) items.push({ kind, piece })
+    }
+  }
+  if (intro.length === 0) return items
+  return [{ kind: "verse", marker: headed ?? 1, piece: joinPieces(intro) }, ...items]
+}
+
 interface ChapterItems {
   readonly chapter: number
   readonly intro: ReadonlyArray<Piece>
@@ -367,13 +472,16 @@ interface ChapterItems {
  * Where pages are missing, the chapter heading that followed them can be lost with them, so the
  * next chapter's verses run on inside this one. A verse number past the chapter's end, after a
  * missing-pages gap, starts the following chapter when the source has no division of its own for it.
+ * Where verses are told by printed labels, so does a label lower than the one before it.
  */
 const splitAfterMissingPages = (
   book: BookId,
   { chapter, intro, items }: ChapterItems,
   divided: ReadonlySet<number>,
+  labelsRestart: boolean,
 ): ReadonlyArray<ChapterItems> => {
   let missing = false
+  let before: number | undefined
   const next = chapter + 1
   for (let i = 0; i < items.length; i++) {
     const item = items[i] as Item
@@ -381,7 +489,8 @@ const splitAfterMissingPages = (
       missing &&
       item.kind === "verse" &&
       item.marker !== undefined &&
-      item.marker > verseCount(book, chapter) &&
+      (item.marker > verseCount(book, chapter) ||
+        (labelsRestart && before !== undefined && item.marker < before)) &&
       next <= chapterCount(book) &&
       !divided.has(next)
     ) {
@@ -391,10 +500,12 @@ const splitAfterMissingPages = (
           book,
           { chapter: next, intro: [], items: items.slice(i) },
           divided,
+          labelsRestart,
         ),
       ]
     }
     missing ||= item.piece.missing
+    if (item.kind === "verse") before = item.marker ?? before
   }
   return [{ chapter, intro, items }]
 }
@@ -479,6 +590,14 @@ const withChildren = (node: XmlNode, children: ReadonlyArray<XmlNode>): XmlNode 
   return name === undefined ? node : { ...node, [name]: children }
 }
 
+/** A division's children without its own heading, the first element when it is a `head`. */
+const withoutHeading = (children: ReadonlyArray<XmlNode>): ReadonlyArray<XmlNode> => {
+  const opening = children.find((child) => !["pb", undefined].includes(elementName(child)))
+  return opening !== undefined && elementName(opening) === "head"
+    ? children.filter((child) => child !== opening)
+    : children
+}
+
 /**
  * Rebuilds a book printed with each chapter division inside its first verse division, such as a
  * lecture, as chapter divisions holding their verse divisions. That first verse division holds the
@@ -499,12 +618,7 @@ const gatherChapters = (
     const inner = isVerse(node) ? childrenOf(node).find(isChapter) : undefined
     if (inner !== undefined) {
       close()
-      const text = childrenOf(inner)
-      const opening = text.find((child) => !["pb", undefined].includes(elementName(child)))
-      const own =
-        opening !== undefined && elementName(opening) === "head"
-          ? text.filter((child) => child !== opening)
-          : text
+      const own = withoutHeading(childrenOf(inner))
       const first = childrenOf(node).flatMap((child) => (child === inner ? own : [child]))
       chapter = { node: inner, children: [withChildren(node, first)] }
     } else if (isChapter(node)) {
@@ -521,7 +635,8 @@ const gatherChapters = (
  * One book's chapters. Chapter divisions are numbered by their `n` attribute, checked the way verse
  * markers are; a book printed without them is its single chapter, or the one chapter the layout
  * names. Text before a chapter division, such as the book's argument, opens that chapter, and text
- * after the last one is left out.
+ * after the last one is left out. A chapter division that resumes the chapter before it, where the
+ * layout allows one, continues that chapter.
  */
 const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayout) =>
   Effect.gen(function* () {
@@ -530,15 +645,21 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
     const isVerse = (node: XmlNode) =>
       elementName(node) === "div" &&
       layout.verseDivisions?.has(attribute(node, "type") ?? "") === true
+    const isGroup = (node: XmlNode) =>
+      elementName(node) === "div" &&
+      layout.chapterGroups?.has(attribute(node, "type") ?? "") === true
+    const own = childrenOf(division).flatMap((node) =>
+      isGroup(node) ? withoutHeading(childrenOf(node)) : [node],
+    )
     const children =
-      layout.chaptersInFirstVerseDivision === true
-        ? gatherChapters(childrenOf(division), isChapter, isVerse)
-        : childrenOf(division)
+      layout.chaptersInFirstVerseDivision === true ? gatherChapters(own, isChapter, isVerse) : own
     const divisions = children.filter(isChapter)
     const itemsOf = (nodes: ReadonlyArray<XmlNode>) =>
-      layout.verseDivisions === undefined
-        ? chapterItems(nodes, layout.verseLabel)
-        : verseDivisionItems(nodes, layout.verseDivisions, layout.verseLabel)
+      layout.openingLabel !== undefined
+        ? openingLabelItems(nodes, layout.openingLabel, layout.headingVerse)
+        : layout.verseDivisions === undefined
+          ? chapterItems(nodes, layout.verseLabel)
+          : verseDivisionItems(nodes, layout.verseDivisions, layout.verseLabel)
     if (divisions.length === 0) {
       const only = layout.onlyChapter ?? (chapterCount(book) === 1 ? 1 : undefined)
       if (only === undefined)
@@ -549,8 +670,10 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
       i === 0 ? (marker(node) ?? layout.firstChapter) : marker(node),
     )
     const numbers = numberMarkers(markers, chapterCount(book))
+    const resumes = layout.chaptersResume === true
     for (const [i, n] of numbers.entries()) {
-      if (n === undefined || (i > 0 && n <= (numbers[i - 1] ?? 0))) {
+      const before = numbers[i - 1] ?? 0
+      if (n === undefined || (i > 0 && (n < before || (n === before && !resumes)))) {
         const label = attribute(divisions[i] as XmlNode, "n")
         return yield* fail(`${book}: chapter division ${i + 1} (n="${label}") cannot be placed`)
       }
@@ -564,7 +687,14 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
       if (isChapter(node)) {
         const chapter = numbers[d++] as number
         const items = itemsOf(childrenOf(node))
-        chapters.push(...splitAfterMissingPages(book, { chapter, intro, items }, divided))
+        const resumed = chapters.at(-1)
+        if (resumed?.chapter === chapter) {
+          const between = intro.map((piece): Item => ({ kind: "trail", piece }))
+          chapters[chapters.length - 1] = {
+            ...resumed,
+            items: [...resumed.items, ...between, ...items],
+          }
+        } else chapters.push({ chapter, intro, items })
         intro = []
         label = false
       } else if (elementName(node) !== undefined && elementName(node) !== "pb") {
@@ -572,7 +702,10 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
         label = false
       }
     }
-    return chapters
+    const labelsRestart = layout.openingLabel !== undefined
+    return chapters.flatMap((chapter) =>
+      splitAfterMissingPages(book, chapter, divided, labelsRestart),
+    )
   })
 
 /**
@@ -590,8 +723,19 @@ export const readTeiCommentary = (
   layout: TeiCommentaryLayout,
 ): Effect.Effect<ReadonlyArray<CommentaryBook>, TeiCommentaryError> =>
   Effect.gen(function* () {
+    let text = xml
+    for (const { from, through, after } of layout.misplaced ?? []) {
+      const start = text.indexOf(from)
+      const end = start < 0 ? -1 : text.indexOf(through, start)
+      if (end < 0) continue
+      const rest = text.slice(0, start) + text.slice(end + through.length)
+      const at = rest.indexOf(after)
+      if (at < 0) continue
+      const run = text.slice(start, end + through.length)
+      text = `${rest.slice(0, at + after.length)} ${run}${rest.slice(at + after.length)}`
+    }
     const tree = yield* Effect.try({
-      try: () => parser.parse(xml) as ReadonlyArray<XmlNode>,
+      try: () => parser.parse(text) as ReadonlyArray<XmlNode>,
       catch: (error) => new TeiCommentaryError({ detail: String(error) }),
     })
     const { bookDivisions, skipDivisions } = layout
