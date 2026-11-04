@@ -279,6 +279,52 @@ export const GOUGE: EeboCommentator = {
   ],
 }
 
+/** Owen's exposition of Hebrews 1 and 2 (1668), then its continuation on chapters 6 to 10 (1680). */
+export const OWEN: EeboCommentator = {
+  resourceId: "owen-hebrews",
+  works: [
+    {
+      // The volume opens with Owen's Exercitations, a text of its own whose divisions are headed
+      // `Exercitatio I.` and on, and which is left out. The exposition after it holds one
+      // `exposition_of_verse` division per verse or group of verses, with no `n`. Owen heads each
+      // verse or group in Roman figures, such as `Verse III.` or `Verse X, XI, XII.`, and only those
+      // headings are read. The divisions after a heading, on the Greek text and its translations,
+      // carry labels in Arabic figures that are not read, so they continue its section: those on
+      // chapter 2 number verses 2 to 4 as 3 to 5, and those on verses 5 to 9 follow Owen's heading
+      // on the five verses together, before he takes them one by one.
+      source: tcp(
+        "A53696",
+        "9d50bd00a05ed39e29d7faa14c3e1b6782a799cd",
+        "b9b5ae57350821a7fa834c5d8238dcd8144030ab3725603cfd401aa215fcc9a7",
+        5,
+      ),
+      books: ["Heb"],
+      layout: {
+        bookDivisions: new Set(["biblical_exegesis"]),
+        skipDivisions: /^Exercitatio\b/,
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["exposition_of_verse"]),
+        verseLabel: /^Verse ([IVXL]+)\b/,
+      },
+    },
+    {
+      // The whole body is Hebrews; each chapter holds one division per verse or group of verses,
+      // numbered by its `n`.
+      source: tcp(
+        "A53678",
+        "e5d5779408ec6294b29a69cf555b3b0659ad107b",
+        "0436c101f08640cf6de5f3b6a1cad6bc81b9056b4f19a89ab0e62996faed2b87",
+        8,
+      ),
+      books: ["Heb"],
+      layout: {
+        chapterDivisions: new Set(["exegesis_of_chapter"]),
+        verseDivisions: new Set(["exegesis_of_verse", "exegesis_of_verses"]),
+      },
+    },
+  ],
+}
+
 /** Junius's Apocalypsis (1592) in English: the verses of Revelation with his notes in the margin. */
 export const JUNIUS: EeboCommentator = {
   resourceId: "junius",
@@ -311,5 +357,6 @@ export const ENGLISH_EXPOSITIONS: ReadonlyArray<EeboCommentator> = [
   MANTON,
   PERKINS,
   GOUGE,
+  OWEN,
   JUNIUS,
 ]

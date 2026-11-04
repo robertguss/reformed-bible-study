@@ -4,7 +4,7 @@ import { join } from "node:path"
 import { describe, expect, it } from "@effect/vitest"
 import { BOOK_IDS, type BookId, type TextRun } from "@reformed-bible/core"
 import { Effect } from "effect"
-import { OWEN_LAYOUT } from "../../src/ingest/owen.ts"
+import { OWEN } from "../../src/ingest/eebo-english-expositions.ts"
 import { POOLE_LAYOUT } from "../../src/ingest/poole.ts"
 import { readTeiCommentary, type TeiCommentaryLayout } from "../../src/ingest/tei-commentary.ts"
 
@@ -135,7 +135,7 @@ describe("readTeiCommentary", () => {
         "owen-hebrews",
         fixture("owen-sample/A53678-hebrews-6-and-10-excerpt.xml"),
         ["Heb"],
-        OWEN_LAYOUT,
+        OWEN.works[1]!.layout,
       )
       expect(sha256(poole)).toBe("6300d33a140d30211f0a881fd812c43632426b276a4139d2b614e7c32d07a064")
       expect(sha256(owen)).toBe("c7d2336da2c609eb52d5f45bc1afd62f81fc96391c965c1793133bd2dbfcbd13")

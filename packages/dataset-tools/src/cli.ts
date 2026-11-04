@@ -16,7 +16,6 @@ import { ingestConfessions } from "./ingest/confession.ts"
 import { EEBO_COMMENTATORS, ingestEeboCommentator } from "./ingest/eebo-commentators.ts"
 import { HENRY, ingestWholeBible, JFB } from "./ingest/henry-jfb.ts"
 import { ingestOriginalLanguage } from "./ingest/original-language.ts"
-import { ingestOwen } from "./ingest/owen.ts"
 import { ingestPoole } from "./ingest/poole.ts"
 import { ingestCrossReferences, ingestTranslations } from "./ingest/translations.ts"
 import { sourceCachePath } from "./source-cache.ts"
@@ -62,7 +61,6 @@ const INGESTS = {
   calvin: () => ingestCalvin(repoRoot),
   confessions: () => ingestConfessions(repoRoot),
   poole: () => ingestPoole(repoRoot),
-  owen: () => ingestOwen(repoRoot),
   henry: () => ingestWholeBible(repoRoot, HENRY),
   jfb: () => ingestWholeBible(repoRoot, JFB),
   ...Object.fromEntries(

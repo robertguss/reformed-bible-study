@@ -20,7 +20,8 @@ export class TeiCommentaryError extends Schema.TaggedError<
 
 /**
  * Which TEI divisions hold a book, a chapter and a verse, by their `type` attribute, and how one
- * work departs from the common layout. Each departure is optional and left out for Poole and Owen.
+ * work departs from the common layout. Each departure is optional, and Poole's layout and that of
+ * Owen's volume on Hebrews 6 to 10 leave every one out.
  */
 export interface TeiCommentaryLayout {
   /** Left out when the text's whole body is its single book. */

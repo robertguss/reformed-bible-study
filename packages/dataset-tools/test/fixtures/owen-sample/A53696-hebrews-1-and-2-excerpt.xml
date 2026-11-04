@@ -1,0 +1,221 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A53696, Owen, Exercitations on the Epistle to the Hebrews, with an exposition and discourses on the two first chapters (1668), CC0 1.0, as keyed: the opening of the second Exercitation and of the dissertation inside it, then the opening of the exposition's chapter 1 with its divisions on verses 1 to 5 and on verse 14, and the opening of chapter 2 with its divisions on verses 1 to 5. Each division keeps only its first blocks, cut short. -->
+   <text>
+      <group>
+         <text>
+            <body>
+               <div n="2" type="biblical_exegesis">
+                  <pb n="24" facs="tcp:50110:20" />
+                  <head>Exercitatio II. Of the Penman of the Epistle to the <hi>Hebrews.</hi>
+                  </head>
+                  <p>
+                     <hi>Knowledge of the Penman of any part of Scripture not necessary. Some of them utterly concealed. The Word of God gives Authority unto them that deliver it, not the contra<g ref="char:EOLhyphen" />ry. Prophets in things wherein they are not actually inspired, subject to mistake. St.</hi> Paul <hi>the Writer of this Epistle.</hi>
+                  </p>
+                  <div type="dissertation">
+                     <head>SECOND DISSERTATION.</head>
+                     <p>
+                        <label type="milestone">
+                           <seg type="milestoneunit">§ </seg>1</label> THE <hi>Divine Authority</hi> of the Epistle being vindicated, it is of no great Mo<g ref="char:EOLhyphen" />ment to enquire scrupulously after its <hi>Penman.</hi> Writings that proceed from <hi>Divine Inspiration,</hi> receive no addition of Authority from the Reputation or Esteem of <hi>them</hi> by whom they were written.</p>
+                  </div>
+               </div>
+            </body>
+         </text>
+         <text>
+            <body>
+               <div type="biblical_exegesis">
+                  <pb n="1" facs="tcp:50110:172" />
+                  <head>AN EXPOSITION OF THE TWO FIRST CHAPTERS OF THE Epistle of PAUL the APOSTLE UNTO THE HEBREWS.</head>
+                  <div n="1" type="chapter">
+                     <head>CHAP. I.</head>
+                     <p>
+                        <seg rend="decorInit">T</seg>HE General <hi>scope and design</hi> of the Apostle in this whole <hi>Epistle,</hi> hath been before declared, and needs not here be repeated. In this <hi>first</hi> Chapter he fixeth and improveth the principal con<g ref="char:EOLhyphen" />sideration that he intends to insist on throughout the Epistle, to prevail with the <hi>Hebrews</hi>
+                     </p>
+                     <div type="exposition_of_verse">
+                        <epigraph>
+                           <bibl>Verse 1, 2.</bibl>
+                           <q>
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</q>
+                        </epigraph>
+                        <p>MAny of these words being variously rendred, their true <hi>Grammatical</hi> sense and importance is to be considered before we open the meaning of the whole, and aim of the Apostle in them, in which way we shall also proceed throughout the whole Epistle.</p>
+                        <pb facs="tcp:50110:173" />
+                        <pb n="1" facs="tcp:50110:173" />
+                     </div>
+                     <div type="exposition_of_verse">
+                        <epigraph>
+                           <bibl>Vers. 1, 2.</bibl>
+                           <q>
+                              <hi>By sundry parts, and in diverse manners God having formerly (or of old) spoken unto the Fathers in the Prophets, hath in these last dayes spoken unto us in the Son, whom he hath appointed heir of all, by whom also he made the worlds.</hi>
+                           </q>
+                        </epigraph>
+                        <p>THe Apostle intending a comparison between the <hi>Mosaical Law</hi> and the <hi>Gospel,</hi> referreth it unto two Heads: First, Their <hi>Revelation and Institution</hi>; whence the Obligation to the Observance of the one and the other did arise: and Secondly, Their <hi>whole Nature, <g ref="char:V">Ʋ</g>se and Efficacy.</hi> The First he enters upon in these words, and premising that wherein they did agree, distinctly layes down the severals wherein the difference between them doth consist;</p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse III.</head>
+                        <p>THe Apostle in the pursuit of his <hi>Argument,</hi> proceeds in the Description of the <hi>Person of Christ</hi>; partly as giving a farther account of what he had before affirmed concerning his <hi>Divine Power</hi> in making the worlds; and partly to instruct the <hi>Hebrews</hi> from their own <hi>Typical Institutions,</hi> that it was the </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <epigraph>
+                           <bibl>Verse 3.</bibl>
+                           <q>
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</q>
+                        </epigraph>
+                        <p>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>, is wanting in <hi>M.S.T.</hi> But the sense requires the words, and all other an<g ref="char:EOLhyphen" />tient <hi>Copies</hi> retain them: <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>, is wanting in </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <p>PRoceed we now with our <hi>Apostle</hi> in his description of the <hi>Person</hi> and <hi>Offices</hi> of the <hi>Messiah.</hi>
+                        </p>
+                        <p>This beginning of the <hi>Epistle,</hi> as hath been declared, contains a <hi>summary</hi> Propositi<g ref="char:EOLhyphen" />on of those things, which the <hi>Apostle</hi> intends severally to insist upon throughout the whole. And these all relate to the Person and Offices of the <hi>Messiah,</hi> the principal subject of this <hi>Epistle.</hi> Having therefore first declared him to be the great </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse IV.</head>
+                        <p>THE design of the <hi>Apostle,</hi> as we have now <hi>often</hi> shewed, is to evince the necessity of abiding in the Doctrine of the Gospel, from the <hi>Excellency</hi> of the Person by whom it pleased God to reveal it unto us. This he hath done already in general, in that <hi>Description</hi> which he hath given us of his Person, Power, Works, Offices and Glory;</p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse V.</head>
+                        <p>THe Apostle proceedeth to the confirmation of his Proposition concerning the <hi>Preheminence of the Lord Christ above the Angels,</hi> and of his proof of it from the Excellency of the Name given unto him; And this he doth by sundry <hi>Testimonies</hi> produced out of the Old Testament; two whereof are conjoyned in this Verse, as the Verses are divided in our </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <epigraph>
+                           <bibl>Verse 5.</bibl>
+                           <q>
+                              <hi>Vnto which of the Angels did he at any time</hi> (or ever) <hi>say, thou art my Son this day have I begotten thee.</hi>
+                           </q>
+                        </epigraph>
+                        <p>Two things are considerable in these words.</p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <pb n="141" facs="tcp:50110:243" />
+                        <head>Verse XIV.</head>
+                        <p>THe Apostle having proved the <hi>Preheminence</hi> of the Son as Mediator of the New Testament above all the <hi>Angels,</hi> from those Attributions of Honour and Glory that are made unto him in the Scriptures, the like whereunto are no where made or given unto <hi>Angels</hi>; that he may not appear to argue meerly <hi>negatively</hi>
+                        </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <epigraph>
+                           <bibl>Ver. 14.</bibl>
+                           <q>
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>;</q>
+                        </epigraph>
+                        <p>There is no difference in the <hi>Reading,</hi> nor much about the <hi>Translation</hi> of those words. <hi>Are they not all ministring Spirits, sent out to Minister to</hi> (unto a Ministry for) <hi>them that shall inherit salvation.</hi> This was the common received Doctrine of the Church concerning <hi>Angels,</hi> suitable unto the Scripture, and to the purpose of the Apostle, as manifesting their </p>
+                     </div>
+                     <trailer>End of the first Chapter.</trailer>
+                  </div>
+                  <div n="2" type="chapter">
+                     <head>CHAP. II.</head>
+                     <p>
+                        <seg rend="decorInit">I</seg>N this Second <hi>Chapter</hi> the Apostle declares his <hi>Design,</hi> and what his <hi>especial</hi> Aim was, with respect unto them to whom he wrote. It was not meerly their <hi>Instruction,</hi> or the <hi>Infor<g ref="char:EOLhyphen" />mation</hi> of their Minds and Judgements that he intended; though that also was in his eye, and necessary unto his prin</p>
+                     <div type="exposition_of_verse">
+                        <head>Verse I.</head>
+                        <p>THe <hi>first</hi> Verse contains the <hi>Exhortation</hi> it self intended by the <hi>Apostle, those follow<g ref="char:EOLhyphen" />ing</hi> the <hi>especial Enforcements</hi> of it.</p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse II, III, IV.</head>
+                        <argument>
+                           <p>IN these three Verses the Apostle follows on his <hi>Exhortation</hi> laid down in that fore<g ref="char:EOLhyphen" />going, and giveth many peculiar enforcements unto a due compliance with it, as we shall see in our <hi>Exposition</hi> of them.</p>
+                        </argument>
+                        <epigraph>
+                           <bibl>Verse 3.</bibl>
+                           <q>
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>;</q>
+                        </epigraph>
+                        <p>
+                           <note place="margin">
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</note>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>, <hi>si enim, etenim; and if, for if,</hi>
+                        </p>
+                        <q>
+                           <p>Verse 3.</p>
+                           <p>For if the word spoken <hi>(pronounced)</hi> by Angels, was sure, <hi>(stedfast)</hi> and every transgression, and <hi>(stubborn)</hi> disobedience received a just <hi>(meet, equall)</hi> retribution, <hi>(or) recompence of reward.</hi>
+                           </p>
+                        </q>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse 4.</head>
+                        <q>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>.</q>
+                        <p>
+                           <note place="margin">
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</note>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>, <hi>si neglexerimus; V.L. Eras. Beza</hi>; if we neglect:</p>
+                        <q>
+                           <p>
+                              <pb n="163" facs="tcp:50110:254" />Verse 4.</p>
+                           <p>How shall we escape <hi>(fly or avoid)</hi> if we neglect <hi>(not taking care about)</hi> so great salvation which began to be <hi>(was first of all)</hi> spoken <hi>(de<g ref="char:EOLhyphen" />clared)</hi> by the Lord; and was confirmed <hi>(assured, established)</hi> unto us, by them that heard, </p>
+                        </q>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse 5.</head>
+                        <q>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>.</q>
+                        <p>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>, <hi>contestante Deo; V.L. attestante Deo, Eras.</hi>
+                           <note place="margin">
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>
+                           </note>
+                        </p>
+                        <q>
+                           <p>Verse 5.</p>
+                           <p>God bearing witness with Signs and Wonders <hi>(Prodigies)</hi> and divers <hi>(various)</hi> mighty works <hi>(powers)</hi> and distributions <hi>(divisions)</hi> of the Holy Ghost, according to his own will.</p>
+                        </q>
+                        <p>The design of the Apostle in these three <hi>Verses,</hi> is to confirm and enforce the Infe<g ref="char:EOLhyphen" />rence and Exhortation laid down in the <hi>first</hi>; as that which arose from the Discourse of the former Chapter. The way he proceeds in for this end, is by interposing after his usual manner in this. <hi>Epistle, subservient Motives,</hi>
+                        </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <head>Verse V, VI, VII, VIII, IX.</head>
+                        <p>THe Apostle in these Verses proceeds in the pursuit of his former design. From the Doctrine of the <hi>first Chapter,</hi> he presseth the Exhortation at the beginning of this, which we have passed through. The <hi>Foundation</hi> of that Exhortation was the Preheminence of the Lord Christ, the Author of the Gospel, above the Angels by whom the </p>
+                     </div>
+                     <div type="exposition_of_verse">
+                        <pb n="192" facs="tcp:50110:269" />
+                        <epigraph>
+                           <bibl>Verse 5.</bibl>
+                           <q>
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</q>
+                        </epigraph>
+                        <p>
+                           <note place="margin">
+                              <gap reason="foreign">
+                                 <desc>〈 in non-Latin alphabet 〉</desc>
+                              </gap>.</note>
+                           <gap reason="foreign">
+                              <desc>〈 in non-Latin alphabet 〉</desc>
+                           </gap>; <hi>subjecit; in ordinem coegit; put into subjection</hi>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+               <trailer>FINIS.</trailer>
+            </body>
+         </text>
+      </group>
+   </text>
+</TEI>

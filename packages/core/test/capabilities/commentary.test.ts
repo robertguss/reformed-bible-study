@@ -371,7 +371,15 @@ describe("get_commentary", () => {
     }),
   )
 
-  describe("Owen on Hebrews 6 to 10", () => {
+  describe("Owen on Hebrews 1 and 2 and 6 to 10", () => {
+    const opening = {
+      ref: "Heb.1.1-Heb.1.2",
+      paragraphs: [
+        [{ text: "THE General " }, { text: "scope and design", emphasis: true }],
+        [{ text: "Verse 1, 2." }],
+      ],
+      notes: [],
+    }
     const section = {
       ref: "Heb.6.4-Heb.6.6",
       paragraphs: [
@@ -380,26 +388,37 @@ describe("get_commentary", () => {
       ],
       notes: [],
     }
-    // Owen's real record, with the chapters his volume covers ingested.
+    const chapterFile = (chapter: number, sections: ReadonlyArray<unknown>) =>
+      JSON.stringify({
+        release: RELEASE,
+        payload: { resourceId: OWEN, book: "Heb", chapter, sections },
+      })
+    // Owen's real record, with the chapters his two volumes cover ingested.
     const owenStore = () => {
       const catalog = catalogFile()
       const resources = catalog.payload.resources.map((resource) =>
         resource.id === OWEN
-          ? { ...resource, ingested: [{ book: "Heb", chapters: [6, 7, 8, 9, 10] }] }
+          ? { ...resource, ingested: [{ book: "Heb", chapters: [1, 2, 6, 7, 8, 9, 10] }] }
           : resource,
       )
       return fetchStore(
         new Map(FILES)
           .set("catalog.json", JSON.stringify({ ...catalog, payload: { resources } }))
-          .set(
-            "commentary/owen-hebrews/Heb.6.json",
-            JSON.stringify({
-              release: RELEASE,
-              payload: { resourceId: OWEN, book: "Heb", chapter: 6, sections: [section] },
-            }),
-          ),
+          .set("commentary/owen-hebrews/Heb.1.json", chapterFile(1, [opening]))
+          .set("commentary/owen-hebrews/Heb.6.json", chapterFile(6, [section])),
       )
     }
+
+    it.effect("returns Owen's section on verses 1 and 2 for Hebrews 1:1", () =>
+      Effect.gen(function* () {
+        const result = yield* call(getCommentary, { ref: "Heb 1:1", work: OWEN }, owenStore())
+        expect(result.items.map((item) => [item.value.ref, item.value.display])).toEqual([
+          ["Heb.1.1-Heb.1.2", "Hebrews 1:1-2"],
+        ])
+        expect(result.items[0]?.value.paragraphs).toEqual(opening.paragraphs)
+        expect(result.resources.map((r) => r.coverage)).toEqual(["covered"])
+      }),
+    )
 
     it.effect("returns Owen's section on verses 4 to 6 for Hebrews 6:4", () =>
       Effect.gen(function* () {
@@ -417,17 +436,21 @@ describe("get_commentary", () => {
       }),
     )
 
-    it.effect("reports Hebrews 1:1 as not yet covered and Romans 1:1 as outside his work", () =>
-      Effect.gen(function* () {
-        const store = owenStore()
-        const hebrews = yield* call(getCommentary, { ref: "Heb 1:1", work: OWEN }, store)
-        const romans = yield* call(getCommentary, { ref: "Rom 1:1", work: OWEN }, store)
-        expect([hebrews.items, romans.items]).toEqual([[], []])
-        expect([hebrews, romans].map((result) => result.resources.map((r) => r.coverage))).toEqual([
-          ["not_ingested"],
-          ["outside_work"],
-        ])
-      }),
+    it.effect(
+      "reports Hebrews 3 and 11 as not yet covered and Romans 1:1 as outside his work",
+      () =>
+        Effect.gen(function* () {
+          const store = owenStore()
+          const results = yield* Effect.forEach(["Heb 3:1", "Heb 11:1", "Rom 1:1"], (ref) =>
+            call(getCommentary, { ref, work: OWEN }, store),
+          )
+          expect(results.map((result) => result.items)).toEqual([[], [], []])
+          expect(results.map((result) => result.resources.map((r) => r.coverage))).toEqual([
+            ["not_ingested"],
+            ["not_ingested"],
+            ["outside_work"],
+          ])
+        }),
     )
   })
 })
