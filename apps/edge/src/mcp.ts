@@ -78,15 +78,33 @@ type TextForm = (structured: unknown) => string | undefined
 const form = <A>(
   contract: { readonly name: string; readonly output: Schema.Codec<Envelope<A>, unknown> },
   renderItem: (item: A) => string,
+  lead: (envelope: Envelope<A>) => string | undefined = () => undefined,
 ): readonly [string, TextForm] => {
   const decode = Schema.decodeUnknownOption(Schema.toCodecJson(contract.output))
   return [
     contract.name,
     (structured) =>
       Option.getOrUndefined(
-        Option.map(decode(structured), (envelope) => renderText(envelope, renderItem)),
+        Option.map(decode(structured), (envelope) =>
+          [lead(envelope), renderText(envelope, renderItem)]
+            .filter((block) => block !== undefined)
+            .join("\n\n"),
+        ),
       ),
   ]
+}
+
+/**
+ * The structured result lists every covering commentary, but the text names only works that do not
+ * cover the passage, so an agent reading three Calvin sections would not know others follow.
+ */
+const coveringCommentaries = (envelope: Envelope<CommentaryItem>): string | undefined => {
+  const covering = envelope.resources
+    .filter((r) => r.coverage === "covered" && r.status.state === "active")
+    .map((r) => r.resourceId)
+  return covering.length < 2
+    ? undefined
+    : `Commentaries covering this passage, in this order: ${covering.join(", ")}. Pass one as work to read only its sections.`
 }
 
 const proofHeading = (proof: ConfessionArticleItem["proofs"][number]): string =>
@@ -120,17 +138,20 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
         : `${verse.verse} (not in this translation: ${verse.note})`,
     ),
   ),
-  form(getCommentaryContract, (section: CommentaryItem) =>
-    lines(
-      section.part === undefined
-        ? `On ${section.display}`
-        : `On ${section.display}, part ${section.part.index} of ${section.part.of}`,
-      section.parallels === undefined
-        ? undefined
-        : `Also treats ${section.parallels.map((parallel) => parallel.display).join("; ")}`,
-      ...section.paragraphs.map(plain),
-      ...section.notes.map((note) => `Note: ${plain(note)}`),
-    ),
+  form(
+    getCommentaryContract,
+    (section: CommentaryItem) =>
+      lines(
+        section.part === undefined
+          ? `On ${section.display}`
+          : `On ${section.display}, part ${section.part.index} of ${section.part.of}`,
+        section.parallels === undefined
+          ? undefined
+          : `Also treats ${section.parallels.map((parallel) => parallel.display).join("; ")}`,
+        ...section.paragraphs.map(plain),
+        ...section.notes.map((note) => `Note: ${plain(note)}`),
+      ),
+    coveringCommentaries,
   ),
   form(findConfessionArticlesContract, (article: CitingArticle) =>
     lines(
