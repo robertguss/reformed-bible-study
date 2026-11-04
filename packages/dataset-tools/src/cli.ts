@@ -13,6 +13,7 @@ import {
 import { FetchHttpClient } from "effect/http"
 import { ingestCalvin } from "./ingest/calvin.ts"
 import { ingestConfessions } from "./ingest/confession.ts"
+import { EEBO_COMMENTATORS, ingestEeboCommentator } from "./ingest/eebo-commentators.ts"
 import { HENRY, ingestWholeBible, JFB } from "./ingest/henry-jfb.ts"
 import { ingestOriginalLanguage } from "./ingest/original-language.ts"
 import { ingestOwen } from "./ingest/owen.ts"
@@ -64,6 +65,12 @@ const INGESTS = {
   owen: () => ingestOwen(repoRoot),
   henry: () => ingestWholeBible(repoRoot, HENRY),
   jfb: () => ingestWholeBible(repoRoot, JFB),
+  ...Object.fromEntries(
+    EEBO_COMMENTATORS.map((commentator) => [
+      commentator.resourceId,
+      () => ingestEeboCommentator(repoRoot, commentator),
+    ]),
+  ),
 } as const
 
 const isIngestName = (name: string): name is keyof typeof INGESTS => Object.hasOwn(INGESTS, name)

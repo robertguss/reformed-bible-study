@@ -1,0 +1,17 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Synthetic volume in the EEBO-TCP layout: the second volume of a Psalms commentary, holding Psalms 51 to 100, two of which are kept. -->
+   <text>
+      <body>
+         <div type="psalm" n="51">
+            <head>PSALM 51.</head>
+            <p n="1">Psalm 51, verse 1 expounded.</p>
+            <p n="2">Psalm 51, verse 2 expounded.</p>
+         </div>
+         <div type="psalm" n="100">
+            <head>PSALM 100.</head>
+            <p n="1">Psalm 100, verse 1 expounded.</p>
+            <p n="2">Psalm 100, verse 2 expounded.</p>
+         </div>
+      </body>
+   </text>
+</TEI>
