@@ -106,3 +106,13 @@ SPDX-License-Identifier = "CC-PDM-1.0"
 path = "confessions/cd/**"
 SPDX-FileCopyrightText = "Synod of Dort, 1619, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/bc/**"
+SPDX-FileCopyrightText = "Guy de Brès, 1561, revised 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/bc/**"
+SPDX-FileCopyrightText = "Guy de Brès, 1561, revised 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"

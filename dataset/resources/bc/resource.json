@@ -1,0 +1,39 @@
+{
+  "id": "bc",
+  "kind": "confession",
+  "creator": "Guy de Brès",
+  "language": "en",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  },
+  "title": "The Belgic Confession",
+  "edition": "The Belgic Confession (1561, revised at the Synod of Dort, 1619), in the English translation authorized by the Reformed (Dutch) Church in America, with the Scripture notes Schaff prints to the French text, as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (Harper, 1877)",
+  "source": {
+    "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "sha256": "756adf1ddd466d237221c76b99d25d55cab7e83d08914f28a289c3b90dccddf3"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "quote": "Public Domain"
+      },
+      {
+        "url": "https://archive.org/details/creedsofchriste03scha",
+        "quote": "NOT_IN_COPYRIGHT"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Guy de Brès, The Belgic Confession (1561, revised 1619), English text of the Reformed (Dutch) Church in America with the Scripture notes of the French text, as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877). Public domain."
+  },
+  "modifications": "Took the English text of the 37 articles from Schaff, with the closing line after Article 37, and set each article heading in title case. Left out the French text, Schaff's introduction and his three editorial footnotes. Corrected digitization errors in the CCEL file where the 1877 scan shows the right reading, and listed each correction in source.md. Took the Scripture references of the notes Schaff prints against the French text, and the citations printed in the text, as one proof for the whole article, because the notes are anchored to French phrases rather than to the English clauses. Read the references from the printed notes, converted them to OSIS, and renumbered the Psalm references, which count each psalm title as a verse, to KJV versification. Dropped one reference to a chapter that does not exist. Set italic and small capitals as plain text."
+}

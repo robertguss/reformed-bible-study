@@ -98,9 +98,14 @@ export const CommentaryBook = Schema.Struct({
 })
 export type CommentaryBook = typeof CommentaryBook.Type
 
-/** References supporting one clause of a confession article; `label` is the print's clause letter when it has one. */
+/**
+ * References supporting one clause of a confession article; `label` is the print's clause letter
+ * when it has one. `wholeArticle` marks references the print gives for the whole article rather
+ * than for one clause; such a proof is not counted against the article's runs.
+ */
 export const ProofText = Schema.Struct({
   label: Schema.optionalKey(Schema.String),
+  wholeArticle: Schema.optionalKey(Schema.Literal(true)),
   refs: Schema.Array(OsisRef),
 })
 export type ProofText = typeof ProofText.Type

@@ -59,6 +59,12 @@ as a list. The n-th proof text in an article supports the clause that ends the
 n-th run, counted across the article's paragraphs in order. A Shorter Catechism
 answer is a single run with one or more proof texts.
 
+A proof text marked `"wholeArticle": true` supports the whole article rather
+than one clause, and is not counted against the runs. Use it when the print
+gives references that cannot be tied to a clause of the transcribed text, as
+with the Belgic Confession, whose notes are printed against the French column.
+Leave the field out otherwise; it is never `false`.
+
 ## Ingest
 
 ```sh

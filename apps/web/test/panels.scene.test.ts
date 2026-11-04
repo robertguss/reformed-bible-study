@@ -12,6 +12,7 @@ import { init, update } from "../src/update.ts"
 import { view } from "../src/view.ts"
 import { boot, settle, urlOf } from "./app.ts"
 import {
+  BELGIC_ART_1_TEXT,
   BSB_ATTRIBUTION,
   CALVIN_ATTRIBUTION,
   CATALOG,
@@ -562,6 +563,23 @@ describe("confession pages", () => {
       expect(role("link", { name: "Romans 8:28" })).toHaveAttr("href", "/romans/8/28"),
       expect(role("link", { name: "Ephesians 1:4-5" })).toHaveAttr("href", "/ephesians/1/4-5"),
       expect(selector("footer")).toContainText(WCF_ATTRIBUTION),
+    )
+  })
+
+  it("lists the proofs of a whole Belgic article under its text, against no clause", async () => {
+    const article = await boot("/confessions/bc/1", staticHost({ withBelgic: true }))
+    scene(
+      app,
+      given(article),
+      expect(role("heading", { name: "BC Art. 1: Article 1", level: 1 })).toExist(),
+      expect(Scene.nth(all.selector(".confession-article p"), 1)).toHaveText(BELGIC_ART_1_TEXT),
+      expect(Scene.nth(all.selector(".confession-article p"), 2)).toHaveText(
+        "For the whole article: Ephesians 4:5; Deuteronomy 6:4",
+      ),
+      expect(
+        within(selector(".article-proofs"), role("link", { name: "Ephesians 4:5" })),
+      ).toHaveAttr("href", "/ephesians/4/5"),
+      expect(selector("ul.proofs")).toBeAbsent(),
     )
   })
 })

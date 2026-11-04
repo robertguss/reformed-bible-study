@@ -22,9 +22,16 @@ const ProofLink = Schema.Struct({ osis: Schema.String, display: Schema.String, u
 
 export const ConfessionArticleItem = Schema.Struct({
   ...ArticleFields,
-  /** Scripture proofs, one group per clause; `label` is the print's clause letter when it has one. */
+  /**
+   * Scripture proofs, one group per clause; `label` is the print's clause letter when it has one,
+   * and `wholeArticle` marks a group the print gives for the whole article.
+   */
   proofs: Schema.Array(
-    Schema.Struct({ label: Schema.optionalKey(Schema.String), refs: Schema.Array(ProofLink) }),
+    Schema.Struct({
+      label: Schema.optionalKey(Schema.String),
+      wholeArticle: Schema.optionalKey(Schema.Literal(true)),
+      refs: Schema.Array(ProofLink),
+    }),
   ),
 })
 export type ConfessionArticleItem = typeof ConfessionArticleItem.Type
@@ -95,6 +102,7 @@ export const getConfessionArticle = implement(getConfessionArticleContract, (inp
             paragraphs: article.paragraphs,
             proofs: article.proofs.map((proof) => ({
               ...(proof.label === undefined ? {} : { label: proof.label }),
+              ...(proof.wholeArticle === undefined ? {} : { wholeArticle: proof.wholeArticle }),
               refs: proof.refs.map((ref) => linkOf(origin, ref)),
             })),
           },

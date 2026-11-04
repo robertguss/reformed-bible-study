@@ -47,6 +47,42 @@ describe("release builder", () => {
     }),
   )
 
+  it.effect(
+    "keeps a proof marked as supporting the whole article, and leaves Westminster's file unmarked",
+    () =>
+      Effect.gen(function* () {
+        const base = input()
+        const belgic = {
+          resourceId: "bc",
+          abbreviation: "BC",
+          title: "The Belgic Confession",
+          divisions: [
+            {
+              id: "1",
+              title: "There Is One Only God",
+              articles: [
+                {
+                  id: "Art1",
+                  label: "Article 1",
+                  paragraphs: [[{ text: "We all believe with the heart" }]],
+                  proofs: [{ wholeArticle: true, refs: ["Eph.4.5", "Deut.6.4"] }],
+                },
+              ],
+            },
+          ],
+        } as const
+        const release = yield* build({
+          records: [...base.records, record({ id: "bc", kind: "confession" })],
+          confessions: [...base.confessions, belgic],
+        })
+        const payload = (id: string) =>
+          (release.files.get(shardPaths.confession(id)) as { payload: unknown }).payload
+        expect(JSON.stringify(payload("bc"))).toBe(JSON.stringify(belgic))
+        expect(JSON.stringify(payload("wcf"))).toBe(JSON.stringify(base.confessions[0]))
+        expect(JSON.stringify(payload("wcf"))).not.toContain("wholeArticle")
+      }),
+  )
+
   it.effect("records Calvin covering Romans only, with his scope as the books he wrote on", () =>
     Effect.gen(function* () {
       const release = yield* build()
