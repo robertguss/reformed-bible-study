@@ -16,10 +16,14 @@ import {
   section,
   start,
   testamentSlots,
+  verseSlots,
 } from "./zcom-module.ts"
 
 const fixture = (name: string): string =>
   readFileSync(join(import.meta.dirname, "../fixtures/calvin-romans-sample", `${name}.xml`), "utf8")
+
+const sample = (name: string): string =>
+  readFileSync(join(import.meta.dirname, "../fixtures/henry-jfb-sample", `${name}.xml`), "utf8")
 
 const plain = (runs: ReadonlyArray<TextRun>): string => runs.map((run) => run.text).join("")
 
@@ -389,6 +393,183 @@ describe("CrossWire zCom commentary", () => {
             paragraphs: [[{ text: "That seeing they may see." }]],
             notes: [],
           },
+        ])
+      }),
+    )
+  })
+
+  describe("a zCom4 module, whose entries carry no section markers", () => {
+    const sectionsOf = (
+      work: "matthew-henry" | "jamieson-fausset-brown",
+      testament: "ot" | "nt",
+      book: "Prov" | "Obad" | "Exod" | "Matt" | "Gen" | "Phlm",
+      blocks: Parameters<typeof buildModule>[1],
+    ) =>
+      Effect.gen(function* () {
+        const entries = yield* readZCom(testament, buildModule(testament, blocks, "zCom4"), "zCom4")
+        const read = yield* commentaryBookFromZCom(
+          work,
+          book,
+          entries,
+          new Map(),
+          work === "matthew-henry" ? "introduction" : "chapter-title",
+        )
+        expect(read.misplaced).toEqual([])
+        return read.book.sections.map((s) => [s.ref, s.paragraphs.map(plain)] as const)
+      })
+
+    it.effect("reads an entry past 65,535 bytes in full from its slot's 32-bit size", () =>
+      Effect.gen(function* () {
+        const long = `<div sID="a" type="x-p"/>${"Henry writes at length. ".repeat(3000)}Here the comment closes.<div eID="a" type="x-p"/>`
+        expect(Buffer.byteLength(long)).toBeGreaterThan(65536)
+        const entries = yield* readZCom(
+          "ot",
+          buildModule(
+            "ot",
+            [
+              [
+                { text: long, slots: ["Gen.1.1"] },
+                // The real module links Genesis 4:11 and 4:12 to one entry and leaves the comment
+                // on 4:12 unindexed after it.
+                { text: sample("jfb/Gen.4.11"), slots: ["Gen.4.11", "Gen.4.12"] },
+                { text: sample("jfb/Gen.4.11-unindexed") },
+                { text: sample("jfb/Gen.4.13"), slots: ["Gen.4.13", "Gen.4.14"] },
+              ],
+            ],
+            "zCom4",
+          ),
+          "zCom4",
+        )
+        expect(entries.map((entry) => [entry.slot, entry.text])).toEqual([
+          ["Gen.1.1", long],
+          ["Gen.4.11", sample("jfb/Gen.4.11") + sample("jfb/Gen.4.11-unindexed")],
+          ["Gen.4.13", sample("jfb/Gen.4.13")],
+        ])
+      }),
+    )
+
+    it.effect("makes an entry linked over a range of verses one section covering the range", () =>
+      Effect.gen(function* () {
+        const sections = yield* sectionsOf("matthew-henry", "ot", "Prov", [
+          [
+            { text: sample("mhc/Prov.3.1"), slots: verseSlots("Prov", 3, 1, 6) },
+            { text: sample("mhc/Prov.3.7"), slots: verseSlots("Prov", 3, 7, 12) },
+            {
+              text: `<div sID="p13" type="x-p"/> <hi type="super">13</hi> Happy is the man that findeth wisdom.<div eID="p13" type="x-p"/>`,
+              slots: verseSlots("Prov", 3, 13, 35),
+            },
+          ],
+        ])
+        expect(sections.map(([ref]) => ref)).toEqual([
+          "Prov.3.1-Prov.3.6",
+          "Prov.3.7-Prov.3.12",
+          "Prov.3.13-Prov.3.35",
+        ])
+        expect(sections[0]?.[1].slice(0, 2)).toEqual([
+          "Communion Conferred by Wisdom.",
+          "1 My son, forget not my law; but let thine heart keep my commandments: 2 For length of days, and long life, and peace, shall they add to thee. 3 Let not mercy and truth forsake thee: bind them about thy neck; write them upon the table of thine heart: 4 So shalt thou find favour and good understanding in the sight of God and man. 5 Trust in the Lord with all thine heart; and lean not unto thine own understanding. 6 In all thy ways acknowledge him, and he shall direct thy paths.",
+        ])
+        expect(sections[1]?.[1][0]).toBe("Consecration to God.")
+      }),
+    )
+
+    it.effect("opens a chapter's first section with the introduction in the chapter's slot", () =>
+      Effect.gen(function* () {
+        const sections = yield* sectionsOf("matthew-henry", "ot", "Prov", [
+          [
+            { text: sample("mhc/Prov.3"), slots: ["Prov.3"] },
+            { text: sample("mhc/Prov.3.1"), slots: verseSlots("Prov", 3, 1, 6) },
+          ],
+        ])
+        expect(sections.map(([ref]) => ref)).toEqual(["Prov.3.1-Prov.3.35"])
+        expect(sections[0]?.[1][0]).toMatch(
+          /^This chapter is one of the most excellent in all this book.* From all this it appears what a tendency religion has to make men both blessed and blessings\.$/,
+        )
+        expect(sections[0]?.[1][1]).toBe("Communion Conferred by Wisdom.")
+      }),
+    )
+
+    it.effect("leaves out a book's introduction and keeps the chapter's", () =>
+      Effect.gen(function* () {
+        const henry = yield* sectionsOf("matthew-henry", "ot", "Obad", [
+          [
+            { text: sample("mhc/Obad"), slots: ["Obad"] },
+            { text: sample("mhc/Obad.1"), slots: ["Obad.1"] },
+            {
+              text: `<div eID="gen20265" type="x-p"/> <div eID="gen20264" type="introduction"/> <title type="x-s3">The Doom of Edom.</title> <div sID="o1" type="x-p"/> <hi type="super">1</hi> The vision of Obadiah.<div eID="o1" type="x-p"/>`,
+              slots: verseSlots("Obad", 1, 1, 21),
+            },
+          ],
+        ])
+        expect(henry.map(([ref]) => ref)).toEqual(["Obad.1.1-Obad.1.21"])
+        expect(henry[0]?.[1][0]).toMatch(/^This book is wholly concerning Edom/)
+        expect(henry[0]?.[1].slice(1)).toEqual(["The Doom of Edom.", "1 The vision of Obadiah."])
+        expect(JSON.stringify(henry)).not.toContain("shortest of all the books")
+
+        const jfb = yield* sectionsOf("jamieson-fausset-brown", "ot", "Exod", [
+          [
+            { text: sample("jfb/Exod"), slots: ["Exod"] },
+            { text: sample("jfb/Exod.1"), slots: ["Exod.1"] },
+            { text: sample("jfb/Exod.1.1"), slots: ["Exod.1.1"] },
+            { text: sample("jfb/Exod.1.7"), slots: ["Exod.1.7"] },
+          ],
+        ])
+        expect(jfb.map(([ref]) => ref)).toEqual(["Exod.1.1-Exod.1.6", "Exod.1.7-Exod.1.22"])
+        expect(jfb[0]?.[1]).toEqual([
+          "Ex 1:1-22. Increase of the Israelites.",
+          "1. Now these are the names--(See Ge 46:8-26).",
+        ])
+
+        // A book of one chapter has no chapter title, so its introduction runs to the verse.
+        const philemon = yield* sectionsOf("jamieson-fausset-brown", "nt", "Phlm", [
+          [
+            { text: sample("jfb/Phlm.1"), slots: ["Phlm.1"] },
+            { text: sample("jfb/Phlm.1.1"), slots: ["Phlm.1.1"] },
+          ],
+        ])
+        expect(philemon.map(([ref, paragraphs]) => [ref, paragraphs[0]])).toEqual([
+          [
+            "Phlm.1.1-Phlm.1.25",
+            `1. prisoner of Jesus Christ--one whom Christ's cause has made a prisoner (compare "in the bonds of the Gospel," (Phm 13). He does not call himself, as in other Epistles, "Paul an apostle," as he is writing familiarly, not authoritatively.`,
+          ],
+        ])
+      }),
+    )
+
+    it.effect("starts a chapter's opening section at its first verse", () =>
+      Effect.gen(function* () {
+        // Jamieson-Fausset-Brown heads Genesis 6 from verse 1 but first comments on verse 2.
+        const sections = yield* sectionsOf("jamieson-fausset-brown", "ot", "Gen", [
+          [
+            { text: sample("jfb/Gen.6.2"), slots: ["Gen.6.2"] },
+            {
+              text: '<div sID="g3" type="x-p"/>3. My spirit shall not always strive--<div eID="g3" type="x-p"/>',
+              slots: ["Gen.6.3"],
+            },
+          ],
+        ])
+        expect(sections.map(([ref, paragraphs]) => [ref, paragraphs[0]])).toEqual([
+          ["Gen.6.1-Gen.6.2", "Ge 6:1-22. Wickedness of the World."],
+          ["Gen.6.3-Gen.6.22", "3. My spirit shall not always strive--"],
+        ])
+      }),
+    )
+
+    it.effect("gives a chapter held only in its chapter slot one section over the chapter", () =>
+      Effect.gen(function* () {
+        // Text after the chapter ends, such as the title of the next volume's preface that the
+        // real module prints after Malachi 4, belongs to no chapter.
+        const sections = yield* sectionsOf("jamieson-fausset-brown", "nt", "Matt", [
+          [{ text: `${sample("jfb/Matt.24")} PREFACE`, slots: ["Matt.24"] }],
+        ])
+        expect(sections).toEqual([
+          [
+            "Matt.24.1-Matt.24.51",
+            [
+              "Mt 24:1-51. Christ's Prophecy of the Destruction of Jerusalem, and Warnings Suggested by It to Prepare for His Second Coming. ( = Mr 13:1-37; Lu 21:5-36).",
+              "For the exposition, see on Mr 13:1-37.",
+            ],
+          ],
         ])
       }),
     )

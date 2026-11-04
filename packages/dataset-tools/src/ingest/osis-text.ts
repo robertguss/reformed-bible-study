@@ -228,3 +228,110 @@ export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextEr
       tables,
     }
   })
+
+/**
+ * Titles that head a passage within a chapter. Every other title names a volume, a book or a
+ * chapter, and is left out.
+ */
+const PASSAGE_HEADINGS: ReadonlySet<string> = new Set(["x-s3", "x-s4"])
+
+/** Titles that name a chapter, such as Jamieson-Fausset-Brown's "CHAPTER 2" or "PSALM 3". */
+const CHAPTER_TITLES: ReadonlySet<string> = new Set(["x-s", "x-s2"])
+
+/**
+ * Where a chapter's own text starts in the entry that opens it, after the book's front matter. In
+ * Henry's module it starts with the chapter's introduction division. In Jamieson-Fausset-Brown's
+ * it starts after the chapter's title, and in a book of one chapter, which has no chapter title,
+ * after the text printed before the first verse.
+ */
+export type ChapterStart = "introduction" | "chapter-title"
+
+/**
+ * Reads the text of an entry that has no section markers, as in the CrossWire modules of Matthew
+ * Henry and Jamieson-Fausset-Brown, into paragraphs and notes. A passage heading is a paragraph of
+ * its own, and a line of verse is too. Any other title is left out, as is text after a chapter's
+ * end until the next chapter starts.
+ *
+ * For a chapter's opening entry, the text of its chapter slot followed by its first verse entry,
+ * `opening` says where the chapter's own text starts. Everything before that is the book's front
+ * matter and is left out.
+ */
+export const parseOsisText = (
+  xml: string,
+  opening: ChapterStart | undefined,
+): Effect.Effect<Omit<OsisSection, "ref">, OsisTextError> =>
+  Effect.gen(function* () {
+    const tree = yield* Effect.try({
+      try: () => parser.parse(`<entry>${xml}</entry>`) as ReadonlyArray<XmlNode>,
+      catch: (error) => new OsisTextError({ detail: String(error) }),
+    })
+    let body = new Paragraphs()
+    let notes: Array<Array<TextRun>> = []
+    let note: Paragraphs | undefined
+    let inChapter = true
+    let titled = false
+    const target = () => (inChapter ? (note ?? body) : undefined)
+    const restart = () => {
+      body = new Paragraphs()
+      notes = []
+    }
+
+    const walk = (nodes: ReadonlyArray<XmlNode>, emphasis: boolean): void => {
+      for (const node of nodes) {
+        const text = node[TEXT]
+        if (typeof text === "string") {
+          target()?.add(decodeEntities(text), emphasis)
+          continue
+        }
+        const name = elementName(node)
+        if (name === undefined) continue
+        const children = childrenOf(node, name)
+        const type = attribute(node, "type") ?? ""
+        if (name === "chapter") {
+          if (attribute(node, "eID") !== undefined) {
+            body.break()
+            inChapter = false
+          } else if (attribute(node, "sID") !== undefined) inChapter = true
+        } else if (name === "title") {
+          body.break()
+          if (PASSAGE_HEADINGS.has(type)) {
+            walk(children, emphasis)
+            body.break()
+          } else if (opening === "chapter-title" && CHAPTER_TITLES.has(type)) {
+            restart()
+            titled = true
+          }
+        } else if (name === "div" || name === "p" || name === "lg" || name === "l") {
+          if (opening === "introduction" && type === "introduction" && attribute(node, "sID"))
+            restart()
+          if (
+            opening === "chapter-title" &&
+            !titled &&
+            attribute(node, "subType") === "x-preverse" &&
+            attribute(node, "eID")
+          )
+            restart()
+          target()?.break()
+          walk(children, emphasis)
+          target()?.break()
+        } else if (name === "note") {
+          if (note !== undefined || !inChapter) {
+            walk(children, emphasis)
+            continue
+          }
+          note = new Paragraphs()
+          walk(children, false)
+          note.break()
+          const runs = joinParagraphs(note.done)
+          if (runs.length > 0) notes.push(runs)
+          note = undefined
+        } else if (name === "lb") target()?.add(" ", emphasis)
+        else walk(children, emphasis || name === "hi")
+      }
+    }
+
+    const root = tree.find((node) => elementName(node) === "entry")
+    walk(root === undefined ? [] : childrenOf(root, "entry"), false)
+    body.break()
+    return { paragraphs: body.done, notes }
+  })

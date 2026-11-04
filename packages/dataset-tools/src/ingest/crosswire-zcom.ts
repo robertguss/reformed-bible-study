@@ -13,7 +13,12 @@ import {
   type VerseRef,
 } from "@reformed-bible/core"
 import { Effect, Result, Schema } from "effect"
-import { parseOsisEntry, type OsisTextError } from "./osis-text.ts"
+import {
+  type ChapterStart,
+  parseOsisEntry,
+  parseOsisText,
+  type OsisTextError,
+} from "./osis-text.ts"
 
 export const ZComFailures = ["missing-file", "corrupt", "too-large", "misplaced-entries"] as const
 
@@ -26,6 +31,12 @@ export class ZComError extends Schema.TaggedError<ZComError, { readonly brand: u
 ) {}
 
 export type Testament = "ot" | "nt"
+
+/**
+ * The module's driver, as its `.conf` names it in `ModDrv`. A zCom slot is 10 bytes with a 16-bit
+ * entry size; a zCom4 slot is 12 bytes with a 32-bit size.
+ */
+export type ZComDriver = "zCom" | "zCom4"
 
 export interface ZComFiles {
   readonly bzs: Uint8Array
@@ -49,7 +60,7 @@ export interface MisplacedEntry {
   readonly ref: string | undefined
 }
 
-const SLOT_BYTES = 10
+const SLOT_BYTES: Readonly<Record<ZComDriver, number>> = { zCom: 10, zCom4: 12 }
 const BLOCK_BYTES = 12
 const MAX_BLOCK_BYTES = 64 * 1024 * 1024
 const OLD_TESTAMENT_BOOKS = 39
@@ -95,22 +106,26 @@ const fail = (reason: ZComError["reason"], detail: string) =>
   Effect.fail(new ZComError({ reason, detail }))
 
 /**
- * Reads every entry of one testament of a zCom module, decompressing its blocks with zlib. Slots
- * that point at the same text as the slot before them are links that extend one entry over
- * several verses, so each entry is returned once, at its first slot.
+ * Reads every entry of one testament of a zCom or zCom4 module, decompressing its blocks with
+ * zlib. Slots that point at the same text as the slot before them are links that extend one entry
+ * over several verses, so each entry is returned once, at its first slot.
  *
- * A slot stores its entry's size in 16 bits, so a longer entry's stated size has wrapped. Its true
- * size is the stated size plus as many whole 65,536 bytes as fit before the next indexed entry in
- * the block, or the block's end. An entry that several slots link to reads all the way there: in
- * the chapters where every verse links to one entry, the other verse sections follow it unindexed.
+ * A zCom slot stores its entry's size in 16 bits, so a longer entry's stated size has wrapped. Its
+ * true size is the stated size plus as many whole 65,536 bytes as fit before the next indexed
+ * entry in the block, or the block's end. An entry that several slots link to reads all the way
+ * there, in either driver: in Calvin's chapters where every verse links to one entry, the other
+ * verse sections follow it unindexed, as do the comments on the later verses of a link in
+ * Jamieson-Fausset-Brown.
  */
 export const readZCom = (
   testament: Testament,
   files: ZComFiles,
+  driver: ZComDriver = "zCom",
 ): Effect.Effect<ReadonlyArray<ZComEntry>, ZComError> =>
   Effect.gen(function* () {
     const slots = testamentSlots(testament)
-    const slotCount = files.bzv.byteLength / SLOT_BYTES
+    const slotBytes = SLOT_BYTES[driver]
+    const slotCount = files.bzv.byteLength / slotBytes
     if (slotCount !== slots.length) {
       return yield* fail(
         "corrupt",
@@ -153,10 +168,11 @@ export const readZCom = (
     const offsets = new Map<number, Array<number>>()
     let previous: (typeof indexed)[number] | undefined
     for (let i = 0; i < slots.length; i++) {
-      const at = i * SLOT_BYTES
+      const at = i * slotBytes
       const blockNumber = verseIndex.getUint32(at, true)
       const offset = verseIndex.getUint32(at + 4, true)
-      const size = verseIndex.getUint16(at + 8, true)
+      const size =
+        driver === "zCom4" ? verseIndex.getUint32(at + 8, true) : verseIndex.getUint16(at + 8, true)
       if (size === 0) {
         previous = undefined
         continue
@@ -182,7 +198,12 @@ export const readZCom = (
       }
       const next = offsets.get(blockNumber)?.find((o) => o > offset) ?? bytes.byteLength
       const room = next - offset - size
-      const end = room < 0 ? offset + size : linked ? next : next - (room % WRAP_BYTES)
+      const end =
+        linked && room >= 0
+          ? next
+          : room < 0 || driver === "zCom4"
+            ? offset + size
+            : next - (room % WRAP_BYTES)
       const slot = slots[i] as Slot
       entries.push({
         ...slot,
@@ -302,13 +323,61 @@ const rangeOf = (
 }
 
 /**
- * Builds one book's commentary from its zCom entries. Every section in an entry is placed at its
- * own verse. A chapter-level section (`Ps.1`) opens the chapter's first verse section in the same
- * entry, or stands at the chapter's first verse when the entry has none; once the chapter's verse
- * sections have begun, a later one is front matter and is left out. A section ends before the next
- * section in its book or at the end of its own chapter, whichever comes first. With the pericopes of
- * the book's harmony, a section headed by one also ends with its pericope's passage in this book,
- * and lists the pericope's passages in the other books as its parallels.
+ * The book's verse entries in slot order, each with whether it opens its chapter. The entry in a
+ * chapter's own slot, such as a chapter introduction, is read as the start of the chapter's first
+ * verse entry, or stands at the chapter's first verse when the chapter has none. The book's own
+ * slot holds its introduction, which is left out.
+ */
+const verseEntries = (
+  book: BookId,
+  entries: ReadonlyArray<ZComEntry>,
+): ReadonlyArray<{ readonly entry: ZComEntry; readonly opening: boolean }> => {
+  const read: Array<{ readonly entry: ZComEntry; readonly opening: boolean }> = []
+  let chapterSlot: ZComEntry | undefined
+  let chapter = 0
+  const standAlone = () => {
+    if (chapterSlot === undefined) return
+    const slot = `${book}.${chapterSlot.chapter}.1`
+    read.push({ entry: { ...chapterSlot, verse: 1, slot }, opening: true })
+    chapterSlot = undefined
+  }
+  for (const entry of entries) {
+    if (entry.book !== book || entry.chapter === 0) continue
+    if (entry.verse === 0) {
+      standAlone()
+      chapterSlot = entry
+      continue
+    }
+    const opening = entry.chapter !== chapter
+    chapter = entry.chapter
+    if (chapterSlot?.chapter === entry.chapter) {
+      read.push({ entry: { ...entry, text: chapterSlot.text + entry.text }, opening })
+      chapterSlot = undefined
+    } else {
+      standAlone()
+      read.push({ entry, opening })
+    }
+  }
+  standAlone()
+  return read
+}
+
+/**
+ * Builds one book's commentary from its zCom entries. A section ends before the next section in
+ * its book or at the end of its own chapter, whichever comes first.
+ *
+ * An entry with no section markers, as in Henry's and Jamieson-Fausset-Brown's modules, is one
+ * section at its slot's verse, read as `parseOsisText` reads it, with `chapterStart` saying where
+ * a chapter's own text starts. The entry that opens a chapter starts at the chapter's first verse:
+ * it carries the chapter's introduction or heading, and in a few chapters Henry's comment on the
+ * first verse opens the entry of the second.
+ *
+ * Otherwise every section in an entry is placed at its own verse. A chapter-level section (`Ps.1`)
+ * opens the chapter's first verse section in the same entry, or stands at the chapter's first verse
+ * when the entry has none; once the chapter's verse sections have begun, a later one is front
+ * matter and is left out. With the pericopes of the book's harmony, a section headed by one also
+ * ends with its pericope's passage in this book, and lists the pericope's passages in the other
+ * books as its parallels.
  *
  * An entry whose first section is not the verse of its slot is reported as misplaced and left out,
  * as is a section outside the book, or a second, different section on a verse that already has one.
@@ -319,6 +388,7 @@ export const commentaryBookFromZCom = (
   book: BookId,
   entries: ReadonlyArray<ZComEntry>,
   pericopes: HarmonyPericopes = new Map(),
+  chapterStart: ChapterStart = "introduction",
 ): Effect.Effect<
   { readonly book: CommentaryBook; readonly misplaced: ReadonlyArray<MisplacedEntry> },
   OsisTextError
@@ -326,9 +396,22 @@ export const commentaryBookFromZCom = (
   Effect.gen(function* () {
     const placed = new Map<string, Placed>()
     const misplaced: Array<MisplacedEntry> = []
-    for (const entry of entries) {
-      if (entry.book !== book) continue
+    for (const { entry, opening: opensChapter } of verseEntries(book, entries)) {
       const { sections: parsed } = yield* parseOsisEntry(entry.text)
+      if (parsed.length === 0) {
+        const section = yield* parseOsisText(entry.text, opensChapter ? chapterStart : undefined)
+        const verse = opensChapter ? 1 : entry.verse
+        const key = `${entry.chapter}.${verse}`
+        if (section.paragraphs.length === 0 && section.notes.length === 0) continue
+        if (placed.has(key)) misplaced.push({ slot: entry.slot, ref: entry.slot })
+        else
+          placed.set(key, {
+            start: { book, chapter: entry.chapter, verse },
+            section,
+            pericope: [],
+          })
+        continue
+      }
       const headings = pericopes.get(entry.slot) ?? []
       const found: Array<Placed & { readonly ref: string }> = []
       const strays: Array<MisplacedEntry> = []

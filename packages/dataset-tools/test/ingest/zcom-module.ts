@@ -32,22 +32,38 @@ export const chapterSlots = (book: string, chapter: number): ReadonlyArray<strin
   return Array.from({ length: verses ?? 0 }, (_, v) => `${book}.${chapter}.${v + 1}`)
 }
 
+/** The slots of verses `from` to `to` of a chapter, for an entry that all of them link to. */
+export const verseSlots = (
+  book: string,
+  chapter: number,
+  from: number,
+  to: number,
+): ReadonlyArray<string> =>
+  Array.from({ length: to - from + 1 }, (_, v) => `${book}.${chapter}.${from + v}`)
+
 /**
- * Builds the zCom files of one testament, one compressed block per inner list. Like the real
- * module, each slot stores its entry's size in 16 bits, so a longer entry's size wraps.
+ * Builds the files of one testament, one compressed block per inner list. In a zCom module, as in
+ * Calvin's, each 10-byte slot stores its entry's size in 16 bits, so a longer entry's size wraps.
+ * A zCom4 module, as Henry's and Jamieson-Fausset-Brown's, has 12-byte slots with a 32-bit size.
  */
-export const buildModule = (testament: "ot" | "nt", blocks: ReadonlyArray<ReadonlyArray<Part>>) => {
+export const buildModule = (
+  testament: "ot" | "nt",
+  blocks: ReadonlyArray<ReadonlyArray<Part>>,
+  driver: "zCom" | "zCom4" = "zCom",
+) => {
   const slots = testamentSlots(testament)
-  const bzv = Buffer.alloc(slots.length * 10)
+  const width = driver === "zCom4" ? 12 : 10
+  const bzv = Buffer.alloc(slots.length * width)
   const inflated = blocks.map((parts, block) => {
     let offset = 0
     const bytes = parts.map((part) => {
       const text = Buffer.from(part.text, "utf8")
       for (const label of part.slots ?? []) {
         const index = slots.indexOf(label)
-        bzv.writeUInt32LE(block, index * 10)
-        bzv.writeUInt32LE(offset, index * 10 + 4)
-        bzv.writeUInt16LE(text.length % 65536, index * 10 + 8)
+        bzv.writeUInt32LE(block, index * width)
+        bzv.writeUInt32LE(offset, index * width + 4)
+        if (driver === "zCom4") bzv.writeUInt32LE(text.length, index * width + 8)
+        else bzv.writeUInt16LE(text.length % 65536, index * width + 8)
       }
       offset += text.length
       return text
