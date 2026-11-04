@@ -24,6 +24,7 @@ export const readingOfRoute = (route: AppRoute): Option.Option<Reading> =>
       Option.some({ book, chapter, selection: Option.some(verses), t }),
     ConfessionSection: () => Option.none(),
     ConfessionQuestion: () => Option.none(),
+    ConfessionConclusion: () => Option.none(),
     NotFound: () => Option.none(),
   })
 

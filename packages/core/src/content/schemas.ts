@@ -107,8 +107,10 @@ export type ProofText = typeof ProofText.Type
 
 /** A confession section or catechism question with its proof texts. */
 export const ConfessionArticle = Schema.Struct({
-  /** Stable article id within the confession, such as `3.5` or `Q30`. */
-  id: Schema.String.check(Schema.isPattern(/^(?:\d+\.\d+|Q\d+|[IVX]+\.\d+|Art\d+)$/)),
+  /** Stable, slash-free article id within the confession, such as `3.5`, `Q30`, `Art16`, `III-IV.4` or `Conclusion`. */
+  id: Schema.String.check(
+    Schema.isPattern(/^(?:\d+\.\d+|Q\d+|(?:I|II|III-IV|V)\.\d+|Art\d+|Conclusion)$/),
+  ),
   label: Schema.String,
   question: Schema.optionalKey(TextRuns),
   paragraphs: Schema.Array(TextRuns),

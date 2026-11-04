@@ -40,9 +40,21 @@ export const AppRoute = defineRouteUnion({
   },
   ConfessionSection: { confession: Schema.String, part: Schema.String, section: Schema.Int },
   ConfessionQuestion: { confession: Schema.String, number: Schema.Int },
+  ConfessionConclusion: { confession: Schema.String },
   NotFound: { path: Schema.String },
 })
 export type AppRoute = typeof AppRoute.Type
+
+/** A route that opens one confession article. */
+export type ConfessionRoute =
+  | typeof AppRoute.ConfessionSection.Type
+  | typeof AppRoute.ConfessionQuestion.Type
+  | typeof AppRoute.ConfessionConclusion.Type
+
+export const isConfessionRoute = (route: AppRoute): route is ConfessionRoute =>
+  AppRoute.guards.ConfessionSection(route) ||
+  AppRoute.guards.ConfessionQuestion(route) ||
+  AppRoute.guards.ConfessionConclusion(route)
 
 export const homeRouter = pipe(Route.root, Route.mapTo(AppRoute.Home))
 
@@ -76,11 +88,19 @@ export const confessionQuestionRouter = pipe(
   Route.mapTo(AppRoute.ConfessionQuestion),
 )
 
+export const confessionConclusionRouter = pipe(
+  literal("confessions"),
+  slash(string("confession")),
+  slash(literal("conclusion")),
+  Route.mapTo(AppRoute.ConfessionConclusion),
+)
+
 export const urlToAppRoute = Route.parseUrlWithFallback(
   Route.oneOf(
     homeRouter,
     confessionSectionRouter,
     confessionQuestionRouter,
+    confessionConclusionRouter,
     chapterRouter,
     versesRouter,
   ),
@@ -94,10 +114,12 @@ export const hrefOfRoute = (route: AppRoute): string =>
     Verses: (verses) => versesRouter(verses),
     ConfessionSection: (section) => confessionSectionRouter(section),
     ConfessionQuestion: (question) => confessionQuestionRouter(question),
+    ConfessionConclusion: (conclusion) => confessionConclusionRouter(conclusion),
     NotFound: ({ path }) => path,
   })
 
 export const confessionArticleHref = (confession: string, articleId: string): string => {
+  if (articleId === "Conclusion") return confessionConclusionRouter({ confession })
   const numbered = /^(?:Q|Art)(\d+)$/.exec(articleId)
   if (numbered !== null)
     return confessionQuestionRouter({ confession, number: Number(numbered[1]) })
@@ -106,11 +128,13 @@ export const confessionArticleHref = (confession: string, articleId: string): st
 }
 
 export const articleOfRoute = (
-  route: typeof AppRoute.ConfessionSection.Type | typeof AppRoute.ConfessionQuestion.Type,
+  route: ConfessionRoute,
 ): Option.Option<{ readonly confession: string; readonly article: string }> => {
   const citation = AppRoute.guards.ConfessionSection(route)
     ? `${route.confession} ${route.part}.${route.section}`
-    : `${route.confession} ${route.number}`
+    : AppRoute.guards.ConfessionQuestion(route)
+      ? `${route.confession} ${route.number}`
+      : `${route.confession} conclusion`
   return pipe(
     parseArticleIdentifier(citation),
     Result.map(({ confession, article }) => ({ confession: confession as string, article })),

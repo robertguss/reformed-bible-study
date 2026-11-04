@@ -38,16 +38,26 @@ describe("web URL contract", () => {
     )
   })
 
-  it("writes confession paths by chapter and section, or by question", () => {
+  it("writes confession paths by chapter and section, head and article, question, or the Conclusion", () => {
     expect([
       confessionArticlePath("wcf", "3.6"),
       confessionArticlePath("wsc", "Q30"),
       confessionArticlePath("wlc", "Q45"),
+      confessionArticlePath("hc", "Q86"),
+      confessionArticlePath("bc", "Art16"),
+      confessionArticlePath("cd", "I.7"),
+      confessionArticlePath("cd", "III-IV.4"),
+      confessionArticlePath("cd", "Conclusion"),
       confessionPath("wcf"),
     ]).toEqual([
       "/confessions/wcf/3/6",
       "/confessions/wsc/30",
       "/confessions/wlc/45",
+      "/confessions/hc/86",
+      "/confessions/bc/16",
+      "/confessions/cd/I/7",
+      "/confessions/cd/III-IV/4",
+      "/confessions/cd/conclusion",
       "/confessions/wcf",
     ])
   })

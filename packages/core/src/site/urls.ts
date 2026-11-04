@@ -19,9 +19,11 @@ export const confessionPath = (confession: string): string => `/confessions/${co
 
 /**
  * Web path of one article: `/confessions/wcf/3/5` for a chapter and section, `/confessions/wsc/30`
- * for a question, `/confessions/bc/16` for an article and `/confessions/cd/I/7` for a head and article.
+ * for a question, `/confessions/bc/16` for an article, `/confessions/cd/III-IV/4` for a head and
+ * article, and `/confessions/cd/conclusion` for the Canons of Dort's Conclusion.
  */
 export const confessionArticlePath = (confession: string, article: string): string => {
+  if (article === "Conclusion") return `${confessionPath(confession)}/conclusion`
   const numbered = /^(?:Q|Art)(\d+)$/.exec(article)
   const parts = numbered === null ? article.split(".") : [numbered[1] ?? article]
   return `${confessionPath(confession)}/${parts.join("/")}`
