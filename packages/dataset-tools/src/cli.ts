@@ -2,7 +2,14 @@ import { createHash } from "node:crypto"
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs"
 import { join, relative, resolve } from "node:path"
 import { Console, DateTime, Effect } from "effect"
-import { buildRelease, loadReleaseInput, writeRelease } from "./build/release.ts"
+import { rebuildFromArchive } from "./build/from-archive.ts"
+import {
+  buildRelease,
+  loadReleaseInput,
+  type ReleaseLock,
+  writeRelease,
+  writeStaticFiles,
+} from "./build/release.ts"
 import { FetchHttpClient } from "effect/http"
 import { ingestCalvin } from "./ingest/calvin.ts"
 import { ingestConfessions } from "./ingest/confession.ts"
@@ -81,6 +88,24 @@ const build = Effect.gen(function* () {
   return true
 })
 
+const fromArchive = (args: ReadonlyArray<string>) =>
+  Effect.gen(function* () {
+    const lock = JSON.parse(
+      readFileSync(join(repoRoot, "dataset", "release.lock.json"), "utf8"),
+    ) as ReleaseLock
+    const archivePath = args[0] ?? join(repoRoot, "dist", "release", lock.archive)
+    if (!existsSync(archivePath)) {
+      yield* Console.error(
+        `${archivePath} not found; download it with: gh release download dataset-${lock.release} --pattern ${lock.archive} --dir dist/release`,
+      )
+      return false
+    }
+    const release = yield* rebuildFromArchive(readFileSync(archivePath), lock)
+    writeStaticFiles(release, join(repoRoot, "dist", "release"))
+    yield* Console.log(`release ${release.release}: ${release.files.size} static files rebuilt`)
+    return true
+  })
+
 const validate = (args: ReadonlyArray<string>) =>
   Effect.gen(function* () {
     const datasetRoot = join(repoRoot, "dataset")
@@ -103,7 +128,10 @@ const main = Effect.gen(function* () {
   if (command === "validate") return yield* validate(args)
   if (command === "ingest") return yield* ingest(args)
   if (command === "build") return yield* build
-  yield* Console.error("usage: dataset-tools validate [--json] | ingest [all | <name>...] | build")
+  if (command === "from-archive") return yield* fromArchive(args)
+  yield* Console.error(
+    "usage: dataset-tools validate [--json] | ingest [all | <name>...] | build | from-archive [<archive>]",
+  )
   return false
 })
 

@@ -9,9 +9,14 @@
     "lint": "effect-tsgo oxlint --type-aware",
     "typecheck": "effect-tsgo tsc -p tsconfig.json",
     "test": "vitest run",
+    "test:parity": "vitest run tests/parity",
+    "evals": "vitest run --config evals/vitest.config.ts",
     "dataset:validate": "node packages/dataset-tools/src/cli.ts validate",
     "dataset:ingest": "node packages/dataset-tools/src/cli.ts ingest",
-    "dataset:build": "node packages/dataset-tools/src/cli.ts build"
+    "dataset:build": "node packages/dataset-tools/src/cli.ts build",
+    "dataset:from-archive": "node packages/dataset-tools/src/cli.ts from-archive",
+    "deploy:assemble": "node apps/infra/src/assemble.ts",
+    "deploy:smoke": "node apps/infra/src/smoke.ts"
   },
   "devDependencies": {
     "@effect/tsgo": "catalog:",
