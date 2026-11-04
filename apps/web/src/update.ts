@@ -1,7 +1,7 @@
 import { formatPassage, parseReference, passagePath } from "@reformed-bible/core"
 import * as Tabs from "@foldkit/ui/tabs"
 import { Option, Result } from "effect"
-import { type Runtime, Update } from "foldkit"
+import { Command, type Runtime, Update } from "foldkit"
 import { UrlRequest } from "foldkit/navigation"
 import { modifyFields } from "foldkit/struct"
 import { toString as urlToString, type Url } from "foldkit/url"
@@ -17,7 +17,13 @@ import {
 import type { Flags } from "./layout/storage.ts"
 import { Message } from "./message.ts"
 import { CatalogState, catalogOf, type Model } from "./model.ts"
-import { LoadExternal, NavigateInternal, ReplaceUrl, ScrollToVerse } from "./navigation.ts"
+import {
+  LoadExternal,
+  NavigateInternal,
+  ReplaceUrl,
+  ScrollToPanel,
+  ScrollToVerse,
+} from "./navigation.ts"
 import { addablePanels, movePanel, removePanel } from "./panels/arrangement.ts"
 import * as Panel from "./panels/panel.ts"
 import * as Reader from "./reader/index.ts"
@@ -122,8 +128,11 @@ const panelFold = <Input>(update: (panel: Panel.Model, input: Input) => Panel.Up
         panels: (panels) => panels.map((panel) => (panel.id === id ? next : panel)),
       }),
     toParentMessage: (panelId, message) => Message.GotPanelMessage({ panelId, message }),
-    foldOutMessage: () => (outMessage) =>
-      Panel.OutMessage.match<Step>(outMessage, { DetectedMissingContent: () => requestReload }),
+    foldOutMessage: (panelId) => (outMessage) =>
+      Panel.OutMessage.match<Step>(outMessage, {
+        DetectedMissingContent: () => requestReload,
+        SelectedCommentary: ({ resourceId }) => openCommentaryAfter(panelId, resourceId),
+      }),
   })
 
 const foldPanel = panelFold(Panel.update)
@@ -238,23 +247,65 @@ const changeArrangement = (
   change: (panels: Model["saved"]["panels"]) => Model["saved"]["panels"],
 ): Model => modifyFields(model, { saved: (saved) => modifyFields(saved, { panels: change }) })
 
+/** Places a panel at this position in the arrangement and loads it for the passage on screen. */
+const insertPanel =
+  (spec: Panel.PanelSpec, at: number): Step =>
+  (model) => {
+    const added = modifyFields(
+      changeArrangement(model, (panels) => [...panels.slice(0, at), spec, ...panels.slice(at)]),
+      {
+        panels: (panels) => [...panels, Panel.init(spec)],
+      },
+    )
+    return Option.match(validReading(added.route), {
+      onNone: () => ({ model: added }),
+      onSome: (reading) => foldPanelFocus(added, Panel.panelId(spec), focusOf(reading)),
+    })
+  }
+
 const addPanel =
   (id: string): Step =>
   (model) => {
     const option = addablePanels(model.saved.panels, catalogOf(model)).find(
       ({ spec }) => Panel.panelId(spec) === id,
     )
-    if (option === undefined) return { model }
-    const added = modifyFields(
-      changeArrangement(model, (panels) => [...panels, option.spec]),
-      {
-        panels: (panels) => [...panels, Panel.init(option.spec)],
-      },
-    )
-    return Option.match(validReading(added.route), {
-      onNone: () => ({ model: added }),
-      onSome: (reading) => foldPanelFocus(added, id, focusOf(reading)),
-    })
+    return option === undefined
+      ? { model }
+      : insertPanel(option.spec, model.saved.panels.length)(model)
+  }
+
+const indexOfPanel = (model: Model, id: string): number =>
+  model.saved.panels.findIndex((spec) => Panel.panelId(spec) === id)
+
+/** Brings a panel into view: in the column its heading takes focus, in the dock its tab does. */
+const revealPanel =
+  (id: string): Step =>
+  (model) =>
+    model.isNarrow
+      ? {
+          model: modifyFields(model, { activeTab: () => Option.some(id) }),
+          commands: [
+            Command.mapMessage(
+              Tabs.FocusTab({ id: model.dockTabs.id, index: indexOfPanel(model, id) }),
+              (message) => Message.GotDockTabsMessage({ message }),
+            ),
+          ],
+        }
+      : { model, commands: [ScrollToPanel({ panelId: id })] }
+
+/**
+ * Opens a commentator's panel directly after the panel that named it, or reveals the one already
+ * open. The spec comes from the resource id alone, so this works before the app's catalog loads.
+ */
+const openCommentaryAfter =
+  (fromId: string, resourceId: string): Step =>
+  (model) => {
+    const spec = Panel.PanelSpec.Commentary({ resourceId })
+    const id = Panel.panelId(spec)
+    return Update.combine(model, [
+      indexOfPanel(model, id) >= 0 ? keepModel : insertPanel(spec, indexOfPanel(model, fromId) + 1),
+      revealPanel(id),
+    ])
   }
 
 const dropUnavailableResources: Step = (model) => {
@@ -318,6 +369,7 @@ const updateModel = (model: Model, message: Message): UpdateReturn =>
     CompletedReplaceUrl: () => ({ model }),
     CompletedLoadExternal: () => ({ model }),
     CompletedScrollToVerse: () => ({ model }),
+    CompletedScrollToPanel: () => ({ model }),
     SucceededFetchCatalog: ({ resources }) =>
       dropUnavailableResources(
         modifyFields(model, { catalog: () => CatalogState.Loaded({ resources }) }),

@@ -3,9 +3,11 @@ import { Scene, Story } from "foldkit"
 import { UrlRequest } from "foldkit/navigation"
 import { assert, describe, it } from "vitest"
 import { Message } from "../src/message.ts"
-import { defaultSaved, type Model } from "../src/model.ts"
+import * as Tabs from "@foldkit/ui/tabs"
+import { modifyFields } from "foldkit/struct"
+import { CatalogState, defaultSaved, type Model } from "../src/model.ts"
 import { SaveLayout } from "../src/layout/storage.ts"
-import { NavigateInternal, ReplaceUrl } from "../src/navigation.ts"
+import { NavigateInternal, ReplaceUrl, ScrollToPanel } from "../src/navigation.ts"
 import { coverageMessage, passageOfFocus } from "../src/panels/context.ts"
 import * as Panel from "../src/panels/panel.ts"
 import { init, update } from "../src/update.ts"
@@ -19,6 +21,8 @@ import {
   CALVIN_ON_8_28,
   CALVIN_ON_8_31,
   CALVIN_ON_GEN_1_1,
+  CALVIN_ON_JOHN_3_16,
+  CALVIN_ON_JOHN_3_16_CONTINUED,
   CALVIN_ON_THE_SOWER,
   HC_Q1_ANSWER,
   HC_Q1_QUESTION,
@@ -29,7 +33,9 @@ import {
   HENRY_ON_PROV_3_5,
   HENRY_ON_PROV_3_9,
   HENRY_ON_PROV_3_11,
+  HUTCHESON_ON_JOHN_3_16,
   POOLE_ATTRIBUTION,
+  POOLE_ON_JOHN_3_16,
   POOLE_ON_PROV_3_5,
   ROMANS_8_28_KJV,
   runCommand,
@@ -656,6 +662,184 @@ describe("a harmony comment at a parallel passage", () => {
         expect(role("link", { name: "Mark 4:1-12" })).toHaveAttr("href", "/mark/4/1-12"),
         expect(role("link", { name: "Luke 8:1-10" })).toHaveAttr("href", "/luke/8/1-10"),
         expect(text(CALVIN_ON_THE_SOWER)).toExist(),
+      ),
+    )
+  })
+})
+
+describe("the other commentators on the default commentary panel's chapter", () => {
+  const withPoole = staticHost({ withPoole: true })
+  const HUTCHESON_PANEL = Panel.PanelSpec.Commentary({ resourceId: "hutcheson-john" })
+  const HUTCHESON_ID = Panel.panelId(HUTCHESON_PANEL)
+  const HUTCHESON_TITLE = "An Exposition of the Gospel according to John"
+  const fetchHutcheson = Panel.FetchPanel({
+    spec: HUTCHESON_PANEL,
+    focus: "John.3.16",
+    cursor: Option.none(),
+  })
+  const headings = () => all.selector("aside.panel-column .panel-header h2")
+  const selectHutcheson = click(
+    within(commentaryBy("John Calvin"), role("button", { name: "Hutcheson" })),
+  )
+  const savedWith = (opened: Model, panels: ReadonlyArray<Panel.PanelSpec>) =>
+    SaveLayout({ saved: { ...opened.saved, panels } })
+  const HUTCHESON_AFTER_DEFAULT = [
+    DEFAULT_COMMENTARY,
+    HUTCHESON_PANEL,
+    Panel.PanelSpec.Confessions(),
+    Panel.PanelSpec.CrossReferences(),
+    Panel.PanelSpec.OriginalLanguage(),
+  ]
+
+  it("names them below Calvin's comment on John 3:16, in short-name order", async () => {
+    scene(
+      app,
+      given(await boot("/john/3/16", withPoole)),
+      inside(
+        commentaryBy("John Calvin"),
+        expect(text(CALVIN_ON_JOHN_3_16)).toExist(),
+        expect(selector(".also-on")).toHaveText("Also on this chapter: Hutcheson, Poole"),
+        expect(role("button", { name: "Hutcheson" })).toExist(),
+        expect(role("button", { name: "Poole" })).toExist(),
+      ),
+    )
+  })
+
+  it("names them with the first page of a comment long enough to page, outside the scrolling body", async () => {
+    scene(
+      app,
+      given(await boot("/john/3/16", withPoole)),
+      inside(
+        commentaryBy("John Calvin"),
+        expect(role("button", { name: "Show more" })).toExist(),
+        expect(text(CALVIN_ON_JOHN_3_16_CONTINUED)).toBeAbsent(),
+        expect(selector(".also-on")).toContainText("Hutcheson"),
+        expect(within(selector(".panel-body"), selector(".also-on"))).toBeAbsent(),
+      ),
+    )
+  })
+
+  it("adds a Hutcheson panel directly after the default panel and saves the layout", async () => {
+    const opened = await boot("/john/3/16", withPoole)
+    scene(
+      app,
+      given(opened),
+      selectHutcheson,
+      Scene.Command.expectExact(
+        fetchHutcheson,
+        savedWith(opened, HUTCHESON_AFTER_DEFAULT),
+        ScrollToPanel({ panelId: HUTCHESON_ID }),
+      ),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      Scene.Command.resolve(ScrollToPanel, Message.CompletedScrollToPanel()),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(fetchHutcheson, withPoole)),
+      expect(Scene.nth(headings(), 0)).toHaveText("Commentary: John Calvin"),
+      expect(Scene.nth(headings(), 1)).toHaveText(HUTCHESON_TITLE),
+      inside(panel(HUTCHESON_TITLE), expect(text(HUTCHESON_ON_JOHN_3_16)).toExist()),
+    )
+  })
+
+  it("moves focus to the added panel's heading in the wide layout", async () => {
+    const opened = await boot("/john/3/16", withPoole)
+    scene(
+      app,
+      given(opened),
+      selectHutcheson,
+      Scene.Command.expectHas(ScrollToPanel({ panelId: HUTCHESON_ID })),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      Scene.Command.resolve(ScrollToPanel, Message.CompletedScrollToPanel()),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(fetchHutcheson, withPoole)),
+      expect(
+        within(selector(`[data-panel="${HUTCHESON_ID}"]`), role("heading", { level: 2 })),
+      ).toHaveAttr("tabIndex", "-1"),
+    )
+  })
+
+  it("reveals a Hutcheson panel already in the layout rather than adding a second", async () => {
+    const opened = await bootWith(
+      [DEFAULT_COMMENTARY, Panel.PanelSpec.Confessions(), HUTCHESON_PANEL],
+      "/john/3/16",
+      withPoole,
+    )
+    scene(
+      app,
+      given(opened),
+      selectHutcheson,
+      Scene.Command.expectExact(ScrollToPanel({ panelId: HUTCHESON_ID })),
+      Scene.Command.resolve(ScrollToPanel, Message.CompletedScrollToPanel()),
+      expectAll(all.role("region", { name: HUTCHESON_TITLE })).toHaveCount(1),
+      expect(Scene.nth(headings(), 2)).toHaveText(HUTCHESON_TITLE),
+    )
+  })
+
+  it("makes the Hutcheson tab active and focuses it in the narrow layout", async () => {
+    const opened = await boot("/john/3/16", withPoole)
+    const narrow = update(opened, Message.ChangedViewportWidth({ isNarrow: true })).model
+    scene(
+      app,
+      given(narrow),
+      selectHutcheson,
+      Scene.Command.expectExact(
+        fetchHutcheson,
+        savedWith(opened, HUTCHESON_AFTER_DEFAULT),
+        Tabs.FocusTab({ id: "panel-tabs", index: 1 }),
+      ),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      Scene.Command.resolve(Tabs.FocusTab, Tabs.Message.CompletedFocusTab()),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(fetchHutcheson, withPoole)),
+      expect(role("tab", { name: HUTCHESON_TITLE })).toHaveAttr("aria-selected", "true"),
+      expect(role("tabpanel")).toContainText(HUTCHESON_ON_JOHN_3_16),
+    )
+  })
+
+  it("adds the panel when selected before the app's catalog has loaded", async () => {
+    const opened = await boot("/john/3/16", withPoole)
+    const catalogLoading = modifyFields(opened, { catalog: () => CatalogState.Loading() })
+    scene(
+      app,
+      given(catalogLoading),
+      selectHutcheson,
+      Scene.Command.expectExact(
+        fetchHutcheson,
+        savedWith(opened, HUTCHESON_AFTER_DEFAULT),
+        ScrollToPanel({ panelId: HUTCHESON_ID }),
+      ),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      Scene.Command.resolve(ScrollToPanel, Message.CompletedScrollToPanel()),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(fetchHutcheson, withPoole)),
+      expect(Scene.nth(headings(), 1)).toHaveText("Commentary"),
+      expect(
+        within(selector(`[data-panel="${HUTCHESON_ID}"]`), text(HUTCHESON_ON_JOHN_3_16)),
+      ).toExist(),
+    )
+  })
+
+  it("shows no line on a dedicated Poole panel", async () => {
+    scene(
+      app,
+      given(
+        await bootWith(
+          [Panel.PanelSpec.Commentary({ resourceId: "poole-annotations" })],
+          "/john/3/16",
+          withPoole,
+        ),
+      ),
+      inside(
+        panel("Annotations upon the Holy Bible"),
+        expect(text(POOLE_ON_JOHN_3_16)).toExist(),
+        expect(text(/Also on this chapter/)).toBeAbsent(),
+      ),
+    )
+  })
+
+  it("shows no line on a chapter only Calvin holds", async () => {
+    scene(
+      app,
+      given(await boot("/romans/8/28", withPoole)),
+      inside(
+        commentaryBy("John Calvin"),
+        expect(text(CALVIN_ON_8_28, { exact: false })).toExist(),
+        expect(text(/Also on this chapter/)).toBeAbsent(),
       ),
     )
   })

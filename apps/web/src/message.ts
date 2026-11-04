@@ -16,6 +16,7 @@ export const Message = defineMessageUnion({
   CompletedReplaceUrl: {},
   CompletedLoadExternal: {},
   CompletedScrollToVerse: {},
+  CompletedScrollToPanel: {},
   SucceededFetchCatalog: { resources: Schema.Array(CatalogResource) },
   FailedFetchCatalog: { error: LoadError },
   GotReaderMessage: { message: Reader.Message },

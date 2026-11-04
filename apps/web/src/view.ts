@@ -137,7 +137,7 @@ const panelControls = (
   return h.header(
     [h.Class("panel-header")],
     [
-      h.h2([h.Id(`panel-title-${id}`)], [title]),
+      h.h2([h.Id(`panel-title-${id}`), h.Tabindex(-1)], [title]),
       h.div(
         [h.Class("panel-controls")],
         [
@@ -195,7 +195,7 @@ const panelSection = (
   const id = Panel.panelId(spec)
   return h.keyed("section")(
     id,
-    [h.Class("panel"), h.AriaLabelledBy(`panel-title-${id}`)],
+    [h.Class("panel"), h.AriaLabelledBy(`panel-title-${id}`), h.DataAttribute("panel", id)],
     [panelControls(model, spec, index, h), panelBody(model, id, h)],
   )
 }

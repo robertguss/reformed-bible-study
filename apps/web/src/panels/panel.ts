@@ -15,7 +15,12 @@ import { defineTaggedUnion } from "foldkit/schema"
 import { modifyFields } from "foldkit/struct"
 import { attributionFooter, attributionOfResource } from "../attribution.ts"
 import { type AppServices, LoadError } from "../content.ts"
-import { commentaryView, fetchCommentary, fetchDefaultCommentary } from "./commentary/index.ts"
+import {
+  commentaryView,
+  fetchCommentary,
+  fetchDefaultCommentary,
+  otherCommentariesView,
+} from "./commentary/index.ts"
 import { confessionsView, fetchConfessionArticles } from "./confessions/index.ts"
 import {
   coverageView,
@@ -49,10 +54,14 @@ export const panelId = (spec: PanelSpec): string =>
     OriginalLanguage: () => "original-language",
   })
 
-/** The commentator the default commentary panel chose for the chapter, and its comment. */
+/**
+ * The commentator the default commentary panel chose for the chapter, its comment, and the other
+ * commentators who hold the chapter.
+ */
 const ShownCommentary = Schema.Struct({
   work: CatalogResource,
   envelope: getCommentaryContract.output,
+  others: Schema.Array(CatalogResource),
 })
 
 export const PanelResult = defineTaggedUnion({
@@ -83,11 +92,14 @@ export const Message = defineMessageUnion({
   FailedFetchPanel: { focus: Schema.String, error: LoadError, append: Schema.Boolean },
   ClickedRetry: {},
   ClickedShowMore: {},
+  ClickedOtherCommentary: { resourceId: Schema.String },
 })
 export type Message = typeof Message.Type
 
 export const OutMessage = defineMessageUnion({
   DetectedMissingContent: {},
+  /** The reader chose another commentator on the chapter; the app adds or reveals its panel. */
+  SelectedCommentary: { resourceId: Schema.String },
 })
 export type OutMessage = typeof OutMessage.Type
 
@@ -181,7 +193,7 @@ const appendResult = (earlier: PanelResult, later: PanelResult): PanelResult =>
       earlier.shown.value.work.id === shown.value.work.id
         ? PanelResult.DefaultCommentary({
             shown: Option.some({
-              work: shown.value.work,
+              ...shown.value,
               envelope: appendEnvelope(earlier.shown.value.envelope, shown.value.envelope),
             }),
           })
@@ -254,6 +266,10 @@ export const update = (model: Model, message: Message): UpdateReturn =>
         }),
       })
     },
+    ClickedOtherCommentary: ({ resourceId }) => ({
+      model,
+      outMessage: OutMessage.SelectedCommentary({ resourceId }),
+    }),
   })
 
 /** The resources a panel's footer credits: every item's source, and what the panel consulted. */
@@ -298,6 +314,12 @@ const contentView = <M>(result: PanelResult, context: PanelContext, h: HtmlBuild
     OriginalLanguage: ({ envelope }) => originalLanguageView(envelope, context, h),
   })
 
+/** The other commentators on the chapter, for a default commentary panel that has chosen one. */
+const othersOf = (result: PanelResult): ReadonlyArray<CatalogResource> =>
+  PanelResult.guards.DefaultCommentary(result)
+    ? Option.match(result.shown, { onNone: () => [], onSome: ({ others }) => others })
+    : []
+
 export type ViewInputs = Readonly<{ catalog: ReadonlyArray<CatalogResource> }>
 
 export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { catalog }, h): Html =>
@@ -310,7 +332,7 @@ export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { ca
         onNone: () => loadingView(h),
         onSome: (passage) => {
           const context: PanelContext = { catalog, passage }
-          return h.div(
+          const body = h.div(
             [h.Class("panel-body")],
             [
               ...contentView(result, context, h),
@@ -334,6 +356,18 @@ export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { ca
                   ]
                 : []),
               attributionFooter(footerAttributions(model.spec, result, context), h),
+            ],
+          )
+          // The line sits below the scrolling body, so it stays in view on a long comment.
+          return h.div(
+            [h.Class("panel-content")],
+            [
+              body,
+              ...otherCommentariesView(
+                othersOf(result),
+                (resourceId) => Message.ClickedOtherCommentary({ resourceId }),
+                h,
+              ),
             ],
           )
         },
