@@ -200,6 +200,21 @@ describe("MCP tools", () => {
     }),
   )
 
+  it.effect("says a Belgic article's proofs stand for the whole article", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_confession_article", {
+        id: "bc",
+        article: "16",
+      })
+      const proofLines = textOf(message)
+        .split("\n")
+        .filter((line) => line.startsWith("> Proofs"))
+      expect(proofLines).toHaveLength(1)
+      expect(proofLines[0]).toMatch(/^> Proofs for the whole article: Romans 9:/)
+    }),
+  )
+
   it.effect("numbers each part of a section longer than a page", () =>
     Effect.gen(function* () {
       const { app } = testApp()
