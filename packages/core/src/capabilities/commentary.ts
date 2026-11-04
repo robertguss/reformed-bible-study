@@ -1,5 +1,5 @@
 import { defineContract, implement } from "@reformed-bible/capability"
-import { Effect, Result, Schema } from "effect"
+import { Effect, Schema } from "effect"
 import {
   ContentCorrupt,
   ContentNotFound,
@@ -8,7 +8,7 @@ import {
 } from "../content-store/index.ts"
 import type { CommentarySection } from "../content/index.ts"
 import { makeEnvelope, TextRuns, type ResourceCoverage } from "../envelope/index.ts"
-import { compareVerse, InvalidReference, parseOsis } from "../reference/index.ts"
+import { compareVerse, InvalidReference, overlaps, type Passage } from "../reference/index.ts"
 import { type CatalogResource, CommentaryShard, shardPaths } from "../shards/index.ts"
 import { Site } from "../site/index.ts"
 import { decodeCursor, nextCursor } from "./cursor.ts"
@@ -26,6 +26,7 @@ import {
   ofKind,
   overlapsAny,
   parsePassages,
+  passageOfOsis,
   passageUrl,
   READ_ONLY,
   readCatalog,
@@ -60,7 +61,7 @@ export const CommentaryItem = Schema.Struct({
 export type CommentaryItem = typeof CommentaryItem.Type
 
 export const getCommentaryContract = defineContract(NAME, {
-  description: `Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A comment from a gospel or law harmony also lists the parallel passages it treats, and a request for a parallel returns it under its own range (Mark 4:3 returns Calvin on Matthew 13:2-8, with Mark 4:1-12 among its parallels). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched and the sections come grouped by commentator, in a fixed order that starts with Calvin. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
+  description: `Returns commentary sections on a passage, whole and in the order of the requested passage, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A comment from a gospel or law harmony also lists the parallel passages it treats, and a request for a parallel returns it under its own range (Mark 4:3 returns Calvin on Matthew 13:2-8, with Mark 4:1-12 among its parallels). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched and the sections come grouped by commentator, in a fixed order that starts with Calvin. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
   input: Schema.Struct({
     ref: Schema.String.annotate({ description: "The passage, such as Romans 8:28." }),
     work: Schema.optional(
@@ -106,13 +107,33 @@ const takePage = <A extends { readonly section: CommentarySection }>(
   return page
 }
 
-const byStart = (a: CommentarySection, b: CommentarySection): number => {
-  const first = parseOsis(a.ref)
-  const second = parseOsis(b.ref)
-  return Result.isSuccess(first) && Result.isSuccess(second)
-    ? compareVerse(first.success.start, second.success.start)
-    : 0
-}
+/**
+ * Where a section meets the request: the earliest start of its own range or of a parallel that
+ * overlaps the requested passages, so a Mark 4 request reads Calvin's harmony in Mark's order.
+ */
+const meetingOf = (section: CommentarySection, passages: ReadonlyArray<Passage>) =>
+  [section.ref, ...(section.parallels ?? [])]
+    .map(passageOfOsis)
+    .filter((p): p is Passage => p !== undefined && passages.some((q) => overlaps(p, q)))
+    .map((p) => p.start)
+    .sort(compareVerse)[0]
+
+const inRequestOrder = (
+  sections: Iterable<CommentarySection>,
+  passages: ReadonlyArray<Passage>,
+): ReadonlyArray<CommentarySection> =>
+  [...sections]
+    .map((section) => ({
+      section,
+      meets: meetingOf(section, passages),
+      own: passageOfOsis(section.ref)?.start,
+    }))
+    .sort((a, b) =>
+      a.meets === undefined || b.meets === undefined || a.own === undefined || b.own === undefined
+        ? 0
+        : compareVerse(a.meets, b.meets) || compareVerse(a.own, b.own),
+    )
+    .map(({ section }) => section)
 
 export const getCommentary = implement(getCommentaryContract, (input) =>
   Effect.gen(function* () {
@@ -146,8 +167,8 @@ export const getCommentary = implement(getCommentaryContract, (input) =>
           )
             found.set(section.ref, section)
       }
-      // A chapter file holds sections keyed to other books, so chapter order is not canonical order.
-      for (const section of [...found.values()].sort(byStart)) sections.push({ work, section })
+      for (const section of inRequestOrder(found.values(), passages))
+        sections.push({ work, section })
       resources.push(coverageEntry(work, coverageOf(work, chapters, found.size > 0)))
     }
 
