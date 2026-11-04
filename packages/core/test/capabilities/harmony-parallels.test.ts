@@ -61,8 +61,8 @@ describe("get_commentary on a passage a harmony comment treats as a parallel", (
       expect(yield* refsOf("Mark 4")).toEqual([
         "Matt.13.2-Matt.13.8",
         "Matt.13.9-Matt.13.17",
-        "Matt.13.31-Matt.13.32",
         "Mark.4.12",
+        "Matt.13.31-Matt.13.32",
       ])
     }),
   )
@@ -74,15 +74,15 @@ describe("get_commentary on a passage a harmony comment treats as a parallel", (
   )
 
   it.effect(
-    "returns a request across two chapters in canonical order, not chapter by chapter",
+    "orders a request across two chapters by where each comment meets the requested book",
     () =>
       Effect.gen(function* () {
         expect(yield* refsOf("Mark 4-5")).toEqual([
-          "Matt.8.28-Matt.8.34",
           "Matt.13.2-Matt.13.8",
           "Matt.13.9-Matt.13.17",
-          "Matt.13.31-Matt.13.32",
           "Mark.4.12",
+          "Matt.13.31-Matt.13.32",
+          "Matt.8.28-Matt.8.34",
           "Mark.5.1-Mark.5.20",
         ])
       }),
