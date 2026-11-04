@@ -97,7 +97,7 @@ The attribution still names the Wikisource transcription.
    matched against the KJV text of its reference (eBible.org KJV, listed above)
    to catch misprinted chapter or verse numbers.
 
-Counts: 52 Lord's Days, 129 questions, 379 proof clauses, 1424 references.
+Counts: 52 Lord's Days, 129 questions, 379 proof clauses, 1423 references.
 Questions 23, 24, 118 and 119 have no references in the 1879 edition.
 
 ## Numbering spot check, Schaff against 1879
