@@ -1,0 +1,37 @@
+{
+  "id": "matthew-henry",
+  "kind": "commentary",
+  "title": "Matthew Henry's Complete Commentary on the Whole Bible",
+  "creator": "Matthew Henry and the ministers who completed his exposition of the Epistles and Revelation after his death",
+  "edition": "Matthew Henry's Complete Commentary on the Whole Bible as transcribed by the Christian Classics Ethereal Library from the text supplied by Logos Research, in the CrossWire SWORD module MHC version 2.2 (2022-08-29)",
+  "language": "en",
+  "source": {
+    "url": "https://www.crosswire.org/sword/modules/ModInfo.jsp?modName=MHC",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/packages/rawzip/MHC.zip",
+        "sha256": "6bcb936873ca144e317805e5c1677940fd86e2403f7c14517752e44f25c8882b"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/raw/mods.d/mhc.conf",
+        "quote": "DistributionLicense=Public Domain"
+      },
+      {
+        "url": "https://ccel.org/ccel/henry/mhc.xml",
+        "quote": "Public Domain"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Matthew Henry, Commentary on the Whole Bible, completed after his death from Romans to Revelation by other ministers. Public domain. Text from the Christian Classics Ethereal Library by way of the CrossWire SWORD module MHC."
+  },
+  "modifications": "Converted from OSIS markup to plain text paragraphs with emphasis. Each passage heading, such as The Happy Man at Psalm 1, is its own paragraph, as is each line of verse Henry quotes. Each section is Henry's comment on the group of verses its source keys it to, printed with the text of those verses, and runs from its first verse to the verse before the next section or the end of its chapter. A chapter's introduction opens the chapter's first section, which starts at the chapter's first verse. Left out: the prefaces to each volume, each book's introduction, the module's volume and book titles, and the stray words after the end of a chapter, such as Unabridged after Deuteronomy 34.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": { "state": "active" }
+}

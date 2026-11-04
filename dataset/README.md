@@ -72,7 +72,7 @@ Leave the field out otherwise; it is never `false`.
 ## Ingest
 
 ```sh
-pnpm dataset:ingest all            # or: translations, cross-references, original-language, calvin, confessions, poole, owen
+pnpm dataset:ingest all            # or: translations, cross-references, original-language, calvin, confessions, poole, owen, henry, jfb
 ```
 
 Ingest downloads each pinned source into `.cache/sources/`, checks its SHA-256,

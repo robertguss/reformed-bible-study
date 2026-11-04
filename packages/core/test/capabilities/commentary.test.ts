@@ -6,6 +6,8 @@ import { CALVIN_ROMANS_8, call, FILES, fetchStore, RELEASE, WITHDRAWN_REASON } f
 
 const CALVIN = "calvin-commentaries"
 const POOLE = "poole-annotations"
+const HENRY = "matthew-henry"
+const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
 
 interface CatalogFile {
@@ -15,6 +17,38 @@ interface CatalogFile {
 
 const catalogFile = (): CatalogFile =>
   JSON.parse(FILES.get("catalog.json") ?? "null") as CatalogFile
+
+/**
+ * The fixture release with each commentator's sections on one chapter added, and the catalog
+ * listing that chapter as ingested for them.
+ */
+const withChapter = (
+  book: string,
+  chapter: number,
+  sections: Readonly<Record<string, ReadonlyArray<unknown>>>,
+) => {
+  const catalog = catalogFile()
+  const resources = catalog.payload.resources.map((resource) =>
+    sections[resource.id] === undefined
+      ? resource
+      : { ...resource, ingested: [...resource.ingested, { book, chapters: [chapter] }] },
+  )
+  const files = new Map(FILES).set(
+    "catalog.json",
+    JSON.stringify({ ...catalog, payload: { resources } }),
+  )
+  for (const [resourceId, list] of Object.entries(sections))
+    files.set(
+      `commentary/${resourceId}/${book}.${chapter}.json`,
+      JSON.stringify({
+        release: RELEASE,
+        payload: { resourceId, book, chapter, sections: list },
+      }),
+    )
+  return fetchStore(files)
+}
+
+const comment = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
 
 describe("get_commentary", () => {
   it.effect("returns the 8:28-30 section with its range for Calvin on Romans 8:29", () =>
@@ -95,6 +129,8 @@ describe("get_commentary", () => {
       expect(result.resources.map((r) => [r.resourceId, r.coverage, r.status.state])).toEqual([
         [CALVIN, "covered", "active"],
         [POOLE, "not_ingested", "active"],
+        [HENRY, "not_ingested", "active"],
+        [JFB, "not_ingested", "active"],
         [OWEN, "outside_work", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
@@ -107,14 +143,9 @@ describe("get_commentary", () => {
       Effect.gen(function* () {
         const catalog = catalogFile()
         const calvin = catalog.payload.resources.find(({ id }) => id === CALVIN)
-        // Fallback commentators with nothing ingested, listed in an order unlike the default one.
+        // The catalog lists works by id, unlike the default order; this one sorts before them all.
         const unread = (id: string): CatalogResource => ({ ...calvin!, id, ingested: [] })
-        const resources = [
-          unread("aaa-commentary"),
-          unread("jamieson-fausset-brown"),
-          unread("matthew-henry"),
-          ...catalog.payload.resources,
-        ]
+        const resources = [unread("aaa-commentary"), ...catalog.payload.resources]
         const files = new Map(FILES).set(
           "catalog.json",
           JSON.stringify({ ...catalog, payload: { resources } }),
@@ -123,8 +154,8 @@ describe("get_commentary", () => {
         expect(result.resources.map((r) => r.resourceId)).toEqual([
           CALVIN,
           POOLE,
-          "matthew-henry",
-          "jamieson-fausset-brown",
+          HENRY,
+          JFB,
           "aaa-commentary",
           OWEN,
           "withdrawn-commentary",
@@ -172,6 +203,8 @@ describe("get_commentary", () => {
         expect(result.resources.map((r) => [r.resourceId, r.coverage])).toEqual([
           [CALVIN, "outside_work"],
           [POOLE, "covered"],
+          [HENRY, "not_ingested"],
+          [JFB, "not_ingested"],
           [OWEN, "outside_work"],
           ["withdrawn-commentary", "not_ingested"],
         ])
@@ -184,6 +217,65 @@ describe("get_commentary", () => {
           license: "CC0-1.0",
         })
       }),
+  )
+
+  it.effect("returns Henry's and Jamieson-Fausset-Brown's sections on Proverbs 3:5", () =>
+    Effect.gen(function* () {
+      const store = withChapter("Prov", 3, {
+        [HENRY]: [
+          comment("Prov.3.1-Prov.3.6", "We are here taught to live a life of communion with God."),
+          comment("Prov.3.7-Prov.3.12", "Be not wise in thine own eyes."),
+        ],
+        [JFB]: [
+          comment("Prov.3.4", '4. favour and good understanding--or, "success."'),
+          comment(
+            "Prov.3.5",
+            "5. Trust ... heart--This is the center and marrow of true wisdom (Pr 22:19; 28:25).",
+          ),
+        ],
+      })
+      const result = yield* call(getCommentary, { ref: "Proverbs 3:5" }, store)
+      expect(result.items.map((item) => [item.attribution.resourceId, item.value.ref])).toEqual([
+        [HENRY, "Prov.3.1-Prov.3.6"],
+        [JFB, "Prov.3.5"],
+      ])
+      expect(result.items.map((item) => item.attribution)).toMatchObject([
+        {
+          author:
+            "Matthew Henry and the ministers who completed his exposition of the Epistles and Revelation after his death",
+          work: "Matthew Henry's Complete Commentary on the Whole Bible",
+          edition: expect.stringContaining("CrossWire SWORD module MHC version 2.2"),
+          license: "CC-PDM-1.0",
+        },
+        {
+          author: "Robert Jamieson, A. R. Fausset and David Brown",
+          work: "Commentary Critical and Explanatory on the Whole Bible",
+          edition: expect.stringContaining("CrossWire SWORD module JFB version 3.0"),
+          license: "CC-PDM-1.0",
+        },
+      ])
+    }),
+  )
+
+  it.effect("lists Calvin, Henry and Jamieson-Fausset-Brown as covering Ephesians 1:1", () =>
+    Effect.gen(function* () {
+      const store = withChapter("Eph", 1, {
+        [CALVIN]: [comment("Eph.1.1-Eph.1.2", "Paul, an apostle.")],
+        [HENRY]: [comment("Eph.1.1-Eph.1.2", "We have here the preface to the whole epistle.")],
+        [JFB]: [comment("Eph.1.1", '1. by--rather, "through the will of God."')],
+      })
+      const result = yield* call(getCommentary, { ref: "Ephesians 1:1" }, store)
+      expect(result.resources.map((r) => [r.resourceId, r.coverage])).toEqual([
+        [CALVIN, "covered"],
+        [POOLE, "not_ingested"],
+        [HENRY, "covered"],
+        [JFB, "covered"],
+        [OWEN, "outside_work"],
+        ["withdrawn-commentary", "not_ingested"],
+      ])
+      // Hodge has no source that declares a license, so no record ships for him.
+      expect(JSON.stringify(result)).not.toMatch(/hodge/i)
+    }),
   )
 
   describe("Owen on Hebrews 6 to 10", () => {

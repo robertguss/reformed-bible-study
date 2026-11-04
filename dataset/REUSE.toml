@@ -126,3 +126,13 @@ SPDX-License-Identifier = "CC0-1.0"
 path = "resources/owen-hebrews/**"
 SPDX-FileCopyrightText = "John Owen, A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews (1680); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
 SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/matthew-henry/**"
+SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/jamieson-fausset-brown/**"
+SPDX-FileCopyrightText = "Robert Jamieson, A. R. Fausset and David Brown, Commentary Critical and Explanatory on the Whole Bible (1871), public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
