@@ -1,0 +1,39 @@
+{
+  "id": "cd",
+  "kind": "confession",
+  "creator": "Synod of Dort",
+  "language": "en",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  },
+  "title": "The Canons of the Synod of Dort",
+  "edition": "The Canons of the Synod of Dort (Dordrecht, 1619), in the English translation held by the Reformed (Dutch) Church in America, as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (Harper, 1877)",
+  "source": {
+    "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "sha256": "756adf1ddd466d237221c76b99d25d55cab7e83d08914f28a289c3b90dccddf3"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "quote": "Public Domain"
+      },
+      {
+        "url": "https://archive.org/details/creedsofchriste03scha",
+        "quote": "NOT_IN_COPYRIGHT"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Synod of Dort, The Canons of the Synod of Dort (1619), English text of the Reformed (Dutch) Church in America as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877). Public domain."
+  },
+  "modifications": "Took the English text of the four heads of doctrine and the Conclusion from Schaff. Left out his Latin text, the Preface, the Sentence against the Remonstrants, the approval of the States-General, the subscription line with the note on the subscribers' names, and Schaff's footnotes, and left out the Rejection of Errors because Schaff prints it only in Latin. Corrected digitization errors in the CCEL file where the 1877 scan shows the right reading, and listed each correction in source.md. Made each Scripture citation printed in the text a proof text, converted to OSIS in KJV versification, split each article's text into runs that end with the clause carrying a citation, and joined the two paragraphs of the First Head's seventh article into one so that its proofs meet their clauses. Set italic and small capitals as plain text."
+}

@@ -96,3 +96,13 @@ SPDX-License-Identifier = "CC-PDM-1.0"
 path = "confessions/hc/**"
 SPDX-FileCopyrightText = "The Heidelberg Catechism, 1563, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/cd/**"
+SPDX-FileCopyrightText = "Synod of Dort, 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/cd/**"
+SPDX-FileCopyrightText = "Synod of Dort, 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
