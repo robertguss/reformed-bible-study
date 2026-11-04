@@ -37,7 +37,7 @@ export default Alchemy.Stack(
   Effect.gen(function* () {
     const stage = yield* Stage
     if (!isStage(stage))
-      return yield* Effect.die(new Error(`unknown stage "${stage}"; use preview or production`))
+      return yield* Effect.die(new Error(`unknown stage "${stage}"; use production`))
     const site = siteFor(stage)
     const rateLimit = (binding: string, simple: { limit: number; period: 60 }) =>
       Cloudflare.RateLimit(binding, {
