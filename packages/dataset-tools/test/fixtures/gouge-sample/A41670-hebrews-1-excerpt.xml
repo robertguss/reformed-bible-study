@@ -1,0 +1,83 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A41670, William Gouge, A learned and very useful commentary on the whole Epistle to the Hebrewes (1655), CC0 1.0, as keyed: from chapter 1, whose division carries no number, sections 1 and 11 on the epistle and its first three verses, 39 on verse 4, 104 and 105 on verse 8, 114 on verse 9, 125 and 126, the resolution of verses 8 and 9 and their doctrines, and 127 on verse 10. Each section keeps its heading, its quotation and a paragraph or two, cut short. -->
+   <text>
+      <body>
+         <head>
+            <pb n="1" facs="tcp:102089:11"/>A COMMENTARY Upon the EPISTLE to the HEBREVVS.</head>
+         <div type="chapter">
+            <div n="1" type="section">
+               <head>§. 1. Of the Authority of this Epistle.</head>
+               <p>1. <seg rend="decorInit">T</seg>HAT we may with the better warrant collect Articles of Faith, and Rules for Life out of this Epistle, it is requi<g ref="char:EOLhyphen"/>site that we be well informed in the Divine Authority thereof.</p>
+            </div>
+            <div n="11" type="section">
+               <head>§. 11. Of the meaning of the first Verse.</head>
+               <epigraph>
+                  <bibl>HEBREWS 1. Vers. 1, 2, 3.</bibl>
+                  <q>GOd, who at sundry times, and in divers manners spake in time past unto the Fathers by the Prophets,</q>
+                  <bibl>2.</bibl>
+                  <q>Hath in these last dayes spoken unto us by his Sonne, whom he hath appointed heir of all things, by whom also he made the worlds:</q>
+                  <bibl>3.</bibl>
+                  <q>Who being the brightness of his glory, and the express image of his person, and uphold<g ref="char:EOLhyphen"/>ing all things by the word of his power, when he had by himself purged our sinnes, sate down on the right hand of the Majesty on high.</q>
+               </epigraph>
+               <p>THese words as they contain the summe of the doctrinall part of this Epistle, so they serve for a <hi>Preface</hi> thereto.</p>
+            </div>
+            <div n="39" type="section">
+               <head>§. 39. Of Christs Excellency.</head>
+               <epigraph>
+                  <bibl>Verse 4.</bibl>
+                  <q>Being made so much better then the Angels, as he hath by inheritance obtained a more excellent Name then they.</q>
+               </epigraph>
+               <p>THough the Apostle premised the three former verses as a <hi>Proem,</hi> and therein couched the <hi>Summe</hi> of the Doctrinal part of this Epistle: yet he passeth from that general <hi>Summe,</hi> to the particulars.</p>
+            </div>
+            <div n="104" type="section">
+               <pb n="71" facs="tcp:102089:46"/>
+               <head>§. 104. <hi>Of the connexion of the</hi> 8<hi rend="sup">th</hi> 
+                  <hi>verse with the former.</hi>
+               </head>
+               <epigraph>
+                  <bibl>HEB. 1. 8.</bibl>
+                  <q>But unto the Sonne he saith, Thy Throne O God is for ever and ever; a Scepter of Righ<g ref="char:EOLhyphen"/>teousnesse is the Scepter of thy Kingdom.</q>
+               </epigraph>
+               <p>THe inferiority of Angels to Chriist being sufficiently proved in the former ver<g ref="char:EOLhyphen"/>ses, the Superiority and dignity of Christ is further prosecuted in the six verses following.</p>
+            </div>
+            <div n="105" type="section">
+               <head>§. 105. Of the main scope of the 45. Psalm.</head>
+               <p>THe testimony intended under this phase, <hi>He saith,</hi> is taken out of <hi>Psal.</hi> 45. 6, 7. That Psalm is an expresse prophesie of Christ.</p>
+            </div>
+            <div n="114" type="section">
+               <head>§. 114. Of the extent of Righteousnesse.</head>
+               <epigraph>
+                  <bibl>HEB. 1. 9.</bibl>
+                  <q>Thou hast loved righteousnesse, and hated iniquity, therefore God, even thy God hath anointed thee with the Oyl of gladnesse above thy Fellows.</q>
+               </epigraph>
+               <p>IN the beginning of this verse, the Apostle further amplifieth the righteousnesse of Christs Kingdom.</p>
+            </div>
+            <div n="125" type="section">
+               <head>§. 125. Of the resolution of v. 8, 9.</head>
+               <epigraph>
+                  <bibl>Verse 8.</bibl>
+                  <q>But unto the Sonne, he saith, Thy Throne, O God, is for ever and ever, a Scepter of righteousnesse is the Scepter of thy Kingdom.</q>
+                  <bibl>Verse 9.</bibl>
+                  <q>Thou hast loved righteousnesse, and hated iniquity; Therefore God even thy God hath annointed thee with the oyl of gladnesse above thy fellows.</q>
+               </epigraph>
+               <p>TWo proofs are here couched together of Christs excellency above Angels.<note place="margin">See §. 64<g ref="char:punc">▪</g> Verse 8.</note>
+               </p>
+            </div>
+            <div n="126" type="section">
+               <head>§. 126. Of the Doctrines arising out of the 8. and 9. verses.</head>
+               <p n="1">I. <hi>MOre excellent things are spoken of the Sonne of God then of Angels.</hi> This parti<g ref="char:EOLhyphen"/>cle<note place="margin">Verse 8.</note> 
+                  <hi>BUT</hi> being here used in opposition to that which was before said of Angels, declares as much. See §. 104.</p>
+            </div>
+            <div n="127" type="section">
+               <head>§. 127. Of the sit application of <hi>Psa.</hi> 102. 25. to Christ.</head>
+               <epigraph>
+                  <bibl>HEB. 1. 10.</bibl>
+                  <q>And thou Lord in the beginning hast laid the Foundation of the earth, and the heavens are the works of thine hands.</q>
+               </epigraph>
+               <p>A sixth proof of Christs excellency is here produced: It is taken from a divine work proper to God, which is <hi>Creation.</hi>
+               </p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

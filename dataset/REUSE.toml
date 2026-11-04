@@ -193,6 +193,21 @@ SPDX-FileCopyrightText = "Thomas Manton, A Practical Commentary on the Epistle o
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "resources/perkins/**"
+SPDX-FileCopyrightText = "William Perkins, expositions of the Sermon on the Mount (1608, published by Thomas Pierson), Galatians 1 to 5 (1604, with Ralph Cudworth's supplement on chapter 6) and Hebrews 11 (1607, published by William Crashawe and Thomas Pierson); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/gouge/**"
+SPDX-FileCopyrightText = "William Gouge, A Learned and Very Useful Commentary on the Whole Epistle to the Hebrews (1655, published by his son Thomas Gouge, who completed one half chapter); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/junius/**"
+SPDX-FileCopyrightText = "Franciscus Junius, Apocalypsis, a commentary on the Revelation (1592, translated from his Latin by a translator the book does not name); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "resources/matthew-henry/**"
 SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"

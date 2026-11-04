@@ -15,7 +15,10 @@ import { sha256Hex } from "../../src/ingest/download.ts"
 import { ingestEeboCommentator, type EeboCommentator } from "../../src/ingest/eebo-commentators.ts"
 import {
   BURROUGHS,
+  GOUGE,
+  JUNIUS,
   MANTON,
+  PERKINS,
   SIBBES,
   THOMAS_HALL,
 } from "../../src/ingest/eebo-english-expositions.ts"
@@ -198,6 +201,117 @@ describe("Manton on Jude", () => {
         ...["Jude.1.1-Jude.1.21", "Jude.1.22-Jude.1.23", "Jude.1.24", "Jude.1.25"],
       ])
       expect(textOf(books, "Jude.1.24")[0]).toMatch(/^Verse 94\. Now unto him that is able/)
+    }),
+  )
+})
+
+describe("Perkins's expositions", () => {
+  it.effect("writes one file per book from his three volumes", () => {
+    const root = mkdtempSync(join(tmpdir(), "perkins-"))
+    const works = cachedVolumes(root, PERKINS, [
+      [0, "A09432-matthew-7-excerpt.xml"],
+      [1, "A09383-galatians-5-and-6-excerpt.xml"],
+      [2, "A09376-hebrews-11-excerpt.xml"],
+    ])
+    return Effect.gen(function* () {
+      yield* ingestEeboCommentator(root, { resourceId: PERKINS.resourceId, works })
+      expect(readdirSync(join(root, NORMALIZED_DIR, "perkins")).sort()).toEqual([
+        "Gal.json",
+        "Heb.json",
+        "Matt.json",
+      ])
+    }).pipe(Effect.provide(offline))
+  })
+
+  it.effect("numbers the Sermon on the Mount's seventh chapter, whose division is unnumbered", () =>
+    Effect.gen(function* () {
+      const books = yield* read(PERKINS, 0, "A09432-matthew-7-excerpt.xml", ["Matt"])
+      expect(refsOf(books)).toEqual([
+        ...["Matt.6.34", "Matt.7.1", "Matt.7.2", "Matt.7.3-Matt.7.27", "Matt.7.28-Matt.7.29"],
+      ])
+      expect(textOf(books, "Matt.7.1")[0]).toMatch(/^Chap\. 7\. Verse 1\. Iudge not/)
+    }),
+  )
+
+  it.effect("reads Galatians 6 from Cudworth's supplement, after Perkins's chapter 5", () =>
+    Effect.gen(function* () {
+      const books = yield* read(PERKINS, 1, "A09383-galatians-5-and-6-excerpt.xml", ["Gal", "Gal"])
+      // Perkins's text and Cudworth's are read in turn, each verse at its bare printed number.
+      expect(books.map((book) => refsOf([book]))).toEqual([
+        ["Gal.5.25", "Gal.5.26"],
+        ["Gal.6.1", "Gal.6.2-Gal.6.9", "Gal.6.10", "Gal.6.11", "Gal.6.12-Gal.6.17", "Gal.6.18"],
+      ])
+      // The print sets 6:11 as II.
+      expect(textOf(books, "Gal.6.11")[0]).toMatch(/^II Ye see how large a letter/)
+      // The supplement's title page and its conclusion on the epistle's postscript are not read.
+      expect(JSON.stringify(books)).not.toContain("SVPPLEMENT")
+      expect(JSON.stringify(books)).not.toContain("post-script")
+    }),
+  )
+
+  it.effect("keys each example of faith in Hebrews 11 to the verses it quotes", () =>
+    Effect.gen(function* () {
+      const books = yield* read(PERKINS, 2, "A09376-hebrews-11-excerpt.xml", ["Heb"])
+      expect(refsOf(books)).toEqual([
+        ...["Heb.11.1", "Heb.11.2-Heb.11.3", "Heb.11.4", "Heb.11.5-Heb.11.6"],
+        ...["Heb.11.7-Heb.11.34", "Heb.11.35-Heb.11.39", "Heb.11.40"],
+      ])
+      expect(textOf(books, "Heb.11.5-Heb.11.6")[0]).toMatch(/^The second is of Henoch/)
+      // The commentary on Hebrews 12:1 bound after the chapter is left out.
+      expect(JSON.stringify(books)).not.toContain("Wherfore, let vs also")
+    }),
+  )
+})
+
+describe("Gouge on Hebrews", () => {
+  it.effect("continues a verse through the sections after it that name no verse", () =>
+    Effect.gen(function* () {
+      const books = yield* read(GOUGE, 0, "A41670-hebrews-1-excerpt.xml", ["Heb"])
+      expect(refsOf(books)).toEqual([
+        ...["Heb.1.1-Heb.1.3", "Heb.1.4-Heb.1.7", "Heb.1.8", "Heb.1.9", "Heb.1.10-Heb.1.14"],
+      ])
+      const headings = (ref: string) => textOf(books, ref).filter((p) => p.startsWith("§. "))
+      // Section 105, on the Psalm verse 8 quotes, names no verse and continues verse 8.
+      expect(headings("Heb.1.8")).toEqual([
+        "§. 104. Of the connexion of the 8th verse with the former.",
+        "§. 105. Of the main scope of the 45. Psalm.",
+      ])
+      // The resolution of verses 8 and 9, quoting verse 8 again, and their doctrines close verse 9.
+      expect(headings("Heb.1.9")).toEqual([
+        "§. 114. Of the extent of Righteousnesse.",
+        "§. 125. Of the resolution of v. 8, 9.",
+        "§. 126. Of the Doctrines arising out of the 8. and 9. verses.",
+      ])
+    }),
+  )
+})
+
+describe("Junius on Revelation", () => {
+  it.effect("keys each verse's notes to its verse, and 9:16 and 9:17 by the text they print", () =>
+    Effect.gen(function* () {
+      const books = yield* read(JUNIUS, 0, "A16102-revelation-9-excerpt.xml", ["Rev"])
+      expect(refsOf(books)).toEqual([
+        ...["Rev.9.1-Rev.9.12", "Rev.9.13", "Rev.9.14", "Rev.9.15", "Rev.9.16", "Rev.9.17"],
+        ...["Rev.9.18", "Rev.9.19-Rev.9.20", "Rev.9.21"],
+      ])
+      const notes = (ref: string) =>
+        books
+          .flatMap((book) => book.sections)
+          .find((section) => section.ref === ref)
+          ?.notes.map(plain) ?? []
+      expect(notes("Rev.9.13")).toEqual([
+        expect.stringMatching(/^\(10\) The sixt execution done vpon the world/),
+        "(11) The commaundement giuen by Christ him selfe, who is gouernour ouer all.",
+      ])
+      // The note on 9:15 names the horsemen as verse 16 and their armour as verse 17.
+      expect(notes("Rev.9.15")).toEqual([
+        expect.stringMatching(/^\(13\) The execu.* verse 16\. .* vers\. 17\.$/),
+      ])
+      // The print numbers these verses 15 and 16.
+      expect(textOf(books, "Rev.9.16")).toEqual([
+        "15 And the number of the troupes of horsemen were twentie thousand times ten thousand: for I heard the number of them.",
+      ])
+      expect(textOf(books, "Rev.9.17")[0]).toMatch(/^16 I also saw horses in a vision/)
     }),
   )
 })

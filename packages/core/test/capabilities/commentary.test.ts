@@ -17,13 +17,16 @@ const POOLE = "poole-annotations"
 const HENRY = "matthew-henry"
 const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
+const PERKINS = "perkins"
 const BURROUGHS = "burroughs"
 const DICKSON = "dickson"
 const DIODATI = "diodati-annotations"
 const DURHAM = "durham"
 const FERGUSSON = "fergusson"
+const GOUGE = "gouge"
 const HUTCHESON = "hutcheson"
 const JACKSON = "jackson-annotations"
+const JUNIUS = "junius"
 const LEIGHTON = "leighton"
 const MANTON = "manton"
 const NISBET = "nisbet"
@@ -162,12 +165,15 @@ describe("get_commentary", () => {
         [DIODATI, "not_ingested", "active"],
         [DURHAM, "outside_work", "active"],
         [FERGUSSON, "outside_work", "active"],
+        [GOUGE, "outside_work", "active"],
         [HUTCHESON, "outside_work", "active"],
         [JACKSON, "outside_work", "active"],
+        [JUNIUS, "outside_work", "active"],
         [LEIGHTON, "outside_work", "active"],
         [MANTON, "outside_work", "active"],
         [NISBET, "outside_work", "active"],
         [OWEN, "outside_work", "active"],
+        [PERKINS, "outside_work", "active"],
         [SIBBES, "outside_work", "active"],
         [THOMAS_HALL, "outside_work", "active"],
         [WESTMINSTER, "not_ingested", "active"],
@@ -201,12 +207,15 @@ describe("get_commentary", () => {
           DIODATI,
           DURHAM,
           FERGUSSON,
+          GOUGE,
           HUTCHESON,
           JACKSON,
+          JUNIUS,
           LEIGHTON,
           MANTON,
           NISBET,
           OWEN,
+          PERKINS,
           SIBBES,
           THOMAS_HALL,
           WESTMINSTER,
@@ -262,12 +271,15 @@ describe("get_commentary", () => {
           [DIODATI, "not_ingested"],
           [DURHAM, "outside_work"],
           [FERGUSSON, "outside_work"],
+          [GOUGE, "outside_work"],
           [HUTCHESON, "outside_work"],
           [JACKSON, "not_ingested"],
+          [JUNIUS, "outside_work"],
           [LEIGHTON, "outside_work"],
           [MANTON, "outside_work"],
           [NISBET, "outside_work"],
           [OWEN, "outside_work"],
+          [PERKINS, "outside_work"],
           [SIBBES, "outside_work"],
           [THOMAS_HALL, "outside_work"],
           [WESTMINSTER, "not_ingested"],
@@ -340,12 +352,15 @@ describe("get_commentary", () => {
         [DIODATI, "not_ingested"],
         [DURHAM, "outside_work"],
         [FERGUSSON, "not_ingested"],
+        [GOUGE, "outside_work"],
         [HUTCHESON, "outside_work"],
         [JACKSON, "outside_work"],
+        [JUNIUS, "outside_work"],
         [LEIGHTON, "outside_work"],
         [MANTON, "outside_work"],
         [NISBET, "outside_work"],
         [OWEN, "outside_work"],
+        [PERKINS, "outside_work"],
         [SIBBES, "outside_work"],
         [THOMAS_HALL, "outside_work"],
         [WESTMINSTER, "not_ingested"],

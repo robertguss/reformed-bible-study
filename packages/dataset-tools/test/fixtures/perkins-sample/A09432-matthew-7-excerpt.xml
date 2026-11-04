@@ -1,0 +1,65 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A09432, Perkins, A godly and learned exposition of Christs Sermon in the Mount (1608), CC0 1.0, as keyed: the exposition of Matthew 6:34 and, from chapter 7, whose division carries no number and no heading, those of verses 1 and 2, 2, 3 and 4, and 28 and 29. Each division keeps its quoted text and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <head>
+            <hi>A</hi> GODLY AND LEARNED EXPOSI<g ref="char:EOLhyphen"/>TION OF CHRISTS Sermon in the MOUNT.</head>
+         <div n="6" type="chapter">
+            <head>Chap. 6.</head>
+            <div n="34" type="verse">
+               <pb n="404" facs="tcp:14013:208"/>
+               <epigraph>
+                  <bibl>Verse 34.</bibl>
+                  <q>Care not for the morrow, for the morrow shall care for it selfe: the day hath enough with his owne griefe.</q>
+               </epigraph>
+               <p>Here Christ the third time repeats his commaundement against di<g ref="char:EOLhyphen"/>strustful care, propou<g ref="char:cmbAbbrStroke">̄</g>ded first in the 25. verse.</p>
+            </div>
+         </div>
+         <div type="chapter">
+            <div n="1,2" type="verse">
+               <epigraph>
+                  <bibl>Chap. 7. Verse 1.</bibl>
+                  <q>
+                     <p>Iudge not, that you be not iudged.</p>
+                     <p n="2">2. For with what iudgement ye iudge, yee shall be iudged; and with what measure you mete, it shall be measured to you againe.</p>
+                  </q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">I</seg>N these words, and so forward to the end of the fift<note place="margin">6. part of Christs s<gap reason="illegible" resp="#APEX" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>r<g ref="char:EOLhyphen"/>mon.</note> verse, is contained the sixt part of this sermon of our Sauiour Christ, concerning <hi>Iudgement.</hi>
+               </p>
+            </div>
+            <div n="2" type="verse">
+               <epigraph>
+                  <bibl>vers. 2.</bibl>
+                  <q>For with what iudgement ye iudge, ye shall be iudged: and with what measure you mete, it shall be measured to you againe.</q>
+               </epigraph>
+               <p>This verse containes a double confirmation of the former reason, drawne from the euent.</p>
+            </div>
+            <div n="3,4" type="verse">
+               <epigraph>
+                  <bibl>v. 3.</bibl>
+                  <q>
+                     <p>And why seest thou the mote that is in thy brothers eye, and perceiuest not the beame that is in thine owne eye?</p>
+                     <p n="4">4. Or how saiest thou to thy brother, Suffer me to cast out the mote out of thine eye, and behold a beame is in thine owne eye?</p>
+                  </q>
+               </epigraph>
+               <p>These two verses containe a second reason to inforce the former co<g ref="char:cmbAbbrStroke">̄</g>
+                  <g ref="char:EOLhyphen"/>mandement against rash iudgement.</p>
+            </div>
+            <div n="28,29" type="verse">
+               <pb n="546" facs="tcp:14013:279"/>
+               <epigraph>
+                  <bibl>vers. 28.</bibl>
+                  <q>
+                     <p>And it came to passe when Iesus had ended these words, the people were astonied at his doctrine.</p>
+                     <p n="29">29. For he taught as one hauing authoritie, and not as the Scribes.</p>
+                  </q>
+               </epigraph>
+               <p>These two verses containe the issue and euent of this Sermon of our Sauiour Christ in his hearers.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

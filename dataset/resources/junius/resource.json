@@ -1,0 +1,37 @@
+{
+  "id": "junius",
+  "kind": "commentary",
+  "title": "Apocalypsis, A Brief and Learned Commentary upon the Revelation of Saint John",
+  "name": "Junius",
+  "creator": "Franciscus Junius",
+  "edition": "Apocalypsis. A briefe and learned commentarie vpon the reuelation of Saint Iohn the apostle and euangelist, applyed vnto the history of the Catholicke and Christian Church, written in Latin by Francis Junius and translated into English by a translator the book does not name (London, printed by Richard Field for Robert Dexter, 1592, STC 2988), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A16102",
+  "language": "en",
+  "scope": ["Rev"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A16102",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A16102/33f7d64d1a34b358b98f3fc2192b40af38d12b43/A16102.xml",
+        "sha256": "78031fa4f53504b42189376bfff5b18ca133f42b2c126082d73387cdc420f858"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A16102",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Franciscus Junius, Apocalypsis, A Brief and Learned Commentary upon the Revelation of Saint John (London, 1592), translated from his Latin into English by a translator the book does not name. Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. The book prints the Revelation verse by verse with Junius's notes in the margin. Each verse is one section, keyed by the number the transcription gives it, with the verse as printed and its margin notes as the section's notes; each note keeps the sign that ties it to a word of the verse, such as (a) or (1). Each chapter's argument opens its first verse. Chapter 9 numbers 9:16 and 9:17 as 15 and 16, and they are keyed to the verses their text prints. The first verse of the book, which the transcription leaves unnumbered, is 1:1; any other paragraph it leaves unnumbered, such as the end of a note or the closing doxology, continues the verse before it, and so does the last verse of chapter 12, which this translation numbers 18, And he stood on the sea sand, and the King James Version prints as the opening of 13:1. A verse named in a note is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word and 〈 in non-Latin alphabet 〉 for Greek. Line-end hyphens are closed up. Left out: the title page, the dedication to Otho Grinaldius, the admonition to the reader, the table of the order of time, the table of the sum of the book, the preface on the authority of the book, the heading of the Revelation, and the chapter headings such as CHAP. IX.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

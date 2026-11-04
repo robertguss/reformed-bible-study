@@ -1,0 +1,53 @@
+{
+  "id": "perkins",
+  "kind": "commentary",
+  "title": "Expositions of Christ's Sermon in the Mount, the Epistle to the Galatians and Hebrews 11",
+  "name": "Perkins",
+  "creator": "William Perkins, with Ralph Cudworth on Galatians 6",
+  "edition": "Three works by William Perkins, published after his death, as keyed and encoded by the Early English Books Online Text Creation Partnership: A godly and learned exposition of Christs Sermon in the Mount, published at the request of his executors by Thomas Pierson (Cambridge, printed by Thomas Brooke and Cantrell Legge, 1608, STC 19722), Phase I text A09432; A commentarie or exposition, vpon the fiue first chapters of the Epistle to the Galatians, published and continued with a supplement vpon the sixt chapter by Ralph Cudworth the elder, Bachelor of Divinity (Cambridge, printed by John Legat, 1604, STC 19680), Phase I text A09383; and A cloud of faithfull witnesses, or, A commentarie vpon the 11 chapter to the Hebrewes, published at the request of his executors by William Crashawe and Thomas Pierson, who heard him preach it (London, printed by Humfrey Lownes for Leonard Greene, 1607, STC 19677.5), Phase I text A09376",
+  "language": "en",
+  "scope": ["Matt", "Gal", "Heb"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A09432",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A09432/8443950eebec55426973cca9e5521e3b6b888e7f/A09432.xml",
+        "sha256": "44a594790115130ed01f224d2ca28e5f9699827a83fcc4400f8ff082d5f5899d"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A09383/ebff529c59fd1e8abd939a874ccd2c2f8695f5fe/A09383.xml",
+        "sha256": "51fd71894f44638d3b3f8abc199867a851f7824684daaf5d5a4ae991fcc235d6"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A09376/3f2c42ad46f0d343a8e471e99c07c1ffb6167172/A09376.xml",
+        "sha256": "d332157a97e585329c411f77e7d15ec97535f9841ce5885c2120d21872aeb64f"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A09432",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A09383",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A09376",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "William Perkins, A Godly and Learned Exposition of Christs Sermon in the Mount (Cambridge, 1608, published by Thomas Pierson), A Commentarie or Exposition upon the Five First Chapters of the Epistle to the Galatians (Cambridge, 1604), with the supplement upon the sixth chapter by Ralph Cudworth, and A Cloud of Faithfull Witnesses, a commentary upon Hebrews 11 (London, 1607, published by William Crashawe and Thomas Pierson). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. On the Sermon on the Mount each exposition the transcription divides off is one section, keyed by the verses the transcription numbers it with, such as 1,2, and expositions that open on the same verse share its section; the division of chapter 7, which carries no number, is read as chapter 7. On Galatians each verse is quoted under its bare number, such as 1 Then 14. yeares after, v. 11. or The Text. 2., and opens a section there, and 6:11, printed II, is keyed to verse 11. Chapters 1 to 5 are Perkins's and chapter 6 is Ralph Cudworth's supplement. On Hebrews 11 each example of faith quotes its verses under labels such as VERSE 4. or HEBREVVES. 11.7., and opens a section there; Enoch's example opens at 11:5, which its heading quotes. A quotation without a label continues the section before it, and a verse named in the exposition is never read. A section runs from its own verse to the verse before the next section or the end of its chapter. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word, 〈8 pages missing〉 where pages 213 to 220 of the Hebrews volume are lacking, and 〈1 page duplicate〉 where a page was filmed twice. Line-end hyphens are closed up. Left out: the title pages, the dedications, the epistle to the reader and the errata, the tables and indexes, the heading of the Sermon on the Mount, the chapter headings such as Chap. 6. or CHAP. VI., Cudworth's conclusion on the epistle's postscript, and the commentary on part of Hebrews 12 bound after Hebrews 11.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

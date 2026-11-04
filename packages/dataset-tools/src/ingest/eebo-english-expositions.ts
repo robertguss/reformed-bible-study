@@ -174,10 +174,142 @@ export const MANTON: EeboCommentator = {
   ],
 }
 
+/**
+ * Perkins's sermons on the Sermon on the Mount (1608), his Galatians (1604), whose sixth chapter
+ * Ralph Cudworth supplied, and his sermons on Hebrews 11 (1607).
+ */
+export const PERKINS: EeboCommentator = {
+  resourceId: "perkins",
+  works: [
+    {
+      // One `verse` division per verse or group of verses, numbered by its `n`, such as `1,2`. The
+      // division of chapter 7 carries no number and no heading.
+      source: tcp(
+        "A09432",
+        "8443950eebec55426973cca9e5521e3b6b888e7f",
+        "44a594790115130ed01f224d2ca28e5f9699827a83fcc4400f8ff082d5f5899d",
+        4,
+      ),
+      books: ["Matt"],
+      layout: {
+        chapterDivisions: new Set(["chapter"]),
+        lastChapter: 7,
+        verseDivisions: new Set(["verse"]),
+      },
+    },
+    {
+      // Perkins's chapters 1 to 5 and Cudworth's supplement on chapter 6 are two texts, each with its
+      // own body. Each verse is quoted under its bare number, such as `1 Then 14. yeares after`,
+      // `v. 11.` or `The Text. 2.`; the print sets 6:11 as `II`. The conclusion on the epistle's
+      // postscript, after chapter 6, is left out.
+      source: tcp(
+        "A09383",
+        "ebff529c59fd1e8abd939a874ccd2c2f8695f5fe",
+        "51fd71894f44638d3b3f8abc199867a851f7824684daaf5d5a4ae991fcc235d6",
+        4,
+      ),
+      books: ["Gal", "Gal"],
+      layout: {
+        chapterDivisions: new Set(["chapter"]),
+        verseLabel: /^(?:The Text\.\s*)?(?:V(?:er(?:se)?)?\.\s*)?(\d+|II)\b/i,
+        labelCorrections: [{ opening: "II Ye see how large a letter", verse: 11 }],
+      },
+    },
+    {
+      // One division per example of faith, quoting its verses under labels such as `VERSE 4.` or
+      // `HEBREVVES. 11.7.`; the heading of Enoch's example quotes 11:5 with `Verse 5.` in its margin.
+      // The commentary on Hebrews 12:1 bound after the chapter is left out.
+      source: tcp(
+        "A09376",
+        "3f2c42ad46f0d343a8e471e99c07c1ffb6167172",
+        "d332157a97e585329c411f77e7d15ec97535f9841ce5885c2120d21872aeb64f",
+        2,
+      ),
+      books: ["Heb"],
+      layout: {
+        skipWithinBook: /12\. Chapter/,
+        chapterDivisions: new Set(),
+        onlyChapter: 11,
+        verseLabel: /(?:\bVERSE\.?\s*|HEBREVVES\.\s*11\.\s*)(\d+)/i,
+        headingLabels: true,
+      },
+    },
+  ],
+}
+
+/**
+ * Gouge's Hebrews (1655), published after his death by his son Thomas Gouge, as numbered sections.
+ * A verse's exposition opens with a section quoting it, such as `Verse 4.`, `HEB. 1. 8.` or `Heb. 4.
+ * 7.`, or headed with it, as `Of the meaning of Heb. 11. 2.` The sections after it, on its words and
+ * doctrines, continue it, and so do the resolutions and observations that close a passage, which
+ * quote it again from its first verse.
+ */
+export const GOUGE: EeboCommentator = {
+  resourceId: "gouge",
+  works: [
+    {
+      source: tcp(
+        "A41670",
+        "836a9df4b169578b54d3c8763784dff81a9df482",
+        "515eb5d0856ec079d20ec508bbe6346546ca7e5ae6619c7de76f1b755bebe586",
+        16,
+      ),
+      books: ["Heb"],
+      layout: {
+        chapterDivisions: new Set(["chapter"]),
+        firstChapter: 1,
+        verseDivisions: new Set(["section"]),
+        verseLabel:
+          /(?:^V(?:erse|ers?)?\.?\s*|\bHebr?(?:ews)?[.:▪]?\s*(?:Chap\.\s*)?\d+[.,:▪]+\s*(?:V(?:erse|ers?)?[.,]?\s*)?)(\d+)/i,
+        requotedLabels: true,
+        // Sections whose label the print or the transcription lost: the gaps in `Heb. 〈◊〉 . 2 •… .`
+        // (12:1), `•… eb. 11. 22.`, `Heb. 11. •… 6.` and `H •… b. 12▪ 14.`, the heading
+        // `Of the meaning of Heb. 12. 13.` over a quotation of 12:12, and 12:25, whose quotation is
+        // labelled `Heb. 12.` and then `Vers. 25.`
+        labelCorrections: [
+          { opening: "§. 2. Of Gods Witnesses.", verse: 1 },
+          { opening: "§. 67. Of the meaning of Heb. 12. 13.", verse: 12 },
+          { opening: "§. 71. Of Peace.", verse: 14 },
+          { opening: "§. 123. Of Circumspection about Gods Word.", verse: 25 },
+          { opening: "§. 115. Of Joseph and his name.", verse: 22 },
+          { opening: "§. 251. Of Mockings", verse: 36 },
+        ],
+      },
+    },
+  ],
+}
+
+/** Junius's Apocalypsis (1592) in English: the verses of Revelation with his notes in the margin. */
+export const JUNIUS: EeboCommentator = {
+  resourceId: "junius",
+  works: [
+    {
+      // One paragraph per verse, numbered by its `n`. Chapter 9 numbers 9:16 and 9:17 as 15 and 16.
+      source: tcp(
+        "A16102",
+        "33f7d64d1a34b358b98f3fc2192b40af38d12b43",
+        "78031fa4f53504b42189376bfff5b18ca133f42b2c126082d73387cdc420f858",
+        1,
+      ),
+      books: ["Rev"],
+      layout: {
+        chapterDivisions: new Set(["chapter"]),
+        labelCorrections: [
+          { opening: "15 And the number of the troupes", verse: 16 },
+          { opening: "16 I also saw horses in a vision", verse: 17 },
+        ],
+      },
+    },
+  ],
+}
+
 /** The English expositions of single books. */
 export const ENGLISH_EXPOSITIONS: ReadonlyArray<EeboCommentator> = [
   BURROUGHS,
   THOMAS_HALL,
   SIBBES,
   MANTON,
+  PERKINS,
+  GOUGE,
+  JUNIUS,
 ]

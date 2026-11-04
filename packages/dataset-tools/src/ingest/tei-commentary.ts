@@ -30,11 +30,19 @@ export interface TeiCommentaryLayout {
    * preface, holds no listed book and is left out with everything inside it.
    */
   readonly skipDivisions?: RegExp
+  /**
+   * Matched against the heading of each division directly inside a book. A matching division, such
+   * as a commentary on part of the next chapter bound after the work's own chapter, is left out with
+   * everything inside it.
+   */
+  readonly skipWithinBook?: RegExp
   readonly chapterDivisions: ReadonlySet<string>
   /** Given when the book has no chapter divisions because the work expounds this one chapter. */
   readonly onlyChapter?: number
   /** The chapter an unnumbered first chapter division holds, as in a volume that begins mid-book. */
   readonly firstChapter?: number
+  /** The chapter an unnumbered last chapter division holds, as in a volume that ends mid-book. */
+  readonly lastChapter?: number
   /**
    * Given when chapter divisions carry no `n` attribute and are told only by their headings, such
    * as `1 Ep. St. Peter Chap. III.` Its first group is the chapter, in Arabic or Roman figures.
@@ -68,6 +76,19 @@ export interface TeiCommentaryLayout {
    * paragraph is then a label position too.
    */
   readonly openingParagraphLabel?: boolean
+  /**
+   * Given with `verseLabel`, and no `verseDivisions`, when a heading inside a chapter may name the
+   * verse its passage expounds, as Perkins heads his example of Enoch with a quotation marked
+   * `Verse 5.` A heading the pattern matches opens a section at that verse instead of the verse after
+   * it.
+   */
+  readonly headingLabels?: boolean
+  /**
+   * Given when a work quotes verses again after expounding them, as Gouge's resolution of a passage
+   * quotes it again from its first verse. A label lower than the verse before it then continues that
+   * verse's section instead of failing.
+   */
+  readonly requotedLabels?: boolean
   /**
    * Printed verse labels moved to the verse their text quotes, keyed by the label as an OSIS
    * reference: `Hos.14.10` to 9 where a sermon labelled 14.10 quotes the King James Version's 14:9.
@@ -313,11 +334,13 @@ const piecesOf = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<Piece> =>
  * The items of a chapter, in order. The chapter's own heading, such as `CHAP. I.`, is left out. Other
  * headings and arguments open the verse after them; anything else that is not a paragraph, such as
  * a page gap or a closing doxology, continues the verse before it. Given a label pattern, a labelled
- * quotation is a verse item instead, and every paragraph continues the verse before it.
+ * quotation is a verse item instead, and every paragraph continues the verse before it; so is a
+ * labelled heading, where the layout reads labels in headings.
  */
 const chapterItems = (
   nodes: ReadonlyArray<XmlNode>,
   verseLabel: RegExp | undefined,
+  headingLabels: boolean,
 ): ReadonlyArray<Item> => {
   const items: Array<Item> = []
   let label = true
@@ -332,8 +355,8 @@ const chapterItems = (
       const first = label
       label = false
       if (name === "head" && first) continue
-      const verse =
-        verseLabel !== undefined && LABEL_BLOCKS.has(name) ? labelOf(node, verseLabel) : undefined
+      const labelled = LABEL_BLOCKS.has(name) || (headingLabels && name === "head")
+      const verse = verseLabel !== undefined && labelled ? labelOf(node, verseLabel) : undefined
       if (name === "p") {
         const piece = pieceOf(childrenOf(node))
         items.push(
@@ -341,8 +364,12 @@ const chapterItems = (
             ? { kind: "verse", marker: marker(node), piece }
             : { kind: "trail", piece },
         )
-      } else if (name === "head") items.push({ kind: "lead", piece: pieceOf(childrenOf(node)) })
-      else if (name === "argument") {
+      } else if (name === "head") {
+        const piece = pieceOf(childrenOf(node))
+        items.push(
+          verse === undefined ? { kind: "lead", piece } : { kind: "verse", marker: verse, piece },
+        )
+      } else if (name === "argument") {
         for (const piece of piecesOf(childrenOf(node))) items.push({ kind: "lead", piece })
       } else if (name === "div") visit(childrenOf(node))
       else if (verse !== undefined)
@@ -601,7 +628,12 @@ const sectionsOf = (
         continue
       }
       const verse = numbers[v++]
-      if (verse === undefined || verse === current?.verse) {
+      const requoted =
+        layout.requotedLabels === true &&
+        verse !== undefined &&
+        current !== undefined &&
+        verse < current.verse
+      if (verse === undefined || verse === current?.verse || requoted) {
         ;(current?.pieces ?? opening).push(...lead, item.piece)
       } else if (current !== undefined && verse < current.verse) {
         return yield* new TeiCommentaryError({
@@ -701,8 +733,13 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
     const isGroup = (node: XmlNode) =>
       elementName(node) === "div" &&
       layout.chapterGroups?.has(attribute(node, "type") ?? "") === true
+    const { skipWithinBook } = layout
+    const isSkipped = (node: XmlNode) =>
+      skipWithinBook !== undefined &&
+      elementName(node) === "div" &&
+      skipWithinBook.test(headingOf(node))
     const own = childrenOf(division).flatMap((node) =>
-      isGroup(node) ? withoutHeading(childrenOf(node)) : [node],
+      isSkipped(node) ? [] : isGroup(node) ? withoutHeading(childrenOf(node)) : [node],
     )
     const children =
       layout.chaptersInFirstVerseDivision === true ? gatherChapters(own, isChapter, isVerse) : own
@@ -711,7 +748,7 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
       layout.openingLabel !== undefined
         ? openingLabelItems(nodes, layout.openingLabel, layout.headingVerse)
         : layout.verseDivisions === undefined
-          ? chapterItems(nodes, layout.verseLabel)
+          ? chapterItems(nodes, layout.verseLabel, layout.headingLabels === true)
           : verseDivisionItems(
               nodes,
               layout.verseDivisions,
@@ -730,7 +767,11 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
       return named === undefined ? undefined : figures(named)
     }
     const markers = divisions.map(
-      (node, i) => marker(node) ?? headed(node) ?? (i === 0 ? layout.firstChapter : undefined),
+      (node, i) =>
+        marker(node) ??
+        headed(node) ??
+        (i === 0 ? layout.firstChapter : undefined) ??
+        (i === divisions.length - 1 ? layout.lastChapter : undefined),
     )
     const numbers = numberMarkers(markers, chapterCount(book))
     const resumes = layout.chaptersResume === true

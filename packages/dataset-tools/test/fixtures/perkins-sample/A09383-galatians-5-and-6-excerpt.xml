@@ -1,0 +1,90 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A09383, Perkins, A commentarie or exposition, vpon the fiue first chapters of the Epistle to the Galatians, continued with a supplement vpon the sixt chapter by Rafe Cudworth (1604), CC0 1.0, as keyed: the end of Perkins's text, on Galatians 5:25 and 26, and Cudworth's supplement, with its title page, the verses of chapter 6 it quotes at 1, 2, 10, 11, printed II, 12 and 18, and the opening of its conclusion. Each verse keeps its quoted text and its first paragraph, cut short. -->
+   <text>
+      <group>
+         <text xml:lang="eng">
+            <body>
+               <div n="5" type="chapter">
+                  <head>CHAP. V. <milestone type="tcpmilestone" unit="unspecified" n="15"/>
+                  </head>
+                  <q>
+                     <p>
+                        <hi>25. If we liue in the Spirit, let vs also walke in the Spirit. <milestone type="tcpmilestone" unit="unspecified" n="30"/>
+                        </hi>
+                     </p>
+                  </q>
+                  <p>In these words is co<g ref="char:cmbAbbrStroke">̄</g>tained, the last reason of the rule of good life before mentioned, in the 16. verse.</p>
+                  <q>
+                     <p>
+                        <hi>26. Let vs not be desirous of vaine-glorie, prouoking one ano<g ref="char:EOLhyphen"/>ther, <milestone type="tcpmilestone" unit="unspecified" n="20"/> enuying one another.</hi>
+                     </p>
+                  </q>
+                  <p>The scope. From this 26. verse, to the 11. verse of the chap<g ref="char:EOLhyphen"/>ter following. S. Paul handles the second Rule, which he had <milestone type="tcpmilestone" unit="unspecified" n="25"/> propounded in the 13. verse of this chapter: <hi>By loue serue one another.</hi>
+                  </p>
+                  <trailer>FINIS.</trailer>
+               </div>
+            </body>
+         </text>
+         <text xml:lang="eng">
+            <front>
+               <div type="title_page">
+                  <pb facs="tcp:14852:237"/>
+                  <p>
+                     <pb facs="tcp:14852:237"/>
+THE SVPPLEMENT OR CONTINVATION OF the Commentarie vpon the sixt Chapter.</p>
+                  <p>Printed by IOHN LEGAT, Prin<g ref="char:EOLhyphen"/>ter to the Vniuersitie of CAM<g ref="char:EOLhyphen"/>BRIDGE. 1604.</p>
+               </div>
+            </front>
+            <body>
+               <div n="6" type="chapter">
+                  <head>CHAP. VI.</head>
+                  <q>
+                     <p>
+                        <hi>1 Brethren, if a man be fallen by occasion into any fault, ye which are <milestone type="tcpmilestone" unit="unspecified" n="5"/> spirituall, restore such a one with the spirit of meekenes, considering thy selfe, least thou also be tempted.</hi>
+                     </p>
+                  </q>
+                  <p>
+                     <seg rend="decorInit">T</seg>H' Apostle hauing finished the first part of <hi>the Instruction,</hi> touching the faith of the Ga<g ref="char:EOLhyphen"/>latians.</p>
+                  <q>
+                     <p>
+                        <hi>2. Beare ye one anothers bur<g ref="char:EOLhyphen"/>dens, <milestone type="tcpmilestone" unit="unspecified" n="20"/> and so fulfill the lawe of Christ.</hi>
+                     </p>
+                  </q>
+                  <p>In this verse, the Apostle propounds another rule, touching <milestone type="tcpmilestone" unit="unspecified" n="25"/> brotherly loue, and it dependeth vpon the former.</p>
+                  <q>
+                     <p>
+                        <hi>10. While we haue therefore time let vs doe good vnto all men, <milestone type="tcpmilestone" unit="unspecified" n="15"/> but specially to them which are of the houshold of faith.</hi>
+                     </p>
+                  </q>
+                  <p>In these words the Apostle doeth iterate the conclusion propounded in the sixt verse, as also in the ninth verse immedi<g ref="char:EOLhyphen"/>ately going before.</p>
+                  <q>
+                     <p>
+                        <hi>II Ye see how large a letter I haue written vnto you with mine owne hand. <milestone type="tcpmilestone" unit="unspecified" n="5"/>
+                        </hi>
+                     </p>
+                  </q>
+                  <p>Here beginneth the Conclusion, beeing the third generall part of this Epistle, consisting of two parts: an <hi>Insinuation,</hi> in the II. verse, &amp; a <hi>Recapitulation,</hi> in the verses following.</p>
+                  <q>
+                     <p>
+                        <hi>12. As many as make a faire shew in the flesh, compell you to be cir<g ref="char:EOLhyphen"/>cumcised, only because they would <milestone type="tcpmilestone" unit="unspecified" n="5"/> not suffer persecution for the crosse of Christ.</hi>
+                     </p>
+                  </q>
+                  <p>From hence to the ende, is laid down the second part of the <milestone type="tcpmilestone" unit="unspecified" n="10"/> conclusion, which I call a <hi>Recapitulation.</hi>
+                  </p>
+                  <q>
+                     <p>
+                        <hi>18. Brethren, the grace of our Lord Iesus Christ, be with your spi<g ref="char:EOLhyphen"/>rit, Amen. <milestone type="tcpmilestone" unit="unspecified" n="25"/>
+                        </hi>
+                     </p>
+                  </q>
+                  <p>Here, the Apostle concludes his epistle with his vsuall fare<g ref="char:EOLhyphen"/>well commending the Galatians to the grace of God.</p>
+               </div>
+               <div type="conclusion">
+                  <head>The Conclusion.</head>
+                  <p>In the ende of all, it is added, in the <hi>Greeke,</hi> and <hi>Siriacke</hi> co<g ref="char:EOLhyphen"/>pies, that this Epistle was <hi>written to the Galatians from Rome.</hi> Which post-script seemes to be erroneous and false.</p>
+               </div>
+            </body>
+         </text>
+      </group>
+   </text>
+</TEI>

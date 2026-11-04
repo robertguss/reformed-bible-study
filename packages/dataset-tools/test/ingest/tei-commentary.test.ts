@@ -324,6 +324,97 @@ describe("readTeiCommentary", () => {
     }),
   )
 
+  it.effect("numbers an unnumbered last chapter division from the volume's last chapter", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(fixture("perkins-sample/A09432-matthew-7-excerpt.xml"), "Matt", {
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["verse"]),
+        lastChapter: 7,
+      })
+      expect(refs(sections)).toEqual([
+        "Matt.6.34",
+        "Matt.7.1",
+        "Matt.7.2",
+        "Matt.7.3-Matt.7.27",
+        "Matt.7.28-Matt.7.29",
+      ])
+    }),
+  )
+
+  const HEBREWS_11 = fixture("perkins-sample/A09376-hebrews-11-excerpt.xml")
+
+  const PERKINS_HEBREWS: TeiCommentaryLayout = {
+    chapterDivisions: new Set(),
+    onlyChapter: 11,
+    verseLabel: /(?:\bVERSE\.?\s*|HEBREVVES\.\s*11\.\s*)(\d+)/i,
+  }
+
+  it.effect("leaves out a division inside the book whose heading the layout names", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(HEBREWS_11, "Heb", {
+        ...PERKINS_HEBREWS,
+        skipWithinBook: /12\. Chapter/,
+      })
+      expect(refs(sections).at(-1)).toBe("Heb.11.40")
+      expect(section(sections, "Heb.11.40")?.paragraphs.map(plain).at(-1)).toMatch(
+        /^BEcause some man might much maruel/,
+      )
+      expect(JSON.stringify(sections)).not.toContain("Wherfore, let vs also")
+    }),
+  )
+
+  it.effect("opens a section at a heading's verse label where the layout reads labels there", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(HEBREWS_11, "Heb", {
+        ...PERKINS_HEBREWS,
+        skipWithinBook: /12\. Chapter/,
+        headingLabels: true,
+      })
+      // Enoch's heading quotes 11:5 with Verse 5. in its margin, so his example opens verse 5.
+      expect(refs(sections).slice(0, 5)).toEqual([
+        "Heb.11.1",
+        "Heb.11.2-Heb.11.3",
+        "Heb.11.4",
+        "Heb.11.5-Heb.11.6",
+        "Heb.11.7-Heb.11.34",
+      ])
+      expect(section(sections, "Heb.11.5-Heb.11.6")?.paragraphs.map(plain)).toEqual([
+        expect.stringMatching(/^The second is of Henoch: in these words; By faith Henoch/),
+        expect.stringMatching(/^THe second example of faith/),
+        "Let the meaning of the words be first examined.",
+      ])
+      expect(plain(section(sections, "Heb.11.7-Heb.11.34")?.paragraphs[0] ?? [])).toBe(
+        "Noahs Faith.",
+      )
+    }),
+  )
+
+  it.effect("continues a verse's section where a later section quotes earlier verses again", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(fixture("gouge-sample/A41670-hebrews-1-excerpt.xml"), "Heb", {
+        chapterDivisions: new Set(["chapter"]),
+        firstChapter: 1,
+        verseDivisions: new Set(["section"]),
+        verseLabel: /(?:^V(?:erse|ers?)?\.?\s*|\bHEB(?:REWS)?\.?\s*\d+\.\s*(?:Vers\.\s*)?)(\d+)/i,
+        requotedLabels: true,
+      })
+      expect(refs(sections)).toEqual([
+        "Heb.1.1-Heb.1.3",
+        "Heb.1.4-Heb.1.7",
+        "Heb.1.8",
+        "Heb.1.9",
+        "Heb.1.10-Heb.1.14",
+      ])
+      // The resolution of verses 8 and 9 quotes verse 8 again, and stays with verse 9.
+      expect(section(sections, "Heb.1.9")?.paragraphs.map(plain)[0]).toBe(
+        "§. 114. Of the extent of Righteousnesse.",
+      )
+      expect(section(sections, "Heb.1.9")?.paragraphs.map(plain)).toContain(
+        "§. 125. Of the resolution of v. 8, 9.",
+      )
+    }),
+  )
+
   it.effect("keys a sermon to the verse its text quotes where the layout moves its label", () =>
     Effect.gen(function* () {
       const sections = yield* read(fixture("sibbes-sample/A12190-hosea-14-excerpt.xml"), "Hos", {
