@@ -89,6 +89,13 @@ const form = <A>(
   ]
 }
 
+const proofHeading = (proof: ConfessionArticleItem["proofs"][number]): string =>
+  proof.wholeArticle === true
+    ? "Proofs for the whole article"
+    : proof.label === undefined
+      ? "Proofs"
+      : `Proofs ${proof.label}`
+
 const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
   form(listResourcesContract, (resource: CatalogResource) =>
     lines(
@@ -139,8 +146,7 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
       article.question === undefined ? undefined : plain(article.question),
       ...article.paragraphs.map(plain),
       ...article.proofs.map(
-        (proof) =>
-          `Proofs${proof.label === undefined ? "" : ` ${proof.label}`}: ${proof.refs.map((ref) => ref.display).join("; ")}`,
+        (proof) => `${proofHeading(proof)}: ${proof.refs.map((ref) => ref.display).join("; ")}`,
       ),
     ),
   ),
