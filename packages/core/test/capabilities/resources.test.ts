@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
 import { listResources, resolveReference } from "../../src/capabilities/index.ts"
-import { call, ORIGIN, WITHDRAWN_REASON } from "./fixture.ts"
+import { call, ORIGIN, UNINGESTED_CONFESSION, WITHDRAWN_REASON } from "./fixture.ts"
 
 describe("list_resources", () => {
   it.effect(
@@ -37,7 +37,7 @@ describe("list_resources", () => {
           coverage.get("bsb"),
           coverage.get("calvin-commentaries"),
           coverage.get("wcf"),
-          coverage.get("hc"),
+          coverage.get(UNINGESTED_CONFESSION),
         ]).toEqual(["covered", "covered", "covered", "not_ingested"])
       }),
   )

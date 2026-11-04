@@ -86,3 +86,13 @@ SPDX-License-Identifier = "CC-PDM-1.0"
 path = "versification/kjv.json"
 SPDX-FileCopyrightText = "Copyright (c) OpenBible.info; verse counts from bible-passage-reference-parser"
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "resources/hc/**"
+SPDX-FileCopyrightText = "The Heidelberg Catechism, 1563, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/hc/**"
+SPDX-FileCopyrightText = "The Heidelberg Catechism, 1563, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"

@@ -1,0 +1,47 @@
+{
+  "id": "hc",
+  "kind": "confession",
+  "creator": "Zacharias Ursinus and Caspar Olevianus",
+  "language": "en",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  },
+  "title": "The Heidelberg Catechism",
+  "edition": "The Heidelberg Catechism (1563), English text as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877), with the Scripture proofs of The Heidelberg Catechism, Specially Arranged and Adapted for Use in Sunday Schools and Catechetical Classes (Tiffin, Ohio: E. R. Good and Bro., 1879), read from its Wikisource transcription",
+  "source": {
+    "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "sha256": "756adf1ddd466d237221c76b99d25d55cab7e83d08914f28a289c3b90dccddf3"
+      },
+      {
+        "url": "https://en.wikisource.org/w/api.php?action=query&prop=revisions&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json&formatversion=2&revids=14420998%7C14421041%7C14432112%7C14769455%7C14421888%7C14421038%7C14769451%7C14769454%7C14422820%7C14769458%7C14769459%7C14423503%7C16416954%7C14423542%7C14423554%7C14769461%7C14423556%7C14423568%7C14423576%7C14423585%7C14423599%7C14423665%7C14769463%7C14423684%7C14423690%7C14423696%7C14769464%7C14427028%7C14427044%7C14427057%7C14427089%7C14427103%7C14427120%7C14769465%7C14769466%7C14427174%7C14427190%7C14427195%7C14427205%7C14769468%7C14427231%7C14427238%7C14427240%7C14427243%7C14427250%7C14427258%7C14427264%7C14429864%7C14429878%7C14429884",
+        "sha256": "ba9e6041993f4a37fc6b8f0782f0b4144f8b54cb0e74c4dc738ffcd1c1211477"
+      },
+      {
+        "url": "https://en.wikisource.org/w/api.php?action=query&prop=revisions&rvprop=ids%7Ctimestamp%7Ccontent&rvslots=main&format=json&formatversion=2&revids=14429888%7C14429901%7C14429908%7C14429910%7C14429917%7C14429922%7C14429925%7C14429949%7C14429950%7C14429941%7C14429945%7C14429946%7C14429951%7C14429952%7C14429961%7C14429989%7C14430020%7C14430037%7C14430058%7C14430068%7C14430081%7C14430088%7C14430123%7C14430176%7C14430311%7C14430425%7C14430529%7C14430621%7C14430745%7C14430872",
+        "sha256": "899a4759f1c9d87766cde2d1eab5869fc417b8f3bf46d5edaa836f19f82f9277"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.ccel.org/ccel/schaff/creeds3.xml",
+        "quote": "Public Domain"
+      },
+      {
+        "url": "https://en.wikisource.org/wiki/The_Heidelberg_Catechism",
+        "quote": "This work was published before January 1, 1931, and is in the public domain worldwide because the author died at least 100 years ago."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "The Heidelberg Catechism (1563), English text as printed in Philip Schaff, The Creeds of Christendom, vol. 3 (1877), with the Scripture proofs of the edition printed at Tiffin, Ohio, in 1879, as transcribed on Wikisource. Public domain."
+  },
+  "modifications": "Took the English questions and answers from Schaff, which prints no Scripture proofs, and corrected digitization errors in the CCEL file, each listed in source.md. Divided the questions into the 52 Lord's Days of the 1879 edition. Took the proof references of each answer from the 1879 edition: each parenthesized reference group in the question or answer is one proof clause, joined with the further references of its note. The references were read from the Wikisource transcription, corrected to the scan where the two differ, checked against the quoted Scripture words, and converted to OSIS in KJV versification. Misprinted references were corrected or dropped as listed in source.md. Each answer's text keeps Schaff's paragraphs, and its proofs are not tied to positions in the text."
+}

@@ -50,10 +50,12 @@ const fixtureRecord = (
 
 export const WITHDRAWN_REASON = "License evidence was retracted by the publisher."
 
+/** A confession the catalog lists before its transcription is ingested. */
+export const UNINGESTED_CONFESSION = "uningested-confession"
+
 const records = [
   ...realRecords,
-  // A confession the catalog lists before its transcription is ingested.
-  fixtureRecord({ id: "hc", kind: "confession", title: "The Heidelberg Catechism" }),
+  fixtureRecord({ id: UNINGESTED_CONFESSION, kind: "confession" }),
   fixtureRecord({
     id: "withdrawn-commentary",
     kind: "commentary",
@@ -191,8 +193,8 @@ const lexicon: ReadonlyArray<LexiconEntry> = [
   },
 ]
 
-/** The Westminster Standards as transcribed for the dataset, so proof-text links are real. */
-const confessions = ["wcf", "wlc", "wsc"].map((id) =>
+/** Every confession as transcribed for the dataset, so each real record has its text and proof-text links are real. */
+const confessions = readdirSync(join(repoRoot, "dataset/confessions")).map((id) =>
   Schema.decodeUnknownSync(Confession)(readJson(`dataset/confessions/${id}/confession.json`)),
 )
 
