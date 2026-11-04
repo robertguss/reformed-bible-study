@@ -144,6 +144,11 @@ const calvinHarmonies: ReadonlyArray<CommentaryBook> = [
     book: "Matt",
     sections: [
       parallel(
+        "Matt.8.28-Matt.8.34",
+        ["Mark.5.1-Mark.5.20", "Luke.8.26-Luke.8.39"],
+        "And when he was come to the other side into the country of the Gergesenes.",
+      ),
+      parallel(
         "Matt.13.2-Matt.13.8",
         ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
         CALVIN_ON_THE_SOWER,

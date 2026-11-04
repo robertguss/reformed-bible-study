@@ -32,7 +32,7 @@ describe("list_resources", () => {
         expect(calvin?.value.ingested).toEqual([
           { book: "Exod", chapters: [20] },
           { book: "Deut", chapters: [5] },
-          { book: "Matt", chapters: [13] },
+          { book: "Matt", chapters: [8, 13] },
           { book: "Mark", chapters: [4, 5] },
           { book: "Luke", chapters: [8, 13] },
           { book: "Rom", chapters: [7, 8] },

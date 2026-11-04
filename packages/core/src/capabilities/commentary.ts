@@ -1,5 +1,5 @@
 import { defineContract, implement } from "@reformed-bible/capability"
-import { Effect, Schema } from "effect"
+import { Effect, Result, Schema } from "effect"
 import {
   ContentCorrupt,
   ContentNotFound,
@@ -8,7 +8,7 @@ import {
 } from "../content-store/index.ts"
 import type { CommentarySection } from "../content/index.ts"
 import { makeEnvelope, TextRuns, type ResourceCoverage } from "../envelope/index.ts"
-import { InvalidReference } from "../reference/index.ts"
+import { compareVerse, InvalidReference, parseOsis } from "../reference/index.ts"
 import { type CatalogResource, CommentaryShard, shardPaths } from "../shards/index.ts"
 import { Site } from "../site/index.ts"
 import { decodeCursor, nextCursor } from "./cursor.ts"
@@ -106,6 +106,14 @@ const takePage = <A extends { readonly section: CommentarySection }>(
   return page
 }
 
+const byStart = (a: CommentarySection, b: CommentarySection): number => {
+  const first = parseOsis(a.ref)
+  const second = parseOsis(b.ref)
+  return Result.isSuccess(first) && Result.isSuccess(second)
+    ? compareVerse(first.success.start, second.success.start)
+    : 0
+}
+
 export const getCommentary = implement(getCommentaryContract, (input) =>
   Effect.gen(function* () {
     const store = yield* ContentStore
@@ -138,7 +146,8 @@ export const getCommentary = implement(getCommentaryContract, (input) =>
           )
             found.set(section.ref, section)
       }
-      for (const section of found.values()) sections.push({ work, section })
+      // A chapter file holds sections keyed to other books, so chapter order is not canonical order.
+      for (const section of [...found.values()].sort(byStart)) sections.push({ work, section })
       resources.push(coverageEntry(work, coverageOf(work, chapters, found.size > 0)))
     }
 

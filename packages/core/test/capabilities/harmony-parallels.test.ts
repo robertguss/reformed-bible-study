@@ -69,8 +69,23 @@ describe("get_commentary on a passage a harmony comment treats as a parallel", (
 
   it.effect("returns no Matthew 13 section for Mark 5", () =>
     Effect.gen(function* () {
-      expect(yield* refsOf("Mark 5")).toEqual(["Mark.5.1-Mark.5.20"])
+      expect(yield* refsOf("Mark 5")).toEqual(["Matt.8.28-Matt.8.34", "Mark.5.1-Mark.5.20"])
     }),
+  )
+
+  it.effect(
+    "returns a request across two chapters in canonical order, not chapter by chapter",
+    () =>
+      Effect.gen(function* () {
+        expect(yield* refsOf("Mark 4-5")).toEqual([
+          "Matt.8.28-Matt.8.34",
+          "Matt.13.2-Matt.13.8",
+          "Matt.13.9-Matt.13.17",
+          "Matt.13.31-Matt.13.32",
+          "Mark.4.12",
+          "Mark.5.1-Mark.5.20",
+        ])
+      }),
   )
 
   it.effect(
