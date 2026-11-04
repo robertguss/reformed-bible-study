@@ -200,6 +200,17 @@ describe("MCP tools", () => {
     }),
   )
 
+  it.effect("numbers each part of a section longer than a page", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", {
+        ref: "Romans 8:14",
+        work: CALVIN,
+      })
+      expect(textOf(message).split("\n")[0]).toBe("> On Romans 8:12-17, part 1 of 3")
+    }),
+  )
+
   it.effect("names a harmony comment's parallels under its own heading for Mark 4:3", () =>
     Effect.gen(function* () {
       const { app } = testApp()

@@ -89,11 +89,13 @@ export const commentaryView = <M>(
   ),
   ...envelope.items.map(({ value }) =>
     h.keyed("article")(
-      value.ref,
+      `${value.ref}#${value.part?.index ?? 1}`,
       [h.Class("commentary-section")],
       [
-        h.h3([], [value.display]),
-        ...parallelsView(value.parallels, h),
+        // Later parts of a long section follow the earlier ones, so they continue without a heading.
+        ...((value.part?.index ?? 1) > 1
+          ? []
+          : [h.h3([], [value.display]), ...parallelsView(value.parallels, h)]),
         ...paragraphsView(value.paragraphs, h),
         ...(value.notes.length === 0
           ? []

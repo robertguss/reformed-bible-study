@@ -151,6 +151,10 @@ export const HENRY_ON_GEN_1_1 = "The first verse of the Bible gives us a surpris
 export const HENRY_ON_PROV_3_1 = "My son, forget not my law. Solomon here speaks as a father."
 export const HENRY_ON_PROV_3_5 = "Trust in the Lord with all thine heart. We must depend upon him."
 export const HENRY_ON_PROV_3_9 = "Honour the Lord with thy substance. Here is a precept of piety."
+/** A paragraph longer than a page, so Henry on Proverbs 3:9-12 comes in two parts. */
+export const HENRY_ON_PROV_3_11 = "My son, despise not the chastening of the Lord. "
+  .repeat(250)
+  .trim()
 export const POOLE_ON_PROV_3_5 = "Trust in the Lord; rely upon his promises and providence."
 export const HENRY_ON_ISA_53_5 = "He was wounded for our transgressions; it was for our sakes."
 export const SCRIPT_IN_COMMENTARY = '<script>alert("not markup")</script>'
@@ -282,7 +286,11 @@ const files: Record<string, unknown> = {
         paragraphs: [[{ text: "Be not wise in thine own eyes." }]],
         notes: [],
       },
-      { ref: "Prov.3.9-Prov.3.12", paragraphs: [[{ text: HENRY_ON_PROV_3_9 }]], notes: [] },
+      {
+        ref: "Prov.3.9-Prov.3.12",
+        paragraphs: [[{ text: HENRY_ON_PROV_3_9 }], [{ text: HENRY_ON_PROV_3_11 }]],
+        notes: [],
+      },
     ],
   },
   "commentary/matthew-henry/Isa.53.json": {

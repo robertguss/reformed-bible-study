@@ -28,6 +28,7 @@ import {
   HENRY_ON_PROV_3_1,
   HENRY_ON_PROV_3_5,
   HENRY_ON_PROV_3_9,
+  HENRY_ON_PROV_3_11,
   POOLE_ATTRIBUTION,
   POOLE_ON_PROV_3_5,
   ROMANS_8_28_KJV,
@@ -399,6 +400,34 @@ describe("the default commentary panel", () => {
         commentaryBy("Matthew Henry"),
         expectAll(all.selector("article")).toHaveCount(4),
         expect(text(HENRY_ON_PROV_3_9)).toExist(),
+      ),
+    )
+  })
+
+  it("continues a section longer than a page under its one heading", async () => {
+    const opened = await boot("/proverbs/3/9-12")
+    const firstPage = opened.panels.find(({ id }) => id === Panel.panelId(DEFAULT_COMMENTARY))
+    const cursor =
+      firstPage !== undefined && Panel.LoadState.guards.Loaded(firstPage.load)
+        ? Panel.cursorOf(firstPage.load.result)
+        : Option.none()
+    const next = Panel.FetchPanel({ spec: DEFAULT_COMMENTARY, focus: "Prov.3.9-Prov.3.12", cursor })
+    const nextPage = await runCommand(next)
+    scene(
+      app,
+      given(opened),
+      inside(
+        commentaryBy("Matthew Henry"),
+        expect(text(HENRY_ON_PROV_3_9)).toExist(),
+        expect(text(HENRY_ON_PROV_3_11)).toBeAbsent(),
+      ),
+      click(within(commentaryBy("Matthew Henry"), role("button", { name: "Show more" }))),
+      Scene.Command.resolve(next, nextPage),
+      inside(
+        commentaryBy("Matthew Henry"),
+        expectAll(all.selector("article")).toHaveCount(2),
+        expectAll(all.selector("article h3")).toHaveCount(1),
+        expect(text(HENRY_ON_PROV_3_11)).toExist(),
         expect(role("button", { name: "Show more" })).toBeAbsent(),
       ),
     )
