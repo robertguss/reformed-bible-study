@@ -16,6 +16,21 @@ export interface OsisSection {
   readonly notes: ReadonlyArray<ReadonlyArray<TextRun>>
 }
 
+/**
+ * One table of an entry: the plain text of each cell of its first row, and how many of the entry's
+ * sections had begun before it. In Calvin's harmonies the first row names each book's passage of
+ * the pericope that follows.
+ */
+export interface OsisTable {
+  readonly firstRow: ReadonlyArray<string>
+  readonly sectionsBefore: number
+}
+
+export interface OsisEntry {
+  readonly sections: ReadonlyArray<OsisSection>
+  readonly tables: ReadonlyArray<OsisTable>
+}
+
 const parser = new XMLParser({
   preserveOrder: true,
   ignoreAttributes: false,
@@ -110,6 +125,32 @@ const attribute = (node: XmlNode, name: string): string | undefined => {
   return typeof value === "string" ? value : undefined
 }
 
+const childrenOf = (node: XmlNode, name: string): ReadonlyArray<XmlNode> =>
+  (node[name] ?? []) as ReadonlyArray<XmlNode>
+
+/** The text of nodes with notes left out, a line break read as a space, and spaces collapsed. */
+const plainText = (nodes: ReadonlyArray<XmlNode>): string => {
+  const parts: Array<string> = []
+  const collect = (list: ReadonlyArray<XmlNode>): void => {
+    for (const node of list) {
+      const text = node[TEXT]
+      if (typeof text === "string") parts.push(decodeEntities(text))
+      const name = elementName(node)
+      if (name === "lb") parts.push(" ")
+      else if (name !== undefined && name !== "note") collect(childrenOf(node, name))
+    }
+  }
+  collect(nodes)
+  return parts.join("").replace(/\s+/g, " ").trim()
+}
+
+const firstRowOf = (table: ReadonlyArray<XmlNode>): ReadonlyArray<string> => {
+  const row = table.find((node) => elementName(node) === "row")
+  return (row === undefined ? [] : childrenOf(row, "row"))
+    .filter((node) => elementName(node) === "cell")
+    .map((cell) => plainText(childrenOf(cell, "cell")))
+}
+
 interface OpenSection {
   readonly ref: string | undefined
   readonly body: Paragraphs
@@ -117,19 +158,19 @@ interface OpenSection {
 }
 
 /**
- * Splits an entry into its sections, in order. Text belongs to the section most recently started
- * until any section ends; text outside every section, such as the translation of the next passage,
- * is left out. A section that starts right after another with the same reference continues it.
+ * Splits an entry into its sections, in order, and lists its tables. Text belongs to the section
+ * most recently started until any section ends; text outside every section, such as the
+ * translation of the next passage, is left out. A section that starts right after another with the
+ * same reference continues it.
  */
-export const parseOsisEntry = (
-  xml: string,
-): Effect.Effect<ReadonlyArray<OsisSection>, OsisTextError> =>
+export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextError> =>
   Effect.gen(function* () {
     const tree = yield* Effect.try({
       try: () => parser.parse(`<entry>${xml}</entry>`) as ReadonlyArray<XmlNode>,
       catch: (error) => new OsisTextError({ detail: String(error) }),
     })
     const sections: Array<OpenSection> = []
+    const tables: Array<OsisTable> = []
     let current: OpenSection | undefined
     let note: Paragraphs | undefined
     const target = () => note ?? current?.body
@@ -143,7 +184,9 @@ export const parseOsisEntry = (
         }
         const name = elementName(node)
         if (name === undefined) continue
-        const children = (node[name] ?? []) as ReadonlyArray<XmlNode>
+        const children = childrenOf(node, name)
+        if (name === "table")
+          tables.push({ firstRow: firstRowOf(children), sectionsBefore: sections.length })
         if (name === "div" || name === "p") {
           target()?.break()
           if (name === "div" && attribute(node, "type") === "section") {
@@ -176,9 +219,12 @@ export const parseOsisEntry = (
     }
 
     const root = tree.find((node) => elementName(node) === "entry")
-    walk((root?.["entry"] ?? []) as ReadonlyArray<XmlNode>, false)
-    return sections.map(({ ref, body, notes }) => {
-      body.break()
-      return { ref, paragraphs: body.done, notes }
-    })
+    walk(root === undefined ? [] : childrenOf(root, "entry"), false)
+    return {
+      sections: sections.map(({ ref, body, notes }) => {
+        body.break()
+        return { ref, paragraphs: body.done, notes }
+      }),
+      tables,
+    }
   })

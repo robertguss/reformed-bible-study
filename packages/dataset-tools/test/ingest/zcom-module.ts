@@ -72,3 +72,14 @@ export const end = (ref: string, id: string) =>
   `<div annotateRef="Bible:${ref}" annotateType="commentary" eID="${id}" osisID="${ref}" type="section"/>`
 export const section = (ref: string, id: string, body: string) =>
   `${start(ref, id)}<div sID="${id}p" type="x-p"/>${body}<div eID="${id}p" type="x-p"/>${end(ref, id)}`
+
+/**
+ * A harmony pericope's heading and table, as Calvin's harmonies print them between comments: the
+ * first row names each book's passage, the second translates them.
+ */
+export const pericope = (...passages: ReadonlyArray<string>) =>
+  `<div sID="h" type="x-p"/>${passages.join("; ").toUpperCase()}<div eID="h" type="x-p"/> <table> <row> ${passages
+    .map((p) => `<cell> <div sID="c" type="x-p"/>${p}<div eID="c" type="x-p"/> </cell>`)
+    .join("")}</row><row> ${passages
+    .map(() => `<cell> <div sID="t" type="x-p"/>The translation.<div eID="t" type="x-p"/> </cell>`)
+    .join("")}</row> </table>`

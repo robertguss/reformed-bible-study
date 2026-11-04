@@ -10,6 +10,8 @@ import {
   type OriginalChapter,
   type Passage,
   type TranslationChapter,
+  type VerseRef,
+  compareVerse,
   lexiconBucket,
   parseOsis,
   shardPaths,
@@ -39,26 +41,54 @@ export const translationPayloads = (
     into.set(shardPaths.text(chapter.resourceId, chapter.book, chapter.chapter), chapter)
 }
 
+/**
+ * Each commentary's sections grouped by the chapters they touch. A section with parallels is also
+ * filed in each parallel's chapter, so a chapter can hold sections keyed to several books: they are
+ * kept once each, in canonical order of their own ranges, which the paging cursor relies on.
+ */
 export const commentaryChapters = (
   books: ReadonlyArray<CommentaryBook>,
 ): ReadonlyArray<CommentaryChapter> => {
-  const chapters: Array<CommentaryChapter> = []
+  type Section = CommentaryBook["sections"][number]
+  const byChapter = new Map<
+    string,
+    {
+      readonly resourceId: string
+      readonly book: BookId
+      readonly chapter: number
+      readonly sections: Map<string, { readonly start: VerseRef; readonly section: Section }>
+    }
+  >()
   for (const book of books) {
-    const byChapter = new Map<number, Array<CommentaryBook["sections"][number]>>()
     for (const section of book.sections) {
-      const passage = passageOf(section.ref)
-      if (passage === undefined) continue
-      for (const chapter of chaptersOf(passage)) {
-        const list = byChapter.get(chapter) ?? []
-        list.push(section)
-        byChapter.set(chapter, list)
+      const own = passageOf(section.ref)
+      if (own === undefined) continue
+      for (const ref of [section.ref, ...(section.parallels ?? [])]) {
+        const passage = ref === section.ref ? own : passageOf(ref)
+        if (passage === undefined) continue
+        for (const chapter of chaptersOf(passage)) {
+          const key = `${book.resourceId}\t${passage.start.book}\t${chapter}`
+          const entry = byChapter.get(key) ?? {
+            resourceId: book.resourceId,
+            book: passage.start.book,
+            chapter,
+            sections: new Map(),
+          }
+          if (!entry.sections.has(section.ref))
+            entry.sections.set(section.ref, { start: own.start, section })
+          byChapter.set(key, entry)
+        }
       }
     }
-    for (const [chapter, sections] of [...byChapter].sort(([a], [b]) => a - b)) {
-      chapters.push({ resourceId: book.resourceId, book: book.book, chapter, sections })
-    }
   }
-  return chapters
+  return [...byChapter.values()].map(({ resourceId, book, chapter, sections }) => ({
+    resourceId,
+    book,
+    chapter,
+    sections: [...sections.values()]
+      .sort((a, b) => compareVerse(a.start, b.start))
+      .map(({ section }) => section),
+  }))
 }
 
 export const commentaryPayloads = (

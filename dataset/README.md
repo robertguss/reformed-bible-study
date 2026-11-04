@@ -47,10 +47,14 @@ Content files are JSON. Any field named `ref` holds one OSIS reference such as
 `Rom.8.28` or `Rom.8.28-Rom.8.30`, and any field named `refs` holds a list of
 them. Every reference uses KJV verse numbering and must exist in
 `versification/kjv.json`. Within one commentary, no two `ref` sections may cover
-the same verse. A commentary section runs from its own verse to the verse before
-the next section in its book, or to the end of its own chapter, whichever comes
-first. A section on a whole chapter, such as the introduction to a psalm, opens
-the chapter's first verse section.
+the same verse; the rule applies to a section's own `ref` only. A comment from
+Calvin's Harmony of the Gospels or Harmony of the Law may also list `parallels`,
+the passages in the harmony's other books that its pericope heading names, and
+these may overlap other sections. A commentary section runs from its own verse
+to the verse before the next section in its book, or to the end of its own
+chapter, or for a harmony comment to the end of its pericope's passage in its
+own book, whichever comes first. A section on a whole chapter, such as the
+introduction to a psalm, opens the chapter's first verse section.
 
 ## Proof texts in confessions
 

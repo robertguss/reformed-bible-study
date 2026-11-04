@@ -116,6 +116,9 @@ const TEXT_FORMS: ReadonlyMap<string, TextForm> = new Map([
   form(getCommentaryContract, (section: CommentaryItem) =>
     lines(
       `On ${section.display}`,
+      section.parallels === undefined
+        ? undefined
+        : `Also treats ${section.parallels.map((parallel) => parallel.display).join("; ")}`,
       ...section.paragraphs.map(plain),
       ...section.notes.map((note) => `Note: ${plain(note)}`),
     ),

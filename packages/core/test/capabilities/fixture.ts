@@ -121,6 +121,59 @@ const calvin: CommentaryBook = {
   sections: [section("Rom.7.1", "Know ye not, brethren."), ...CALVIN_ROMANS_8],
 }
 
+const parallel = (ref: string, parallels: ReadonlyArray<string>, text: string) => ({
+  ...section(ref, text),
+  parallels,
+})
+
+export const CALVIN_ON_THE_SOWER = "It is not without good reason that the Evangelists begin."
+
+/**
+ * Calvin's Harmony of the Gospels and of the Law, as ingested: each comment is keyed to the book it
+ * heads and names its pericope's passages in the other books. Luke and Deuteronomy hold no comment
+ * of their own here.
+ */
+const calvinHarmonies: ReadonlyArray<CommentaryBook> = [
+  {
+    resourceId: "calvin-commentaries",
+    book: "Exod",
+    sections: [parallel("Exod.20.3", ["Deut.5.7"], "Thou shalt have no other gods before me.")],
+  },
+  {
+    resourceId: "calvin-commentaries",
+    book: "Matt",
+    sections: [
+      parallel(
+        "Matt.13.2-Matt.13.8",
+        ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        CALVIN_ON_THE_SOWER,
+      ),
+      parallel(
+        "Matt.13.9-Matt.13.17",
+        ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        "He that hath ears to hear, let him hear.",
+      ),
+      parallel(
+        "Matt.13.31-Matt.13.32",
+        ["Mark.4.30-Mark.4.32", "Luke.13.18-Luke.13.19"],
+        "The kingdom of heaven is like a grain of mustard seed.",
+      ),
+    ],
+  },
+  {
+    resourceId: "calvin-commentaries",
+    book: "Mark",
+    sections: [
+      parallel(
+        "Mark.4.12",
+        ["Matt.13.1-Matt.13.17", "Luke.8.1-Luke.8.10"],
+        "That seeing they may see, and not perceive.",
+      ),
+      section("Mark.5.1-Mark.5.20", "And they came over unto the other side of the sea."),
+    ],
+  },
+]
+
 /** Thirty cross-references from Romans 8:28, strongest first, so they fill more than one page. */
 export const XREF_TARGETS = Array.from({ length: 30 }, (_, i) => ({
   target: `Ps.${i + 1}.1`,
@@ -203,7 +256,7 @@ const built = await Effect.runPromise(
     {
       records,
       translations: bsb,
-      commentaries: [calvin],
+      commentaries: [calvin, ...calvinHarmonies],
       crossReferences: [xrefs],
       originals: [greek],
       lexicon,

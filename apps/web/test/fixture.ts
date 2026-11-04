@@ -43,6 +43,7 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
       { book: "Gen", chapters: [1] },
       { book: "Prov", chapters: [3] },
       { book: "Isa", chapters: [53] },
+      { book: "Mark", chapters: [4] },
       { book: "Rom", chapters: [1, 8, 16] },
       { book: "Rev", chapters: [1] },
     ],
@@ -60,9 +61,10 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
     title: "Calvin's Commentaries",
     creator: "John Calvin",
     attribution: { text: CALVIN_ATTRIBUTION },
-    scope: ["Gen", "Isa", "Rom"],
+    scope: ["Gen", "Isa", "Matt", "Mark", "Rom"],
     ingested: [
       { book: "Gen", chapters: [1] },
+      { book: "Mark", chapters: [4] },
       { book: "Rom", chapters: [8] },
     ],
   }),
@@ -152,8 +154,12 @@ export const HENRY_ON_PROV_3_9 = "Honour the Lord with thy substance. Here is a 
 export const POOLE_ON_PROV_3_5 = "Trust in the Lord; rely upon his promises and providence."
 export const HENRY_ON_ISA_53_5 = "He was wounded for our transgressions; it was for our sakes."
 export const SCRIPT_IN_COMMENTARY = '<script>alert("not markup")</script>'
+export const CALVIN_ON_THE_SOWER = "It is not without good reason that the Evangelists begin."
 export const BELGIC_ART_1_TEXT =
   "We all believe with the heart, and confess with the mouth, that there is one only God."
+export const HC_Q1_QUESTION = "What is thy only comfort in life and in death?"
+export const HC_Q1_ANSWER =
+  "That I, with body and soul, both in life and in death, am not my own, but belong to my faithful Saviour Jesus Christ."
 export const WCF_3_6_TEXT =
   "As God hath appointed the elect unto glory, so hath he foreordained all the means thereunto."
 
@@ -229,6 +235,27 @@ const files: Record<string, unknown> = {
     chapter: 1,
     headings: [],
     verses: [verse(1, "This is the revelation of Jesus Christ.")],
+  },
+  "text/bsb/Mark.4.json": {
+    resourceId: "bsb",
+    book: "Mark",
+    chapter: 4,
+    headings: [],
+    verses: [verse(3, "Listen! A farmer went out to sow his seed.")],
+  },
+  // Calvin's Harmony of the Gospels keys the sower to Matthew; Mark 4 holds it as a parallel.
+  "commentary/calvin-commentaries/Mark.4.json": {
+    resourceId: "calvin-commentaries",
+    book: "Mark",
+    chapter: 4,
+    sections: [
+      {
+        ref: "Matt.13.2-Matt.13.8",
+        parallels: ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        paragraphs: [[{ text: CALVIN_ON_THE_SOWER }]],
+        notes: [],
+      },
+    ],
   },
   "commentary/calvin-commentaries/Gen.1.json": {
     resourceId: "calvin-commentaries",
@@ -337,7 +364,15 @@ const files: Record<string, unknown> = {
   "confession-index/Rom.8.json": {
     book: "Rom",
     chapter: 8,
-    verses: [{ verse: 28, citations: [{ resourceId: "wcf", articleId: "3.6", label: "WCF 3.6" }] }],
+    verses: [
+      {
+        verse: 28,
+        citations: [
+          { resourceId: "wcf", articleId: "3.6", label: "WCF 3.6" },
+          { resourceId: "hc", articleId: "Q1", label: "HC Q1" },
+        ],
+      },
+    ],
   },
   "confessions/wcf.json": {
     resourceId: "wcf",
@@ -353,6 +388,26 @@ const files: Record<string, unknown> = {
             label: "Chapter 3, Section 6",
             paragraphs: [[{ text: WCF_3_6_TEXT }]],
             proofs: [{ label: "a", refs: ["Rom.8.28", "Eph.1.4-Eph.1.5"] }],
+          },
+        ],
+      },
+    ],
+  },
+  "confessions/hc.json": {
+    resourceId: "hc",
+    abbreviation: "HC",
+    title: "The Heidelberg Catechism",
+    divisions: [
+      {
+        id: "1",
+        title: "Lord's Day 1",
+        articles: [
+          {
+            id: "Q1",
+            label: "Question 1",
+            question: [{ text: HC_Q1_QUESTION }],
+            paragraphs: [[{ text: HC_Q1_ANSWER }]],
+            proofs: [{ refs: ["Rom.8.28"] }],
           },
         ],
       },
@@ -386,16 +441,13 @@ export const FILES: ReadonlyMap<string, string> = new Map(
   Object.entries(files).map(([path, payload]) => [path, published(payload)]),
 )
 
-const CATALOG_WITH_POOLE = published({ resources: [...CATALOG, POOLE] })
-const CATALOG_WITH_BELGIC = published({ resources: [...CATALOG, BELGIC] })
-
 const APP_PAGE = '<!doctype html><html><body><div id="root"></div></body></html>'
 
 /**
  * A static host for the fixture. Paths in `servesAppPage` answer with the app's HTML page, as a
  * single-page-app fallback does for a file a newer deploy removed; `unavailable` paths answer 503.
- * `withPoole` serves a catalog that also lists Poole, and `withBelgic` one that also lists the
- * Belgic Confession.
+ * `withPoole` serves a catalog that also lists Poole, `withBelgic` one that also lists the Belgic
+ * Confession, and `withHeidelberg` one where the Heidelberg Catechism is available.
  */
 export const staticHost =
   (
@@ -404,6 +456,7 @@ export const staticHost =
       unavailable?: ReadonlyArray<string>
       withPoole?: boolean
       withBelgic?: boolean
+      withHeidelberg?: boolean
     } = {},
   ) =>
   (request: Request): Promise<Response> => {
@@ -414,13 +467,20 @@ export const staticHost =
       return Promise.resolve(new Response(APP_PAGE, { headers: { "content-type": "text/html" } }))
     if (options.unavailable?.includes(path) === true)
       return Promise.resolve(new Response("busy", { status: 503 }))
-    const catalog =
-      options.withPoole === true
-        ? CATALOG_WITH_POOLE
-        : options.withBelgic === true
-          ? CATALOG_WITH_BELGIC
-          : undefined
-    const body = path === "catalog.json" && catalog !== undefined ? catalog : FILES.get(path)
+    const body =
+      path === "catalog.json"
+        ? published({
+            resources: [
+              ...CATALOG.map((entry) =>
+                entry.id === "hc" && options.withHeidelberg === true
+                  ? { ...entry, available: true }
+                  : entry,
+              ),
+              ...(options.withPoole === true ? [POOLE] : []),
+              ...(options.withBelgic === true ? [BELGIC] : []),
+            ],
+          })
+        : FILES.get(path)
     return Promise.resolve(
       body === undefined ? new Response(APP_PAGE, { status: 404 }) : new Response(body),
     )

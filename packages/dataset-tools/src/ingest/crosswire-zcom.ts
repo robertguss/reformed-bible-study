@@ -3,13 +3,16 @@ import {
   BOOK_IDS,
   chapterCount,
   type CommentaryBook,
+  compareVerse,
+  parseReference,
+  type Passage,
   toOsis,
   verseCount,
   type BookId,
   type CommentarySection,
   type VerseRef,
 } from "@reformed-bible/core"
-import { Effect, Schema } from "effect"
+import { Effect, Result, Schema } from "effect"
 import { parseOsisEntry, type OsisTextError } from "./osis-text.ts"
 
 export const ZComFailures = ["missing-file", "corrupt", "too-large", "misplaced-entries"] as const
@@ -35,6 +38,9 @@ export interface ZComEntry {
   readonly chapter: number
   readonly verse: number
   readonly slot: string
+  /** Where the entry's text sits in the module: the block, and the byte offset within it. */
+  readonly block: number
+  readonly offset: number
   readonly text: string
 }
 
@@ -181,6 +187,8 @@ export const readZCom = (
       entries.push({
         ...slot,
         slot: slotLabel(slot),
+        block: blockNumber,
+        offset,
         text: decoder.decode(bytes.subarray(offset, end)),
       })
     }
@@ -203,14 +211,104 @@ const parseRef = (
   return verse >= 1 && verse <= verseCount(book, chapter) ? { chapter, verse } : undefined
 }
 
-type Body = Omit<CommentarySection, "ref">
+/**
+ * The pericope heading each section of a harmony's entries, keyed by the entry's slot and listed in
+ * the entry's section order. A section with no heading before it has an empty list.
+ */
+export type HarmonyPericopes = ReadonlyMap<string, ReadonlyArray<ReadonlyArray<Passage>>>
+
+/**
+ * Reads the pericope headings of a harmony, such as Calvin's Harmony of the Gospels, in the
+ * module's reading order: by block, then by offset within the block, across all of the harmony's
+ * books, since one pericope's comments are filed under whichever book each heads. A pericope is
+ * headed by the tables that come before its first comment, with no comment between them; the
+ * first row of each names one passage per cell. Those passages head every comment from there up
+ * to the next heading. Only passages within the harmony's books are kept, so a cell citing another
+ * book, or one that does not read as a reference, adds nothing.
+ */
+export const harmonyPericopes = (
+  entries: ReadonlyArray<ZComEntry>,
+  books: ReadonlyArray<BookId>,
+): Effect.Effect<HarmonyPericopes, OsisTextError> =>
+  Effect.gen(function* () {
+    const inHarmony = new Set(books)
+    const within = (p: Passage) => inHarmony.has(p.start.book) && p.end.book === p.start.book
+    const passagesOf = (row: ReadonlyArray<string>): ReadonlyArray<Passage> =>
+      row.flatMap((cell) => {
+        const parsed = parseReference(cell)
+        return Result.isSuccess(parsed) ? parsed.success.filter(within) : []
+      })
+    const ordered = entries
+      .filter((entry) => entry.book !== undefined && inHarmony.has(entry.book))
+      .sort((a, b) => a.block - b.block || a.offset - b.offset)
+    const pericopes = new Map<string, ReadonlyArray<ReadonlyArray<Passage>>>()
+    let heading: ReadonlyArray<Passage> = []
+    let headingOpen = false
+    for (const entry of ordered) {
+      const { sections, tables } = yield* parseOsisEntry(entry.text)
+      const headings: Array<ReadonlyArray<Passage>> = []
+      for (let i = 0; i <= sections.length; i++) {
+        for (const table of tables) {
+          if (table.sectionsBefore !== i) continue
+          const passages = passagesOf(table.firstRow)
+          heading = headingOpen ? [...heading, ...passages] : passages
+          headingOpen = true
+        }
+        if (i === sections.length) break
+        headings.push(heading)
+        headingOpen = false
+      }
+      pericopes.set(entry.slot, headings)
+    }
+    return pericopes
+  })
+
+type Body = Omit<CommentarySection, "ref" | "parallels">
+
+interface Placed {
+  readonly start: VerseRef
+  readonly section: Body
+  readonly pericope: ReadonlyArray<Passage>
+}
+
+/**
+ * A section's range and parallels: it ends before the next section in its book, at the end of its
+ * chapter, or at the end of its pericope's passage in its own book, whichever comes first. Its
+ * parallels are its pericope's passages in other books.
+ */
+const rangeOf = (
+  book: BookId,
+  { start, pericope }: Placed,
+  next: Placed | undefined,
+): Pick<CommentarySection, "ref" | "parallels"> => {
+  let end: VerseRef = {
+    book,
+    chapter: start.chapter,
+    verse:
+      next === undefined || next.start.chapter !== start.chapter
+        ? verseCount(book, start.chapter)
+        : next.start.verse - 1,
+  }
+  const own = pericope.find(
+    (p) =>
+      p.start.book === book && compareVerse(p.start, start) <= 0 && compareVerse(start, p.end) <= 0,
+  )
+  if (own !== undefined && compareVerse(own.end, end) < 0) end = own.end
+  const parallels = [
+    ...new Set(pericope.filter((p) => p.start.book !== book).map((p) => toOsis(p))),
+  ]
+  const ref = toOsis({ start, end })
+  return parallels.length === 0 ? { ref } : { ref, parallels }
+}
 
 /**
  * Builds one book's commentary from its zCom entries. Every section in an entry is placed at its
  * own verse. A chapter-level section (`Ps.1`) opens the chapter's first verse section in the same
  * entry, or stands at the chapter's first verse when the entry has none; once the chapter's verse
  * sections have begun, a later one is front matter and is left out. A section ends before the next
- * section in its book or at the end of its own chapter, whichever comes first.
+ * section in its book or at the end of its own chapter, whichever comes first. With the pericopes of
+ * the book's harmony, a section headed by one also ends with its pericope's passage in this book,
+ * and lists the pericope's passages in the other books as its parallels.
  *
  * An entry whose first section is not the verse of its slot is reported as misplaced and left out,
  * as is a section outside the book, or a second, different section on a verse that already has one.
@@ -220,33 +318,37 @@ export const commentaryBookFromZCom = (
   resourceId: string,
   book: BookId,
   entries: ReadonlyArray<ZComEntry>,
+  pericopes: HarmonyPericopes = new Map(),
 ): Effect.Effect<
   { readonly book: CommentaryBook; readonly misplaced: ReadonlyArray<MisplacedEntry> },
   OsisTextError
 > =>
   Effect.gen(function* () {
-    const placed = new Map<string, { readonly start: VerseRef; readonly section: Body }>()
+    const placed = new Map<string, Placed>()
     const misplaced: Array<MisplacedEntry> = []
     for (const entry of entries) {
       if (entry.book !== book) continue
-      const parsed = yield* parseOsisEntry(entry.text)
-      const found: Array<{
-        readonly ref: string
-        readonly start: VerseRef
-        readonly section: Body
-      }> = []
+      const { sections: parsed } = yield* parseOsisEntry(entry.text)
+      const headings = pericopes.get(entry.slot) ?? []
+      const found: Array<Placed & { readonly ref: string }> = []
       const strays: Array<MisplacedEntry> = []
       const begun = new Set<number>()
       let intro:
-        | { readonly ref: string; readonly chapter: number; readonly section: Body }
+        | {
+            readonly ref: string
+            readonly chapter: number
+            readonly section: Body
+            readonly pericope: ReadonlyArray<Passage>
+          }
         | undefined
       const standIntro = () => {
         if (intro === undefined) return
         const start = { book, chapter: intro.chapter, verse: 1 }
-        found.push({ ref: intro.ref, start, section: intro.section })
+        found.push({ ref: intro.ref, start, section: intro.section, pericope: intro.pericope })
         intro = undefined
       }
-      for (const { ref, paragraphs, notes } of parsed) {
+      for (const [i, { ref, paragraphs, notes }] of parsed.entries()) {
+        const pericope = headings[i] ?? []
         const at = parseRef(book, ref)
         if (ref === undefined || at === undefined) {
           strays.push({ slot: entry.slot, ref })
@@ -255,7 +357,7 @@ export const commentaryBookFromZCom = (
         const section = { paragraphs, notes }
         if (at.verse === undefined) {
           standIntro()
-          if (!begun.has(at.chapter)) intro = { ref, chapter: at.chapter, section }
+          if (!begun.has(at.chapter)) intro = { ref, chapter: at.chapter, section, pericope }
           continue
         }
         if (intro?.chapter !== at.chapter) standIntro()
@@ -272,6 +374,7 @@ export const commentaryBookFromZCom = (
                   paragraphs: [...opening.paragraphs, ...section.paragraphs],
                   notes: [...opening.notes, ...section.notes],
                 },
+          pericope,
         })
       }
       standIntro()
@@ -285,23 +388,19 @@ export const commentaryBookFromZCom = (
         continue
       }
       misplaced.push(...strays)
-      for (const { ref, start, section } of found) {
+      for (const { ref, ...at } of found) {
+        const { start, section } = at
         const key = `${start.chapter}.${start.verse}`
         const already = placed.get(key)
-        if (already === undefined) placed.set(key, { start, section })
+        if (already === undefined) placed.set(key, at)
         else if (JSON.stringify(already.section) !== JSON.stringify(section))
           misplaced.push({ slot: entry.slot, ref })
       }
     }
     const ordered = [...placed.values()].sort((a, b) => compare(a.start, b.start))
-    const sections = ordered.map(({ start, section }, i) => {
-      const next = ordered[i + 1]
-      const last =
-        next === undefined || next.start.chapter !== start.chapter
-          ? verseCount(book, start.chapter)
-          : next.start.verse - 1
-      const end: VerseRef = { book, chapter: start.chapter, verse: last }
-      return { ref: toOsis({ start, end }), ...section }
-    })
+    const sections = ordered.map((at, i) => ({
+      ...rangeOf(book, at, ordered[i + 1]),
+      ...at.section,
+    }))
     return { book: { resourceId, book, sections }, misplaced }
   })

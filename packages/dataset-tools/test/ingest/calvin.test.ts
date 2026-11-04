@@ -12,7 +12,7 @@ import { Effect, Schema } from "effect"
 import { buildRelease } from "../../src/build/release.ts"
 import { calvinBooks } from "../../src/ingest/calvin.ts"
 import { input } from "../build/fixtures.ts"
-import { buildModule, section } from "./zcom-module.ts"
+import { buildModule, pericope, section } from "./zcom-module.ts"
 
 const calvin = Schema.decodeUnknownSync(ResourceRecord)(
   JSON.parse(
@@ -67,6 +67,16 @@ const archive = {
           slots: ["Ezek.21.1"],
         },
       ],
+      [
+        {
+          text: `${section("Exod.20.2", "x2", "I am the Lord thy God.")}${pericope("Exodus 20:3")}${pericope("Deuteronomy 5:7")}`,
+          slots: ["Exod.20.2"],
+        },
+        {
+          text: section("Exod.20.3", "x3", "Thou shalt have no other gods before me."),
+          slots: ["Exod.20.3"],
+        },
+      ],
     ]),
   ),
   ...moduleFiles(
@@ -81,6 +91,31 @@ const archive = {
           text: section("Rom.8.28", "r28", "So far are afflictions from hindering."),
           slots: ["Rom.8.28"],
         },
+      ],
+      [
+        {
+          text: `${section("Matt.12.42", "m42", "The queen of the south.")}${pericope("Matthew 13:1-17", "Mark 4:1-12", "Luke 8:1-10")}`,
+          slots: ["Matt.12.42"],
+        },
+        { text: section("Matt.13.2", "m2", "Great multitudes."), slots: ["Matt.13.2"] },
+      ],
+      // Outside the harmonies, a table in an argument or a back-matter index also cites other books.
+      [
+        {
+          text: `${section("Acts.2.1", "a21", "When the day of Pentecost was fully come.")}${pericope("Judges 7:22", "Luke 24:49")}`,
+          slots: ["Acts.2.1"],
+        },
+        { text: section("Acts.2.2", "a22", "A sound from heaven."), slots: ["Acts.2.2"] },
+        {
+          text: `${section("Heb.12.5", "h5", "My son, despise not.")}${pericope("Proverbs 3:11-12")}`,
+          slots: ["Heb.12.5"],
+        },
+        { text: section("Heb.12.6", "h6", "Whom the Lord loveth."), slots: ["Heb.12.6"] },
+        {
+          text: `${section("1Pet.3.9", "p9", "Not rendering evil for evil.")}${pericope("Psalms 34:12-16")}`,
+          slots: ["1Pet.3.9"],
+        },
+        { text: section("1Pet.3.10", "p10", "He that will love life."), slots: ["1Pet.3.10"] },
       ],
     ]),
   ),
@@ -123,7 +158,42 @@ describe("Calvin's commentaries", () => {
 
   it.effect("ingests Acts, which the module's list of books leaves out", () =>
     Effect.gen(function* () {
-      expect((yield* bookOf("Acts")).map((s) => s.ref)).toEqual(["Acts.1.1-Acts.1.26"])
+      expect((yield* bookOf("Acts")).map((s) => s.ref)[0]).toBe("Acts.1.1-Acts.1.26")
+    }),
+  )
+
+  it.effect("names the parallels of a comment in the Harmony of the Gospels", () =>
+    Effect.gen(function* () {
+      expect((yield* bookOf("Matt")).map((s) => [s.ref, s.parallels])).toEqual([
+        ["Matt.12.42-Matt.12.50", undefined],
+        ["Matt.13.2-Matt.13.17", ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"]],
+      ])
+    }),
+  )
+
+  it.effect("names the parallels of a comment in the Harmony of the Law", () =>
+    Effect.gen(function* () {
+      expect((yield* bookOf("Exod")).map((s) => [s.ref, s.parallels])).toEqual([
+        ["Exod.20.2", undefined],
+        ["Exod.20.3", ["Deut.5.7"]],
+      ])
+    }),
+  )
+
+  it.effect("gives no parallels in Hebrews, 1 Peter or Acts, whose tables cite other books", () =>
+    Effect.gen(function* () {
+      const books = yield* read
+      const outside = books.filter((b) => ["Heb", "1Pet", "Acts"].includes(b.book))
+      expect(outside.flatMap((b) => b.sections.map((s) => s.ref))).toEqual([
+        "Acts.1.1-Acts.1.26",
+        "Acts.2.1",
+        "Acts.2.2-Acts.2.47",
+        "Heb.12.5",
+        "Heb.12.6-Heb.12.29",
+        "1Pet.3.9",
+        "1Pet.3.10-1Pet.3.22",
+      ])
+      expect(JSON.stringify(outside)).not.toContain("parallels")
     }),
   )
 
@@ -144,12 +214,21 @@ describe("Calvin's commentaries", () => {
       expect(entry?.scope).toContain("Gen")
       expect(entry?.scope).toContain("Acts")
       expect(entry?.scope).not.toContain("Prov")
+      // Mark 4, Luke 8 and Deuteronomy 5 hold only parallels, and nothing in Judges, Psalms or
+      // Proverbs is ingested though tables outside the harmonies cite them.
       expect(entry?.ingested).toEqual([
         { book: "Gen", chapters: [1] },
+        { book: "Exod", chapters: [20] },
+        { book: "Deut", chapters: [5] },
         { book: "Isa", chapters: [48] },
         { book: "Ezek", chapters: [20] },
-        { book: "Acts", chapters: [1] },
+        { book: "Matt", chapters: [12, 13] },
+        { book: "Mark", chapters: [4] },
+        { book: "Luke", chapters: [8] },
+        { book: "Acts", chapters: [1, 2] },
         { book: "Rom", chapters: [8] },
+        { book: "Heb", chapters: [12] },
+        { book: "1Pet", chapters: [3] },
       ])
     }),
   )

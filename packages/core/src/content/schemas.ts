@@ -82,9 +82,14 @@ export const LexiconEntry = Schema.Struct({
 })
 export type LexiconEntry = typeof LexiconEntry.Type
 
-/** One commentary section, keyed by the canonical range the author comments on. */
+/**
+ * One commentary section, keyed by the canonical range the author comments on. A comment from a
+ * harmony also lists the parallel passages in other books that its pericope covers; the field is
+ * omitted when there are none.
+ */
 export const CommentarySection = Schema.Struct({
   ref: OsisRef,
+  parallels: Schema.optionalKey(Schema.Array(OsisRef)),
   paragraphs: Schema.Array(TextRuns),
   notes: Schema.Array(TextRuns),
 })

@@ -198,6 +198,7 @@ describe("parity across the handler, the web app, the public API and MCP", () =>
     expect(CASES.map((testCase) => testCase.name)).toEqual([
       "Romans 8:28 text",
       "Calvin on Romans 8:29",
+      "Calvin on Mark 4:3, a parallel of his comment on Matthew 13",
       "confession articles citing Romans 8:28",
       "cross-references from Romans 8:28, page two",
       "original-language words of Romans 8:28",

@@ -19,6 +19,9 @@ import {
   CALVIN_ON_8_28,
   CALVIN_ON_8_31,
   CALVIN_ON_GEN_1_1,
+  CALVIN_ON_THE_SOWER,
+  HC_Q1_ANSWER,
+  HC_Q1_QUESTION,
   HENRY_ATTRIBUTION,
   HENRY_ON_GEN_1_1,
   HENRY_ON_ISA_53_5,
@@ -205,6 +208,34 @@ describe("coverage messages", () => {
         panel("Confessions"),
         expect(role("link", { name: "WCF 3.6" })).toHaveAttr("href", "/confessions/wcf/3/6"),
         expect(text("Not yet available: The Heidelberg Catechism.")).toExist(),
+      ),
+    )
+  })
+
+  it("groups the articles citing the verse under each confession that cites it", async () => {
+    const confession = (title: string) =>
+      Scene.first(
+        Scene.filter(all.selector("section.confession"), {
+          has: role("heading", { name: title, level: 3 }),
+        }),
+      )
+    scene(
+      app,
+      given(await boot("/romans/8/28", staticHost({ withHeidelberg: true }))),
+      inside(
+        panel("Confessions"),
+        expect(
+          within(
+            confession("The Westminster Confession of Faith"),
+            role("link", { name: "WCF 3.6" }),
+          ),
+        ).toHaveAttr("href", "/confessions/wcf/3/6"),
+        expect(
+          within(confession("The Heidelberg Catechism"), role("link", { name: "HC Q1" })),
+        ).toHaveAttr("href", "/confessions/hc/1"),
+        expect(within(confession("The Heidelberg Catechism"), text(HC_Q1_QUESTION))).toExist(),
+        expect(within(confession("The Heidelberg Catechism"), text(HC_Q1_ANSWER))).toExist(),
+        expect(text("Not yet available: The Heidelberg Catechism.")).toBeAbsent(),
       ),
     )
   })
@@ -580,6 +611,23 @@ describe("confession pages", () => {
         within(selector(".article-proofs"), role("link", { name: "Ephesians 4:5" })),
       ).toHaveAttr("href", "/ephesians/4/5"),
       expect(selector("ul.proofs")).toBeAbsent(),
+    )
+  })
+})
+
+describe("a harmony comment at a parallel passage", () => {
+  it("shows Calvin on Matthew 13 at Mark 4:3 under its own range, linking the passages it also treats", async () => {
+    scene(
+      app,
+      given(await boot("/mark/4/3")),
+      inside(
+        commentaryBy("John Calvin"),
+        expect(role("heading", { name: "Matthew 13:2-8" })).toExist(),
+        expect(selector(".parallels")).toHaveText("Also treats Mark 4:1-12; Luke 8:1-10"),
+        expect(role("link", { name: "Mark 4:1-12" })).toHaveAttr("href", "/mark/4/1-12"),
+        expect(role("link", { name: "Luke 8:1-10" })).toHaveAttr("href", "/luke/8/1-10"),
+        expect(text(CALVIN_ON_THE_SOWER)).toExist(),
+      ),
     )
   })
 })

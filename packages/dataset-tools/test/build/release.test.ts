@@ -31,6 +31,85 @@ describe("release builder", () => {
     }),
   )
 
+  describe("a harmony comment with parallels", () => {
+    const text = (words: string) => ({ paragraphs: [[{ text: words }]], notes: [] })
+    const harmony = (ref: string, parallels: ReadonlyArray<string>, words: string) => ({
+      ref,
+      parallels,
+      ...text(words),
+    })
+    const commentaries = [
+      {
+        resourceId: "calvin-commentaries",
+        book: "Matt" as const,
+        sections: [
+          harmony(
+            "Matt.13.2-Matt.13.8",
+            ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10", "Luke.8.18"],
+            "Great multitudes",
+          ),
+        ],
+      },
+      {
+        resourceId: "calvin-commentaries",
+        book: "Mark" as const,
+        sections: [
+          harmony("Mark.4.12", ["Matt.13.1-Matt.13.17"], "That seeing they may see"),
+          { ref: "Mark.4.26-Mark.4.29", ...text("So is the kingdom of God") },
+        ],
+      },
+    ]
+    const shard = (
+      release: { readonly files: ReadonlyMap<string, unknown> },
+      book: string,
+      chapter: number,
+    ) =>
+      decoded(
+        CommentaryShard,
+        release.files.get(shardPaths.commentary("calvin-commentaries", book as "Mark", chapter)),
+      ).payload.sections.map((s) => s.ref)
+
+    it.effect(
+      "files it in each parallel's chapter too, once, among that chapter's own sections in canonical order",
+      () =>
+        Effect.gen(function* () {
+          const release = yield* build({ commentaries })
+          expect(shard(release, "Matt", 13)).toEqual(["Matt.13.2-Matt.13.8", "Mark.4.12"])
+          expect(shard(release, "Mark", 4)).toEqual([
+            "Matt.13.2-Matt.13.8",
+            "Mark.4.12",
+            "Mark.4.26-Mark.4.29",
+          ])
+          expect(shard(release, "Luke", 8)).toEqual(["Matt.13.2-Matt.13.8"])
+          const mark = decoded(
+            CommentaryShard,
+            release.files.get(shardPaths.commentary("calvin-commentaries", "Mark", 4)),
+          )
+          expect(mark.payload.sections[0]?.parallels).toEqual([
+            "Mark.4.1-Mark.4.12",
+            "Luke.8.1-Luke.8.10",
+            "Luke.8.18",
+          ])
+          // A section without parallels is written without the field.
+          expect(JSON.stringify(mark.payload.sections[2])).not.toContain("parallels")
+        }),
+    )
+
+    it.effect("lists the parallels' chapters as ingested for the commentary", () =>
+      Effect.gen(function* () {
+        const release = yield* build({ commentaries })
+        const catalog = decoded(CatalogShard, release.files.get(shardPaths.catalog))
+        expect(
+          catalog.payload.resources.find((r) => r.id === "calvin-commentaries")?.ingested,
+        ).toEqual([
+          { book: "Matt", chapters: [13] },
+          { book: "Mark", chapters: [4] },
+          { book: "Luke", chapters: [8] },
+        ])
+      }),
+    )
+  })
+
   it.effect("indexes every Westminster article citing a verse in Romans 8", () =>
     Effect.gen(function* () {
       const release = yield* build()

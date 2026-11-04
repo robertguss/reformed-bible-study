@@ -17,7 +17,11 @@ const PositiveInt = Schema.Int.check(Schema.isGreaterThanOrEqualTo(1))
 export const makeShard = <S extends Schema.Top>(payload: S) =>
   Schema.Struct({ release: Schema.String, payload })
 
-/** The commentary sections that overlap one chapter, including sections that start in the previous chapter. */
+/**
+ * The commentary sections that overlap one chapter, including sections that start in the previous
+ * chapter and sections keyed to another book that list a parallel in this chapter, in canonical
+ * order of their own ranges.
+ */
 export const CommentaryChapter = Schema.Struct({
   resourceId: ResourceId,
   book: Book,

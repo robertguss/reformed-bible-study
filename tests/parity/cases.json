@@ -10,6 +10,11 @@
     "args": { "ref": "Romans 8:29", "work": "calvin-commentaries" }
   },
   {
+    "name": "Calvin on Mark 4:3, a parallel of his comment on Matthew 13",
+    "tool": "get_commentary",
+    "args": { "ref": "Mark 4:3", "work": "calvin-commentaries" }
+  },
+  {
     "name": "confession articles citing Romans 8:28",
     "tool": "find_confession_articles",
     "args": { "ref": "Romans 8:28" }

@@ -38,18 +38,29 @@ const NAME = "get_commentary"
 export const COMMENTARY_SECTION_CAP = 3
 export const COMMENTARY_CHARACTER_CAP = 12_000
 
+const ParallelLink = Schema.Struct({
+  osis: Schema.String,
+  display: Schema.String,
+  url: Schema.String,
+})
+
 export const CommentaryItem = Schema.Struct({
   /** The canonical range the author comments on, such as `Rom.8.28-Rom.8.30`. */
   ref: Schema.String,
   display: Schema.String,
   url: Schema.String,
+  /**
+   * For a comment from a harmony, the parallel passages in other books it also treats; present only
+   * when there are some. A request for a parallel returns the section under its own range.
+   */
+  parallels: Schema.optionalKey(Schema.Array(ParallelLink)),
   paragraphs: Schema.Array(TextRuns),
   notes: Schema.Array(TextRuns),
 })
 export type CommentaryItem = typeof CommentaryItem.Type
 
 export const getCommentaryContract = defineContract(NAME, {
-  description: `Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched and the sections come grouped by commentator, in a fixed order that starts with Calvin. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
+  description: `Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A comment from a gospel or law harmony also lists the parallel passages it treats, and a request for a parallel returns it under its own range (Mark 4:3 returns Calvin on Matthew 13:2-8, with Mark 4:1-12 among its parallels). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched and the sections come grouped by commentator, in a fixed order that starts with Calvin. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
   input: Schema.Struct({
     ref: Schema.String.annotate({ description: "The passage, such as Romans 8:28." }),
     work: Schema.optional(
@@ -121,7 +132,10 @@ export const getCommentary = implement(getCommentaryContract, (input) =>
           CommentaryShard,
         )
         for (const section of payload.sections)
-          if (!found.has(section.ref) && overlapsAny(section.ref, passages))
+          if (
+            !found.has(section.ref) &&
+            [section.ref, ...(section.parallels ?? [])].some((ref) => overlapsAny(ref, passages))
+          )
             found.set(section.ref, section)
       }
       for (const section of found.values()) sections.push({ work, section })
@@ -137,6 +151,9 @@ export const getCommentary = implement(getCommentaryContract, (input) =>
             ref: section.ref,
             display,
             url,
+            ...(section.parallels === undefined || section.parallels.length === 0
+              ? {}
+              : { parallels: section.parallels.map((ref) => linkOf(origin, ref)) }),
             paragraphs: section.paragraphs,
             notes: section.notes,
           },

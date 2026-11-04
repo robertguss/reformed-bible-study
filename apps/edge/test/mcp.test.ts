@@ -199,6 +199,18 @@ describe("MCP tools", () => {
       expect(line).toBe("> Read \\[the full gloss\\]\\(https:\\/\\/evil.example/x\\) now.")
     }),
   )
+
+  it.effect("names a harmony comment's parallels under its own heading for Mark 4:3", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", { ref: "Mark 4:3", work: CALVIN })
+      const lines = textOf(message).split("\n")
+      expect(lines.slice(0, 2)).toEqual([
+        "> On Matthew 13:2-8",
+        "> Also treats Mark 4:1-12; Luke 8:1-10",
+      ])
+    }),
+  )
 })
 
 describe("MCP endpoint", () => {

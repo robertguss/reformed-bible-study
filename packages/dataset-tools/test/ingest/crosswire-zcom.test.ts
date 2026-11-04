@@ -3,8 +3,20 @@ import { join } from "node:path"
 import { describe, expect, it } from "@effect/vitest"
 import type { TextRun } from "@reformed-bible/core"
 import { Effect } from "effect"
-import { commentaryBookFromZCom, readZCom } from "../../src/ingest/crosswire-zcom.ts"
-import { buildModule, chapterSlots, end, section, start, testamentSlots } from "./zcom-module.ts"
+import {
+  commentaryBookFromZCom,
+  harmonyPericopes,
+  readZCom,
+} from "../../src/ingest/crosswire-zcom.ts"
+import {
+  buildModule,
+  chapterSlots,
+  end,
+  pericope,
+  section,
+  start,
+  testamentSlots,
+} from "./zcom-module.ts"
 
 const fixture = (name: string): string =>
   readFileSync(join(import.meta.dirname, "../fixtures/calvin-romans-sample", `${name}.xml`), "utf8")
@@ -252,6 +264,131 @@ describe("CrossWire zCom commentary", () => {
           ["Ps.3.1", ["Lord, how are they increased."]],
           ["Ps.3.2-Ps.3.8", ["Many there be."]],
           ["Ps.4.1-Ps.4.8", ["Hear me when I call."]],
+        ])
+      }),
+    )
+  })
+
+  describe("a harmony, whose pericope headings name each book's passage", () => {
+    const GOSPELS = ["Matt", "Mark", "Luke"] as const
+    // Calvin's reading order is block by block, not slot by slot: the heading for the sower sits at
+    // the end of a comment on Luke 6, which reads before Matthew 13 although its slot comes later.
+    const gospels = buildModule("nt", [
+      [
+        { text: section("Matt.12.42", "m42", "The queen of the south."), slots: ["Matt.12.42"] },
+        {
+          text: `${section("Luke.6.1", "l1", "On the sabbath.")}${pericope("Matthew 13:1-17", "Mark 4:1-12, 24-25", "Luke 8:1-10, 18; 10:23-24")}`,
+          slots: ["Luke.6.1"],
+        },
+      ],
+      [
+        { text: section("Matt.13.2", "m2", "Great multitudes."), slots: ["Matt.13.2"] },
+        { text: section("Matt.13.9", "m9", "He that hath ears."), slots: ["Matt.13.9"] },
+        {
+          text: `${section("Mark.4.12", "k12", "That seeing they may see.")}${pericope("Matthew 13:31-35", "Mark 4:26-34", "Psalm 78:2")}`,
+          slots: ["Mark.4.12"],
+        },
+        { text: section("Matt.13.31", "m31", "A grain of mustard seed."), slots: ["Matt.13.31"] },
+      ],
+    ])
+
+    const bookOf = (id: "Matt" | "Mark" | "Luke") =>
+      Effect.gen(function* () {
+        const entries = yield* readZCom("nt", gospels)
+        const pericopes = yield* harmonyPericopes(entries, GOSPELS)
+        const { book, misplaced } = yield* commentaryBookFromZCom(
+          "calvin-commentaries",
+          id,
+          entries,
+          pericopes,
+        )
+        expect(misplaced).toEqual([])
+        return book.sections.map((s) => [s.ref, s.parallels])
+      })
+
+    it.effect(
+      "gives each comment after a heading the other books' passages, up to the next heading",
+      () =>
+        Effect.gen(function* () {
+          const sower = [
+            "Mark.4.1-Mark.4.12",
+            "Mark.4.24-Mark.4.25",
+            "Luke.8.1-Luke.8.10",
+            "Luke.8.18",
+            "Luke.10.23-Luke.10.24",
+          ]
+          expect(yield* bookOf("Matt")).toEqual([
+            ["Matt.12.42-Matt.12.50", undefined],
+            ["Matt.13.2-Matt.13.8", sower],
+            ["Matt.13.9-Matt.13.17", sower],
+            ["Matt.13.31-Matt.13.35", ["Mark.4.26-Mark.4.34"]],
+          ])
+        }),
+    )
+
+    it.effect("ends a comment at its pericope's end in its own book", () =>
+      Effect.gen(function* () {
+        expect(yield* bookOf("Mark")).toEqual([
+          [
+            "Mark.4.12",
+            ["Matt.13.1-Matt.13.17", "Luke.8.1-Luke.8.10", "Luke.8.18", "Luke.10.23-Luke.10.24"],
+          ],
+        ])
+        expect(yield* bookOf("Luke")).toEqual([["Luke.6.1-Luke.6.49", undefined]])
+      }),
+    )
+
+    it.effect("reads the passages of consecutive tables as one pericope", () =>
+      Effect.gen(function* () {
+        // The Harmony of the Law prints one table per book, so Exodus 20:3 and its repetition in
+        // Deuteronomy 5:7 head one comment as two tables.
+        const entries = yield* readZCom(
+          "ot",
+          buildModule("ot", [
+            [
+              {
+                text: `${section("Deut.5.30", "d30", "Go say to them.")}${pericope("Exodus 20:3")}${pericope("Deuteronomy 5:7")}`,
+                slots: ["Deut.5.30"],
+              },
+              {
+                text: section("Exod.20.3", "e3", "Thou shalt have no other gods."),
+                slots: ["Exod.20.3"],
+              },
+            ],
+          ]),
+        )
+        const pericopes = yield* harmonyPericopes(entries, ["Exod", "Lev", "Num", "Deut"])
+        const exodus = yield* commentaryBookFromZCom(
+          "calvin-commentaries",
+          "Exod",
+          entries,
+          pericopes,
+        )
+        const deuteronomy = yield* commentaryBookFromZCom(
+          "calvin-commentaries",
+          "Deut",
+          entries,
+          pericopes,
+        )
+        expect(exodus.book.sections.map((s) => [s.ref, s.parallels])).toEqual([
+          ["Exod.20.3", ["Deut.5.7"]],
+        ])
+        expect(deuteronomy.book.sections.map((s) => [s.ref, s.parallels])).toEqual([
+          ["Deut.5.30-Deut.5.33", undefined],
+        ])
+      }),
+    )
+
+    it.effect("gives a book read without its harmony no parallels and no pericope ends", () =>
+      Effect.gen(function* () {
+        const entries = yield* readZCom("nt", gospels)
+        const { book } = yield* commentaryBookFromZCom("calvin-commentaries", "Mark", entries)
+        expect(book.sections).toEqual([
+          {
+            ref: "Mark.4.12-Mark.4.41",
+            paragraphs: [[{ text: "That seeing they may see." }]],
+            notes: [],
+          },
         ])
       }),
     )

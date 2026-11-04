@@ -16,7 +16,9 @@ const section = (body: string, ref = "Rom.1.1", id = "s1"): string =>
 describe("OSIS entry text", () => {
   it.effect("takes the entry's own verse reference and moves its notes out of the body", () =>
     Effect.gen(function* () {
-      const [entry, ...rest] = yield* parseOsisEntry(fixture("Matt.1.2.xml"))
+      const {
+        sections: [entry, ...rest],
+      } = yield* parseOsisEntry(fixture("Matt.1.2.xml"))
       expect(rest).toEqual([])
       expect(entry?.ref).toBe("Matt.1.2")
       expect(entry?.paragraphs).toEqual([
@@ -39,7 +41,9 @@ describe("OSIS entry text", () => {
 
   it.effect("keeps each paragraph of a note inside that one note", () =>
     Effect.gen(function* () {
-      const [entry] = yield* parseOsisEntry(fixture("Rom.8.28.xml"))
+      const {
+        sections: [entry],
+      } = yield* parseOsisEntry(fixture("Rom.8.28.xml"))
       expect(entry?.ref).toBe("Rom.8.28")
       expect(entry?.paragraphs).toHaveLength(5)
       const body = (entry?.paragraphs ?? []).map(plain).join("\n")
@@ -56,7 +60,7 @@ describe("OSIS entry text", () => {
 
   it.effect("leaves out text after the section ends, such as the next passage's translation", () =>
     Effect.gen(function* () {
-      const sections = yield* parseOsisEntry(fixture("Rom.8.27.xml"))
+      const { sections } = yield* parseOsisEntry(fixture("Rom.8.27.xml"))
       expect(sections.map((s) => s.ref)).toEqual(["Rom.8.27"])
       const all = sections
         .flatMap((s) => [...s.paragraphs, ...s.notes])
@@ -69,16 +73,18 @@ describe("OSIS entry text", () => {
 
   it.effect("returns escaped markup such as a script element as literal text in a plain run", () =>
     Effect.gen(function* () {
-      const [entry] = yield* parseOsisEntry(
-        section("Calvin &lt;script&gt;alert(1)&lt;/script&gt; &amp; Owen"),
-      )
+      const {
+        sections: [entry],
+      } = yield* parseOsisEntry(section("Calvin &lt;script&gt;alert(1)&lt;/script&gt; &amp; Owen"))
       expect(entry?.paragraphs).toEqual([[{ text: "Calvin <script>alert(1)</script> & Owen" }]])
     }),
   )
 
   it.effect("does not expand an entity declared in a document type definition", () =>
     Effect.gen(function* () {
-      const [entry] = yield* parseOsisEntry(
+      const {
+        sections: [entry],
+      } = yield* parseOsisEntry(
         `<!DOCTYPE osis [<!ENTITY xxe "EXPANDED">]>${section("Before &xxe; after")}`,
       )
       expect(entry?.paragraphs).toEqual([[{ text: "Before &xxe; after" }]])
@@ -87,7 +93,9 @@ describe("OSIS entry text", () => {
 
   it.effect("starts a new paragraph at a self-closing p element", () =>
     Effect.gen(function* () {
-      const [entry] = yield* parseOsisEntry(section("First thought.<p/>Second thought."))
+      const {
+        sections: [entry],
+      } = yield* parseOsisEntry(section("First thought.<p/>Second thought."))
       expect(entry?.paragraphs).toEqual([
         [{ text: "First thought." }],
         [{ text: "Second thought." }],
@@ -97,7 +105,7 @@ describe("OSIS entry text", () => {
 
   it.effect("returns each section of an entry under its own reference, in order", () =>
     Effect.gen(function* () {
-      const sections = yield* parseOsisEntry(
+      const { sections } = yield* parseOsisEntry(
         [
           `<div annotateRef="Bible:Ps.1" osisID="Ps.1" sID="c1" type="section"/>`,
           "Psalm one opens.",
@@ -115,5 +123,36 @@ describe("OSIS entry text", () => {
         ["Ps.1.2", ["On verse two.", "More on verse two."]],
       ])
     }),
+  )
+
+  it.effect(
+    "reads the reference row of each table, after however many sections had begun before it",
+    () =>
+      Effect.gen(function* () {
+        // As in Calvin's Harmony of the Gospels: a comment ends, then the next pericope's heading and
+        // its table, whose first row names each gospel's passage and whose next row translates them.
+        const cell = (body: string) =>
+          `<cell> <div sID="c" type="x-p"/>${body}<div eID="c" type="x-p"/> </cell>`
+        const { sections, tables } = yield* parseOsisEntry(
+          [
+            section("On verse forty-two.", "Matt.12.42", "s42"),
+            `<div sID="h" type="x-p"/>MATTHEW 13:1-17; MARK 4:1-12<div eID="h" type="x-p"/>`,
+            "<table> <row> ",
+            cell(`<reference osisRef="Bible:Matt.13.1-Matt.13.17">Matthew 13:1-17</reference>`),
+            cell(`<reference osisRef="Bible:Mark.4.1-Mark.4.12">Mark 4:1-12</reference>, 24-25`),
+            cell("Luke<lb/> 8:1-10, 18"),
+            "</row><row> ",
+            cell(`<hi type="bold">1</hi>. And on the same day Jesus went out of the house.`),
+            "</row> </table>",
+          ].join(""),
+        )
+        expect(sections.map((s) => s.ref)).toEqual(["Matt.12.42"])
+        expect(tables).toEqual([
+          {
+            firstRow: ["Matthew 13:1-17", "Mark 4:1-12, 24-25", "Luke 8:1-10, 18"],
+            sectionsBefore: 1,
+          },
+        ])
+      }),
   )
 })

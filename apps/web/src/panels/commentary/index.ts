@@ -4,6 +4,7 @@ import {
   type Envelope,
   getCommentary,
   listResources,
+  passagePath,
 } from "@reformed-bible/core"
 import { Effect, Option } from "effect"
 import type { HtmlBuilder } from "foldkit/html"
@@ -49,6 +50,26 @@ export const fetchDefaultCommentary = (focus: string, cursor: Option.Option<stri
     }),
   )
 
+/** "Also treats Mark 4:1-12; Luke 8:1-10", each passage a link, for a comment from a harmony. */
+const parallelsView = <M>(parallels: CommentaryItem["parallels"], h: HtmlBuilder<M>) =>
+  parallels === undefined
+    ? []
+    : [
+        h.p(
+          [h.Class("parallels")],
+          [
+            "Also treats ",
+            ...parallels.flatMap(({ osis, display }, i) => [
+              ...(i === 0 ? [] : ["; "]),
+              Option.match(passageOfFocus(osis), {
+                onNone: () => display,
+                onSome: (passage) => h.a([h.Href(passagePath(passage))], [display]),
+              }),
+            ]),
+          ],
+        ),
+      ]
+
 export const commentaryView = <M>(
   envelope: Envelope<CommentaryItem>,
   context: PanelContext,
@@ -72,6 +93,7 @@ export const commentaryView = <M>(
       [h.Class("commentary-section")],
       [
         h.h3([], [value.display]),
+        ...parallelsView(value.parallels, h),
         ...paragraphsView(value.paragraphs, h),
         ...(value.notes.length === 0
           ? []
