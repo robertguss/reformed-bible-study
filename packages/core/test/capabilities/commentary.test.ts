@@ -6,6 +6,7 @@ import { CALVIN_ROMANS_8, call, FILES, fetchStore, RELEASE, WITHDRAWN_REASON } f
 
 const CALVIN = "calvin-commentaries"
 const POOLE = "poole-annotations"
+const OWEN = "owen-hebrews"
 
 interface CatalogFile {
   readonly release: string
@@ -94,6 +95,7 @@ describe("get_commentary", () => {
       expect(result.resources.map((r) => [r.resourceId, r.coverage, r.status.state])).toEqual([
         [CALVIN, "covered", "active"],
         [POOLE, "not_ingested", "active"],
+        [OWEN, "outside_work", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
     }),
@@ -124,6 +126,7 @@ describe("get_commentary", () => {
           "matthew-henry",
           "jamieson-fausset-brown",
           "aaa-commentary",
+          OWEN,
           "withdrawn-commentary",
         ])
         expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN])
@@ -169,6 +172,7 @@ describe("get_commentary", () => {
         expect(result.resources.map((r) => [r.resourceId, r.coverage])).toEqual([
           [CALVIN, "outside_work"],
           [POOLE, "covered"],
+          [OWEN, "outside_work"],
           ["withdrawn-commentary", "not_ingested"],
         ])
         expect(result.items.map((item) => [item.value.ref, item.value.paragraphs])).toEqual([
@@ -181,4 +185,64 @@ describe("get_commentary", () => {
         })
       }),
   )
+
+  describe("Owen on Hebrews 6 to 10", () => {
+    const section = {
+      ref: "Heb.6.4-Heb.6.6",
+      paragraphs: [
+        [{ text: "Verse", emphasis: true }, { text: " 4, 5, 6." }],
+        [{ text: "〈 in non-Latin alphabet 〉. " }, { text: "Impossibile enim,", emphasis: true }],
+      ],
+      notes: [],
+    }
+    // Owen's real record, with the chapters his volume covers ingested.
+    const owenStore = () => {
+      const catalog = catalogFile()
+      const resources = catalog.payload.resources.map((resource) =>
+        resource.id === OWEN
+          ? { ...resource, ingested: [{ book: "Heb", chapters: [6, 7, 8, 9, 10] }] }
+          : resource,
+      )
+      return fetchStore(
+        new Map(FILES)
+          .set("catalog.json", JSON.stringify({ ...catalog, payload: { resources } }))
+          .set(
+            "commentary/owen-hebrews/Heb.6.json",
+            JSON.stringify({
+              release: RELEASE,
+              payload: { resourceId: OWEN, book: "Heb", chapter: 6, sections: [section] },
+            }),
+          ),
+      )
+    }
+
+    it.effect("returns Owen's section on verses 4 to 6 for Hebrews 6:4", () =>
+      Effect.gen(function* () {
+        const result = yield* call(getCommentary, { ref: "Heb 6:4", work: OWEN }, owenStore())
+        expect(result.items.map((item) => [item.value.ref, item.value.display])).toEqual([
+          ["Heb.6.4-Heb.6.6", "Hebrews 6:4-6"],
+        ])
+        expect(result.items[0]?.value.paragraphs).toEqual(section.paragraphs)
+        expect(result.items[0]?.attribution).toMatchObject({
+          resourceId: OWEN,
+          author: "John Owen",
+          license: "CC0-1.0",
+        })
+        expect(result.resources.map((r) => r.coverage)).toEqual(["covered"])
+      }),
+    )
+
+    it.effect("reports Hebrews 1:1 as not yet covered and Romans 1:1 as outside his work", () =>
+      Effect.gen(function* () {
+        const store = owenStore()
+        const hebrews = yield* call(getCommentary, { ref: "Heb 1:1", work: OWEN }, store)
+        const romans = yield* call(getCommentary, { ref: "Rom 1:1", work: OWEN }, store)
+        expect([hebrews.items, romans.items]).toEqual([[], []])
+        expect([hebrews, romans].map((result) => result.resources.map((r) => r.coverage))).toEqual([
+          ["not_ingested"],
+          ["outside_work"],
+        ])
+      }),
+    )
+  })
 })

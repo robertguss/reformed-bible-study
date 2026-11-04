@@ -17,10 +17,16 @@ export class TeiCommentaryError extends Schema.TaggedError<
   detail: Schema.String,
 }) {}
 
-/** Which TEI divisions hold a book and which hold a chapter, by their `type` attribute. */
+/** Which TEI divisions hold a book, a chapter and a verse, by their `type` attribute. */
 export interface TeiCommentaryLayout {
-  readonly bookDivisions: ReadonlySet<string>
+  /** Left out when the text's whole body is its single book. */
+  readonly bookDivisions?: ReadonlySet<string>
   readonly chapterDivisions: ReadonlySet<string>
+  /**
+   * Given when each chapter holds one division per verse or group of verses, named by its `n`
+   * attribute, such as `4, 5, 6`. Otherwise a verse is a paragraph numbered by its `n` attribute.
+   */
+  readonly verseDivisions?: ReadonlySet<string>
 }
 
 // Entities stay unprocessed, so nothing a document type definition declares is ever expanded.
@@ -275,6 +281,51 @@ const numberMarkers = (
   return numbers
 }
 
+const joinPieces = (pieces: ReadonlyArray<Piece>): Piece => ({
+  paragraphs: pieces.flatMap((piece) => piece.paragraphs),
+  notes: pieces.flatMap((piece) => piece.notes),
+  missing: pieces.some((piece) => piece.missing),
+})
+
+/**
+ * The items of a chapter written as one division per verse or group of verses. Each division is a
+ * verse item at the first verse its `n` attribute names, so divisions opening on the same verse
+ * share a section. The chapter's own heading is left out. The text before the first division opens
+ * it, or is verse 1 when the first division begins later, as when the chapter's introduction runs
+ * on into the first verse's exposition. The text after the last division, such as `FINIS.`, is left
+ * out.
+ */
+const verseDivisionItems = (
+  nodes: ReadonlyArray<XmlNode>,
+  verseDivisions: ReadonlySet<string>,
+): ReadonlyArray<Item> => {
+  const isVerse = (node: XmlNode) =>
+    elementName(node) === "div" && verseDivisions.has(attribute(node, "type") ?? "")
+  const intro: Array<Piece> = []
+  const items: Array<Item> = []
+  let label = true
+  for (const node of nodes.slice(0, nodes.findLastIndex(isVerse) + 1)) {
+    const name = elementName(node)
+    if (name === undefined || name === "pb") continue
+    const first = label
+    label = false
+    if (isVerse(node)) {
+      const n = /^\d+/.exec(attribute(node, "n") ?? "")?.[0]
+      items.push({
+        kind: "verse",
+        marker: n === undefined ? undefined : Number(n),
+        piece: joinPieces(piecesOf(childrenOf(node))),
+      })
+    } else if (items.length > 0) items.push({ kind: "trail", piece: joinPieces(piecesOf([node])) })
+    else if (!(first && name === "head")) intro.push(...piecesOf([node]))
+  }
+  if (intro.length === 0) return items
+  const opening = items[0]
+  return opening?.kind === "verse" && opening.marker !== 1
+    ? [{ kind: "verse", marker: 1, piece: joinPieces(intro) }, ...items]
+    : [...intro.map((piece): Item => ({ kind: "lead", piece })), ...items]
+}
+
 interface ChapterItems {
   readonly chapter: number
   readonly intro: ReadonlyArray<Piece>
@@ -325,13 +376,14 @@ const splitAfterMissingPages = (
 const sectionsOf = (
   book: BookId,
   { chapter, intro, items }: ChapterItems,
+  repairMarkers: boolean,
 ): Effect.Effect<ReadonlyArray<CommentarySection>, TeiCommentaryError> =>
   Effect.gen(function* () {
     const max = verseCount(book, chapter)
-    const numbers = numberMarkers(
-      items.flatMap((item) => (item.kind === "verse" ? [item.marker] : [])),
-      max,
-    )
+    const markers = items.flatMap((item) => (item.kind === "verse" ? [item.marker] : []))
+    const numbers = repairMarkers
+      ? numberMarkers(markers, max)
+      : markers.map((m) => (m !== undefined && m >= 1 && m <= max ? m : undefined))
     const open: Array<{ readonly verse: number; readonly pieces: Array<Piece> }> = []
     const opening: Array<Piece> = [...intro]
     let lead: Array<Piece> = []
@@ -407,7 +459,10 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
     for (const node of children) {
       if (isChapter(node)) {
         const chapter = numbers[d++] as number
-        const items = chapterItems(childrenOf(node))
+        const items =
+          layout.verseDivisions === undefined
+            ? chapterItems(childrenOf(node))
+            : verseDivisionItems(childrenOf(node), layout.verseDivisions)
         chapters.push(...splitAfterMissingPages(book, { chapter, intro, items }, divided))
         intro = []
         label = false
@@ -423,7 +478,9 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
  * Reads a TEI commentary that prints the sacred text verse by verse with its annotations as notes,
  * as the EEBO-TCP transcriptions do. Each book division, in document order, is the next of `books`.
  * Every verse paragraph becomes a section at the verse its marker names: the verse as printed, then
- * each annotation as a paragraph, with marginal notes as the section's notes.
+ * each annotation as a paragraph, with marginal notes as the section's notes. A commentary written
+ * as one exposition per verse or group of verses, given `verseDivisions`, has a section at each
+ * division's first verse instead.
  */
 export const readTeiCommentary = (
   resourceId: string,
@@ -436,12 +493,13 @@ export const readTeiCommentary = (
       try: () => parser.parse(xml) as ReadonlyArray<XmlNode>,
       catch: (error) => new TeiCommentaryError({ detail: String(error) }),
     })
+    const { bookDivisions } = layout
+    const isBook = (node: XmlNode) =>
+      bookDivisions === undefined
+        ? elementName(node) === "body"
+        : elementName(node) === "div" && bookDivisions.has(attribute(node, "type") ?? "")
     const findBooks = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<XmlNode> =>
-      nodes.flatMap((node) =>
-        elementName(node) === "div" && layout.bookDivisions.has(attribute(node, "type") ?? "")
-          ? [node]
-          : findBooks(childrenOf(node)),
-      )
+      nodes.flatMap((node) => (isBook(node) ? [node] : findBooks(childrenOf(node))))
     const divisions = findBooks(tree)
     if (divisions.length !== books.length) {
       return yield* fail(`found ${divisions.length} book divisions for ${books.length} books`)
@@ -450,7 +508,8 @@ export const readTeiCommentary = (
     for (const [i, book] of books.entries()) {
       const chapters = yield* bookChapters(book, divisions[i] as XmlNode, layout)
       const sections: Array<CommentarySection> = []
-      for (const chapter of chapters) sections.push(...(yield* sectionsOf(book, chapter)))
+      for (const chapter of chapters)
+        sections.push(...(yield* sectionsOf(book, chapter, layout.verseDivisions === undefined)))
       read.push({ resourceId, book, sections })
     }
     return read

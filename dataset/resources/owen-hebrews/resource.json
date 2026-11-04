@@ -1,0 +1,34 @@
+{
+  "id": "owen-hebrews",
+  "kind": "commentary",
+  "title": "A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews",
+  "creator": "John Owen",
+  "edition": "A continuation of the exposition of the Epistle of Paul the Apostle to the Hebrews, viz. on the sixth, seventh, eight, ninth, and tenth chapters (London, printed for Nathaniel Ponder, 1680, Wing O729), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A53678",
+  "language": "en",
+  "scope": ["Heb"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A53678",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A53678/e5d5779408ec6294b29a69cf555b3b0659ad107b/A53678.xml",
+        "sha256": "0436c101f08640cf6de5f3b6a1cad6bc81b9056b4f19a89ab0e62996faed2b87"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A53678",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "John Owen, A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews, on chapters 6 to 10 (London, 1680). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis. Owen expounds each verse or group of verses in its own division, headed as he printed it, such as Verse 4, 5, 6. Sections are keyed by the verse numbers the transcription gives each division, at the first verse the division names, and divisions that open on the same verse share a section. A section runs from its own verse to the verse before the next section or the end of its chapter, so where Owen first expounds a group of verses together and then takes them one by one, the exposition of the group appears at its first verse. A chapter's introduction opens its first verse section, and in chapter 10, where the introduction runs on into the exposition of verse 1, it is the section on verse 1. Each marginal note moves to the section's notes. Every gap the transcribers could not key is kept as the mark they gave it, such as 〈 in non-Latin alphabet 〉 for Greek or Hebrew, and 〈1 page duplicate〉 for a page filmed twice. Line-end hyphens are closed up. Left out: the title page, the preface to the reader, the chapter headings such as AN EXPOSITION OF THE SIXTH CHAPTER, and the closing FINIS with the duplicate pages filmed after it. This volume covers chapters 6 to 10 only, so the rest of Hebrews is not yet covered.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": { "state": "active" }
+}

@@ -121,3 +121,8 @@ SPDX-License-Identifier = "CC-PDM-1.0"
 path = "resources/poole-annotations/**"
 SPDX-FileCopyrightText = "Matthew Poole and the divines who continued his work, Annotations upon the Holy Bible (1683, 1685); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
 SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/owen-hebrews/**"
+SPDX-FileCopyrightText = "John Owen, A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews (1680); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"

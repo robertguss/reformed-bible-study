@@ -1,0 +1,126 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A53678, Owen, A continuation of the exposition of the Epistle to the Hebrews (1680), CC0 1.0, as keyed: the openings of chapter 6 and its divisions on verses 1 to 8, and the opening and close of chapter 10. Each division keeps only its first blocks, and the rest of each chapter is cut. -->
+   <text>
+      <body>
+         <div n="6" type="exegesis_of_chapter">
+            <pb n="1" facs="tcp:59078:5"/>
+            <head>AN EXPOSITION OF THE SIXTH CHAPTER Of the EPISTLE of PAUL the Apostle UNTO THE HEBREWS. CHAP. VI.</head>
+            <p>THis whole Chapter is a continuation of the <hi>Digression</hi> which the Apostle had occasionally entred into, in the <hi>Eleventh Verse</hi> of the preceding Chapter. For upon the consideration of the Greatness of the Mystery, and Difficulty of the Doctrine which he designed to instruct these <hi>Hebrews</hi> in, and his fear of their Disability or Unpreparedness (at least of some) to receive it in a due manner unto their Edification, he engageth into a new Discourse, filled up with Reasons and Arguments to excite them unto a diligent Attendance. And this he so doth, as in the very last words of this Chapter, to return by an <hi>Artificial connexion</hi> of his Dis<g ref="char:EOLhyphen"/>course unto what he had asserted in the <hi>Tenth Verse</hi> of that foregoing.</p>
+            <p>There are Four general parts of this Chapter. (1) The <hi>Proposition</hi> of what he intended to do, or discourse concerning; with an opposition thereunto of what was by him to be omitted: <hi>v.</hi> 1, 2, 3. (2) An <hi>Excitation</hi> of the <hi>Hebrews</hi> unto singular diligence in at<g ref="char:EOLhyphen"/>tending unto the most <hi>perfect Doctrines</hi> of Christianity, and making a progress in the Knowledge of Christ. And this he doth from the consideration of the greatness of the Sin, and inevitableness of the Destruction of Apostates. For this sort of Persons do commonly arise from among such, as having received the Truth, and made a Profession thereof, do not diligently endeavour a <hi>Progress</hi> towards Perfection, according to their Duty. <hi>V.</hi> 4, 5, 6, 7, 8. (3) A <hi>Lenifying of the severity of this Commination</hi> in respect of its Application unto these <hi>Hebrews.</hi> For he expresseth his <hi>hope</hi> that it did not so belong unto them, or that the <hi>Sin</hi> condemned should be <hi>found</hi> in them; or the <hi>Punishment</hi> threat<g ref="char:EOLhyphen"/>ned <hi>fall</hi> on them. But the warning it self contained in the Commination, was, as he shews, Good, Wholsome and Seasonable. And of this his Hope and Judgment con<g ref="char:EOLhyphen"/>cerning the <hi>Hebrews,</hi> he expresseth his Grounds taken from the Righteousness of God, their own Faith and Love, which he prays they may persevere in. <hi>V.</hi> 9, 10, 11, 12. (4) An <hi>Encouragement</hi> unto Faith and Perseverance, from the Example of <hi>Abraham,</hi>
+               <pb n="2" facs="tcp:59078:6"/>
+who first received the <hi>Promises;</hi> from the Nature of the <hi>Promises</hi> themselves; and their Confirmation by the <hi>Oath</hi> of God, with the Assistance we may have by our Hope in Christ. thereby. <hi>V.</hi> 13, 14, 15, 16, 17, 18, 19, 20. which last Discourse he issueth in the prin<g ref="char:EOLhyphen"/>cipal matter he intended to insist upon, whereunto he now returns again, having di<g ref="char:EOLhyphen"/>gressed necessarily into those Exhortations and Arguings from the first Proposals of it in the <hi>Eleventh Verse</hi> of the foregoing Chapter.</p>
+            <p>In the <hi>first</hi> part of the Chapter comprised in the <hi>three first Verses,</hi> there are three things considerable; (1) A general <hi>Proposition</hi> of the Apostles Resolution to proceed unto the more <hi>perfect Doctrines</hi> of the Gospel, as also of his passing over the <hi>first Principles</hi> of Christianity: <hi>v.</hi> 1. (2) An <hi>Amplication</hi> of this Proposition, by an Annumeration of those Doctrines which he thought meet at present to <hi>pass by</hi> the handling of: <hi>v.</hi> 1, 2. (3) A <hi>Renovation</hi> of his Resolution to pursue his Proposition, with a <hi>Submission</hi> to the Will and good Pleasure of God, as to the Execution of his Purpose; the Expression whereof, the present state of these <hi>Hebrews</hi> peculiarly called him unto. <hi>V.</hi> 4.</p>
+            <div n="1" type="exegesis_of_verse">
+               <head>
+                  <hi>Ver.</hi> 1.</head>
+               <q>
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>.</q>
+               <p>
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>; <hi>ideo; quapropter; propterea:</hi> wherefore; <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>, <hi>intermittentes, Ari. vul. Lat. Rhem.</hi> 
+                  <note place="margin">
+                     <gap reason="foreign">
+                        <desc>〈 in non-Latin alphabet 〉</desc>
+                     </gap>.</note> 
+                  <hi>intermitting;</hi> as though the Apostle laid these things aside only for the present, with a Resolution to take them up again in this Epistle. But neither doth the word signifie any such thing, nor doth he so do. <hi>Relinquentes, Bez.</hi> leaving <hi>Syr.</hi> 
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap> 
+                  <hi>emittamus;</hi> or <hi>de<g ref="char:EOLhyphen"/>mittamus; dismissing;</hi> properly <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>, <hi>Arias; Sermonem initii Christi. Vul. inchoationis Christi;</hi> the word of the Beginning of Christ, as the <hi>Rhemists;</hi> very ob<g ref="char:EOLhyphen"/>scurely in <hi>Latin;</hi> and in our Language. <hi>Erasm. Omisso qui in Christo rudes inchoat Sermone. The word that entreth those that are unskilful, or Beginners in Christ.</hi> So also <hi>Beza.</hi> We; <hi>The Principles of the Doctrine of Christ. Syr: The Beginning of the word of Christ;</hi> For, the <hi>word of the Beginning of Christ.</hi> The word of; or that which concerns the Principles of the Doctrine of Christ; <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>, <hi>feramur, Let us be car<g ref="char:EOLhyphen"/>ried on.</hi> Syr. <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap> 
+                  <hi>let us come to;</hi> Arab. <hi>let us lift up our selves.</hi> Rhem. <hi>let us proceed.</hi> Ours, <hi>let us go on to Perfection.</hi>
+               </p>
+            </div>
+            <div n="1, 2" type="exegesis_of_verses">
+               <head>
+                  <hi>Verse</hi> 1, 2.</head>
+               <p>In the remainder of the first Verse and the next that follows, the Apostle declares in particular Instances, what were the things and Doctrines, which he called in general be<g ref="char:EOLhyphen"/>fore the <hi>Beginning of the Doctrine of Christ,</hi> whose farther handling he thought meet at present to omit.</p>
+            </div>
+            <div n="3" type="exegesis_of_verse">
+               <head>Verse 3.</head>
+               <q>
+                  <p>
+                     <gap reason="foreign">
+                        <desc>〈 in non-Latin alphabet 〉</desc>
+                     </gap>.</p>
+                  <p>
+                     <hi>And this will we do, if so be that God permit.</hi> 
+                     <note place="margin">Ver. 3.</note>
+                  </p>
+               </q>
+               <p>These words contain two things. (1) The <hi>Resolution</hi> of the Apostle as to the matter and occasion before him. <hi>And this will we do.</hi> (2) A <hi>limitation of that resolution</hi> by an express submission to the will and pleasure of God, <hi>if so be that God permit.</hi>
+               </p>
+            </div>
+            <div n="4, 5, 6" type="exegesis_of_verses">
+               <pb n="38" facs="tcp:59078:25"/>
+               <head>
+                  <hi>Verse</hi> 4, 5, 6.</head>
+               <q>
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>.</q>
+               <p>
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>. <hi>Impossibile enim,</hi> that is, <hi>est, it is impossible, Syr.</hi> 
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap> 
+                  <hi>But they cannot.</hi> This respects the <hi>Power</hi> of the Persons themselves, and not the <hi>Event</hi> of things, it may be not improperly as to the sense. <hi>Beza</hi> and <hi>Erasmus, fieri non potest, it cannot be.</hi> The same with <hi>impossibile.</hi> But the use of the word <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap> in the New Testament, which signifies sometimes only what is <hi>very difficult,</hi> not what is <hi>absolutely</hi> denied, makes it useful to retain the same word, as in our Translation; <hi>For it is im<g ref="char:EOLhyphen"/>possible.</hi>
+               </p>
+            </div>
+            <div n="7, 8" type="exegesis_of_verses">
+               <head>
+                  <hi>VERSE</hi> 7, 8.</head>
+               <p>What the Apostle had <hi>Doctrinally</hi> instructed the <hi>Hebrews</hi> in before, in these Verses he layeth before them under an <hi>apposite similitude.</hi> For his Design herein is to re<g ref="char:EOLhyphen"/>present the condition of all sorts of Persons who profess the Gospel, and live under the Dispensation of its Truths, with the various Events that do befall them. He had before treated directly only of <hi>unfruitful</hi> and <hi>Apostatizing</hi> Professors, whom here he represents by <hi>unprofitable Ground,</hi> and Gods dealing with them as men do with such Ground when they have Tilled it in vain. For the Church is a <hi>Vine</hi> or <hi>Vineyard,</hi> and God is the <hi>Husbandman, Joh.</hi> 15. 1. <hi>Isa.</hi> 5. 1, 2, 3. But here moreover for the greater Illustration of what he affirms concerning such Persons, he compriseth in his <hi>similitude</hi> the contrary state of <hi>sound Believers</hi> and <hi>fruitful Professors,</hi> with the acceptance they have with, and blessing they receive from God. And contraries thus compared do illustrate one another, as also the Design of him who treateth concerning them. We need not therefore engage into a particular Enquiry what it is which the word <hi>For,</hi> whereby these Verses are annexed and continued unto the precedent, doth peculiarly and immediately respect, concerning which there is some difference among <hi>Expositors.</hi> Some suppose it is the dealing of God with <hi>Apostates</hi> before laid down which the Apostle regards, and in these Verses gives an account of the Reason of it, or whence it is they come unto such a woful End. Others observing that in his wholle ensuing Discourse he insists <hi>principally</hi> if not only on the <hi>state of sound Believers</hi> and their acceptance with God, suppose he hath immediate respect unto what he hath declared in the beginning of the Chapter, <hi>ver.</hi> 1, 3. concerning his <hi>Design to carry them on unto Perfection.</hi> But there is no need that we should restrain his purpose to either of these intentions <hi>exclusively</hi> unto the other; yea it is contrary to the plain scope of his Discourse so to do. For he compriseth <hi>both sorts of Professors</hi> and gives a lively representation of their condi<g ref="char:EOLhyphen"/>tion, of Gods dealing with them, and the Event thereof. The Reason therefore that he gives is not to be confined to either sort <hi>exclusively,</hi> but extends it self equally to the whole subject treated of.</p>
+            </div>
+         </div>
+         <div n="10" type="exegesis_of_chapter">
+            <pb facs="tcp:59078:329"/>
+            <pb n="1" facs="tcp:59078:329"/>
+            <head>AN EXPOSITION OF THE Tenth CHAPTER of the EPISTLE TO THE HEBREWS.</head>
+            <p>THere are two parts of this Chapter. The first concerneth the <hi>necessity</hi> and <hi>efficacy</hi> of the Sacrifice of Christ; from the beginning unto <hi>v.</hi> 20. The other is an <hi>improvement of the Doctrine</hi> of it unto Faith, Obedi<g ref="char:EOLhyphen"/>ence and Perseverance; from <hi>v.</hi> 20. to the end of the Chapter.</p>
+            <p>Of the first general <hi>Proposition</hi> of the Subject to be treated of, there are two parts: (1.) <hi>A Demonstration of the Insufficiency of Legal Sacrifices for the expia<g ref="char:EOLhyphen"/>tion of sin:</hi> v. 1, 2, 3, 4; (2.) <hi>A Declaration of the necessity and efficacy of the Sacrifice of Christ unto that end;</hi> from <hi>v.</hi> 4. unto <hi>v.</hi> 19. Of this Declaration there are two parts. (1.) <hi>The substitution of the Sacrifice of Christ in the place and room of all Legal Sacrifices,</hi> because of its efficacy unto the end which they could not attain and without which the Church could not be saved, <hi>v.</hi> 5, 6, 7, 8, 9, 10. (2.) <hi>A final comparison of his Priesthood and Sacrifice with those of the Law,</hi> and their absolute preference above them; unto <hi>v.</hi> 20.</p>
+            <p>In the first particular, of the first general part, there are three things: (1.) An <hi>Assertion</hi> of the insuffciency of <hi>Legal</hi> Sacrifices unto the expiation of sin, where<g ref="char:EOLhyphen"/>in a reason of it also is included; <hi>v.</hi> 1. (2.) A <hi>Confirmation</hi> of the <hi>Truth,</hi> of that Assertion from the consideration of the frequency of their Repetition, which manifestly evidenceth that insufficiency; <hi>v.</hi> 2, 3. (3.) A <hi>General Reason</hi> taken from the nature of them, or the matter whereof they did consist; <hi>v.</hi> 4.</p>
+            <p>The first of these is contained in the first verse.</p>
+            <q>
+               <gap reason="foreign">
+                  <desc>〈 in non-Latin alphabet 〉</desc>
+               </gap>.</q>
+            <p n="1">1. The <hi>conjunctive particle <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>, For,</hi> intimates that what follows or is introduced <note place="margin">
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>
+               </note> thereby, is an inference from what he had before discoursed, or a conclusion made thereon. And this is the <hi>necessity</hi> of the Sacrifice of Christ. For having de<g ref="char:EOLhyphen"/>clared that he had perfectly expiated sin thereby, and confirmed the New Cove<g ref="char:EOLhyphen"/>nant, he concludes from thence and proves the necessity of it, because the Legal Sacrifices could not effect those ends which they seemed to be appointed for. Wherefore they must be <hi>taken away,</hi> to give place unto that whereby they were perfectly accomplished. This therefore he now proceeds to prove. God having designed the compleat <hi>consummation,</hi> or sanctification of the Church, that which only made a representation of it, and of the way whereby it was to be done, but could not effect it, was to be removed. For there was an <hi>appointed time</hi> wherein he would perfectly fulfil the counsel of his infinite Wisdom and Grace to<g ref="char:EOLhyphen"/>wards the Church herein. And at this time which was now come, a full clear understanding of the insufficiency of all Legal Sacrifices for that end, was to be given unto it. For he requires not faith and obedience in any, beyond the means of light and understanding which he affords unto them. Therefore the full Reve<g ref="char:EOLhyphen"/>lation and demonstration hereof was reserved for this season, wherein he required express faith in the way whereby these things were effected.</p>
+            <div n="2, 3" type="exegesis_of_verses">
+               <head>VERSE II, III.</head>
+               <q>
+                  <gap reason="foreign">
+                     <desc>〈 in non-Latin alphabet 〉</desc>
+                  </gap>
+               </q>
+            </div>
+            <trailer>FINIS.</trailer>
+            <pb facs="tcp:59078:388"/>
+            <pb n="452" facs="tcp:59078:389"/>
+            <gap reason="duplicate" extent="1 page">
+               <desc>〈1 page duplicate〉</desc>
+            </gap>
+         </div>
+      </body>
+   </text>
+</TEI>

@@ -14,6 +14,7 @@ import { FetchHttpClient } from "effect/http"
 import { ingestCalvin } from "./ingest/calvin.ts"
 import { ingestConfessions } from "./ingest/confession.ts"
 import { ingestOriginalLanguage } from "./ingest/original-language.ts"
+import { ingestOwen } from "./ingest/owen.ts"
 import { ingestPoole } from "./ingest/poole.ts"
 import { ingestCrossReferences, ingestTranslations } from "./ingest/translations.ts"
 import { sourceCachePath } from "./source-cache.ts"
@@ -59,6 +60,7 @@ const INGESTS = {
   calvin: () => ingestCalvin(repoRoot),
   confessions: () => ingestConfessions(repoRoot),
   poole: () => ingestPoole(repoRoot),
+  owen: () => ingestOwen(repoRoot),
 } as const
 
 const isIngestName = (name: string): name is keyof typeof INGESTS => Object.hasOwn(INGESTS, name)
