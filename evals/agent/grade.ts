@@ -1,4 +1,8 @@
-import { Option, Schema } from "effect"
+import { Option, Result, Schema } from "effect"
+import {
+  formatArticleIdentifier,
+  parseArticleIdentifier,
+} from "../../packages/core/src/confessions/index.ts"
 
 export interface ToolCall {
   readonly name: string
@@ -74,6 +78,18 @@ const citation = (abbreviation: string, number: string): string => {
 
 const CATECHISM = { larger: "WLC", shorter: "WSC" } as const
 
+/** Reads a citation in the confession grammar's typed form, keeping it as written when the grammar rejects it. */
+const canonical = (typed: string): string =>
+  Result.match(parseArticleIdentifier(typed), {
+    onSuccess: formatArticleIdentifier,
+    onFailure: () => typed,
+  })
+
+const HEIDELBERG = String.raw`(?:Heidelberg(?: Catechism)?[,\s]*|HC\s*)`
+const BELGIC = String.raw`(?:Belgic(?: Confession)?[,\s]*|BC\s*)`
+const DORT = String.raw`(?:Canons of Dor(?:dt|t)[,\s]*|CD\s*)`
+const DORT_HEAD = String.raw`((?:[IV]+|\d+)(?:\s*[/\-–]\s*(?:[IV]+|\d+))?)`
+
 export const namedArticles = (answer: string): ReadonlySet<string> => {
   const text = answer.replace(MARKDOWN_ESCAPE, "$1")
   const found = new Set<string>()
@@ -91,6 +107,27 @@ export const namedArticles = (answer: string): ReadonlySet<string> => {
     found.add(
       citation(kind.toLowerCase() === "larger" ? CATECHISM.larger : CATECHISM.shorter, number),
     )
+  for (const [, number = ""] of text.matchAll(
+    new RegExp(String.raw`\b${HEIDELBERG}(?:Q(?:uestion)?\s*(?:&\s*A)?\.?\s*|No\.\s*)?(\d+)`, "gi"),
+  ))
+    found.add(canonical(`HC Q${number}`))
+  for (const [, number = ""] of text.matchAll(
+    new RegExp(String.raw`\b${HEIDELBERG}(?:LD|Lord['’]?s Day)\.?\s*(\d+)`, "gi"),
+  ))
+    found.add(canonical(`HC LD ${number}`))
+  for (const [, number = ""] of text.matchAll(
+    new RegExp(String.raw`\b${BELGIC}(?:Art(?:icle)?\.?\s*)?(\d+)`, "gi"),
+  ))
+    found.add(canonical(`BC ${number}`))
+  for (const [, head = "", number = ""] of text.matchAll(
+    new RegExp(
+      String.raw`\b${DORT}(?:Head(?: of Doctrine)?\s*)?${DORT_HEAD}(?:[,\s]*Art(?:icle)?\.?\s*|\s*[.:–-]\s*|\s+)(\d+)`,
+      "gi",
+    ),
+  ))
+    found.add(canonical(`CD ${head.replace(/\s*[/\-–]\s*/, "-")} ${number}`))
+  if (new RegExp(String.raw`\b${DORT}(?:the\s+)?Conclusion\b`, "i").test(text))
+    found.add("CD Conclusion")
   return found
 }
 
@@ -151,9 +188,9 @@ export const missingCalls = (
 ): ReadonlyArray<string> =>
   tools.filter((tool) => !transcript.calls.some((call) => call.name === tool && !call.isError))
 
-const NEGATION = String.raw`\b(?:not|isn't|aren't|doesn't|don't|cannot|can't)`
+const NEGATION = String.raw`\b(?:not|never|isn't|aren't|doesn't|don't|cannot|can't)`
 const LINKING_WORDS = String.raw`(?:\s+(?:yet|currently|be|been|any|in|of|one|part|among|the|this|these|its|our))*`
-const COVERAGE = String.raw`\s+(?:cover(?:s|ed)?|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|dataset|catalog|collection|resources|tools)\b`
+const COVERAGE = String.raw`\s+(?:cover(?:s|ed)?|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|wr(?:ite|ites|ote|itten)|dataset|catalog|collection|resources|tools)\b`
 const NOT_COVERED = new RegExp(
   String.raw`\bunavailable\b|${NEGATION}${LINKING_WORDS}${COVERAGE}`,
   "i",

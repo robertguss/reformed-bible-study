@@ -48,12 +48,15 @@ cite that verse?"
   line, not a quotation. Comparison ignores case, Markdown escapes, emphasis
   stars, and typographic quotes and dashes. A quotation may skip text with an
   ellipsis or a bracketed insertion, and each remaining piece must match.
-- Every Westminster article the answer names was returned by a tool, and the
+- Every confession article the answer names was returned by a tool, and the
   answer gives that article's author, work, edition and license exactly as the
   result did (punctuation aside). Articles are recognised as `WCF 3.6`,
-  `WLC Q45`, `WSC Q7` and the long forms ("Westminster Confession of Faith,
-  chapter 5, section 7", "Larger Catechism Q. 45"). The license must be the SPDX
-  id the tool gives, such as `CC-PDM-1.0`.
+  `WLC Q45`, `WSC Q7`, `HC Q1`, `HC LD 32` (read as that Lord's Day's first
+  question), `BC Art. 1`, `CD III-IV.1`, `CD Conclusion` and the long forms
+  ("Westminster Confession of Faith, chapter 5, section 7", "Larger Catechism Q.
+  45", "Heidelberg Catechism, Q&A 21", "Belgic Confession, Article 16", "Canons
+  of Dort III/IV, article 4"). The license must be the SPDX id the tool gives,
+  such as `CC-PDM-1.0`.
 
 **Questions outside the dataset** (`agent/negative.eval.ts`):
 

@@ -82,11 +82,75 @@ describe("namedArticles", () => {
       "See WCF 3.6, Westminster Confession of Faith, chapter 5, section 7, the Larger Catechism Q. 45 and WSC Q7."
     expect([...namedArticles(answer)].sort()).toEqual(["WCF 3.6", "WCF 5.7", "WLC Q45", "WSC Q7"])
   })
+
+  it("reads the Heidelberg, Belgic and Dort forms as tool citations", () => {
+    const answer = [
+      "HC Q1, the Heidelberg Catechism, Q&A 21, and HC LD 32 (which opens with Q86).",
+      "BC Art. 1 and the Belgic Confession, Article 16.",
+      "CD III-IV.1, the Canons of Dort III/IV, article 4, CD I.7, CD V–3 and the CD Conclusion.",
+    ].join("\n")
+    expect([...namedArticles(answer)].sort()).toEqual([
+      "BC Art. 1",
+      "BC Art. 16",
+      "CD Conclusion",
+      "CD I.7",
+      "CD III-IV.1",
+      "CD III-IV.4",
+      "CD V.3",
+      "HC Q1",
+      "HC Q21",
+      "HC Q86",
+    ])
+  })
+
+  it("does not read a year before Christ as a Belgic article", () => {
+    expect([...namedArticles("Jerusalem fell in 586 BC, 2 Kings 25 records it.")]).toEqual([])
+  })
 })
 
 describe("articleProblems", () => {
   it("passes an answer naming only returned articles, each credited", () => {
     expect(articleProblems(transcript(`WCF 5.7 cites the verse.\n\n${CREDIT}`))).toEqual([])
+  })
+
+  it("passes Heidelberg, Belgic and Dort articles the tools returned, each credited", () => {
+    const credits = {
+      "HC Q1": {
+        author: "Zacharias Ursinus and Caspar Olevianus",
+        work: "The Heidelberg Catechism",
+        edition: "Schaff, The Creeds of Christendom, vol. 3 (1877)",
+        license: "CC-PDM-1.0",
+      },
+      "BC Art. 1": {
+        author: "Guido de Brès",
+        work: "The Belgic Confession",
+        edition: "Schaff, The Creeds of Christendom, vol. 3 (1877)",
+        license: "CC-PDM-1.0",
+      },
+      "CD III-IV.1": {
+        author: "Synod of Dort",
+        work: "The Canons of Dort",
+        edition: "Schaff, The Creeds of Christendom, vol. 3 (1877)",
+        license: "CC-PDM-1.0",
+      },
+    }
+    const found: ToolCall = {
+      ...articles,
+      structured: {
+        items: Object.entries(credits).map(([citation, attribution]) => ({
+          value: { citation },
+          attribution,
+        })),
+      },
+    }
+    const answer = [
+      "Heidelberg Catechism Q1, Belgic Confession Art. 1 and Canons of Dort III-IV.1 all speak to it.",
+      ...Object.values(credits).map(
+        (credit) =>
+          `— ${credit.author}, ${credit.work} (${credit.edition}). License: ${credit.license}.`,
+      ),
+    ].join("\n")
+    expect(articleProblems(transcript(answer, [found]))).toEqual([])
   })
 
   it("flags an article no tool returned and a credit missing its edition", () => {
@@ -123,6 +187,8 @@ describe("saysNotCovered", () => {
       "Matthew Henry's commentary isn't available from these tools.",
       "The resources don't include Matthew Henry.",
       "Matthew Henry's commentary is not in this dataset.",
+      "Calvin never wrote on Revelation.",
+      "Calvin did not write a commentary on Revelation, so there is nothing to quote.",
     ])
       expect([answer, saysNotCovered(answer)]).toEqual([answer, true])
   })
