@@ -2,9 +2,18 @@ import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
 import { getCommentary } from "../../src/capabilities/index.ts"
 import type { CatalogResource } from "../../src/shards/index.ts"
-import { CALVIN_ROMANS_8, call, FILES, fetchStore, WITHDRAWN_REASON } from "./fixture.ts"
+import { CALVIN_ROMANS_8, call, FILES, fetchStore, RELEASE, WITHDRAWN_REASON } from "./fixture.ts"
 
 const CALVIN = "calvin-commentaries"
+const POOLE = "poole-annotations"
+
+interface CatalogFile {
+  readonly release: string
+  readonly payload: { readonly resources: ReadonlyArray<CatalogResource> }
+}
+
+const catalogFile = (): CatalogFile =>
+  JSON.parse(FILES.get("catalog.json") ?? "null") as CatalogFile
 
 describe("get_commentary", () => {
   it.effect("returns the 8:28-30 section with its range for Calvin on Romans 8:29", () =>
@@ -84,6 +93,7 @@ describe("get_commentary", () => {
       const result = yield* call(getCommentary, { ref: "Rom 8:29" })
       expect(result.resources.map((r) => [r.resourceId, r.coverage, r.status.state])).toEqual([
         [CALVIN, "covered", "active"],
+        [POOLE, "not_ingested", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
     }),
@@ -93,10 +103,7 @@ describe("get_commentary", () => {
     "lists works in the default commentary order when no work is named, then the rest by id",
     () =>
       Effect.gen(function* () {
-        const catalog = JSON.parse(FILES.get("catalog.json") ?? "null") as {
-          readonly release: string
-          readonly payload: { readonly resources: ReadonlyArray<CatalogResource> }
-        }
+        const catalog = catalogFile()
         const calvin = catalog.payload.resources.find(({ id }) => id === CALVIN)
         // Fallback commentators with nothing ingested, listed in an order unlike the default one.
         const unread = (id: string): CatalogResource => ({ ...calvin!, id, ingested: [] })
@@ -104,7 +111,6 @@ describe("get_commentary", () => {
           unread("aaa-commentary"),
           unread("jamieson-fausset-brown"),
           unread("matthew-henry"),
-          unread("poole-annotations"),
           ...catalog.payload.resources,
         ]
         const files = new Map(FILES).set(
@@ -114,13 +120,65 @@ describe("get_commentary", () => {
         const result = yield* call(getCommentary, { ref: "Rom 8:29" }, fetchStore(files))
         expect(result.resources.map((r) => r.resourceId)).toEqual([
           CALVIN,
-          "poole-annotations",
+          POOLE,
           "matthew-henry",
           "jamieson-fausset-brown",
           "aaa-commentary",
           "withdrawn-commentary",
         ])
         expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN])
+      }),
+  )
+
+  it.effect(
+    "lists Poole first and shows his comment on Proverbs 3:5, a book Calvin did not write on",
+    () =>
+      Effect.gen(function* () {
+        const catalog = catalogFile()
+        const resources = catalog.payload.resources.map((resource) =>
+          resource.id === POOLE
+            ? { ...resource, ingested: [{ book: "Prov", chapters: [3] }] }
+            : resource,
+        )
+        const section = {
+          ref: "Prov.3.5",
+          paragraphs: [
+            [
+              {
+                text: "5. Trust in the LORD (k) with all thine heart, and lean not unto thine own understanding (l).",
+              },
+            ],
+            [
+              {
+                text: "(k) Wholly and securely rely upon God's Promises and Providence for help and relief in all thine affairs and dangers.",
+              },
+            ],
+          ],
+          notes: [],
+        }
+        const files = new Map(FILES)
+          .set("catalog.json", JSON.stringify({ ...catalog, payload: { resources } }))
+          .set(
+            "commentary/poole-annotations/Prov.3.json",
+            JSON.stringify({
+              release: RELEASE,
+              payload: { resourceId: POOLE, book: "Prov", chapter: 3, sections: [section] },
+            }),
+          )
+        const result = yield* call(getCommentary, { ref: "Proverbs 3:5" }, fetchStore(files))
+        expect(result.resources.map((r) => [r.resourceId, r.coverage])).toEqual([
+          [CALVIN, "outside_work"],
+          [POOLE, "covered"],
+          ["withdrawn-commentary", "not_ingested"],
+        ])
+        expect(result.items.map((item) => [item.value.ref, item.value.paragraphs])).toEqual([
+          ["Prov.3.5", section.paragraphs],
+        ])
+        expect(result.items[0]?.attribution).toMatchObject({
+          resourceId: POOLE,
+          author: "Matthew Poole and the divines who continued his work after Isaiah 58",
+          license: "CC0-1.0",
+        })
       }),
   )
 })
