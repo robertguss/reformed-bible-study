@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
-import { getCommentary } from "../../src/capabilities/index.ts"
+import { COMMENTARY_CHARACTER_CAP, getCommentary } from "../../src/capabilities/index.ts"
 import type { CatalogResource } from "../../src/shards/index.ts"
 import { CALVIN_ROMANS_8, call, FILES, fetchStore, RELEASE, WITHDRAWN_REASON } from "./fixture.ts"
 
@@ -84,35 +84,54 @@ describe("get_commentary", () => {
     }),
   )
 
-  it.effect("pages a request over the cap in whole sections, never cutting one", () =>
-    Effect.gen(function* () {
-      const pages: Array<ReadonlyArray<string>> = []
-      const sections: Array<unknown> = []
-      let cursor: string | undefined
-      do {
-        const result = yield* call(
-          getCommentary,
-          cursor === undefined
-            ? { ref: "Romans 8", work: CALVIN }
-            : { ref: "Romans 8", work: CALVIN, cursor },
-        )
-        pages.push(result.items.map((item) => item.value.ref))
-        for (const item of result.items)
-          sections.push({
-            ref: item.value.ref,
-            paragraphs: item.value.paragraphs,
-            notes: item.value.notes,
-          })
-        cursor = result.cursor
-      } while (cursor !== undefined && pages.length < 10)
-      // Three sections, then one long section alone (two would pass 12,000 characters), then the rest.
-      expect(pages).toEqual([
-        ["Rom.7.24-Rom.8.1", "Rom.8.2-Rom.8.4", "Rom.8.5-Rom.8.11"],
-        ["Rom.8.12-Rom.8.17"],
-        ["Rom.8.18-Rom.8.27", "Rom.8.28-Rom.8.30", "Rom.8.31-Rom.8.39"],
-      ])
-      expect(sections).toEqual(CALVIN_ROMANS_8)
-    }),
+  it.effect(
+    "pages a request over the cap, splitting only a section longer than a page between paragraphs",
+    () =>
+      Effect.gen(function* () {
+        const pages: Array<ReadonlyArray<string>> = []
+        const characters: Array<number> = []
+        const joined = new Map<
+          string,
+          { ref: string; paragraphs: Array<unknown>; notes: Array<unknown> }
+        >()
+        let cursor: string | undefined
+        do {
+          const result = yield* call(
+            getCommentary,
+            cursor === undefined
+              ? { ref: "Romans 8", work: CALVIN }
+              : { ref: "Romans 8", work: CALVIN, cursor },
+          )
+          pages.push(
+            result.items.map(({ value }) =>
+              value.part === undefined
+                ? value.ref
+                : `${value.ref} part ${value.part.index} of ${value.part.of}`,
+            ),
+          )
+          characters.push(
+            result.items
+              .flatMap(({ value }) => [...value.paragraphs, ...value.notes].flat())
+              .reduce((total, run) => total + run.text.length, 0),
+          )
+          for (const { value } of result.items) {
+            const section = joined.get(value.ref) ?? { ref: value.ref, paragraphs: [], notes: [] }
+            section.paragraphs.push(...value.paragraphs)
+            section.notes.push(...value.notes)
+            joined.set(value.ref, section)
+          }
+          cursor = result.cursor
+        } while (cursor !== undefined && pages.length < 10)
+        expect(pages).toEqual([
+          ["Rom.7.24-Rom.8.1", "Rom.8.2-Rom.8.4", "Rom.8.5-Rom.8.11"],
+          ["Rom.8.12-Rom.8.17 part 1 of 3"],
+          ["Rom.8.12-Rom.8.17 part 2 of 3"],
+          ["Rom.8.12-Rom.8.17 part 3 of 3"],
+          ["Rom.8.18-Rom.8.27", "Rom.8.28-Rom.8.30", "Rom.8.31-Rom.8.39"],
+        ])
+        expect(characters.every((n) => n <= COMMENTARY_CHARACTER_CAP)).toBe(true)
+        expect([...joined.values()]).toEqual(CALVIN_ROMANS_8)
+      }),
   )
 
   it.effect("returns a withdrawn work's status and reason with no content", () =>

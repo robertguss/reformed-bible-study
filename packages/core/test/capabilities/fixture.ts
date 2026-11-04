@@ -98,12 +98,21 @@ const prose = (words: string, length: number) =>
 
 const section = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
 
-/** Calvin on Romans 7 and 8: seven sections, two of them long enough to meet the character cap. */
+/**
+ * Calvin on Romans 7 and 8: seven sections. Romans 8:12-17 runs to three paragraphs, longer than a
+ * page, and 8:18-27 is long enough that it cannot share a page with the end of 8:12-17.
+ */
 export const CALVIN_ROMANS_8 = [
   section("Rom.7.24-Rom.8.1", "Wretched man that I am! He closes with an exclamation."),
   section("Rom.8.2-Rom.8.4", "For the law of the Spirit of life. This is a confirmation."),
   section("Rom.8.5-Rom.8.11", "For they who are according to the flesh."),
-  section("Rom.8.12-Rom.8.17", prose("We are debtors, not to the flesh.", 9000)),
+  {
+    ref: "Rom.8.12-Rom.8.17",
+    paragraphs: ["We are debtors.", "Ye have not received.", "The Spirit itself."].map((words) => [
+      { text: prose(words, 9000) },
+    ]),
+    notes: [[{ text: "Debtors: bound to live after the Spirit." }]],
+  },
   section(
     "Rom.8.18-Rom.8.27",
     prose("For I reckon that the sufferings of this present time.", 5000),
