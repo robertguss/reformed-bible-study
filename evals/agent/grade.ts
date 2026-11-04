@@ -85,10 +85,21 @@ const canonical = (typed: string): string =>
     onFailure: () => typed,
   })
 
-const HEIDELBERG = String.raw`(?:Heidelberg(?: Catechism)?[,\s]*|HC\s*)`
-const BELGIC = String.raw`(?:Belgic(?: Confession)?[,\s]*|BC\s*)`
-const DORT = String.raw`(?:Canons of Dor(?:dt|t)[,\s]*|CD\s*)`
-const DORT_HEAD = String.raw`((?:[IV]+|\d+)(?:\s*[/\-–]\s*(?:[IV]+|\d+))?)`
+/** A confession's year after its name, such as "(1563)" or "1619,", which is not an article. */
+const YEAR = String.raw`(?:\(?1[56]\d\d\)?[,\s]*)?`
+const HEIDELBERG = String.raw`(?:Heidelberg(?: Catechism)?[,\s]*|HC\s*)${YEAR}`
+const BELGIC = String.raw`(?:Belgic(?: Confession)?[,\s]*|(?<!\d\s)BC\s*)${YEAR}`
+const DORT = String.raw`(?:Canons of Dor(?:dt|t)[,\s]*|CD\s*)${YEAR}`
+const NUMBER = String.raw`(\d{1,3})(?!\d)`
+const DORT_HEAD = String.raw`((?:[IV]+|[1-5])(?:\s*[/\-–]\s*(?:[IV]+|[1-5]))?)(?!\d)`
+const DORT_HEAD_WORDS = String.raw`(First|Second|Third(?:\s+(?:and|&)\s+Fourth)?|Fourth|Fifth)\s+Heads?(?:\s+of\s+Doctrine)?`
+const HEAD_OF_ORDINAL: Readonly<Record<string, string>> = {
+  first: "I",
+  second: "II",
+  third: "III",
+  fourth: "IV",
+  fifth: "V",
+}
 
 export const namedArticles = (answer: string): ReadonlySet<string> => {
   const text = answer.replace(MARKDOWN_ESCAPE, "$1")
@@ -108,24 +119,37 @@ export const namedArticles = (answer: string): ReadonlySet<string> => {
       citation(kind.toLowerCase() === "larger" ? CATECHISM.larger : CATECHISM.shorter, number),
     )
   for (const [, number = ""] of text.matchAll(
-    new RegExp(String.raw`\b${HEIDELBERG}(?:Q(?:uestion)?\s*(?:&\s*A)?\.?\s*|No\.\s*)?(\d+)`, "gi"),
+    new RegExp(
+      String.raw`\b${HEIDELBERG}(?:Q(?:uestion)?\s*(?:&\s*A)?\.?\s*|No\.\s*)?${NUMBER}`,
+      "gi",
+    ),
   ))
     found.add(canonical(`HC Q${number}`))
-  for (const [, number = ""] of text.matchAll(
-    new RegExp(String.raw`\b${HEIDELBERG}(?:LD|Lord['’]?s Day)\.?\s*(\d+)`, "gi"),
+  for (const [, day = "", question] of text.matchAll(
+    new RegExp(
+      String.raw`\b${HEIDELBERG}(?:LD|Lord['’]?s Day)\.?\s*${NUMBER}(?:[,\s]*Q(?:uestion)?\s*(?:&\s*A)?\.?\s*${NUMBER})?`,
+      "gi",
+    ),
   ))
-    found.add(canonical(`HC LD ${number}`))
+    found.add(canonical(question === undefined ? `HC LD ${day}` : `HC Q${question}`))
   for (const [, number = ""] of text.matchAll(
-    new RegExp(String.raw`\b${BELGIC}(?:Art(?:icle)?\.?\s*)?(\d+)`, "gi"),
+    new RegExp(String.raw`\b${BELGIC}(?:Art(?:icle)?\.?\s*)?${NUMBER}`, "gi"),
   ))
     found.add(canonical(`BC ${number}`))
   for (const [, head = "", number = ""] of text.matchAll(
     new RegExp(
-      String.raw`\b${DORT}(?:Head(?: of Doctrine)?\s*)?${DORT_HEAD}(?:[,\s]*Art(?:icle)?\.?\s*|\s*[.:–-]\s*|\s+)(\d+)`,
+      String.raw`\b${DORT}(?:Head(?: of Doctrine)?\s*)?${DORT_HEAD}(?:[,\s]*Art(?:icle)?\.?\s*|\s*[.:,–-]\s*|\s+)${NUMBER}`,
       "gi",
     ),
   ))
     found.add(canonical(`CD ${head.replace(/\s*[/\-–]\s*/, "-")} ${number}`))
+  for (const [, words = "", number = ""] of text.matchAll(
+    new RegExp(
+      String.raw`\b${DORT}(?:the\s+)?${DORT_HEAD_WORDS}[,\s]*Art(?:icle)?\.?\s*${NUMBER}`,
+      "gi",
+    ),
+  ))
+    found.add(canonical(`CD ${HEAD_OF_ORDINAL[words.split(/\s/)[0]!.toLowerCase()]} ${number}`))
   if (new RegExp(String.raw`\b${DORT}(?:the\s+)?Conclusion\b`, "i").test(text))
     found.add("CD Conclusion")
   return found
@@ -190,9 +214,9 @@ export const missingCalls = (
 
 const NEGATION = String.raw`\b(?:not|never|isn't|aren't|doesn't|don't|cannot|can't)`
 const LINKING_WORDS = String.raw`(?:\s+(?:yet|currently|be|been|any|in|of|one|part|among|the|this|these|its|our))*`
-const COVERAGE = String.raw`\s+(?:cover(?:s|ed)?|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|wr(?:ite|ites|ote|itten)|dataset|catalog|collection|resources|tools)\b`
+const COVERAGE = String.raw`\s+(?:cover(?:s|ed)?|comment(?:s|ed)?|librar(?:y|ies)|available|ingested|includ(?:e|es|ed)|catalogu?ed|offer(?:s|ed)?|provide[sd]?|ha(?:ve|s)|carr(?:y|ies)|wr(?:ite|ites|ote|itten)|dataset|catalog|collection|resources|tools)\b`
 const NOT_COVERED = new RegExp(
-  String.raw`\bunavailable\b|${NEGATION}${LINKING_WORDS}${COVERAGE}`,
+  String.raw`\bunavailable\b|\bno\s+comment(?:ary)?\b|\b(?:falls?|lies?|is|are)\s+outside\b|${NEGATION}${LINKING_WORDS}${COVERAGE}`,
   "i",
 )
 
