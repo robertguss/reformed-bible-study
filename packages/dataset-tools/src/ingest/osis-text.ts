@@ -1,6 +1,6 @@
 import type { TextRun } from "@reformed-bible/core"
 import { Effect, Schema } from "effect"
-import { XMLParser } from "fast-xml-parser"
+import { attribute, decodeEntities, elementName, parser, TEXT, type XmlNode } from "./xml-tree.ts"
 
 export class OsisTextError extends Schema.TaggedError<
   OsisTextError,
@@ -30,39 +30,6 @@ export interface OsisEntry {
   readonly sections: ReadonlyArray<OsisSection>
   readonly tables: ReadonlyArray<OsisTable>
 }
-
-const parser = new XMLParser({
-  preserveOrder: true,
-  ignoreAttributes: false,
-  attributeNamePrefix: "",
-  parseTagValue: false,
-  parseAttributeValue: false,
-  trimValues: false,
-  processEntities: false,
-  htmlEntities: false,
-  ignoreDeclaration: true,
-  ignorePiTags: true,
-})
-
-const PREDEFINED: Readonly<Record<string, string>> = {
-  lt: "<",
-  gt: ">",
-  amp: "&",
-  quot: '"',
-  apos: "'",
-}
-
-const decodeEntities = (text: string): string =>
-  text.replace(/&(lt|gt|amp|quot|apos|#\d+|#x[0-9a-fA-F]+);/g, (whole, name: string) => {
-    if (!name.startsWith("#")) return PREDEFINED[name] ?? whole
-    const code = name.startsWith("#x") ? Number.parseInt(name.slice(2), 16) : Number(name.slice(1))
-    return code <= 0x10ffff ? String.fromCodePoint(code) : whole
-  })
-
-type XmlNode = Readonly<Record<string, unknown>>
-
-const ATTRIBUTES = ":@"
-const TEXT = "#text"
 
 class Paragraphs {
   readonly done: Array<Array<TextRun>> = []
@@ -114,15 +81,6 @@ const joinParagraphs = (paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>): Arra
     }
   })
   return runs
-}
-
-const elementName = (node: XmlNode): string | undefined =>
-  Object.keys(node).find((key) => key !== ATTRIBUTES && key !== TEXT)
-
-const attribute = (node: XmlNode, name: string): string | undefined => {
-  const attributes = node[ATTRIBUTES] as Readonly<Record<string, unknown>> | undefined
-  const value = attributes?.[name]
-  return typeof value === "string" ? value : undefined
 }
 
 const childrenOf = (node: XmlNode, name: string): ReadonlyArray<XmlNode> =>

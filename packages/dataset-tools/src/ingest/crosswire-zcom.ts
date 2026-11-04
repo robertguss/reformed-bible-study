@@ -44,6 +44,28 @@ export interface ZComFiles {
   readonly bzz: Uint8Array
 }
 
+/** The three files of one testament of a module, from the unzipped files under `moduleDir`. */
+export const testamentFiles = (
+  files: Readonly<Record<string, Uint8Array>>,
+  moduleDir: string,
+  testament: Testament,
+) =>
+  Effect.gen(function* () {
+    const read = (ext: string) => {
+      const path = `${moduleDir}/${testament}.${ext}`
+      const bytes = files[path]
+      return bytes === undefined
+        ? Effect.fail(new ZComError({ reason: "missing-file", detail: path }))
+        : Effect.succeed(bytes)
+    }
+    const module: ZComFiles = {
+      bzs: yield* read("bzs"),
+      bzv: yield* read("bzv"),
+      bzz: yield* read("bzz"),
+    }
+    return module
+  })
+
 export interface ZComEntry {
   readonly book: BookId | undefined
   readonly chapter: number
@@ -215,8 +237,6 @@ export const readZCom = (
     }
     return entries
   })
-
-const compare = (a: VerseRef, b: VerseRef): number => a.chapter - b.chapter || a.verse - b.verse
 
 /** A chapter (`Ps.1`) or verse (`Ps.1.1`) reference inside `book`, or undefined for anything else. */
 const parseRef = (
@@ -480,7 +500,7 @@ export const commentaryBookFromZCom = (
           misplaced.push({ slot: entry.slot, ref })
       }
     }
-    const ordered = [...placed.values()].sort((a, b) => compare(a.start, b.start))
+    const ordered = [...placed.values()].sort((a, b) => compareVerse(a.start, b.start))
     const sections = ordered.map((at, i) => ({
       ...rangeOf(book, at, ordered[i + 1]),
       ...at.section,

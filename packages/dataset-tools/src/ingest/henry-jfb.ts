@@ -1,13 +1,7 @@
 import { BOOK_IDS, CommentaryBook } from "@reformed-bible/core"
 import { Effect } from "effect"
 import { writeNormalized } from "../normalized.ts"
-import {
-  commentaryBookFromZCom,
-  readZCom,
-  type Testament,
-  ZComError,
-  type ZComFiles,
-} from "./crosswire-zcom.ts"
+import { commentaryBookFromZCom, readZCom, testamentFiles, ZComError } from "./crosswire-zcom.ts"
 import { download, type SourceSpec, unzipSafe } from "./download.ts"
 import type { ChapterStart } from "./osis-text.ts"
 
@@ -41,27 +35,6 @@ export const JFB: WholeBibleModule = {
   moduleDir: "modules/comments/zcom/jfb",
   chapterStart: "chapter-title",
 }
-
-const testamentFiles = (
-  files: Readonly<Record<string, Uint8Array>>,
-  moduleDir: string,
-  testament: Testament,
-) =>
-  Effect.gen(function* () {
-    const read = (ext: string) => {
-      const path = `${moduleDir}/${testament}.${ext}`
-      const bytes = files[path]
-      return bytes === undefined
-        ? Effect.fail(new ZComError({ reason: "missing-file", detail: path }))
-        : Effect.succeed(bytes)
-    }
-    const module: ZComFiles = {
-      bzs: yield* read("bzs"),
-      bzv: yield* read("bzv"),
-      bzz: yield* read("bzz"),
-    }
-    return module
-  })
 
 /**
  * Reads every book of a whole-Bible commentary from its unzipped CrossWire module, one commentary

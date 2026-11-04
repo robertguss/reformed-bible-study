@@ -8,9 +8,8 @@ import {
   type HarmonyPericopes,
   harmonyPericopes,
   readZCom,
-  type Testament,
+  testamentFiles,
   ZComError,
-  type ZComFiles,
 } from "./crosswire-zcom.ts"
 import { download, unzipSafe } from "./download.ts"
 
@@ -48,23 +47,6 @@ const ofCalvin = (book: CommentaryBook): CommentaryBook =>
         sections: book.sections.filter((s) => Number(s.ref.split(".")[1]) <= LAST_EZEKIEL_CHAPTER),
       }
 
-const testamentFiles = (files: Readonly<Record<string, Uint8Array>>, testament: Testament) =>
-  Effect.gen(function* () {
-    const read = (ext: string) => {
-      const path = `${MODULE_DIR}/${testament}.${ext}`
-      const bytes = files[path]
-      return bytes === undefined
-        ? Effect.fail(new ZComError({ reason: "missing-file", detail: path }))
-        : Effect.succeed(bytes)
-    }
-    const module: ZComFiles = {
-      bzs: yield* read("bzs"),
-      bzv: yield* read("bzv"),
-      bzz: yield* read("bzz"),
-    }
-    return module
-  })
-
 /**
  * Reads Calvin's commentary on every book in `scope` from the unzipped CrossWire module, one
  * commentary book per scoped book, with Ezekiel ending where Calvin's commentary does and each
@@ -77,8 +59,8 @@ export const calvinBooks = (
 ) =>
   Effect.gen(function* () {
     const entries = [
-      ...(yield* readZCom("ot", yield* testamentFiles(files, "ot"))),
-      ...(yield* readZCom("nt", yield* testamentFiles(files, "nt"))),
+      ...(yield* readZCom("ot", yield* testamentFiles(files, MODULE_DIR, "ot"))),
+      ...(yield* readZCom("nt", yield* testamentFiles(files, MODULE_DIR, "nt"))),
     ]
     const pericopes = new Map<BookId, HarmonyPericopes>()
     for (const harmony of HARMONIES) {
