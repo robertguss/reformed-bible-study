@@ -4,6 +4,7 @@
   "description": "A free, open-source Reformed Bible study app built on openly licensed resources.",
   "type": "module",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "effect-tsgo oxlint --type-aware",
