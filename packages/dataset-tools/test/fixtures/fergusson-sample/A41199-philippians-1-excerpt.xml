@@ -1,0 +1,38 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A41199, Fergusson, A brief exposition of the Epistles of Paul to the Philippians and Colossians (1656), CC0 1.0, as keyed: the expositions of Philippians 1:15 to 1:20, where verse 18 is expounded in two divisions. Each division keeps its heading and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="exposition">
+            <pb n="1" facs="tcp:94357:4" />
+            <head>A BRIEF EXPOSITION Of the Epistle of PAUL to the PHILIPPIANS.</head>
+            <div n="1" type="chapter">
+               <head>CHAP. I.</head>
+               <div type="verse_and_commentary">
+                  <head>
+                     <hi>Vers.</hi> 15. Some indeed preach Christ even of envy and strife, and some also of good will. 16. The one preach Christ of contention, not sincerely, sup<g ref="char:EOLhyphen" />posing to adde affliction to my bonds: 17. But the other of love, knowing that I am set for the defence of the Gospel.</head>
+                  <p>Because it might have been objected, That many of those fore-mentioned Preachers, of whom he boasted, were but naughty men, and small friends to <hi>Paul;</hi> He</p>
+               </div>
+               <div type="verse_and_commentary">
+                  <head>
+                     <hi>Vers.</hi> 18. What then? notwithstanding every way, whether in pretence, or in truth, Christ is preached, and I therein do rejoyce,—</head>
+                  <p>He giveth a second answer unto that which might have been objected, to wit, Whatever they aimed at in their preaching, yet Jesus Christ was made known by them:</p>
+               </div>
+               <div type="verse_and_commentary">
+                  <head>
+                     <hi>Vers.—18.</hi> yea, and will rejoyce. 19. For I know that this shall turn to my salvation through your prayer, and the supply of the Spirit of Jesus Christ.</head>
+                  <p>That he may yet further prevent their stumbling at his sufferings; he sheweth, That, as the Gospel had gained much thereby already, it should gain yet more;</p>
+               </div>
+               <div type="verse_and_commentary">
+                  <pb n="21" facs="tcp:94357:14" />
+                  <head>
+                     <hi>Vers.</hi> 20. According to my earnest expectation and my hope, that in nothing I shall he ashamed, but that with all bold<g ref="char:EOLhyphen" />nesse, as alwayes, <hi>so</hi> now also Christ shall be magnified in my body, whether it be by life or by death.</head>
+                  <p>
+                     <hi>Paul's</hi> envious adversaries aimed at two things; either to drive him to apostacie, or to incite <hi>Nero</hi> to take his life; and in the</p>
+               </div>
+               </div>
+            <closer>Amen.</closer>
+         </div>
+         
+      </body>
+   </text>
+</TEI>

@@ -203,6 +203,53 @@ describe("readTeiCommentary", () => {
       }),
   )
 
+  it.effect("reads a lecture's label from its first paragraph where it quotes its text there", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("durham-sample/A37035-revelation-7-excerpt.xml"),
+        "Rev",
+        {
+          bookDivisions: new Set(["text"]),
+          chapterDivisions: new Set(["chapter"]),
+          verseDivisions: new Set(["lecture"]),
+          chaptersInFirstVerseDivision: true,
+          verseLabel: /^(?:Vers\. )?(\d+)\./,
+          openingParagraphLabel: true,
+        },
+      )
+      expect(refs(sections)).toEqual([
+        "Rev.7.1",
+        "Rev.7.2-Rev.7.3",
+        "Rev.7.4-Rev.7.8",
+        "Rev.7.9-Rev.7.17",
+      ])
+      const lecture3 = section(sections, "Rev.7.4-Rev.7.8")?.paragraphs.map(plain) ?? []
+      expect(lecture3[0]).toBe("LECTURE III.")
+      expect(lecture3[1]).toMatch(/^Vers\. 4\. And I heard the number of them which were sealed/)
+    }),
+  )
+
+  it.effect("numbers chapter divisions without n attributes by their headings", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        fixture("leighton-sample/A47643-1-peter-3-excerpt.xml"),
+        "1Pet",
+        {
+          bookDivisions: new Set(["commentary"]),
+          chapterDivisions: new Set(["chapter"]),
+          verseDivisions: new Set(["verse"]),
+          chapterHeading: /Chap\. ([IVX]+)\./,
+        },
+      )
+      // With no label pattern and no n attributes, each chapter's divisions are one section.
+      expect(refs(sections)).toEqual([
+        "1Pet.3.1-1Pet.3.22",
+        "1Pet.4.1-1Pet.4.19",
+        "1Pet.5.1-1Pet.5.14",
+      ])
+    }),
+  )
+
   it.effect("opens a section only at a quoted verse label, never at a verse named in prose", () =>
     Effect.gen(function* () {
       const sections = yield* read(

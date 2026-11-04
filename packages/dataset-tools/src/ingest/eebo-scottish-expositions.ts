@@ -210,5 +210,191 @@ export const HUTCHESON: EeboCommentator = {
   ],
 }
 
+/**
+ * The later expositions print their labels as the earlier ones do, and also as `Verses 3, 4.`, or
+ * with a dash where a quotation resumes a verse, as `Vers.—22.`
+ */
+const PRINTED_VERSE_LABEL = /^(?:V(?:ers?e?s?)?\s*[.,:]?\s*[—-]?\s*)?(\d+)/i
+
+/** Fergusson's Galatians and Ephesians (1659), Philippians and Colossians (1656) and Thessalonians (1674). */
+export const FERGUSSON: EeboCommentator = {
+  resourceId: "fergusson",
+  works: [
+    {
+      // Each chapter holds one division per verse or group of verses, named by its heading.
+      source: tcp(
+        "A41197",
+        "e4f2b013c9935da8fdca4276a2f1493fd1564e75",
+        "140823cc0ca835eda48a3dc99d4025ef928530e997e92a25e5fecbc82b00f0d2",
+        2,
+      ),
+      books: ["Gal", "Eph"],
+      layout: {
+        bookDivisions: new Set(["exposition"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["verse_and_explication"]),
+        verseLabel: PRINTED_VERSE_LABEL,
+        labelCorrections: corrections([["Vers. 5, To the praise of the glory", 6]]),
+      },
+    },
+    {
+      source: tcp(
+        "A41199",
+        "2594d75ed573e36bc1f7c3e7e43b30890bde0d65",
+        "4dc19ceb12d897d399f961c4f2263123ba6166f06c358334cee364f6b04f80b6",
+        1,
+      ),
+      books: ["Phil", "Col"],
+      layout: {
+        bookDivisions: new Set(["exposition"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["verse_and_commentary"]),
+        verseLabel: PRINTED_VERSE_LABEL,
+      },
+    },
+    {
+      // The verses are quoted inside each chapter, as Dickson quotes them, with no divisions of their own.
+      source: tcp(
+        "A41200",
+        "6f0a2bc0748e13bc6746fc40d4c22bcd3a9453ae",
+        "de5a2e9d7e1603bb97a878dc7ff92e5c764136b712efbe69aabb2bb4ff329268",
+        2,
+      ),
+      books: ["1Thess", "2Thess"],
+      layout: {
+        bookDivisions: new Set(["part"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseLabel: PRINTED_VERSE_LABEL,
+      },
+    },
+  ],
+}
+
+/** Nisbet's First and Second Epistles of Peter (1658), one division per verse or group of verses. */
+export const NISBET: EeboCommentator = {
+  resourceId: "nisbet",
+  works: [
+    {
+      source: tcp(
+        "A52355",
+        "990ba497dc0985fafe64ead1cc450c8641829f98",
+        "1003822fea145d1dbe97c0597faba434a18e3bbfe34856ae1fb03d4878811ede",
+        2,
+      ),
+      books: ["1Pet", "2Pet"],
+      layout: {
+        bookDivisions: new Set(["epistle_and_exposition"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["verse_and_commentary"]),
+      },
+    },
+  ],
+}
+
+/** Each chapter of Leighton's 1 Peter holds one `verse` division per verse or group of verses. */
+const LEIGHTON_VERSES = {
+  chapterDivisions: new Set(["chapter"]),
+  verseDivisions: new Set(["verse"]),
+  verseLabel: PRINTED_VERSE_LABEL,
+} satisfies TeiCommentaryLayout
+
+/** Leighton's 1 Peter in two volumes (1693 and 1694), the second edited by James Fall. */
+export const LEIGHTON: EeboCommentator = {
+  resourceId: "leighton",
+  works: [
+    {
+      source: tcp(
+        "A47642",
+        "bb3ae7614949e416a4e3ee73c355cfc275a09529",
+        "6cd3541c381a53bc7b6812ebe1cbf8191acabaab2c89627116138581056b64fc",
+        2,
+      ),
+      books: ["1Pet"],
+      layout: LEIGHTON_VERSES,
+    },
+    {
+      // The chapters are numbered only by their headings, such as `1 Ep. St. Peter Chap. III.`
+      source: tcp(
+        "A47643",
+        "887bdc6b09426957eec4f696115c47a65381a7e4",
+        "989dc80eaf2197ca1085a55518382031b09f434984978705b676c6a68de30e94",
+        2,
+      ),
+      books: ["1Pet"],
+      layout: {
+        ...LEIGHTON_VERSES,
+        bookDivisions: new Set(["commentary"]),
+        chapterHeading: /Chap\. ([IVX]+)\./,
+      },
+    },
+  ],
+}
+
+/** Durham's Song of Solomon (1668), Isaiah 53 (1683) and Revelation (1658). */
+export const DURHAM: EeboCommentator = {
+  resourceId: "durham",
+  works: [
+    {
+      // Each chapter holds one `verse` division per verse or group of verses, numbered by its `n`.
+      // The Key of the Song, before the first chapter, opens it.
+      source: tcp(
+        "A37032",
+        "80439c1c4f5dd1ccc944c4e36dbb7a46f169b3b9",
+        "154c499be578da4fce2ac0e3e36e96d788d66767c5971c02b8deacbd69cc89b9",
+        2,
+      ),
+      books: ["Song"],
+      layout: {
+        bookDivisions: new Set(["text"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["verse"]),
+      },
+    },
+    {
+      // The sermons are the whole body, each headed by the verse it preaches on, as `ISAIAH LIII.IV, V.`
+      source: tcp(
+        "A81890",
+        "86207e94a311496851da520621a77e5c060f6168",
+        "a9dec81d88c2ee3bd60f5fe1768c6509e3c69dc07aba9255cd3e49e175840e45",
+        4,
+      ),
+      books: ["Isa"],
+      layout: {
+        chapterDivisions: new Set(["chapter"]),
+        onlyChapter: 53,
+        verseDivisions: new Set(["sermon"]),
+        verseLabel: /^ISAIAH LIII\.\s*([IVX]+)\b/,
+      },
+    },
+    {
+      // Each chapter division sits inside its first lecture, and each lecture quotes the passage it
+      // expounds, so it is one section from its first verse. The third lecture on chapter 7 quotes
+      // its passage in its first paragraph.
+      source: tcp(
+        "A37035",
+        "13e7822e3c0d16389dede31038081da3d71dbf51",
+        "1c007243e2232409815eafd1e83c383332c760e5a323e5b16fe5b0ef9a2d7088",
+        6,
+      ),
+      books: ["Rev"],
+      layout: {
+        bookDivisions: new Set(["text"]),
+        chapterDivisions: new Set(["chapter"]),
+        verseDivisions: new Set(["lecture"]),
+        chaptersInFirstVerseDivision: true,
+        verseLabel: VERSE_LABEL,
+        openingParagraphLabel: true,
+      },
+    },
+  ],
+}
+
 /** The Scottish expositions of single books. */
-export const SCOTTISH_EXPOSITIONS: ReadonlyArray<EeboCommentator> = [DICKSON, HUTCHESON]
+export const SCOTTISH_EXPOSITIONS: ReadonlyArray<EeboCommentator> = [
+  DICKSON,
+  HUTCHESON,
+  FERGUSSON,
+  NISBET,
+  LEIGHTON,
+  DURHAM,
+]

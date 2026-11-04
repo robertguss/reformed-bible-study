@@ -1,0 +1,53 @@
+{
+  "id": "fergusson",
+  "kind": "commentary",
+  "title": "Brief Expositions of the Epistles to the Galatians, Ephesians, Philippians, Colossians and Thessalonians",
+  "name": "Fergusson",
+  "creator": "James Fergusson",
+  "edition": "Three volumes by James Fergusson, as keyed and encoded by the Early English Books Online Text Creation Partnership: A brief exposition of the Epistles of Paul to the Galatians and Ephesians (London, printed for the Company of Stationers, 1659, Wing F772), Phase I text A41197; A brief exposition of the Epistles of Paul to the Philippians and Colossians (Edinburgh, printed by Christopher Higgins, 1656, Wing F774), Phase I text A41199; and A brief exposition of the first and second epistles of Paul to the Thessalonians (London, printed by R. W. for Ralph Smith, 1674, Wing F775), Phase I text A41200",
+  "language": "en",
+  "scope": ["Gal", "Eph", "Phil", "Col", "1Thess", "2Thess"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A41197",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A41197/e4f2b013c9935da8fdca4276a2f1493fd1564e75/A41197.xml",
+        "sha256": "140823cc0ca835eda48a3dc99d4025ef928530e997e92a25e5fecbc82b00f0d2"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A41199/2594d75ed573e36bc1f7c3e7e43b30890bde0d65/A41199.xml",
+        "sha256": "4dc19ceb12d897d399f961c4f2263123ba6166f06c358334cee364f6b04f80b6"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A41200/6f0a2bc0748e13bc6746fc40d4c22bcd3a9453ae/A41200.xml",
+        "sha256": "de5a2e9d7e1603bb97a878dc7ff92e5c764136b712efbe69aabb2bb4ff329268"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A41197",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A41199",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A41200",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "James Fergusson, A Brief Exposition of the Epistles of Paul to the Galatians and Ephesians (London, 1659), to the Philippians and Colossians (Edinburgh, 1656) and to the Thessalonians (London, 1674). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with the words of the text it expounds as Fergusson printed them, such as Vers. 1. PAUL an Apostle, and the paragraphs after a quotation stay with its verse. On Galatians to Colossians each exposition the transcription divides off is one section, keyed by the verse label printed at its head, such as Vers. 1. or Vers.—22., and two expositions that open on the same verse, where a quotation resumes a verse, share its section. Ephesians 1:6, printed 5, is read as the verse its text quotes. On Thessalonians each quotation's label opens a section, and a label misprinted between two that follow on is read as the number between them, as 1 Thessalonians 2:6, printed 10. A verse named in an argument or in the exposition, such as v. 23., is never read. A section runs from its own verse to the verse before the next section or the end of its chapter. An epistle's argument and a chapter's opening analysis open its first section. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title pages, the dedication, the epistles to the reader, the errata, the headings such as CHAP. I., and the notes on the postscripts that close the epistles to the Thessalonians.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

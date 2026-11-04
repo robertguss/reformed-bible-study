@@ -36,6 +36,11 @@ export interface TeiCommentaryLayout {
   /** The chapter an unnumbered first chapter division holds, as in a volume that begins mid-book. */
   readonly firstChapter?: number
   /**
+   * Given when chapter divisions carry no `n` attribute and are told only by their headings, such
+   * as `1 Ep. St. Peter Chap. III.` Its first group is the chapter, in Arabic or Roman figures.
+   */
+  readonly chapterHeading?: RegExp
+  /**
    * Given when each chapter holds one division per verse or group of verses, named by its `n`
    * attribute, such as `4, 5, 6`, or by its label when the layout gives a label pattern. Otherwise
    * a verse is a paragraph numbered by its `n` attribute.
@@ -53,9 +58,16 @@ export interface TeiCommentaryLayout {
    * only at a label position: a quotation, `bibl` or epigraph, read from its first `bibl` when it
    * has one, or a verse division's heading. Its first group is the verse. A verse named in prose is
    * never read. A labelled quotation opens a section, and a verse division opens one at its first
-   * matching label, so a lecture whose labels run from verse 8 to 14 is one section.
+   * matching label, so a lecture whose labels run from verse 8 to 14 is one section. The verse is
+   * in Arabic or Roman figures, as in `ISAIAH LIII.IV.`
    */
   readonly verseLabel?: RegExp
+  /**
+   * Given with `verseDivisions` and `verseLabel` when a verse division may quote its text in its
+   * first paragraph in place of an epigraph, as Durham's third lecture on Revelation 7 does. That
+   * paragraph is then a label position too.
+   */
+  readonly openingParagraphLabel?: boolean
   /**
    * Printed verse labels moved to the verse their text quotes, keyed by the label as an OSIS
    * reference: `Hos.14.10` to 9 where a sermon labelled 14.10 quotes the King James Version's 14:9.
@@ -247,19 +259,41 @@ const marker = (node: XmlNode): number | undefined => {
 
 const LABEL_BLOCKS = new Set(["q", "bibl", "epigraph"])
 
+const ROMAN: Readonly<Record<string, number>> = { i: 1, v: 5, x: 10, l: 50, c: 100 }
+
+/** A number printed in Arabic figures, such as `24`, or Roman ones, such as `XXIV`. */
+const figures = (number: string): number | undefined => {
+  if (/^\d+$/.test(number)) return Number(number)
+  if (!/^[ivxlc]+$/i.test(number)) return undefined
+  const values = [...number.toLowerCase()].map((c) => ROMAN[c] as number)
+  return values.reduce((sum, value, i) => sum + (value < (values[i + 1] ?? 0) ? -value : value), 0)
+}
+
 /** The verse a label block's text names, read from its first `bibl` when it has one. */
 const labelOf = (node: XmlNode, pattern: RegExp): number | undefined => {
   const [bibl] = descendants([node], "bibl")
   const text = textOf(childrenOf(bibl ?? node))
   const verse = pattern.exec(text.replace(/\s+/g, " ").trim())?.[1]
-  return verse === undefined ? undefined : Number(verse)
+  return verse === undefined ? undefined : figures(verse)
 }
 
-/** The verse named by a verse division's first heading or epigraph that carries a label. */
-const divisionLabelOf = (division: XmlNode, pattern: RegExp): number | undefined => {
-  for (const node of childrenOf(division)) {
+/**
+ * The verse named by a verse division's first heading or epigraph that carries a label, or by its
+ * first paragraph when the layout reads labels there too.
+ */
+const divisionLabelOf = (
+  division: XmlNode,
+  pattern: RegExp,
+  openingParagraph: boolean,
+): number | undefined => {
+  const children = childrenOf(division)
+  const paragraph = openingParagraph
+    ? children.find((node) => elementName(node) === "p")
+    : undefined
+  for (const node of children) {
     const name = elementName(node)
-    const verse = name === "head" || name === "epigraph" ? labelOf(node, pattern) : undefined
+    const labelled = name === "head" || name === "epigraph" || node === paragraph
+    const verse = labelled ? labelOf(node, pattern) : undefined
     if (verse !== undefined) return verse
   }
   return undefined
@@ -383,6 +417,7 @@ const verseDivisionItems = (
   nodes: ReadonlyArray<XmlNode>,
   verseDivisions: ReadonlySet<string>,
   verseLabel: RegExp | undefined,
+  openingParagraph: boolean,
 ): ReadonlyArray<Item> => {
   const isVerse = (node: XmlNode) =>
     elementName(node) === "div" && verseDivisions.has(attribute(node, "type") ?? "")
@@ -399,7 +434,8 @@ const verseDivisionItems = (
       const numbered = n === undefined ? undefined : Number(n)
       items.push({
         kind: "verse",
-        marker: verseLabel === undefined ? numbered : divisionLabelOf(node, verseLabel),
+        marker:
+          verseLabel === undefined ? numbered : divisionLabelOf(node, verseLabel, openingParagraph),
         piece: joinPieces(piecesOf(childrenOf(node))),
       })
     } else if (items.length > 0) items.push({ kind: "trail", piece: joinPieces(piecesOf([node])) })
@@ -421,16 +457,6 @@ const ownTextOf = (nodes: ReadonlyArray<XmlNode>): string =>
       return elementName(node) === "note" ? "" : ownTextOf(childrenOf(node))
     })
     .join("")
-
-const ROMAN: Readonly<Record<string, number>> = { i: 1, v: 5, x: 10, l: 50, c: 100 }
-
-/** A number printed in Arabic figures, such as `24`, or Roman ones, such as `XXIV`. */
-const figures = (number: string): number | undefined => {
-  if (/^\d+$/.test(number)) return Number(number)
-  if (!/^[ivxlc]+$/i.test(number)) return undefined
-  const values = [...number.toLowerCase()].map((c) => ROMAN[c] as number)
-  return values.reduce((sum, value, i) => sum + (value < (values[i + 1] ?? 0) ? -value : value), 0)
-}
 
 const LABELLED_BLOCKS = new Set(["p", "q"])
 
@@ -686,15 +712,25 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
         ? openingLabelItems(nodes, layout.openingLabel, layout.headingVerse)
         : layout.verseDivisions === undefined
           ? chapterItems(nodes, layout.verseLabel)
-          : verseDivisionItems(nodes, layout.verseDivisions, layout.verseLabel)
+          : verseDivisionItems(
+              nodes,
+              layout.verseDivisions,
+              layout.verseLabel,
+              layout.openingParagraphLabel === true,
+            )
     if (divisions.length === 0) {
       const only = layout.onlyChapter ?? (chapterCount(book) === 1 ? 1 : undefined)
       if (only === undefined)
         return yield* fail(`${book} has no chapter divisions but ${chapterCount(book)} chapters`)
       return [{ chapter: only, intro: [], items: itemsOf(children) }]
     }
-    const markers = divisions.map((node, i) =>
-      i === 0 ? (marker(node) ?? layout.firstChapter) : marker(node),
+    const { chapterHeading } = layout
+    const headed = (node: XmlNode) => {
+      const named = chapterHeading?.exec(headingOf(node))?.[1]
+      return named === undefined ? undefined : figures(named)
+    }
+    const markers = divisions.map(
+      (node, i) => marker(node) ?? headed(node) ?? (i === 0 ? layout.firstChapter : undefined),
     )
     const numbers = numberMarkers(markers, chapterCount(book))
     const resumes = layout.chaptersResume === true

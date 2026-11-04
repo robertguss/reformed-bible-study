@@ -19,8 +19,12 @@ const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
 const DICKSON = "dickson"
 const DIODATI = "diodati-annotations"
+const DURHAM = "durham"
+const FERGUSSON = "fergusson"
 const HUTCHESON = "hutcheson"
 const JACKSON = "jackson-annotations"
+const LEIGHTON = "leighton"
+const NISBET = "nisbet"
 const WESTMINSTER = "westminster-annotations"
 
 interface CatalogFile {
@@ -151,8 +155,12 @@ describe("get_commentary", () => {
         [JFB, "not_ingested", "active"],
         [DICKSON, "covered", "active"],
         [DIODATI, "not_ingested", "active"],
+        [DURHAM, "outside_work", "active"],
+        [FERGUSSON, "outside_work", "active"],
         [HUTCHESON, "outside_work", "active"],
         [JACKSON, "outside_work", "active"],
+        [LEIGHTON, "outside_work", "active"],
+        [NISBET, "outside_work", "active"],
         [OWEN, "outside_work", "active"],
         [WESTMINSTER, "not_ingested", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
@@ -182,8 +190,12 @@ describe("get_commentary", () => {
           "aaa-commentary",
           DICKSON,
           DIODATI,
+          DURHAM,
+          FERGUSSON,
           HUTCHESON,
           JACKSON,
+          LEIGHTON,
+          NISBET,
           OWEN,
           WESTMINSTER,
           "withdrawn-commentary",
@@ -235,8 +247,12 @@ describe("get_commentary", () => {
           [JFB, "not_ingested"],
           [DICKSON, "outside_work"],
           [DIODATI, "not_ingested"],
+          [DURHAM, "outside_work"],
+          [FERGUSSON, "outside_work"],
           [HUTCHESON, "outside_work"],
           [JACKSON, "not_ingested"],
+          [LEIGHTON, "outside_work"],
+          [NISBET, "outside_work"],
           [OWEN, "outside_work"],
           [WESTMINSTER, "not_ingested"],
           ["withdrawn-commentary", "not_ingested"],
@@ -305,8 +321,12 @@ describe("get_commentary", () => {
         [JFB, "covered"],
         [DICKSON, "outside_work"],
         [DIODATI, "not_ingested"],
+        [DURHAM, "outside_work"],
+        [FERGUSSON, "not_ingested"],
         [HUTCHESON, "outside_work"],
         [JACKSON, "outside_work"],
+        [LEIGHTON, "outside_work"],
+        [NISBET, "outside_work"],
         [OWEN, "outside_work"],
         [WESTMINSTER, "not_ingested"],
         ["withdrawn-commentary", "not_ingested"],

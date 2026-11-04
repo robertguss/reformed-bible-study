@@ -1,0 +1,97 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A81890, Durham, Christ crucified, or, The marrow of the gospel (1683), CC0 1.0, as keyed: sermons I and II on Isaiah 53:1, XVII on verses 2 and 3, XIX on verses 4 and 5, and LXIII on verse 12. Each sermon keeps its heading, its text and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div n="1" type="sermon">
+            <pb facs="tcp:152256:23" />
+            <pb n="1" facs="tcp:152256:23" />
+            <head>SERMON I.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>ISAIAH LIII.I.</hi>
+                  </bibl>
+                  <p>Who hath believed our report? And to whom is the arm of the Lord revealed?</p>
+               </q>
+            </epigraph>
+            <p>
+               <seg rend="decorInit">W</seg>E hope it ſhall not be needful to inſiſt in open<g ref="char:EOLhyphen" />ing the Scope of this Chapter, or in clearing to you of whom the Prophet meaneth, and is</p>
+            </div>
+         <div n="2" type="sermon">
+            <pb n="7" facs="tcp:152256:26" />
+            <head>SERMON II.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>ISAIAH LIII.I.</hi>
+                  </bibl>
+                  <p>Who hath believed our report? And to whom is the arm of the Lord revealed?</p>
+               </q>
+            </epigraph>
+            <p>THE Prophet <hi>Iſaiah,</hi> is very ſo<g ref="char:EOLhyphen" />licitous about the fruit of his Preaching, when he hath prea<g ref="char:EOLhyphen" />ched concerning Chriſt; as indeed it is not enough for Mi<g ref="char:EOLhyphen" />niſters to</p>
+            </div>
+         <div n="17" type="sermon">
+            <pb n="113" facs="tcp:152256:79" />
+            <head>SERMON XVII.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>ISAIAH LIII.II, III.</hi>
+                  </bibl>
+                  <p>
+                     <bibl>
+                        <hi>Verſe 2.</hi>
+                     </bibl> For he ſhall grow up before him as a tender plant, and as a root out of a dry ground: he hath no form nor comelineſs: and when we ſhall ſee him, there is no beauty that we ſhould de<g ref="char:EOLhyphen" />ſire him.</p>
+                  <p>
+                     <bibl>
+                        <hi>Verſe 3.</hi>
+                     </bibl> He is deſpiſed and rejected of men, a man of ſorrows, and acquainted with grief: and we hid as it were our faces from him; he was deſpiſed, and we eſteemed him not.</p>
+               </q>
+            </epigraph>
+            <p>IN the former <hi>Verſe</hi> the Prophet hath aſſerted the rarity and ſcarcity of Believing the Goſpel, and receiving of Jeſus Chriſt offered therein, <hi>Who hath believed</hi></p>
+            </div>
+         <div n="19" type="sermon">
+            <head>SERMON XIX.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>ISAIAH LIII.IV, V.</hi>
+                  </bibl>
+                  <p>
+                     <bibl>
+                        <hi>Verſ. 4.</hi>
+                     </bibl> Surely he hath born our griefs, and carried our ſorrows: yet we did eſteem him ſtricken, ſmitten of God, and afflicted.</p>
+                  <p>
+                     <bibl>
+                        <hi>Verſ. 5.</hi>
+                     </bibl> But he was wounded for our tranſgreſſions, he was bruiſed for our iniquities: the chaſtiſement of our peace was upon him, and with his ſtripes we are healed.</p>
+               </q>
+            </epigraph>
+            <p>THis is a moſt wonderful Subject that the Prophet is here diſ<g ref="char:EOLhyphen" />courſing of, even that which concerneth the ſufferings of our bleſſed Lord Jeſus, by way of</p>
+            </div>
+         <div n="63" type="sermon">
+            <pb n="502" facs="tcp:152256:254" />
+            <head>SERMON LXIII.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>ISAIAH LIII.XII.</hi>
+                  </bibl>
+                  <p>
+                     <bibl>
+                        <hi>Verſe 12.</hi>
+                     </bibl> Therefore I will divide him a portion with the great, and he ſhall divide the ſpoil with the ſtrong: becauſe he hath poured out his ſoul unto death: and he was numbred with the tranſgreſſ<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>urs, and he b<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>re the ſin of many, and made inter<g ref="char:EOLhyphen" />ceſſion for the tranſgreſsours.</p>
+               </q>
+            </epigraph>
+            <p>THere hath been a compendious Sum of the Covenant of Re<g ref="char:EOLhyphen" />demption delivered by the Prophet, in this <hi>C<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                     <desc>•</desc>
+                  </gap>apter,</hi> where<g ref="char:EOLhyphen" />in,</p>
+            </div>
+         
+      </body>
+   </text>
+</TEI>

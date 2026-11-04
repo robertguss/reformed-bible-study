@@ -1,0 +1,53 @@
+{
+  "id": "durham",
+  "kind": "commentary",
+  "title": "Expositions of the Song of Solomon, Isaiah 53 and the Revelation",
+  "name": "Durham",
+  "creator": "James Durham",
+  "edition": "Three works by James Durham, published after his death, as keyed and encoded by the Early English Books Online Text Creation Partnership: Clavis cantici, or, An exposition of the Song of Solomon (Edinburgh, printed by George Swintoun and James Glen, 1668, Wing D2802), Phase I text A37032; Christ crucified, or, The marrow of the gospel, evidently holden forth in LXXII sermons, on the whole 53. chapter of Isaiah (Edinburgh, printed by the heir of Andrew Anderson, 1683, Wing D2799), Phase II text A81890; and A commentarie upon the book of the Revelation, delivered in several lectures (Edinburgh, printed by Christopher Higgins, 1658, Wing D2805), Phase I text A37035",
+  "language": "en",
+  "scope": ["Song", "Isa", "Rev"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A37032",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A37032/80439c1c4f5dd1ccc944c4e36dbb7a46f169b3b9/A37032.xml",
+        "sha256": "154c499be578da4fce2ac0e3e36e96d788d66767c5971c02b8deacbd69cc89b9"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A81890/86207e94a311496851da520621a77e5c060f6168/A81890.xml",
+        "sha256": "a9dec81d88c2ee3bd60f5fe1768c6509e3c69dc07aba9255cd3e49e175840e45"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A37035/13e7822e3c0d16389dede31038081da3d71dbf51/A37035.xml",
+        "sha256": "1c007243e2232409815eafd1e83c383332c760e5a323e5b16fe5b0ef9a2d7088"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A37032",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A81890",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A37035",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "James Durham, Clavis Cantici, or An Exposition of the Song of Solomon (Edinburgh, 1668), Christ Crucified, or The Marrow of the Gospel, sermons on the whole 53rd chapter of Isaiah (Edinburgh, 1683), and A Commentarie upon the Book of the Revelation (Edinburgh, 1658). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. On the Song of Solomon each exposition the transcription divides off is one section, keyed by the verses the transcription numbers it with, such as 5-6, and the Key of the Song, Durham's introduction before the first chapter, opens the section on 1:1. Christ Crucified is read as the single chapter Isaiah 53: each sermon is keyed by the verse its heading names, such as ISAIAH LIII.IV, V., and the sermons on one verse share its section. On the Revelation each lecture quotes the passage it expounds and is one section from that passage's first verse, read from the quotation, such as Vers. 8. to 14., and never from the lecture's number; the third lecture on chapter 7 quotes its passage in its first paragraph and is read there. Lectures that open on the same verse share its section, and where a lecture's passage begins on a verse the lecture before it also quotes, as at Revelation 1:4, the earlier lecture's section ends before it. A verse named in the exposition is never read. A section runs from its own verse to the verse before the next section or the end of its chapter. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the licence, the title pages, the dedication, the epistles to the reader, the index of questions, the errata, the brief view of the series of the whole Revelation, the alphabetical table, and the chapter headings such as CHAP. I.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

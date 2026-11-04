@@ -1,0 +1,64 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A41200, Fergusson, A brief exposition of the first and second epistles of Paul to the Thessalonians (1674), CC0 1.0, as keyed: 1 Thessalonians 2, its opening analysis and the quotations of verses 4 to 8, where verse 6 is labelled 10, each with the paragraph after it. Every paragraph kept is cut short. -->
+   <text>
+      <body>
+         <div type="part">
+            <pb n="1" facs="tcp:61385:4" />
+            <head>A BRIEF
+EXPOSITION
+OF THE FIRST
+EPISTLE of PAUL
+TO THE
+THESSALONIANS.</head>
+            <div n="2" type="chapter">
+               <head>CHAP. II.</head>
+               <p>
+                  <seg rend="decorInit">I</seg>N the first part of this Chapter, the
+Apostle doth further incite them to
+constancy and perseverance, by a
+relation of his Ministerial carriage
+to <hi>ver.</hi> 13. and of the success of</p>
+               <pb n="46" facs="tcp:61385:27" />
+               <q>Ver. 4. But as we were allowed of God to be put
+in trust with the Gospel, even so we speak; not
+as pleasing men, but God, who trieth our hearts.</q>
+               <p>The Apostle having removed from himself the op<g ref="char:EOLhyphen" />posites
+of sincerity, <hi>v.</hi> 3. doth here positively af<g ref="char:EOLhyphen" />firm,
+that his behaviour in his Ministry was sin<g ref="char:EOLhyphen" />cere,
+whereof</p>
+               <q>Ver. 5. For neither at anytime used we flattering
+words, as ye know, nor a cloak of covetousness,
+God is witness.</q>
+               <p>The Apostle doth here remove from himself and
+his Ministry two other vices, which are inconsistent
+with that single hearted sincerity that ought to be
+in a</p>
+               <q>Ver. 10. Nor of men sought we glory, neither of
+you, nor yet of others, when we might have been
+burthensome, as the Apostles of Christ.</q>
+               <p>He doth here remove another vice from himself
+and his Ministry, to wit, his seeking of glory:
+whereby is meant, 1. more generally his affecting
+even of that</p>
+               <q>Ver. 7. But we were gentle among you, even as a
+nurse cherisheth her Children.</q>
+               <p>The Apostle having already commended his Mi<g ref="char:EOLhyphen" />nisterial
+carriage among them, by avowing his
+freedom from such vices as are inconsistent with
+that single hearted</p>
+               <q>Ver. 8. So being affectionately desirous of you, we
+were willing to have imparted unto you, not the
+Gospel of God only, but also our own souls, be<g ref="char:EOLhyphen" />cause
+ye were dear unto us.</q>
+               <p>The Apostle doth give, in this and the following
+verses, five grounds of the former similitude, all
+and every one of which doth prove his meek and
+amiable</p>
+               <pb n="77" facs="tcp:61385:42" />
+               <pb n="79" facs="tcp:61385:43" />
+               </div>
+            </div>
+         
+      </body>
+   </text>
+</TEI>
