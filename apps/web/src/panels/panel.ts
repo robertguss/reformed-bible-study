@@ -1,6 +1,6 @@
 import {
   type Attribution,
-  type CatalogResource,
+  CatalogResource,
   type Envelope,
   findConfessionArticlesContract,
   getCommentaryContract,
@@ -13,17 +13,26 @@ import type { Html, HtmlBuilder } from "foldkit/html"
 import { defineMessageUnion } from "foldkit/message"
 import { defineTaggedUnion } from "foldkit/schema"
 import { modifyFields } from "foldkit/struct"
-import { attributionFooter } from "../attribution.ts"
+import { attributionFooter, attributionOfResource } from "../attribution.ts"
 import { type AppServices, LoadError } from "../content.ts"
-import { commentaryView, fetchCommentary } from "./commentary/index.ts"
+import { commentaryView, fetchCommentary, fetchDefaultCommentary } from "./commentary/index.ts"
 import { confessionsView, fetchConfessionArticles } from "./confessions/index.ts"
-import { type PanelContext, passageOfFocus, resourceAttributions } from "./context.ts"
+import {
+  coverageView,
+  notYetCovered,
+  type PanelContext,
+  passageOfFocus,
+  resourceAttributions,
+} from "./context.ts"
 import { crossReferencesView, fetchCrossReferences } from "./cross-references/index.ts"
 import { fetchVerseWords, originalLanguageView } from "./original-language/index.ts"
 import { loadErrorView, loadingView } from "../load-views.ts"
 
 export const PanelSpec = defineTaggedUnion({
+  /** One commentator's work, in every book. */
   Commentary: { resourceId: Schema.String },
+  /** Whichever commentator comes first in the default order and holds the chapter. */
+  DefaultCommentary: {},
   Confessions: {},
   CrossReferences: {},
   OriginalLanguage: {},
@@ -33,13 +42,23 @@ export type PanelSpec = typeof PanelSpec.Type
 export const panelId = (spec: PanelSpec): string =>
   PanelSpec.match(spec, {
     Commentary: ({ resourceId }) => `commentary:${resourceId}`,
+    // Outside the `commentary:` prefix, so no resource id can collide with it.
+    DefaultCommentary: () => "default-commentary",
     Confessions: () => "confessions",
     CrossReferences: () => "cross-references",
     OriginalLanguage: () => "original-language",
   })
 
+/** The commentator the default commentary panel chose for the chapter, and its comment. */
+const ShownCommentary = Schema.Struct({
+  work: CatalogResource,
+  envelope: getCommentaryContract.output,
+})
+
 export const PanelResult = defineTaggedUnion({
   Commentary: { envelope: getCommentaryContract.output },
+  /** None when no commentator in the default order holds the chapter. */
+  DefaultCommentary: { shown: Schema.Option(ShownCommentary) },
   Confessions: { envelope: findConfessionArticlesContract.output },
   CrossReferences: { envelope: getCrossReferencesContract.output },
   OriginalLanguage: { envelope: getVerseWordsContract.output },
@@ -81,6 +100,10 @@ const fetchResult = (
     Commentary: ({ resourceId }) =>
       Effect.map(fetchCommentary(resourceId, focus, cursor), (envelope) =>
         PanelResult.Commentary({ envelope }),
+      ),
+    DefaultCommentary: () =>
+      Effect.map(fetchDefaultCommentary(focus, cursor), (shown) =>
+        PanelResult.DefaultCommentary({ shown }),
       ),
     Confessions: () =>
       Effect.map(fetchConfessionArticles(focus), (envelope) =>
@@ -126,8 +149,19 @@ export const informFocusChanged = (model: Model, focus: string): UpdateReturn =>
     ? { model }
     : startLoading(model, focus)
 
-const cursorOf = (result: PanelResult): Option.Option<string> =>
-  Option.fromUndefinedOr(result.envelope.cursor)
+const envelopeOf = (result: PanelResult): Option.Option<Envelope<unknown>> =>
+  PanelResult.guards.DefaultCommentary(result)
+    ? Option.map(result.shown, ({ envelope }) => envelope)
+    : Option.some(result.envelope)
+
+export const cursorOf = (result: PanelResult): Option.Option<string> =>
+  Option.flatMap(envelopeOf(result), ({ cursor }) => Option.fromUndefinedOr(cursor))
+
+/** The commentator a default commentary panel is showing, once it has loaded one. */
+export const shownWork = (model: Model): CatalogResource | undefined =>
+  LoadState.guards.Loaded(model.load) && PanelResult.guards.DefaultCommentary(model.load.result)
+    ? Option.getOrUndefined(Option.map(model.load.result.shown, ({ work }) => work))
+    : undefined
 
 const appendEnvelope = <A>(earlier: Envelope<A>, later: Envelope<A>): Envelope<A> => ({
   ...later,
@@ -139,6 +173,18 @@ const appendResult = (earlier: PanelResult, later: PanelResult): PanelResult =>
     Commentary: ({ envelope }) =>
       PanelResult.guards.Commentary(earlier)
         ? PanelResult.Commentary({ envelope: appendEnvelope(earlier.envelope, envelope) })
+        : later,
+    DefaultCommentary: ({ shown }) =>
+      PanelResult.guards.DefaultCommentary(earlier) &&
+      Option.isSome(earlier.shown) &&
+      Option.isSome(shown) &&
+      earlier.shown.value.work.id === shown.value.work.id
+        ? PanelResult.DefaultCommentary({
+            shown: Option.some({
+              work: shown.value.work,
+              envelope: appendEnvelope(earlier.shown.value.envelope, shown.value.envelope),
+            }),
+          })
         : later,
     Confessions: () => later,
     CrossReferences: ({ envelope }) =>
@@ -215,24 +261,38 @@ const footerAttributions = (
   spec: PanelSpec,
   result: PanelResult,
   context: PanelContext,
-): ReadonlyArray<Attribution> => {
-  const { envelope } = result
-  const items: ReadonlyArray<Attribution> = envelope.items.map(({ attribution }) => attribution)
-  const consulted = PanelSpec.match(spec, {
-    Commentary: ({ resourceId }) => [resourceId],
-    Confessions: () => [],
-    CrossReferences: () => [],
-    OriginalLanguage: () => [],
+): ReadonlyArray<Attribution> =>
+  Option.match(envelopeOf(result), {
+    onNone: () => [],
+    onSome: (envelope) => {
+      const items: ReadonlyArray<Attribution> = envelope.items.map(({ attribution }) => attribution)
+      const chosen = PanelResult.guards.DefaultCommentary(result)
+        ? Option.toArray(Option.map(result.shown, ({ work }) => attributionOfResource(work)))
+        : []
+      const consulted = PanelSpec.match(spec, {
+        Commentary: ({ resourceId }) => [resourceId],
+        DefaultCommentary: () => [],
+        Confessions: () => [],
+        CrossReferences: () => [],
+        OriginalLanguage: () => [],
+      })
+      const answered = envelope.resources
+        .filter(({ coverage }) => coverage === "covered" || coverage === "no_entry")
+        .map(({ resourceId }) => resourceId)
+      return [...items, ...chosen, ...resourceAttributions(context, [...consulted, ...answered])]
+    },
   })
-  const answered = envelope.resources
-    .filter(({ coverage }) => coverage === "covered" || coverage === "no_entry")
-    .map(({ resourceId }) => resourceId)
-  return [...items, ...resourceAttributions(context, [...consulted, ...answered])]
-}
 
 const contentView = <M>(result: PanelResult, context: PanelContext, h: HtmlBuilder<M>) =>
   PanelResult.match(result, {
     Commentary: ({ envelope }) => commentaryView(envelope, context, h),
+    DefaultCommentary: ({ shown }) =>
+      Option.match(shown, {
+        onNone: () => coverageView([notYetCovered(context.passage)], h),
+        // The panel chose this work without waiting on the app's catalog, so it names it itself.
+        onSome: ({ work, envelope }) =>
+          commentaryView(envelope, { ...context, catalog: [work, ...context.catalog] }, h),
+      }),
     Confessions: ({ envelope }) => confessionsView(envelope, context, h),
     CrossReferences: ({ envelope }) => crossReferencesView(envelope, context, h),
     OriginalLanguage: ({ envelope }) => originalLanguageView(envelope, context, h),

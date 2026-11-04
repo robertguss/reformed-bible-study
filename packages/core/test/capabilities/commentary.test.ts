@@ -1,7 +1,8 @@
 import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
 import { getCommentary } from "../../src/capabilities/index.ts"
-import { CALVIN_ROMANS_8, call, WITHDRAWN_REASON } from "./fixture.ts"
+import type { CatalogResource } from "../../src/shards/index.ts"
+import { CALVIN_ROMANS_8, call, FILES, fetchStore, WITHDRAWN_REASON } from "./fixture.ts"
 
 const CALVIN = "calvin-commentaries"
 
@@ -86,5 +87,40 @@ describe("get_commentary", () => {
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
     }),
+  )
+
+  it.effect(
+    "lists works in the default commentary order when no work is named, then the rest by id",
+    () =>
+      Effect.gen(function* () {
+        const catalog = JSON.parse(FILES.get("catalog.json") ?? "null") as {
+          readonly release: string
+          readonly payload: { readonly resources: ReadonlyArray<CatalogResource> }
+        }
+        const calvin = catalog.payload.resources.find(({ id }) => id === CALVIN)
+        // Fallback commentators with nothing ingested, listed in an order unlike the default one.
+        const unread = (id: string): CatalogResource => ({ ...calvin!, id, ingested: [] })
+        const resources = [
+          unread("aaa-commentary"),
+          unread("jamieson-fausset-brown"),
+          unread("matthew-henry"),
+          unread("poole-annotations"),
+          ...catalog.payload.resources,
+        ]
+        const files = new Map(FILES).set(
+          "catalog.json",
+          JSON.stringify({ ...catalog, payload: { resources } }),
+        )
+        const result = yield* call(getCommentary, { ref: "Rom 8:29" }, fetchStore(files))
+        expect(result.resources.map((r) => r.resourceId)).toEqual([
+          CALVIN,
+          "poole-annotations",
+          "matthew-henry",
+          "jamieson-fausset-brown",
+          "aaa-commentary",
+          "withdrawn-commentary",
+        ])
+        expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN])
+      }),
   )
 })

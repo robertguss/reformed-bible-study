@@ -3,20 +3,29 @@ import { Scene, Story } from "foldkit"
 import { UrlRequest } from "foldkit/navigation"
 import { assert, describe, it } from "vitest"
 import { Message } from "../src/message.ts"
-import type { Model } from "../src/model.ts"
+import { defaultSaved, type Model } from "../src/model.ts"
 import { SaveLayout } from "../src/layout/storage.ts"
 import { NavigateInternal, ReplaceUrl } from "../src/navigation.ts"
 import { coverageMessage, passageOfFocus } from "../src/panels/context.ts"
 import * as Panel from "../src/panels/panel.ts"
-import { update } from "../src/update.ts"
+import { init, update } from "../src/update.ts"
 import { view } from "../src/view.ts"
-import { boot, urlOf } from "./app.ts"
+import { boot, settle, urlOf } from "./app.ts"
 import {
   BSB_ATTRIBUTION,
   CALVIN_ATTRIBUTION,
   CATALOG,
   CALVIN_ON_8_28,
   CALVIN_ON_8_31,
+  CALVIN_ON_GEN_1_1,
+  HENRY_ATTRIBUTION,
+  HENRY_ON_GEN_1_1,
+  HENRY_ON_ISA_53_5,
+  HENRY_ON_PROV_3_1,
+  HENRY_ON_PROV_3_5,
+  HENRY_ON_PROV_3_9,
+  POOLE_ATTRIBUTION,
+  POOLE_ON_PROV_3_5,
   ROMANS_8_28_KJV,
   runCommand,
   SBLGNT_ATTRIBUTION,
@@ -47,6 +56,15 @@ const app = { update, view }
 const panel = (name: string) => role("region", { name })
 const verse = (n: number) => selector(`[data-verse="${n}"]`)
 
+const CALVIN_PANEL = Panel.PanelSpec.Commentary({ resourceId: "calvin-commentaries" })
+const DEFAULT_COMMENTARY = Panel.PanelSpec.DefaultCommentary()
+/** The default commentary panel, titled by whose comment it shows. */
+const commentaryBy = (creator: string) => panel(`Commentary: ${creator}`)
+
+/** The app opened on a device whose saved arrangement holds these panels. */
+const bootWith = (panels: ReadonlyArray<Panel.PanelSpec>, path: string, host = staticHost()) =>
+  settle(init({ saved: { ...defaultSaved, panels } }, urlOf(path)), host)
+
 describe("the chapter view", () => {
   it("highlights the linked verse and shows the panels on it, then follows a selected verse", async () => {
     const opened = await boot("/romans/8/28")
@@ -57,7 +75,7 @@ describe("the chapter view", () => {
       expect(verse(28)).toHaveAttr("aria-current", "true"),
       expect(verse(31)).not.toHaveAttr("aria-current", "true"),
       inside(
-        panel("Calvin's Commentaries"),
+        commentaryBy("John Calvin"),
         expect(role("heading", { name: "Romans 8:28-30" })).toExist(),
         expect(text(CALVIN_ON_8_28, { exact: false })).toExist(),
       ),
@@ -70,7 +88,7 @@ describe("the chapter view", () => {
       app,
       given(moved),
       expect(verse(31)).toHaveAttr("aria-current", "true"),
-      inside(panel("Calvin's Commentaries"), expect(text(CALVIN_ON_8_31)).toExist()),
+      inside(commentaryBy("John Calvin"), expect(text(CALVIN_ON_8_31)).toExist()),
     )
   })
 
@@ -121,14 +139,14 @@ describe("the chapter view", () => {
 })
 
 describe("coverage messages", () => {
-  it("says Genesis 1 is not yet covered in the commentary panel", async () => {
+  it("says Isaiah 53 is not yet covered in a Calvin panel", async () => {
     scene(
       app,
-      given(await boot("/genesis/1")),
-      expect(verse(1)).toContainText("In the beginning"),
+      given(await bootWith([CALVIN_PANEL], "/isaiah/53")),
+      expect(verse(1)).toContainText("Who has believed"),
       inside(
         panel("Calvin's Commentaries"),
-        expect(text("Genesis 1:1 is not yet covered.")).toExist(),
+        expect(text("Isaiah 53:1 is not yet covered.")).toExist(),
       ),
     )
   })
@@ -136,7 +154,7 @@ describe("coverage messages", () => {
   it("says Calvin did not write on Revelation rather than that it is not yet covered", async () => {
     scene(
       app,
-      given(await boot("/revelation/1")),
+      given(await bootWith([CALVIN_PANEL], "/revelation/1")),
       inside(
         panel("Calvin's Commentaries"),
         expect(text("John Calvin did not write on Revelation.")).toExist(),
@@ -150,7 +168,7 @@ describe("coverage messages", () => {
       app,
       given(await boot("/romans/8/2")),
       inside(
-        panel("Calvin's Commentaries"),
+        commentaryBy("John Calvin"),
         expect(text("Calvin's Commentaries has no comment on this verse.")).toExist(),
       ),
       inside(
@@ -197,7 +215,7 @@ describe("panel content", () => {
     scene(
       app,
       given(opened),
-      expect(within(panel("Calvin's Commentaries"), selector("footer"))).toContainText(
+      expect(within(commentaryBy("John Calvin"), selector("footer"))).toContainText(
         CALVIN_ATTRIBUTION,
       ),
       expect(within(panel("Confessions"), selector("footer"))).toContainText(WCF_ATTRIBUTION),
@@ -240,12 +258,12 @@ describe("panel content", () => {
       Option.fromUndefinedOr(opened.panels.find(({ id }) => id === "cross-references")),
     )
     const cursor = Panel.LoadState.guards.Loaded(firstPage.load)
-      ? firstPage.load.result.envelope.cursor
-      : undefined
+      ? Panel.cursorOf(firstPage.load.result)
+      : Option.none()
     const next = Panel.FetchPanel({
       spec: Panel.PanelSpec.CrossReferences(),
       focus: "Rom.8.28",
-      cursor: Option.fromUndefinedOr(cursor),
+      cursor,
     })
     const nextPage = await runCommand(next)
     scene(
@@ -261,6 +279,161 @@ describe("panel content", () => {
   })
 })
 
+describe("the default commentary panel", () => {
+  it("shows Calvin on Genesis 1, titled with his name, though Henry also holds the chapter", async () => {
+    scene(
+      app,
+      given(await boot("/genesis/1")),
+      inside(
+        commentaryBy("John Calvin"),
+        expect(text(CALVIN_ON_GEN_1_1)).toExist(),
+        expect(text(HENRY_ON_GEN_1_1)).toBeAbsent(),
+        expect(selector("footer")).toContainText(CALVIN_ATTRIBUTION),
+      ),
+    )
+  })
+
+  it("shows Henry on Proverbs 3:5 when Poole has not shipped", async () => {
+    scene(
+      app,
+      given(await boot("/proverbs/3/5")),
+      inside(
+        commentaryBy("Matthew Henry"),
+        expect(text(HENRY_ON_PROV_3_5)).toExist(),
+        expect(selector("footer")).toContainText(HENRY_ATTRIBUTION),
+      ),
+    )
+  })
+
+  it("shows Poole on Proverbs 3:5 once Poole has shipped, ahead of Henry", async () => {
+    scene(
+      app,
+      given(await boot("/proverbs/3/5", staticHost({ withPoole: true }))),
+      inside(
+        commentaryBy("Matthew Poole"),
+        expect(text(POOLE_ON_PROV_3_5)).toExist(),
+        expect(text(HENRY_ON_PROV_3_5)).toBeAbsent(),
+        expect(selector("footer")).toContainText(POOLE_ATTRIBUTION),
+      ),
+    )
+  })
+
+  it("falls back past Calvin on Isaiah 53, a chapter of his not yet ingested", async () => {
+    scene(
+      app,
+      given(await boot("/isaiah/53/5")),
+      inside(commentaryBy("Matthew Henry"), expect(text(HENRY_ON_ISA_53_5)).toExist()),
+    )
+  })
+
+  it("chooses again on a new chapter, and keeps its choice on a new verse", async () => {
+    const genesis = await boot("/genesis/1/1")
+    const proverbs = await settle(
+      update(genesis, Message.ChangedUrl({ url: urlOf("/proverbs/3/1") })),
+    )
+    scene(
+      app,
+      given(proverbs),
+      inside(commentaryBy("Matthew Henry"), expect(text(HENRY_ON_PROV_3_1)).toExist()),
+      expect(commentaryBy("John Calvin")).toBeAbsent(),
+    )
+    const verseFive = await settle(
+      update(proverbs, Message.ChangedUrl({ url: urlOf("/proverbs/3/5") })),
+    )
+    scene(
+      app,
+      given(verseFive),
+      inside(commentaryBy("Matthew Henry"), expect(text(HENRY_ON_PROV_3_5)).toExist()),
+    )
+  })
+
+  it("shows more from the same commentator", async () => {
+    const opened = await boot("/proverbs/3/1-12")
+    const firstPage = opened.panels.find(({ id }) => id === Panel.panelId(DEFAULT_COMMENTARY))
+    const cursor =
+      firstPage !== undefined && Panel.LoadState.guards.Loaded(firstPage.load)
+        ? Panel.cursorOf(firstPage.load.result)
+        : Option.none()
+    const next = Panel.FetchPanel({ spec: DEFAULT_COMMENTARY, focus: "Prov.3.1-Prov.3.12", cursor })
+    const nextPage = await runCommand(next)
+    scene(
+      app,
+      given(opened),
+      inside(commentaryBy("Matthew Henry"), expectAll(all.selector("article")).toHaveCount(3)),
+      click(within(commentaryBy("Matthew Henry"), role("button", { name: "Show more" }))),
+      Scene.Command.expectExact(next),
+      Scene.Command.resolve(next, nextPage),
+      inside(
+        commentaryBy("Matthew Henry"),
+        expectAll(all.selector("article")).toHaveCount(4),
+        expect(text(HENRY_ON_PROV_3_9)).toExist(),
+        expect(role("button", { name: "Show more" })).toBeAbsent(),
+      ),
+    )
+  })
+
+  it("leaves a Calvin panel beside it saying Proverbs is outside Calvin's work", async () => {
+    scene(
+      app,
+      given(await bootWith([DEFAULT_COMMENTARY, CALVIN_PANEL], "/proverbs/3/5")),
+      inside(
+        panel("Calvin's Commentaries"),
+        expect(text("John Calvin did not write on Proverbs.")).toExist(),
+      ),
+      inside(commentaryBy("Matthew Henry"), expect(text(HENRY_ON_PROV_3_5)).toExist()),
+    )
+  })
+
+  it("says the passage is not yet covered when no commentator holds the chapter", async () => {
+    scene(
+      app,
+      given(await boot("/revelation/1")),
+      inside(panel("Commentary"), expect(text("Revelation 1:1 is not yet covered.")).toExist()),
+    )
+  })
+
+  it("offers a retry when the catalog cannot be read, and then shows Calvin", async () => {
+    const busy = staticHost({ unavailable: ["catalog.json"] })
+    const retry = Panel.FetchPanel({
+      spec: DEFAULT_COMMENTARY,
+      focus: "Gen.1.1",
+      cursor: Option.none(),
+    })
+    scene(
+      app,
+      given(await boot("/genesis/1", busy)),
+      inside(
+        panel("Commentary"),
+        expect(role("alert")).toContainText("could not be reached"),
+        click(role("button", { name: "Retry" })),
+      ),
+      Scene.Command.expectExact(retry),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(retry)),
+      inside(commentaryBy("John Calvin"), expect(text(CALVIN_ON_GEN_1_1)).toExist()),
+    )
+  })
+
+  it("can be added back after a reader removes it", async () => {
+    const add = Panel.FetchPanel({
+      spec: DEFAULT_COMMENTARY,
+      focus: "Rom.8.28",
+      cursor: Option.none(),
+    })
+    scene(
+      app,
+      given(await boot("/romans/8/28")),
+      click(role("button", { name: "Remove Commentary: John Calvin" })),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      expect(commentaryBy("John Calvin")).toBeAbsent(),
+      Scene.change(Scene.label("Add panel"), Panel.panelId(DEFAULT_COMMENTARY)),
+      Scene.Command.expectExact(add, SaveLayout),
+      Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
+      Scene.Command.resolve(Panel.FetchPanel, await runCommand(add)),
+      inside(commentaryBy("John Calvin"), expect(text(CALVIN_ON_8_28, { exact: false })).toExist()),
+    )
+  })
+})
+
 describe("load failures", () => {
   it("shows an unavailable panel as a retry message, not a coverage message", async () => {
     const busy = staticHost({ unavailable: ["commentary/calvin-commentaries/Rom.8.json"] })
@@ -268,32 +441,21 @@ describe("load failures", () => {
       app,
       given(await boot("/romans/8/28", busy)),
       inside(
-        panel("Calvin's Commentaries"),
+        panel("Commentary"),
         expect(role("alert")).toContainText("could not be reached"),
         expect(text(/not yet covered|did not write|has no comment/)).toBeAbsent(),
         click(role("button", { name: "Retry" })),
       ),
       Scene.Command.expectExact(
-        Panel.FetchPanel({
-          spec: Panel.PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
-          focus: "Rom.8.28",
-          cursor: Option.none(),
-        }),
+        Panel.FetchPanel({ spec: DEFAULT_COMMENTARY, focus: "Rom.8.28", cursor: Option.none() }),
       ),
       Scene.Command.resolve(
         Panel.FetchPanel,
         await runCommand(
-          Panel.FetchPanel({
-            spec: Panel.PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
-            focus: "Rom.8.28",
-            cursor: Option.none(),
-          }),
+          Panel.FetchPanel({ spec: DEFAULT_COMMENTARY, focus: "Rom.8.28", cursor: Option.none() }),
         ),
       ),
-      inside(
-        panel("Calvin's Commentaries"),
-        expect(text(CALVIN_ON_8_28, { exact: false })).toExist(),
-      ),
+      inside(commentaryBy("John Calvin"), expect(text(CALVIN_ON_8_28, { exact: false })).toExist()),
     )
   })
 
@@ -303,7 +465,7 @@ describe("load failures", () => {
       app,
       given(await boot("/romans/8/28", stale)),
       inside(
-        panel("Calvin's Commentaries"),
+        panel("Commentary"),
         expect(role("alert")).toExist(),
         expect(text(/not yet covered/)).toBeAbsent(),
       ),
@@ -322,7 +484,7 @@ describe("arranging panels", () => {
       Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       expect(Scene.nth(headings(), 1)).toHaveText("Cross-references"),
       expect(Scene.nth(headings(), 2)).toHaveText("Confessions"),
-      click(role("button", { name: "Move Calvin's Commentaries down" })),
+      click(role("button", { name: "Move Commentary: John Calvin down" })),
       Scene.Command.resolve(SaveLayout, Message.CompletedSaveLayout()),
       expect(Scene.nth(headings(), 0)).toHaveText("Cross-references"),
       click(role("button", { name: "Remove Original language" })),
@@ -369,7 +531,7 @@ describe("narrow screens", () => {
       expect(selector("aside.panel-column")).toBeAbsent(),
       inside(
         selector(".panel-dock"),
-        expect(Scene.nth(all.role("tab"), 0)).toHaveText("Calvin's Commentaries"),
+        expect(Scene.nth(all.role("tab"), 0)).toHaveText("Commentary: John Calvin"),
         expect(Scene.nth(all.role("tab"), 3)).toHaveText("Original language"),
         expect(role("tabpanel")).toContainText(CALVIN_ON_8_28),
       ),

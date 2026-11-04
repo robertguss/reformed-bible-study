@@ -17,7 +17,7 @@ import { CATALOG, RELEASE, staticHost } from "./fixture.ts"
 const { PanelSpec } = Panel
 
 const DEFAULT_PANELS = [
-  PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
+  PanelSpec.DefaultCommentary(),
   PanelSpec.Confessions(),
   PanelSpec.CrossReferences(),
   PanelSpec.OriginalLanguage(),
@@ -70,14 +70,14 @@ describe("a rearranged layout", () => {
     const { model: reloaded } = await here.open("/romans/8/28")
     expect(reloaded.saved.panels).toEqual([
       PanelSpec.Confessions(),
-      PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
+      PanelSpec.DefaultCommentary(),
       PanelSpec.OriginalLanguage(),
     ])
     Scene.scene(
       app,
       Scene.given(reloaded),
       Scene.expect(Scene.nth(headings(), 0)).toHaveText("Confessions"),
-      Scene.expect(Scene.nth(headings(), 1)).toHaveText("Calvin's Commentaries"),
+      Scene.expect(Scene.nth(headings(), 1)).toHaveText("Commentary: John Calvin"),
       Scene.expect(Scene.nth(headings(), 2)).toHaveText("Original language"),
       Scene.expect(Scene.role("region", { name: "Cross-references" })).toBeAbsent(),
     )
@@ -95,11 +95,7 @@ describe("a rearranged layout", () => {
       version: 1,
       translation: "bsb",
       panels: [
-        {
-          id: "commentary:calvin-commentaries",
-          kind: "commentary",
-          resourceId: "calvin-commentaries",
-        },
+        { id: "default-commentary", kind: "default-commentary" },
         { id: "confessions", kind: "confessions" },
         { id: "cross-references", kind: "cross-references" },
       ],
@@ -278,7 +274,7 @@ describe("saving", () => {
       argsOf(moved.commands, "SaveLayout").map((args) => (args as { saved: Saved }).saved.panels),
     ).toEqual([
       [
-        PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
+        PanelSpec.DefaultCommentary(),
         PanelSpec.CrossReferences(),
         PanelSpec.Confessions(),
         PanelSpec.OriginalLanguage(),

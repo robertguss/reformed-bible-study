@@ -12,6 +12,7 @@ import { InvalidReference } from "../reference/index.ts"
 import { type CatalogResource, CommentaryShard, shardPaths } from "../shards/index.ts"
 import { Site } from "../site/index.ts"
 import { decodeCursor, nextCursor } from "./cursor.ts"
+import { inDefaultCommentaryOrder } from "./default-commentary.ts"
 import { InvalidCursor, UnknownResource } from "./errors.ts"
 import {
   attributionOf,
@@ -101,7 +102,7 @@ export const getCommentary = implement(getCommentaryContract, (input) =>
     const catalog = yield* readCatalog
     const works: ReadonlyArray<CatalogResource> =
       input.work === undefined
-        ? ofKind(catalog, "commentary")
+        ? inDefaultCommentaryOrder(ofKind(catalog, "commentary"))
         : [yield* findResource(catalog, input.work, "commentary")]
     const passages = yield* parsePassages(input.ref)
     const offset = yield* decodeCursor(input.cursor, store.release, NAME)

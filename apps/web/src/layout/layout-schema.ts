@@ -20,7 +20,12 @@ const StoredCommentaryPanel = Schema.Struct({
 
 const StoredGatheringPanel = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["confessions", "cross-references", "original-language"]),
+  kind: Schema.Literals([
+    "default-commentary",
+    "confessions",
+    "cross-references",
+    "original-language",
+  ]),
 })
 
 export const StoredPanel = Schema.Union([StoredCommentaryPanel, StoredGatheringPanel])

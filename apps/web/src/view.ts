@@ -116,6 +116,15 @@ const layoutNoticeView = (model: Model, h: HtmlBuilder<Message>): Html =>
       ),
   })
 
+const panelTitleOf = (model: Model, spec: Panel.PanelSpec): string => {
+  const panel = model.panels.find(({ id }) => id === Panel.panelId(spec))
+  return panelTitle(
+    spec,
+    catalogOf(model),
+    panel === undefined ? undefined : Panel.shownWork(panel),
+  )
+}
+
 const panelControls = (
   model: Model,
   spec: Panel.PanelSpec,
@@ -123,7 +132,7 @@ const panelControls = (
   h: HtmlBuilder<Message>,
 ) => {
   const id = Panel.panelId(spec)
-  const title = panelTitle(spec, catalogOf(model))
+  const title = panelTitleOf(model, spec)
   const last = model.saved.panels.length - 1
   return h.header(
     [h.Class("panel-header")],
@@ -255,7 +264,7 @@ const panelDock = (model: Model, h: HtmlBuilder<Message>) => {
                     return h.keyed("button")(
                       value,
                       [...tab],
-                      [spec === undefined ? value : panelTitle(spec, catalogOf(model))],
+                      [spec === undefined ? value : panelTitleOf(model, spec)],
                     )
                   }),
                 ),

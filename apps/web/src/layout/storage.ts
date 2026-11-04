@@ -19,6 +19,7 @@ const toStoredPanel = (spec: PanelSpec): StoredPanel => {
   const id = panelId(spec)
   return PanelSpec.match<StoredPanel>(spec, {
     Commentary: ({ resourceId }) => ({ id, kind: "commentary", resourceId }),
+    DefaultCommentary: () => ({ id, kind: "default-commentary" }),
     Confessions: () => ({ id, kind: "confessions" }),
     CrossReferences: () => ({ id, kind: "cross-references" }),
     OriginalLanguage: () => ({ id, kind: "original-language" }),
@@ -29,6 +30,8 @@ const fromStoredPanel = (panel: StoredPanel): PanelSpec => {
   switch (panel.kind) {
     case "commentary":
       return PanelSpec.Commentary({ resourceId: panel.resourceId })
+    case "default-commentary":
+      return PanelSpec.DefaultCommentary()
     case "confessions":
       return PanelSpec.Confessions()
     case "cross-references":

@@ -12,7 +12,7 @@ import { argsOf, boot, settle, urlOf } from "./app.ts"
 import { runCommand, staticHost } from "./fixture.ts"
 
 const DEFAULT_PANELS = [
-  Panel.PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
+  Panel.PanelSpec.DefaultCommentary(),
   Panel.PanelSpec.Confessions(),
   Panel.PanelSpec.CrossReferences(),
   Panel.PanelSpec.OriginalLanguage(),
@@ -103,7 +103,7 @@ describe("selecting a verse", () => {
     const moved = update(opened.model, Message.ChangedUrl({ url: urlOf("/romans/8/31") })).model
     const after = update(
       moved,
-      Message.GotPanelMessage({ panelId: "commentary:calvin-commentaries", message: late }),
+      Message.GotPanelMessage({ panelId: "default-commentary", message: late }),
     )
     expect(after.model.panels[0]?.load).toMatchObject({ _tag: "Loading", focus: "Rom.8.31" })
     expect(after.commands ?? []).toEqual([])
@@ -136,14 +136,14 @@ describe("a data file replaced by a newer deploy", () => {
 
     const first = update(
       opened.model,
-      Message.GotPanelMessage({ panelId: "commentary:calvin-commentaries", message: missing }),
+      Message.GotPanelMessage({ panelId: "default-commentary", message: missing }),
     )
     expect(argsOf(first.commands, ReloadOntoCurrentBuild.name)).toHaveLength(1)
     expect(first.model.panels[0]?.load).toMatchObject({ _tag: "Failed", focus: "Rom.8.28" })
 
     const again = update(
       first.model,
-      Message.GotPanelMessage({ panelId: "commentary:calvin-commentaries", message: missing }),
+      Message.GotPanelMessage({ panelId: "default-commentary", message: missing }),
     )
     expect(argsOf(again.commands, ReloadOntoCurrentBuild.name)).toHaveLength(0)
   })
