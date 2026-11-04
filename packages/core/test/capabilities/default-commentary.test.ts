@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@effect/vitest"
 import { Option } from "effect"
-import { chooseDefaultCommentary } from "../../src/capabilities/index.ts"
+import { chooseDefaultCommentary, otherCoveringCommentaries } from "../../src/capabilities/index.ts"
 import type { CatalogResource } from "../../src/shards/index.ts"
 
 const commentary = (
@@ -108,5 +108,72 @@ describe("chooseDefaultCommentary", () => {
 
   it("returns none for a chapter no commentator in the order holds", () => {
     expect(chooseDefaultCommentary(CATALOG, { book: "Jude", chapter: 1 })).toEqual(Option.none())
+  })
+})
+
+describe("otherCoveringCommentaries", () => {
+  const JOHN_3 = { book: "John", chapter: 3 } as const
+  const calvin = commentary({
+    id: "calvin-commentaries",
+    name: "Calvin",
+    creator: "John Calvin",
+    ingested: [{ book: "John", chapters: [3] }],
+  })
+  const poole = commentary({
+    id: "poole-annotations",
+    name: "Poole",
+    creator: "Matthew Poole and the divines who continued his work after Isaiah 58",
+    ingested: [{ book: "John", chapters: [3] }],
+  })
+  const hutcheson = commentary({
+    id: "hutcheson-john",
+    name: "Hutcheson",
+    creator: "George Hutcheson",
+    scope: ["John"],
+    ingested: [{ book: "John", chapters: [3] }],
+  })
+  const ids = (resources: ReadonlyArray<CatalogResource>) => resources.map(({ id }) => id)
+
+  it("names every other commentator holding the chapter, in short-name order", () => {
+    expect(ids(otherCoveringCommentaries([poole, calvin, hutcheson], JOHN_3, calvin.id))).toEqual([
+      "hutcheson-john",
+      "poole-annotations",
+    ])
+  })
+
+  it("sorts an entry without a short name by its creator", () => {
+    const westminster = commentary({
+      id: "westminster-annotations",
+      creator: "Divines appointed by Parliament",
+      ingested: [{ book: "John", chapters: [3] }],
+    })
+    expect(
+      ids(otherCoveringCommentaries([poole, westminster, calvin, hutcheson], JOHN_3, calvin.id)),
+    ).toEqual(["westminster-annotations", "hutcheson-john", "poole-annotations"])
+  })
+
+  it("leaves out a withdrawn commentator that holds the chapter", () => {
+    const withdrawnHutcheson = {
+      ...hutcheson,
+      status: { state: "withdrawn" as const, reason: "Retracted." },
+    }
+    expect(
+      ids(otherCoveringCommentaries([calvin, poole, withdrawnHutcheson], JOHN_3, calvin.id)),
+    ).toEqual(["poole-annotations"])
+  })
+
+  it("leaves out a commentator whose scope holds John but who has no ingested John 3", () => {
+    const hutchesonWithoutJohn3 = {
+      ...hutcheson,
+      ingested: [{ book: "John" as const, chapters: [1, 2] }],
+    }
+    expect(
+      ids(otherCoveringCommentaries([calvin, poole, hutchesonWithoutJohn3], JOHN_3, calvin.id)),
+    ).toEqual(["poole-annotations"])
+  })
+
+  it("is empty when only the shown commentator holds the chapter", () => {
+    const pooleWithoutJohn = { ...poole, ingested: [{ book: "Rom" as const, chapters: [8] }] }
+    expect(otherCoveringCommentaries([calvin, pooleWithoutJohn], JOHN_3, calvin.id)).toEqual([])
   })
 })
