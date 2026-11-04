@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join, resolve } from "node:path"
 import { describe, expect, it } from "@effect/vitest"
-import { Confession } from "@reformed-bible/core"
+import { Confession, contains, parseOsis } from "@reformed-bible/core"
 import { Effect, Exit, Result, Schema } from "effect"
 import { indexProofTexts, ingestConfessions } from "../../src/ingest/confession.ts"
 import { readNormalized } from "../../src/normalized.ts"
@@ -210,5 +210,30 @@ describe("the transcribed Canons of Dort", () => {
         .flatMap((run, n) => (citation.test(run.text) ? [n] : []))
       expect([article.id, runsWithCitation]).toEqual([article.id, article.proofs.map((_, n) => n)])
     }
+  })
+})
+
+describe("every curated confession", () => {
+  const ids = ["bc", "cd", "hc", "wcf", "wlc", "wsc"]
+  const articlesOf = (id: string) => datasetConfession(id).divisions.flatMap((d) => d.articles)
+
+  it("prints no paragraph of an article twice", () => {
+    for (const id of ids)
+      for (const article of articlesOf(id)) {
+        const texts = article.paragraphs.map((paragraph) => JSON.stringify(paragraph))
+        expect([id, article.id, new Set(texts).size]).toEqual([id, article.id, texts.length])
+      }
+  })
+
+  it("drops a clause's reference that another reference of the clause already covers", () => {
+    for (const id of ids)
+      for (const article of articlesOf(id))
+        for (const proof of article.proofs.filter((p) => p.wholeArticle !== true)) {
+          const passages = proof.refs.map((ref) => Result.getOrThrow(parseOsis(ref)))
+          const covered = proof.refs.filter((_, i) =>
+            passages.some((outer, j) => j !== i && contains(outer, passages[i]!)),
+          )
+          expect([id, article.id, covered]).toEqual([id, article.id, []])
+        }
   })
 })
