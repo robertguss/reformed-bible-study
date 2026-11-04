@@ -383,6 +383,39 @@ describe("CrossWire zCom commentary", () => {
       }),
     )
 
+    it.effect("heads a chapter's first verse whether or not a chapter entry opens it", () =>
+      Effect.gen(function* () {
+        const entries = yield* readZCom(
+          "ot",
+          buildModule("ot", [
+            [
+              { text: section("Exod.20", "e20", "The law is given."), slots: ["Exod.20"] },
+              {
+                text: `${pericope("Exodus 20:1-17", "Deuteronomy 5:6-21")}${section("Exod.20.1", "e1", "God spake all these words.")}`,
+                slots: ["Exod.20.1"],
+              },
+              {
+                text: `${pericope("Exodus 21:1-11", "Deuteronomy 15:12-18")}${section("Exod.21", "e21", "Of Hebrew servants.")}`,
+                slots: ["Exod.21"],
+              },
+            ],
+          ]),
+        )
+        const pericopes = yield* harmonyPericopes(entries, ["Exod", "Lev", "Num", "Deut"])
+        const { book, misplaced } = yield* commentaryBookFromZCom(
+          "calvin-commentaries",
+          "Exod",
+          entries,
+          pericopes,
+        )
+        expect(misplaced).toEqual([])
+        expect(book.sections.map((s) => [s.ref, s.parallels])).toEqual([
+          ["Exod.20.1-Exod.20.17", ["Deut.5.6-Deut.5.21"]],
+          ["Exod.21.1-Exod.21.11", ["Deut.15.12-Deut.15.18"]],
+        ])
+      }),
+    )
+
     it.effect("gives a book read without its harmony no parallels and no pericope ends", () =>
       Effect.gen(function* () {
         const entries = yield* readZCom("nt", gospels)
