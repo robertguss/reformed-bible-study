@@ -1,0 +1,216 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A12190, Sibbes, The returning backslider, or, A commentarie upon the whole XIIII. chapter of the prophecy of the prophet Hosea (1639), CC0 1.0, as keyed: the openings of all sixteen sermons, labelled from Hosea 14.1 to 14.10, and of The Saints Priviledge, the treatise on John 16 bound after them. Each sermon keeps its heading and its quoted text, and the treatise its heading and first paragraph, cut short. -->
+   <text>
+      <group>
+         <text xml:lang="eng">
+            <body>
+               <div type="sermons">
+                  <head>THE RETVRNING BACKSLIDER.</head>
+                  <div n="1" type="sermon">
+                     <head>SERMON. I.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>Hos. 14.1, 2.</hi>
+                           </bibl>
+                           <p>O Iſrael, Returne unto the Lord thy God: For thou haſt fallen by thine iniquity.</p>
+                           <p>Take with you words, and turne to the Lord, ſay unto him, take away all iniquity, <hi>&amp;c.</hi>
+                           </p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="2" type="sermon">
+                     <head>THE SECOND SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>Hos. 14.2.</hi>
+                           </bibl>
+                           <p>Take with you words, and turne to the Lord, ſay unto him take away all iniquity, and receive us grati<g ref="char:EOLhyphen" />ouſly, ſo will we render the Calves of our lips.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="3" type="sermon">
+                     <head>THE THIRD SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.2, 3.</hi>
+                           </bibl>
+                           <p>—So will we render the Calves of our lips.</p>
+                           <p>Aſhur ſhall not ſave us, we will not ride upon horſes, neither will we ſay any more to the works of our hands, ye are our gods, for in thee the Fa<g ref="char:EOLhyphen" />therleſſe findeth mercy.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="4" type="sermon">
+                     <head>THE FOVRTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.3.</hi>
+                           </bibl>
+                           <p>Aſhur ſhall not ſave us, we will not ride upon horſes, neither will we ſay any more to the works of our hands, ye are our gods, for in thee the Fa<g ref="char:EOLhyphen" />therleſſe findeth mercy.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="5" type="sermon">
+                     <head>THE FIFTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.4.</hi>
+                           </bibl>
+                           <p>J will heale their backesliding, J will love them freely, for mine An<g ref="char:EOLhyphen" />ger is turned away from him.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="6" type="sermon">
+                     <head>THE SIXTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.4, 5.</hi>
+                           </bibl>
+                           <p>—J will love them freely, for mine Anger is turned away.</p>
+                           <p>J will be as the Dew unto Iſrael: he ſhall grow as the Lillie, and caſt forth his Roote as Lebanon.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="7" type="sermon">
+                     <head>THE SEVENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.5.</hi>
+                           </bibl>
+                           <p>J will be as the Dew unto Iſrael: he ſhall grow as the Lillie, and caſt forth his Roote as Lebanon.</p>
+                           <p>His branches ſhall ſpread, and his beauty ſhall be as the Olive tree and his ſmell as Lebanon.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="8" type="sermon">
+                     <head>THE EIGHTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.6, 7.</hi>
+                           </bibl>
+                           <p>His branches ſhall ſpread, his beauty ſhall be as the Olive tree and his ſmell as Lebanon.</p>
+                           <p>They that dwell under his ſhadow ſhall returne; they ſhall revive as the Corne, and grow as the Vine, the ſent thereof ſhall be as the <g ref="char:V">Ʋ</g>ine of Lebanon.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="9" type="sermon">
+                     <head>THE NINTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.6.</hi>
+                           </bibl>
+                           <p>They that dwell under his ſhadow ſhall returne; they ſhall revive as the Corne, and grow as the Vine, the ſent thereof ſhall be as the <g ref="char:V">Ʋ</g>ine of Lebanon.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="10" type="sermon">
+                     <head>THE TENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.8.</hi>
+                           </bibl>
+                           <p>Ephraim ſhall ſay, what have J any more to doe with Idols? J have heard him and obſerved him: J am like a greene firre tree, from me is thy fruit found.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="11" type="sermon">
+                     <head>THE ELEVENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.9.</hi>
+                           </bibl>
+                           <p>Ephraim ſhall ſay, what have J any more to doe with Idols? J have heard him and obſerved him: J am like a greene firre-tree, from me is thy fruit found.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="12" type="sermon">
+                     <head>THE TWELFTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.9.</hi>
+                           </bibl>
+                           <p>Ephraim ſhall ſay, what have J any more to doe with Idols? J have heard him and obſerved him: J am like a greene firre tree, from me is thy fruit found.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="13" type="sermon">
+                     <head>THE THIRTEENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.9.</hi>
+                           </bibl>
+                           <p>—J am like a greene firre-tree, from me is thy fruit found.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="14" type="sermon">
+                     <head>THE FOVRTEENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.10.</hi>
+                           </bibl>
+                           <p>Who is wiſe and he ſhall underſtand theſe things? prudent and he ſhall know them? for the wayes of the Lord are equall, the juſt ſhall walke in them, but the tranſgreſſors ſhall fall therein.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="15" type="sermon">
+                     <head>THE FIFTEENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.10.</hi>
+                           </bibl>
+                           <p>Who is wiſe and he ſhall underſtand theſe things? prudent and he ſhall know them? for the wayes of the Lord are right, the juſt ſhall walke in them, but the tranſgreſſors ſhall fall therein.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+                  <div n="16" type="sermon">
+                     <head>THE SIXTEENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.10.</hi>
+                           </bibl>
+                           <p>—The wayes of the Lord are right, the juſt ſhall walke in them, but the tranſgreſſors ſhall fall therein.</p>
+                        </q>
+                     </epigraph>
+                  </div>
+               </div>
+            </body>
+         </text>
+         <text xml:lang="eng">
+            <body>
+               <div type="treatise">
+                  <head>THE SAINTS Priviledge.</head>
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>IOHN 16.8, 9, 10.</hi>
+                        </bibl>
+                        <p>When he is come, he ſhall reproove the world of ſinne, righteouſneſſe and judgement. Of ſin, becauſe they be<g ref="char:EOLhyphen" />leeve not in me; Of righteouſneſſe, becauſe I goe to my Father: Of judgement, becauſe the Prince of this world is judged.</p>
+                        <p>
+                           <hi>Eſpecially the 10. verſe.</hi> Of righte<g ref="char:EOLhyphen" />ouſneſſe, becauſe I go to my Father and you ſhall ſee me no more.</p>
+                     </q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">O</seg>VR bleſſed Saviour deſcending from Heaven to Earth for the Re<g ref="char:EOLhyphen" />demption of man: after he had accompliſhed that great worke, he aſcended thither againe. And
+<pb n="490" facs="tcp:17937:279" /> knowing his Diſciples would take his depar<g ref="char:EOLhyphen" />ture very heavily, hee labours to arme them a<g ref="char:EOLhyphen" />gainſt the aſſaults of all griefe and ſorrow that might otherwiſe oppreſſe them, and that by ma<g ref="char:EOLhyphen" />ny arguments. Among the reſt, this is</p>
+               </div>
+            </body>
+         </text>
+      </group>
+   </text>
+</TEI>

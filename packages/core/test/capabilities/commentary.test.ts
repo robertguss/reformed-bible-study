@@ -17,6 +17,7 @@ const POOLE = "poole-annotations"
 const HENRY = "matthew-henry"
 const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
+const BURROUGHS = "burroughs"
 const DICKSON = "dickson"
 const DIODATI = "diodati-annotations"
 const DURHAM = "durham"
@@ -24,7 +25,10 @@ const FERGUSSON = "fergusson"
 const HUTCHESON = "hutcheson"
 const JACKSON = "jackson-annotations"
 const LEIGHTON = "leighton"
+const MANTON = "manton"
 const NISBET = "nisbet"
+const SIBBES = "sibbes"
+const THOMAS_HALL = "thomas-hall"
 const WESTMINSTER = "westminster-annotations"
 
 interface CatalogFile {
@@ -153,6 +157,7 @@ describe("get_commentary", () => {
         [POOLE, "not_ingested", "active"],
         [HENRY, "not_ingested", "active"],
         [JFB, "not_ingested", "active"],
+        [BURROUGHS, "outside_work", "active"],
         [DICKSON, "covered", "active"],
         [DIODATI, "not_ingested", "active"],
         [DURHAM, "outside_work", "active"],
@@ -160,8 +165,11 @@ describe("get_commentary", () => {
         [HUTCHESON, "outside_work", "active"],
         [JACKSON, "outside_work", "active"],
         [LEIGHTON, "outside_work", "active"],
+        [MANTON, "outside_work", "active"],
         [NISBET, "outside_work", "active"],
         [OWEN, "outside_work", "active"],
+        [SIBBES, "outside_work", "active"],
+        [THOMAS_HALL, "outside_work", "active"],
         [WESTMINSTER, "not_ingested", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
@@ -188,6 +196,7 @@ describe("get_commentary", () => {
           HENRY,
           JFB,
           "aaa-commentary",
+          BURROUGHS,
           DICKSON,
           DIODATI,
           DURHAM,
@@ -195,8 +204,11 @@ describe("get_commentary", () => {
           HUTCHESON,
           JACKSON,
           LEIGHTON,
+          MANTON,
           NISBET,
           OWEN,
+          SIBBES,
+          THOMAS_HALL,
           WESTMINSTER,
           "withdrawn-commentary",
         ])
@@ -245,6 +257,7 @@ describe("get_commentary", () => {
           [POOLE, "covered"],
           [HENRY, "not_ingested"],
           [JFB, "not_ingested"],
+          [BURROUGHS, "outside_work"],
           [DICKSON, "outside_work"],
           [DIODATI, "not_ingested"],
           [DURHAM, "outside_work"],
@@ -252,8 +265,11 @@ describe("get_commentary", () => {
           [HUTCHESON, "outside_work"],
           [JACKSON, "not_ingested"],
           [LEIGHTON, "outside_work"],
+          [MANTON, "outside_work"],
           [NISBET, "outside_work"],
           [OWEN, "outside_work"],
+          [SIBBES, "outside_work"],
+          [THOMAS_HALL, "outside_work"],
           [WESTMINSTER, "not_ingested"],
           ["withdrawn-commentary", "not_ingested"],
         ])
@@ -319,6 +335,7 @@ describe("get_commentary", () => {
         [POOLE, "not_ingested"],
         [HENRY, "covered"],
         [JFB, "covered"],
+        [BURROUGHS, "outside_work"],
         [DICKSON, "outside_work"],
         [DIODATI, "not_ingested"],
         [DURHAM, "outside_work"],
@@ -326,8 +343,11 @@ describe("get_commentary", () => {
         [HUTCHESON, "outside_work"],
         [JACKSON, "outside_work"],
         [LEIGHTON, "outside_work"],
+        [MANTON, "outside_work"],
         [NISBET, "outside_work"],
         [OWEN, "outside_work"],
+        [SIBBES, "outside_work"],
+        [THOMAS_HALL, "outside_work"],
         [WESTMINSTER, "not_ingested"],
         ["withdrawn-commentary", "not_ingested"],
       ])

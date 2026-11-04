@@ -173,6 +173,26 @@ SPDX-FileCopyrightText = "James Durham, expositions of the Song of Solomon (1668
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "resources/burroughs/**"
+SPDX-FileCopyrightText = "Jeremiah Burroughs, An Exposition of the Prophesie of Hosea (1650 to 1652, the last three volumes published after his death by Thomas Goodwin and others); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/thomas-hall/**"
+SPDX-FileCopyrightText = "Thomas Hall, Samaria's Downfall, a commentary on Hosea 13:12 to 16 (1660); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/sibbes/**"
+SPDX-FileCopyrightText = "Richard Sibbes, The Returning Backslider, on Hosea 14 (1639), and a commentary on 2 Corinthians 1 (1655, edited by Simeon Ashe and Thomas Manton); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/manton/**"
+SPDX-FileCopyrightText = "Thomas Manton, A Practical Commentary on the Epistle of Jude (1658); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "resources/matthew-henry/**"
 SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"

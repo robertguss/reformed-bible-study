@@ -1,0 +1,37 @@
+{
+  "id": "manton",
+  "kind": "commentary",
+  "title": "A Practical Commentary, or An Exposition with Notes on the Epistle of Jude",
+  "name": "Manton",
+  "creator": "Thomas Manton",
+  "edition": "A practical commentary, or An exposition with notes on the Epistle of Jude, delivered for the most part in sundry weekly lectures at Stoke-Newington in Middlesex, by Thomas Manton (London, printed by J. M. for Luke Fawn, 1658, Wing M530), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A89503",
+  "language": "en",
+  "scope": ["Jude"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A89503",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A89503/4e5021c1685e6a949d874b309d336c6e9a4b6e79/A89503.xml",
+        "sha256": "59106e5f3f487d5277b379a4e610a2c3626fb466dc20d332d4719ad3f7e6dfeb"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A89503",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Thomas Manton, A Practical Commentary, or An Exposition with Notes on the Epistle of Jude (London, 1658). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with the verse it expounds, such as Verse 5. I will therefore put you in remembrance, and is one section, keyed by the verse the transcription numbers it with, so the exposition of verses 22 and 23 is one section, and the exposition of verse 24, whose label is misprinted Verse 94., is keyed to verse 24. A verse named in the exposition is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title page, the dedication to Lady Letitia Popham, the epistle to the reader, the alphabetical table, the table of the places of Scripture explained, and the errata.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

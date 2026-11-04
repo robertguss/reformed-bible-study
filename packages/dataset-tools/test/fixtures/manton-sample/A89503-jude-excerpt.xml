@@ -1,0 +1,47 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A89503, Manton, A practical commentary, or An exposition with notes on the Epistle of Jude (1658), CC0 1.0, as keyed: the expositions of Jude 1, 22 and 23, 24, whose label is misprinted Verse 94., and 25. Each division keeps its quoted text and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="biblical_commentary">
+            <head>AN EXPOSITION WITH NOTES On the EPISTLE of JUDE.</head>
+            <div n="1" type="verse">
+               <epigraph>
+                  <bibl>VERSE 1.</bibl>
+                  <q>Jude the Servant of Jeſus Chriſt, and Brother of James, to them that are ſanctified by God the Fa<g ref="char:EOLhyphen" />ther, preſerved in Jeſus Chriſt, and called.</q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">T</seg>His <hi>Epiſtle,</hi> as others, beginneth with uſual <hi>Chriſtian ſalutations;</hi> theſe are continued through the two firſt Ver<g ref="char:EOLhyphen" />ſes, in which you have,</p>
+            </div>
+            <div n="22-23" type="verse">
+               <epigraph>
+                  <bibl>Verſe 22.</bibl>
+                  <q>And of ſome have compaſſion, making a difference.</q>
+                  <bibl>Verſe 23.</bibl>
+                  <q>And others ſave with fear, pulling them out of the fire, hating even the garment ſpotted by the fleſh.</q>
+               </epigraph>
+               <p>HEre is the ſecond part of the Exhortation, explaining their duty towards others, or teaching them how to behave themſelves to them that were gone aſtray.</p>
+            </div>
+            <div n="24" type="verse">
+               <epigraph>
+                  <bibl>Verſe 94.</bibl>
+                  <q>Now unto him that is able to keep you from falling, and to preſent you fault<g ref="char:EOLhyphen" />leſs before the preſence of his glory, with exceeding joy.</q>
+               </epigraph>
+               <p>THe Apoſtle having perſwaded them to duty, now com<g ref="char:EOLhyphen" />mendeth them to the divine grace, as 'tis uſual with the Apoſtles to ſhut up their <hi>Exhortations</hi> with <hi>prayer,</hi> to intimate that the fruit of all muſt be expected from God, without whoſe bleſſing <hi>Exhortations</hi> or <hi>Endeavours</hi> would be nothing.</p>
+            </div>
+            <div n="25" type="verse">
+               <epigraph>
+                  <bibl>Verſe 25.</bibl>
+                  <q>To the only wiſe God, our Saviour, be glory and majeſty, dominion and pow<g ref="char:EOLhyphen" />er, now and ever, Amen.</q>
+               </epigraph>
+               <p>THe Apoſtle in this verſe goeth on with that <hi>doxology</hi> which he had begun in the former, here you may take notice of <hi>the deſcription of the perſon</hi> to whom the praiſe is given, he is diſcribed 1. By his excellency, <hi>the only wiſe God.</hi> 2. By <hi>our intereſt</hi> and the benefit we receive by him, <hi>and our Saviour.</hi>
+               </p>
+               <epigraph>
+                  <q>Bleſſed be his glorious Name for ever, and let the whole earth be filled with his glory: <hi>Amen,</hi> and <hi>Amen,</hi>
+                  </q>
+                  <bibl>Pſal. 72. 19.</bibl>
+               </epigraph>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

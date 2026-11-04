@@ -1,0 +1,47 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A60194, Sibbes, A learned commentary or exposition upon the first chapter of the second Epistle of S. Paul to the Corinthians (1655), CC0 1.0, as keyed: the expositions of 2 Corinthians 1:1, 1:2, 1:5 and 1:8 and 9. Each division keeps its quoted text and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="commentary">
+            <head>A COMMENTARY upon the first CHAPTER of the second Epistle of S. PAUL to the <hi>CORINTHIANS.</hi>
+            </head>
+            <div n="1" type="commentary_on_verse">
+               <epigraph>
+                  <bibl>2 Cor. 1. 1.</bibl>
+                  <q>Paul an Apostle of Jesus Christ by the Will of God, and Timothy our Brother, unto the Church of God which is at Corinth, with all the Saints which are in all Achaia: Grace be to you, and Peace from God our Father, and from the Lord Jesus Christ.</q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">T</seg>He Preface to this Epistle is the same with other Pre<g ref="char:EOLhyphen" />faces. Our blessed Apostle had written a sharp Epistle to the <hi>Corinthians,</hi> especially reproving their tolerating of the incestuous person: that, his first Epistle took effect, though not so much as he desired, yet it prevai<g ref="char:EOLhyphen" />led so far with them, that they excommunicated the incestuous person, and likewise reformed divers abu<g ref="char:EOLhyphen" />se</p>
+            </div>
+            <div n="2" type="commentary_on_verse">
+               <epigraph>
+                  <bibl>VERSE 2.</bibl>
+                  <q>Grace be unto you, &amp;c.</q>
+               </epigraph>
+               <p>
+                  <hi>
+                     <seg rend="decorInit">G</seg>Race</hi> doth enter into the whole conversation of a Christian, and doth sweeten his very Salutations. Which I observe: because <note place="margin">Grace sweetens all a Christians conversation.</note> many men confine their Religion to places, to actions, and to times: there is a relish of holinesse in every thing that comes from a Christian, in his Salutations and Courtesies: St. <hi>Paul</hi>
+               </p>
+            </div>
+            <div n="5" type="commentary_on_verse">
+               <epigraph>
+                  <bibl>
+                     <hi>VERS.</hi> V.</bibl>
+                  <q>For as the sufferings of Christ abound in us, so our consolations also abound by Christ.</q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">H</seg>Ere the blessed Apostle shewes the reason why his heart was so in<g ref="char:EOLhyphen" />larged as we see in vers 3. in the middest of his troubles and per<g ref="char:EOLhyphen" />secutions, to blesse God, there was good reason, for as his afflictions, so his consolations abounded. It is a reason likewise of his ability to com<g ref="char:EOLhyphen" />fort others, the reason why he was fitted to comfort others: because he found comfort abound in</p>
+            </div>
+            <div n="8, 9" type="commentary_on_verse">
+               <epigraph>
+                  <bibl>VERS. 8, 9.</bibl>
+                  <q>For we would not, Brethren, have you ignorant of our trouble, which came to us in Asia, that we were pressed out of measure, above strength, insomuch that we despaired even of life.</q>
+                  <q>But we had the sentence of death in our selves, that we should not trust in our selves, but in God which raiseth the dead.</q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">H</seg>Ere Saint <hi>Paul comes</hi> to the particular explication of what he had generally spoken before: he had generally said before, that he had both comfort and affliction; but now he specifies what afflictions they were. <hi>I would not have you ignorant of the troubles which came to us in Asia,</hi> &amp;c.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

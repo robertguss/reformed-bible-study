@@ -1,0 +1,38 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A30575, Burroughs, An exposition with practical observations continued upon the eleventh, twelfth, & thirteenth chapters of the prophesy of Hosea (1651), CC0 1.0, as keyed: the expositions of Hosea 13:1, 13:10 and 13:11, where his lectures end. Each division keeps its heading and its first paragraphs, cut short. -->
+   <text>
+      <body>
+         <div type="exposition">
+            <head>AN EXPOSITION Of the PROPHESY of HOSEA.</head>
+            <div n="13" type="chapter">
+               <head>CHAP. XIII.</head>
+               <div n="1" type="verse">
+                  <head>VER. 1.</head>
+                  <argument>
+                     <p>When <hi>Ephraim</hi> ſpake, trembling, he exalted himſelf in <hi>Iſrael;</hi> but when he offended in Baal, he died.</p>
+                  </argument>
+                  <p>
+                     <seg rend="decorInit">T</seg>His Chapter is partly <hi>Legal</hi> and partly <hi>Evangelical.</hi> Legal, charging this peo<g ref="char:EOLhyphen" />ple with their fin of Idolatry, and of Ingratitude, ſhewing them Gods wrath, partly already inflicted, and further threatned them to the 14. Verſe; and again in the 15. and 16. Verſes, there returning</p>
+               </div>
+               <div n="10" type="verse">
+                  <head>VER. 10.</head>
+                  <argument>
+                     <p>I will be thy King: Where is any other that may ſave thee in all thy Cities? and thy Judges of whom thou ſaidſt, Give me a King and Princes.</p>
+                  </argument>
+                  <p>FIRST, To ſpeak a little to the words as you have <note place="margin">1. Reading.</note> them in your books, for the words will bear them ſo in the Original. And yet I ſhall ſhew you another rea<g ref="char:EOLhyphen" />ding by and by that is as ſutable to the Original text as this.
+<q>I will be thy King.</q>
+                  </p>
+               </div>
+               <div n="11" type="verse">
+                  <head>VER. 11.</head>
+                  <argument>
+                     <p>I gave them a King in mine anger, and took him away in my wrath.</p>
+                  </argument>
+                  <p>THEY were readie to ſay, <q>Why do you thus blame us for our eager deſire? Did not God ap<g ref="char:EOLhyphen" />prove <note place="margin">Cohaerance</note> of it? God himſelf was content we ſhould have one, God himſelf choſe our firſt King, <hi>Saul,</hi> and he appointed <hi>Samuel</hi> to anoint him. And if you under<g ref="char:EOLhyphen" />ſtand it of the other King <hi>Jeroboam,</hi> for ſo</q>
+                  </p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>
