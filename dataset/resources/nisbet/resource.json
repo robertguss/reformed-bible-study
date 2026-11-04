@@ -1,0 +1,37 @@
+{
+  "id": "nisbet",
+  "kind": "commentary",
+  "title": "A Brief Exposition of the First and Second Epistles General of Peter",
+  "name": "Nisbet",
+  "creator": "Alexander Nisbet",
+  "edition": "A brief exposition of the First and Second Epistles general of Peter by Alexander Nisbet (Edinburgh, printed by Christopher Higgins, 1658, Wing N1165), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase II text A52355",
+  "language": "en",
+  "scope": ["1Pet", "2Pet"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A52355",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A52355/990ba497dc0985fafe64ead1cc450c8641829f98/A52355.xml",
+        "sha256": "1003822fea145d1dbe97c0597faba434a18e3bbfe34856ae1fb03d4878811ede"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A52355",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Alexander Nisbet, A Brief Exposition of the First and Second Epistles General of Peter (Edinburgh, 1658). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with the words of the text it expounds as Nisbet printed them, such as Vers. 1. Peter an Apostle of Jesus Christ, and the paragraphs after it stay with its verse. Each exposition the transcription divides off is one section, keyed by the verses the transcription numbers it with, such as 15, 16, and running from its first verse to the verse before the next section or the end of its chapter. A verse named in the exposition is never read. An epistle's argument and a chapter's opening analysis open its first section. The copy keyed lacks pages 19 to 30, from the exposition of 1 Peter 1:5 into that of 1 Peter 1:9: the gap is kept as the mark 〈12 pages missing〉, the section on 1 Peter 1:5 runs to 1:8, and the section on 1:9 opens mid-sentence. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title page, the epistle to the reader, and the headings such as CHAP. I.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

@@ -26,7 +26,11 @@ export {
   getCrossReferences,
   getCrossReferencesContract,
 } from "./cross-references.ts"
-export { chooseDefaultCommentary, DEFAULT_COMMENTARY_ORDER } from "./default-commentary.ts"
+export {
+  chooseDefaultCommentary,
+  DEFAULT_COMMENTARY_ORDER,
+  otherCoveringCommentaries,
+} from "./default-commentary.ts"
 export { EntryNotFound, InvalidCursor, InvalidCursorReasons, UnknownResource } from "./errors.ts"
 export { getLexiconEntry, getLexiconEntryContract } from "./lexicon-entry.ts"
 export { listResources, listResourcesContract } from "./list-resources.ts"

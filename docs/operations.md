@@ -39,7 +39,10 @@ CI and a laptop share it.
 
 1. **Workers Paid.** Enable it under Workers & Pages > Plans. The rate limits
    above assume it: on the free plan, one caller staying inside its own limits
-   can spend the 100,000 daily requests for everyone.
+   can spend the 100,000 daily requests for everyone. The release's file budget
+   assumes it too: the build allows 95,000 data files against the paid plan's
+   100,000 static files per Worker version, and a deploy on the free plan, which
+   allows 20,000, would fail.
 2. **Cloudflare API token for CI.** Create a token scoped to this account with:
    - Account > Workers Scripts > Edit
    - Account > Secrets Store > Edit (Alchemy's state store keeps its credentials

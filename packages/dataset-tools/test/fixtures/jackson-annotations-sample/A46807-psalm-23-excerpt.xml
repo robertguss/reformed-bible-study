@@ -1,0 +1,22 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A46807, Jackson, Annotations upon the five doctrinall or poeticall books (1658), CC0 1.0, as keyed: Psalm 23, with the notes on verses 1, 3 and 6. The rest of the book of Psalms is left out. -->
+   <text>
+      <body>
+         <div n="Psalms" type="book">
+            <pb n="301" facs="tcp:57234:156"/>
+            <head>ANNOTATIONS Upon the book of <hi>PSALMS.</hi>
+            </head>
+            <div n="23" type="Psalm">
+               <head>PSALM XXIII.</head>
+               <p>Verſ. 1. <hi>THe Lord is my shepheard,</hi> &amp;c.] This is a Paſtorall Song; wherein Da<g ref="char:EOLhyphen"/>vid, that had been well acquainted with the imployment of a ſhep<g ref="char:EOLhyphen"/>heard in his younger years, compares the tender care of God in Chriſt over him to the care of a ſhepheard over his own flock. And indeed men may well be compared to ſheep, in regard they are ſo prone to wander, and through ſillineſſe to run without fear into any danger, and altogether unable to
+<pb n="375" facs="tcp:57234:192"/>
+help or defend themſelves, unleſſe God ſhould doe it for them: in the confi<g ref="char:EOLhyphen"/>dence whereof he adds thoſe words, <hi>I shall not want,</hi> that is, he will give what ſhall fully content me, neither will he withold any thing that he knows to be good, ei<g ref="char:EOLhyphen"/>ther for my body or ſoul.</p>
+               <p>Verſ. 3. <hi>He restoreth my ſoul,</hi> &amp;c.] That is, He comforts and revives my fain<g ref="char:EOLhyphen"/>ting ſoul, ſee the Note Pſal. 19.7; or, he brings me back into the right way, and fetcheth me home to himſelf, when I have ſtrayed aſide: ſo that he alludes to the ſhepheards care, either in cheriſhing his ſheep when they are ſick or feeble or faint, or in fetching them in when they are gone aſtray: <hi>he leadeth me in the paths of righteouſneſse for his names ſake</hi>; that is, not for any righteouſneſſe of mine, or any thing elſe in me, but merely for the glory of his own name: ſee the Note 1 Sam. 12.22. And herein he alludes too to the ſhepheards care in leading his ſheep gently in fair and plain wayes, not through deep mire, brambles and briars, or over craggy, or any other wayes, that muſt needs be hard and troubleſome for them to goe in.</p>
+               <p>Verſ. 6. <hi>Surely goodneſse and mercy shall follow me all the dayes of my life,</hi> &amp;c.] By goodneſſe and mercy may be meant, not only the grace and favour of God, but alſo the effects thereof in a gracious ſupply of what was truly good for him; for of this he might be ſure that God would never fail him: and the expreſſion is ve<g ref="char:EOLhyphen"/>ry emphaticall when he ſaith, <hi>goodneſſe and mercy shall follow me</hi>; for it doth not only imply the continuance of Gods goodneſſe to him, but alſo Gods readineſſe to ſhew him favour: whilſt other men purſue and follow after happineſſe, happi<g ref="char:EOLhyphen"/>neſſe
+<pb n="377" facs="tcp:57234:193"/>
+doth purſue and follow the ſervants of God; they do not with ſo much ear<g ref="char:EOLhyphen"/>neſtneſſe ſeek a bleſſing from God, as God ſeeks to bleſſe them. As for the fol<g ref="char:EOLhyphen"/>lowing words, <hi>and I will dwell in the houſe of the Lord for ever</hi>; either it is a reſolu<g ref="char:EOLhyphen"/>tion that he would to his lives end worſhip and praiſe him in his Sanctuary, im<g ref="char:EOLhyphen"/>plying that in this he rejoyced more, then in the abundance of earthly bleſſings that God had given him: or elſe it is a profeſſion of his aſſured hope, that he ſhould conſtantly abide in the Church here, and for ever in heaven.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

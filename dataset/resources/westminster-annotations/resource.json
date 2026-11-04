@@ -1,0 +1,36 @@
+{
+  "id": "westminster-annotations",
+  "kind": "commentary",
+  "title": "Annotations upon all the Books of the Old and New Testament",
+  "name": "Westminster Annotations",
+  "creator": "Divines appointed by Parliament",
+  "edition": "Annotations upon all the books of the Old and New Testament, wherein the text is explained, doubts resolved, Scriptures parallelled and various readings observed, by the joint labour of certain learned divines thereunto appointed (London, printed by John Legatt and John Raworth, 1645, Wing D2062), as keyed and encoded by the Early English Books Online Text Creation Partnership, text A36467",
+  "language": "en",
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A36467",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A36467/0e119c5f2e72f8865b464dc2b54c3f05b14a93dc/A36467.xml",
+        "sha256": "d1c1b664fa4e9098a8ca487053ea6255125133b2902830102e8ec6a7ef3d6836"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A36467",
+        "quote": "This text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal licence."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Annotations upon all the Books of the Old and New Testament (London, 1645), by the divines appointed by Parliament to the work. The catalogue record names J. Ley, W. Gouge, M. Casaubon, F. Taylor, D. Featley, J. Downame and J. Reading among its authors, and Wing lists it under John Downame, who may have been its editor or compiler. Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis. Each note keeps its lemma as printed, such as V. 2. earth], and the notes after a labelled note stay with its verse. Sections are keyed by the verse labels printed at the start of the notes, such as Vers. 1. or V. 2., and a verse named inside a note is never read. A label misprinted between two that follow on is read as the number between them, and a label that cannot stand in its chapter's order, such as a repeated number, continues the section before it. A section runs from its own verse to the verse before the next section or the end of its chapter. The notes before a chapter's first label are its verse 1. A chapter's opening summary is part of its verse 1. A book's argument opens its first chapter's first section, and each marginal note moves to the section's notes. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word, 〈 in non-Latin alphabet 〉 for Greek or Hebrew, and 〈1 page duplicate〉 for a page filmed twice. Line-end hyphens are closed up. The two pages of one leaf of 1 Kings are keyed in reverse order, which puts the notes on 1 Kings 8:12 to 8:47 inside chapter 9 after its verse 15; they are moved back to finish the sentence of the note on 8:12 that they continue. The printer's notice that the notes on the rest of Exodus 20 were left out stands where it is printed, at the start of Exodus 21. Left out: the title page, the preface, the advertisement on the notes touching episcopacy, the review of the notes on Exodus 25:16 and Deuteronomy 31:26, the chapter headings such as CHAP. I., the arguments of Joel to Revelation other than Hebrews, which are printed together between Malachi and Matthew, the appendix on the burial of Jacob and Joseph after Genesis, and the supplement of the omitted notes on Exodus 20 printed after Exodus 40. The transcription has no notes on Ezekiel 44 to 48.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

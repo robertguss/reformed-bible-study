@@ -1,0 +1,45 @@
+{
+  "id": "sibbes",
+  "kind": "commentary",
+  "title": "The Returning Backslider, and A Learned Commentary upon the First Chapter of the Second Epistle to the Corinthians",
+  "name": "Sibbes",
+  "creator": "Richard Sibbes",
+  "edition": "Two works by Richard Sibbes, as keyed and encoded by the Early English Books Online Text Creation Partnership: The returning backslider, or, A commentarie upon the whole XIIII. chapter of the prophecy of the prophet Hosea, published by his own permission before his death (London, printed by G. M. for George Edwards, 1639, STC 22500), Phase II text A12190; and A learned commentary or exposition upon the first chapter of the second Epistle of S. Paul to the Corinthians, published after his death and edited by Simeon Ashe and Thomas Manton (London, printed by J. L. for N. B., 1655, Wing S3738), Phase I text A60194",
+  "language": "en",
+  "scope": ["Hos", "2Cor"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A12190",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A12190/79784393b66c04bf6bd68f6b086ea964d3d7fd60/A12190.xml",
+        "sha256": "b4836ff30e5d6aa8d5fabffb1315b930ff71b89ae2423b47702fd688567989db"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A60194/59c1e9e1f5ff478c7f76b3759f241654d034b6f1/A60194.xml",
+        "sha256": "3b4b7b28e0bcfd5aad8de9b676e4c505f2615ab8a77b5bd8974548489c1ed159"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A12190",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A60194",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Richard Sibbes, The Returning Backslider, or A Commentarie upon the Whole XIIII. Chapter of the Prophecy of Hosea (London, 1639), and A Learned Commentary or Exposition upon the First Chapter of the Second Epistle of S. Paul to the Corinthians (London, 1655, edited by Simeon Ashe and Thomas Manton). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. The Returning Backslider is read as the single chapter Hosea 14: each sermon opens with the text it preaches on and is keyed by the verse that text quotes in the King James Version, read from its label, such as HOS. 14.4, 5., and sermons on the same verse share its section. Sibbes numbers the chapter's verses as ten, so the sermons labelled 14.9, which quote Ephraim shall say, What have I to do any more with idols, are keyed to 14:8, those labelled 14.10, which quote Who is wise, and he shall understand these things, to 14:9, and the ninth sermon, labelled 14.6 but quoting They that dwell under his shadow shall return, to 14:7. The commentary on 2 Corinthians 1 is one section per exposition the transcription divides off, keyed by the verses the transcription numbers it with, such as 8, 9, so the exposition of verse 2 runs on to verse 4. A section runs from its own verse to the verse before the next section or the end of its chapter. A verse named in a sermon or the exposition is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title pages, the portrait and frontispiece, the epistles to the reader, the table of the sum of the treatise, the alphabetical tables, and The Saints Priviledge, a separate treatise on John 16 bound after the sermons on Hosea.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

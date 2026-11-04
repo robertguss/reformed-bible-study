@@ -1,0 +1,37 @@
+{
+  "id": "gouge",
+  "kind": "commentary",
+  "title": "A Learned and Very Useful Commentary on the Whole Epistle to the Hebrews",
+  "name": "Gouge",
+  "creator": "William Gouge",
+  "edition": "A learned and very useful commentary on the whole epistle to the Hebrewes, by William Gouge, published after his death by his son Thomas Gouge, who completed one half chapter from his father's notes and added the narrative of his life and the tables (London, printed by A. M., T. W. and S. G. for Joshua Kirton, 1655, Wing G1391), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A41670",
+  "language": "en",
+  "scope": ["Heb"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A41670",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A41670/836a9df4b169578b54d3c8763784dff81a9df482/A41670.xml",
+        "sha256": "515eb5d0856ec079d20ec508bbe6346546ca7e5ae6619c7de76f1b755bebe586"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A41670",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "William Gouge, A Learned and Very Useful Commentary on the Whole Epistle to the Hebrews (London, 1655, published after his death by his son Thomas Gouge, who completed one half chapter from his father's notes). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. The exposition of each verse opens with a numbered section that quotes it under a label such as Verse 4., HEB. 1. 8. or Heb. 4. 7., or whose heading names it, such as Of the meaning of Heb. 11. 2., and the verse's section opens there. The sections after it, on its words and doctrines, continue it whether or not they name a verse, and so do the resolutions and observations that close a passage, which quote it again from its first verse. Verses Gouge expounds together under one quotation, such as Hebrews 1:1 to 3, are one section. Six sections whose label the print or the transcription lost are keyed to the verse they quote: 12:1, 11:22, 11:36 and 12:14, whose labels are partly illegible; 12:12, whose heading names 12:13; and 12:25, whose quotation is labelled Heb. 12. before Vers. 25. The sections before a chapter's first verse, such as the analysis of the chapter, and in chapter 1 those on the authority, author and scope of the epistle, open the chapter's first section. A verse named in the exposition is never read. A section runs from its own verse to the verse before the next section or the end of its chapter. Every gap the transcribers could not key is kept as the mark they gave it, such as •… for illegible letters, 〈◊〉 for an illegible word and 〈 in non-Latin alphabet 〉 for a word in another alphabet, mostly Greek. Line-end hyphens are closed up. Left out: the frontispiece, the title page, Thomas Gouge's epistle to the Christian reader, the commendatory verses, the narrative of Gouge's life and death, the list of his books, the publisher's list, the two alphabetical indexes, and the commentary's own heading.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

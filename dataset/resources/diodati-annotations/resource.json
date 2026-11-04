@@ -1,0 +1,36 @@
+{
+  "id": "diodati-annotations",
+  "kind": "commentary",
+  "title": "Pious Annotations upon the Holy Bible",
+  "name": "Diodati",
+  "creator": "Giovanni Diodati",
+  "edition": "Pious annotations upon the Holy Bible, expounding the difficult places thereof learnedly and plainly, by Mr. John Diodati, minister of the gospel, now living in Geneva, the English translation of his Annotationes in Biblia (London, printed by T.B. for Nicholas Fussell, 1643, Wing D1510), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A36033",
+  "language": "en",
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A36033",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A36033/72c52c7061499b6548e3acd004bc90f7c6778b5f/A36033.xml",
+        "sha256": "20f186b5b505b004fbb462e43e30bc6c7a700a306e59651612243cc99eeaee5f"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A36033",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Giovanni Diodati, Pious Annotations upon the Holy Bible (London, 1643), an English translation of his annotations on the Bible. Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis. Each note keeps its lemmas as printed, such as V. 2. Without forme]. Sections are keyed by the verse labels printed at the start of the notes, such as Vers. 1. or V. 2., and a verse named inside a note is never read. A label misprinted between two that follow on is read as the number between them, and a label that cannot stand in its chapter's order, such as a repeated number, continues the section before it. A section runs from its own verse to the verse before the next section or the end of its chapter. Where a chapter's heading names the verse of its first note, such as CHAP. XXVII. VERS. 4. or CHAP. XXII. VER. I., that unlabelled note is keyed to that verse; otherwise the notes before a chapter's first label, such as a psalm's title, are its verse 1. First Chronicles resumes chapter 4 at verse 24 under a heading of its own, and that part continues chapter 4. A book's argument opens its first chapter's first section. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word, 〈 in non-Latin alphabet 〉 for Greek or Hebrew, and 〈1 page duplicate〉 for a page filmed twice. Line-end hyphens are closed up. Left out: the portrait, the title pages, the address to the reader, the headings of books, chapters and the annotations that follow each argument, the closing FINIS lines, and the Apocrypha with the advertisement that introduces them. The translation annotates selected verses, and some chapters have no notes, such as Exodus 36 and 37, 1 Chronicles 1, 14, 19 and 20, 2 Chronicles 10, Psalm 117, Isaiah 37 and Acts 28.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

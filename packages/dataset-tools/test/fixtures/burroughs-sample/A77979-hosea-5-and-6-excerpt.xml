@@ -1,0 +1,74 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A77979, Burroughs, An exposition with practical observations continued upon the fourth, fifth, sixth, and seventh chapters of the prophesy of Hosea (1650), CC0 1.0, as keyed: the expositions of Hosea 5:14 and 5:15, which end the first of the volume's two expositions, and of Hosea 6:1 and 6:2, which open the second. Each division keeps its quoted text and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="biblical_commentary">
+            <head>AN EXPOSITION Of the PROPHESY of HOSEA.</head>
+            <div n="5" type="chapter">
+               <head>CHAP. V.</head>
+               <div n="14" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>VER. 14.</hi>
+                        </bibl>
+                        <p>For I will be unto Ephraim as a Lyon, and as a young Lyon to the houſe of Judah.</p>
+                     </q>
+                  </epigraph>
+                  <p>THat which i<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                        <desc>•</desc>
+                     </gap> here tranſlated in your books, a <hi>Lyon,</hi> th<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                        <desc>•</desc>
+                     </gap> Seventy tranſlate it by the <hi>Panther,</hi> which is the moſt ſwift &amp; fierce creature one of them in the world.<note place="margin">
+                        <gap reason="illegible" resp="#KEYERS" extent="1 paragraph">
+                           <desc>〈1 paragraph〉</desc>
+                        </gap>
+                     </note> Gods wrath for ſtrength is</p>
+               </div>
+               <div n="15" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>VER. 15.</hi>
+                        </bibl>
+                        <p>I will go.</p>
+                     </q>
+                  </epigraph>
+                  <p>GOD repeats it again, which notes, 1.<note place="margin">Expoſ.</note> The glory of the work, that he is not aſhamed of what he hath done, (Gods people ought for to be like God in this, let their acti<g ref="char:EOLhyphen" />ons be warrantable, ſuch as they may with comfort own and ſtand to, yea ſuffer for, if it ſo come to paſs, not like the pro<g ref="char:EOLhyphen" />verb to ſet a Town on fire, and run away from it, leaving o<g ref="char:EOLhyphen" />thers to quench it) 2. It notes the</p>
+               </div>
+            </div>
+         </div>
+         <div type="biblical_commentary">
+            <head>AN EXPOSITION Of the PROPHESY of HOSEA.</head>
+            <div n="6" type="chapter">
+               <head>CHAP. VI.</head>
+               <div n="1" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>VERSE, I.</hi>
+                        </bibl>
+                        <p>Come, and let us return unto the LORD, for He hath torn, and He wil heal us; He hath ſmitten, and He wil bind us up.</p>
+                     </q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">I</seg>N this Chapter we have theſe things conſi<g ref="char:EOLhyphen" />derable. Firſt,<note place="margin">Parrs of the Chap.</note> The work of Iſraels true repentance, from the firſt verſe to the third <milestone type="tcpmilestone" unit="unspecified" n="1" /> verſe. Secondly, A ſad complaint of the <milestone type="tcpmilestone" unit="unspecified" n="2" /> overly repentance of many in Iſrael, in the fourth verſe. Then here is a further up<g ref="char:EOLhyphen" />brading <milestone type="tcpmilestone" unit="unspecified" n="3" /> of Iſrael for their unkind dealing with God. The firſt part ſets out Gods peoples reſolution to</p>
+               </div>
+               <div n="2" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>VER. 2.</hi>
+                        </bibl>
+                        <p>After two daies will he revive us, in the third day he will r<gap reason="illegible" resp="#KEYERS" extent="1 letter">
+                              <desc>•</desc>
+                           </gap>iſe us up, and we ſhall live in his ſight.</p>
+                     </q>
+                  </epigraph>
+                  <p>GODS Works are Comments upon his Word; and it hath been ſo frequently in the opening of this Prophe<g ref="char:EOLhyphen" />ſie: as Chriſt ſaid of that Scripture, <hi>Luke,</hi> 4.21. <hi>This day is this Scripture fulfilled in your ears,</hi> ſo may I ſay of this Scripture at this time, how hath God litterally fulfilled it? The laſt Exerciſe you heard of Gods wounding and of his hea<g ref="char:EOLhyphen" />ling; How hath he healed us in a gracious manner? and</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

@@ -1,0 +1,31 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A16102, Junius, Apocalypsis, a briefe and learned commentarie vpon the reuelation of Saint Iohn (1592), CC0 1.0, as keyed: Revelation 9, its argument and verses 1 and 13 to 21, some margin notes cut short and some left out. The print numbers 9:16 and 9:17 as 15 and 16. -->
+   <text>
+      <body>
+         <head>THE REVELA<g ref="char:EOLhyphen"/>TION OF SAINT IOHN THE APOSTLE and Euangeliſt, with a briefe and lear<g ref="char:EOLhyphen"/>ned commentarie, written by <hi>Franc. Iunius, &amp;c.</hi>
+         </head>
+         <div n="9" type="chapter">
+            <head>CHAP. IX.</head>
+            <argument>
+               <p>1 <hi>The fift Angell bloweth his trumpet,</hi> 3 <hi>and ſpoy<g ref="char:EOLhyphen"/>ling locuſtes come out.</hi> 13 <hi>The ſixt Angell bloweth,</hi> 16 <hi>and bringeth forth horſemen,</hi> 20 <hi>to deſtroy man<g ref="char:EOLhyphen"/>kinde.</hi>
+               </p>
+            </argument>
+            <p n="1">
+               <pb n="28" facs="tcp:12251:24"/>
+               <note n="1" place="margin">The fift exe<g ref="char:EOLhyphen"/>cution vpon wicked me<g ref="char:cmbAbbrStroke">̄</g> in<g ref="char:EOLhyphen"/>habiting the earth (as a little before the An<g ref="char:EOLhyphen"/>gell ſavd) wrought by the infernall pow<g ref="char:EOLhyphen"/>ers, is declared in this place vnto the eleuenth verſe.</note> 
+               <note place="margin">F. IVNIVS.</note> THen the fift Angell blew the trumpet, and I ſaw a ſtarre fall out of heauen vnto the earth;</p>
+            <p n="13">13 <note n="10" place="margin">The ſixt execution done vpon the world, by the tyrannicall powers thereof, working in the foure partes of the earth.</note> ¶ Then the ſixt Angel blew the trumpet, <note n="11" place="margin">The commaundement giuen by Chriſt him ſelfe, who is gouernour ouer all.</note> and I heard a certaine voyce from the foure hornes of the golden altar, which is before God,</p>
+            <p n="14">14 Saying to the ſixt Angell, which had the trumpet; Looſe the foure Angels, which are bound at the great riuer Euphrates.</p>
+            <p n="15">
+               <pb n="32" facs="tcp:12251:26"/>
+15 <note n="13" place="margin">The execu<g ref="char:EOLhyphen"/>tio<g ref="char:cmbAbbrStroke">̄</g> of the com<g ref="char:EOLhyphen"/>mandement, is in two pointes: one, that theſe butcherers are let loſe, that out of their tower of the ſpirituall Baby<g ref="char:EOLhyphen"/>lon they might with furie run abroad tho<g ref="char:EOLhyphen"/>rough all the world, as well the chiefe of that crue which are moſt pro<g ref="char:cmbAbbrStroke">̄</g>pt vnto all aſſayes: in this verſe; as their multi<g ref="char:EOLhyphen"/>tudes, both moſt copious, of which a nu<g ref="char:cmbAbbrStroke">̄</g>
+                  <g ref="char:EOLhyphen"/>ber certaine is named for a number infinit, verſe 16. and in themſelues by all meanes fully furniſhed to hide and to hurt, verſ. 17.</note> The<g ref="char:cmbAbbrStroke">̄</g> the foure Angels were looſed, which were prepared at an houre, at a day, at a moneth, and at a yeare, to ſlay the third part of men.</p>
+            <p n="15">15 And the number of the troupes of horſe<g ref="char:EOLhyphen"/>men were twentie thouſand times ten thouſand: for I heard the number of them.</p>
+            <p n="16">16 I alſo ſaw horſes in a viſion, and them that ſate on them, hauing firie habbergions, and of Ia<g ref="char:EOLhyphen"/>cinth, and of brimſtone; &amp; the heads of the horſes were as the heads of Lyo<g ref="char:cmbAbbrStroke">̄</g>s: &amp; out of their mouthes came forth fire and ſmoke and brimſtone.</p>
+            <p n="18">18 By theſe three was the third part of men killed, <hi>that is,</hi> by the fire, and by the ſmoke, and by the brimſtone, which came out of their mouthes.</p>
+            <p n="19">19 For their power is in their mouthes, and in their tayles: <note n="14" place="margin">That is, they are harmefull euery way: on what part ſoeuer thou put thine hand vnto them, or they touch thee, they do hurt. So the for<g ref="char:EOLhyphen"/>mer are called Scorpions, verſe 3.</note> for their tayles are like vnto Ser<g ref="char:EOLhyphen"/>pents, hauing heads, wherewith they hurt.</p>
+            <p n="21">21 Neither repented they of their murthers, nor of their ſorceries, neither of their fornicati<g ref="char:EOLhyphen"/>on, nor of their theftes.</p>
+         </div>
+      </body>
+   </text>
+</TEI>

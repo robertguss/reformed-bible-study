@@ -1,0 +1,54 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A45241, Hutcheson, An exposition of the Gospel of Jesus Christ, according to John (1657), CC0 1.0, as keyed: John 3 to the exposition of verse 5, one division per verse or group of verses. Each division keeps its quotation and its first two paragraphs, cut short. -->
+   <text>
+      <body>
+         <div type="text">
+            <div n="3" type="chapter">
+               <head>CHAP. III.</head>
+               <p>
+                  <seg rend="decorInit">T</seg>His Chapter containeth; <hi>Firſt,</hi> Chriſts conference with Nicodemus con<g ref="char:EOLhyphen" />cerning regeneration and faith in him, for attaining ſalvation, <hi>to v</hi>
+               </p>
+               <div type="verse">
+                  <epigraph>
+                     <q>
+                        <p>
+                           <bibl>Verſe 1.</bibl> THere was a man of the Pha<g ref="char:EOLhyphen" />riſees, named Nicodemus, a ruler of the Jewes.</p>
+                        <p>
+                           <bibl>2.</bibl> The ſame came to Jeſus by night, and ſaid unto him, Rabbi, we know that then art a Teacher come from God: f<gap reason="illegible" resp="#PDCC" extent="1 letter">
+                              <desc>•</desc>
+                           </gap>r no man can do theſe miracles that thou doeſt, except God be with him.</p>
+                     </q>
+                  </epigraph>
+                  <p>The occaſion of this Conference and Sermon of Chriſt, is, <hi>Nicodemus</hi> (a Phariſee, and not one of the common ſort, but a Ruler and Member of the Councel) his</p>
+               </div>
+               <div type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>Ver. 3.</bibl> Jeſus anſwered, and ſaid unto him, Verily, verily I ſay unto thee, ex<g ref="char:EOLhyphen" />cept a man be borne againe, hee cannot ſee the kingdom if God.</q>
+                  </epigraph>
+                  <p>
+                     <hi>Followeth the conference it ſelf, and Chriſts in<g ref="char:EOLhyphen" />ſtructing of this Phariſee; wherein, firſt, he preſ<g ref="char:EOLhyphen" />ſeth the neceſſity of regeneration,</hi>
+                  </p>
+                  <p>In this verſe Chriſt begins with this Phariſee at the firſt principles of Religion, and by a grave aſ<g ref="char:EOLhyphen" />ſeveration teacheth the neceſſity that all men have of a</p>
+               </div>
+               <div type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>Ver. 4.</bibl> Nicodemus ſaith unto him, How can a man be born when he is old? can he enter the ſe<g ref="char:EOLhyphen" />cond time into his mothers womb, and be born?</q>
+                  </epigraph>
+                  <p>
+                     <hi>Nicodemus,</hi> taking up Chriſt carnally, as if he had been ſpeaking of a natural birth, objects a<g ref="char:EOLhyphen" />gainſt his doctrine, as preſcribing that</p>
+               </div>
+               <div type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>Ver. 5.</bibl> Jeſus anſwered, Verily, verily I ſay unto thee, Except a man be borne of water and of the Spirit, he cannot enter into the kingdome of God.</q>
+                  </epigraph>
+                  <p>Chriſt, in his anſwer, repeateth what he had ſaid of the neceſſity of regeneration, and withal, cleareth the way of it for <hi>Nicodemus</hi> his informa<g ref="char:EOLhyphen" />tion;
+<hi>water</hi> of</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

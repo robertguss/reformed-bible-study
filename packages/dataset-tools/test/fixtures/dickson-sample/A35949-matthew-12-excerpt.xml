@@ -1,0 +1,62 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A35949, Dickson, A brief exposition of the evangel of Jesus Christ according to Matthew (1651), CC0 1.0, as keyed: the opening of the discourse on the title of the New Testament and of the Gospel's own division, then Matthew 12 to the exposition of verse 13. Every block kept is in order; each exposition paragraph is cut short, and the markup of the two openings is left out. -->
+   <text>
+      <body>
+         <div type="biblical_commentary">
+            <head>Before the Evangel written by MATTHEW, a Title is prefixed, common to it, and all the rest of the Writings of the Apostles and Evangelists, which is this: THE NEW TESTAMENT (Or COVENANT) OF OUR LORD AND SAVIOUR JESUS CHRIST.</head>
+            <p>THe whole Bible is commonly called by the name of Old and New Testament, or Covenant</p>
+            <div type="part">
+               <head>The speciall Title prefixed to this Evangel, is, THE GOSPEL By, or According to MATTHEW.</head>
+               <p>THis Book is called the Gospel or glad Tidings, because the doctrine contained in it concerning our redemption from sin and misery, by Christ the Son of God,</p>
+               <div n="12" type="chapter">
+                  <head>CHAP. XII</head>
+                  <argument>
+                     <p>There are three controversies between CHRIST and the Pharisees: The first is, about his Dis<g ref="char:EOLhyphen" />ciples their plucking of ears of corn, to <hi>ver.</hi> 10. The next, about</p>
+                  </argument>
+                  <epigraph>
+                     <q>
+                        <hi>Ver. 1.</hi> AT that time Iesus went on the Sabbath day, through the corn, and his Disciples were an hungred, and began to pluck the ears of corn, and to eat.</q>
+                  </epigraph>
+                  <p>
+                     <hi>Sabbath</hi> he went from place to place, <hi>Through the corn field.</hi> 2. The work of the Mi<g ref="char:EOLhyphen" />nistry, and attending on the Lord, somtimes may be so</p>
+                  <q>
+                     <hi>Ver. 2.</hi> But when the Pharisees saw it, they said unto him, be<g ref="char:EOLhyphen" />hold, thy Disciples do that which is not lawful to do upon the Sab<g ref="char:EOLhyphen" />bath-day.</q>
+                  <p>The Pharisees fish a fault where there was none, and quar<g ref="char:EOLhyphen" />rell with Christ for his Disciples. <hi>Doct.</hi> 1. It is no new thing to see men, who are otherwise learned,</p>
+                  <q>
+                     <p>
+                        <hi>Ver. 3.</hi> But he said unto them, have ye not read what David did when he was an hungred, and they that were with him.</p>
+                     <p n="4">4. How he entred into the house of God, and did eat the shew-bread, which was unlawfull for him to eat, neither for them that were with him, but onely for the priests?</p>
+                  </q>
+                  <p>Our Lord defendeth his disciples by four reasons: The first is this, It was no sin for David and his men, in a case of ne<g ref="char:EOLhyphen" />cessity, to eat the shew-bread, which</p>
+                  <q>
+                     <p>
+                        <hi>Ver. 5.</hi> Or have ye not read in the law, how that on the Sabbath-dayes the Priests in the Temple profane the Sabbath, and are blame<g ref="char:EOLhyphen" />lesse?</p>
+                     <p n="6">6. But I say unto you, that in this place there is <hi>one</hi> greater then the temple.</p>
+                  </q>
+                  <p>The second reason, is, The priests for promoving of the service of the Temple, do bodily work on the sabbath, which in your language is to <hi>profane the sabbath,</hi>
+                  </p>
+                  <q>
+                     <hi>Ver. 7.</hi> But if ye had known what this meaneth, I will have mercy and not sacrifice, ye would not have condemned the guilt<g ref="char:EOLhyphen" />lesse.</q>
+                  <p>The third reason, is this, The Lord never appointed the outward ceremonies of his service in the first table, to hinder works of mercy prescribed in the second</p>
+                  <q>
+                     <hi>Verse 18.</hi> For the Son of man is Lord even of the Sabbath day.</q>
+                  <p>The fourth reason, I whom ye see to be a man, am also God, and Lord of the Sabbath, having authority to prescribe or al<g ref="char:EOLhyphen" />low for my service on that day, what I</p>
+                  <q>
+                     <p>
+                        <hi>Ver. 8.</hi> And when he was departed thence, he went into their sy<g ref="char:EOLhyphen" />nagogue.</p>
+                     <p n="10">10. And behold, there was a man which had his hand withered: and they asked him, saying, Is it lawful to heal on the sabbath days? <gap reason="illegible" resp="#PDCC" extent="1 letter">
+                           <desc>•</desc>
+                        </gap>hat they might accuse him.</p>
+                     <p n="11">11. And he said unto them, What man shall there be among you, that shall have one sheep, and if it fall in<g ref="char:EOLhyphen" />to a pit on the sabbath day, will he not lay hold on it, and lift it out?</p>
+                     <p n="12">12. How much then is a man better then a sheep? wherfore it is lawful to do wel on the sabbath dayes.</p>
+                  </q>
+                  <p>Here is another dispute about the sabbath in the synagogue, whether it was a breach of the sabbath, to heal a man of a wi<g ref="char:EOLhyphen" />thered hand miraculously: Hence learn,</p>
+                  <q>
+                     <hi>Ver. 13.</hi> Then said he to the man, Stretch forth thine hand: and he stretched it forth; and it was restored whole, like as the other.</q>
+                  <p>The Lord goeth on to heal the impotent man. <hi>Doct.</hi> 1. What<g ref="char:EOLhyphen" />soever impediment be put in Christs way to hinder him to do good, he will go on to do what he</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

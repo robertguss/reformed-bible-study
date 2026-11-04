@@ -1,0 +1,10 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Synthetic single work in the EEBO-TCP layout: an exposition of Jude, printed without chapter divisions. -->
+   <text>
+      <body>
+         <head>AN EXPOSITION OF JUDE.</head>
+         <p n="1">Jude, verse 1 expounded.</p>
+         <p n="2">Jude, verse 2 expounded.</p>
+      </body>
+   </text>
+</TEI>

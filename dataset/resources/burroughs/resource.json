@@ -1,0 +1,61 @@
+{
+  "id": "burroughs",
+  "kind": "commentary",
+  "title": "An Exposition of the Prophesie of Hosea",
+  "name": "Burroughs",
+  "creator": "Jeremiah Burroughs",
+  "edition": "Four volumes of lectures by Jeremiah Burroughs, as keyed and encoded by the Early English Books Online Text Creation Partnership: An exposition of the prophesie of Hosea, begun in divers lectures upon the first three chapters, the second edition newly corrected (London, printed for R. Dawlman, 1652, Wing B6069), Phase I text A30572; and, published after his death by Thomas Goodwin, William Greenhill, Sydrach Simpson, William Bridge, John Yates and William Adderly, An exposition with practical observations continued upon the fourth, fifth, sixth, and seventh chapters of the prophesy of Hosea, the fifth book they published (London, printed for Peter Cole, 1650, Wing B6070), Phase II text A77979; An exposition with practical observations continued upon the eighth, ninth, and tenth chapters, the sixth book they published (London, printed by Peter Cole, 1650, Wing B6070B), Phase I text A30574; and An exposition with practical observations continued upon the eleventh, twelfth and thirteenth chapters, the seventh book they published (London, printed by Peter Cole, 1651, Wing B6071), Phase I text A30575",
+  "language": "en",
+  "scope": ["Hos"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A30572",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A30572/9d79dda40ac3ba000f216a39a4f9fd75e3ababcd/A30572.xml",
+        "sha256": "7285f62cc15cc983040f6583cbf56be492d43f3101965c2552b79cdaa9dfa54a"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A77979/c44e912f225c0e3227af6cdd7c08047e2de01c5f/A77979.xml",
+        "sha256": "5fcec105916403ed27741ab4adc266769a8c99b0ac0cfabd8a8d9a659a588f2f"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A30574/b3b4775028b2fbd99109ed7c9e5650282c28a608/A30574.xml",
+        "sha256": "2e2b8bddf2c870ef076ec3337e48f9cbaf7ae03bf894ace41de367142898f590"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A30575/2c63020e5c99f0efbb636473997cd0a32aa6645e/A30575.xml",
+        "sha256": "1f9b4f69197fe7a92b37819d67ed737ef98195631e9a1f91ab109405b3d53052"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A30572",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A77979",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A30574",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A30575",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Jeremiah Burroughs, An Exposition of the Prophesie of Hosea (London, 1650 to 1652, in four volumes, the last three published after his death by Thomas Goodwin, William Greenhill, Sydrach Simpson, William Bridge, John Yates and William Adderly). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. On chapters 1 to 3 each lecture is one section, keyed by the label of the passage it quotes, such as HOSEA 2. 6. 7. or HOSEA 1. the middle of the 11. verse, and never by the lecture's number; a lecture whose label names its verse only in words, such as the middle of the second verse, continues the section before it, and lectures that open on the same verse share its section. On chapters 4 to 13 each exposition the transcription divides off is one section, keyed by the verse the transcription numbers it with, and the exposition of Hosea 8:14, printed inside that of 8:13, stays with it. A section runs from its own verse to the verse before the next section or the end of its chapter. Burroughs's lectures end at Hosea 13:11, so the last section ends there, and the notes he prepared for another sermon on that verse stay with it. A verse named in the exposition is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title pages, the frontispiece, the epistles to the reader, the imprimatur, the publishers' lists of books, the tables of contents, the alphabetical tables, the supervisor's epistle to the reader, and the chapter headings such as HOSEA, CHAP. 2. or CHAP. VIII.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

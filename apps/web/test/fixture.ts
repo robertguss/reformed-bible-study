@@ -44,6 +44,7 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
       { book: "Prov", chapters: [3] },
       { book: "Isa", chapters: [53] },
       { book: "Mark", chapters: [4] },
+      { book: "John", chapters: [3] },
       { book: "Rom", chapters: [1, 8, 16] },
       { book: "Rev", chapters: [1] },
     ],
@@ -61,12 +62,23 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
     title: "Calvin's Commentaries",
     creator: "John Calvin",
     attribution: { text: CALVIN_ATTRIBUTION },
-    scope: ["Gen", "Isa", "Matt", "Mark", "Rom"],
+    scope: ["Gen", "Isa", "Matt", "Mark", "John", "Rom"],
     ingested: [
       { book: "Gen", chapters: [1] },
       { book: "Mark", chapters: [4] },
+      { book: "John", chapters: [3] },
       { book: "Rom", chapters: [8] },
     ],
+  }),
+  // A single-book commentator, so the default panel has another commentator to name on John 3.
+  resource({
+    id: "hutcheson-john",
+    kind: "commentary",
+    title: "An Exposition of the Gospel according to John",
+    creator: "George Hutcheson",
+    name: "Hutcheson",
+    scope: ["John"],
+    ingested: [{ book: "John", chapters: [3] }],
   }),
   resource({
     id: "matthew-henry",
@@ -133,8 +145,12 @@ export const POOLE: CatalogResource = resource({
   kind: "commentary",
   title: "Annotations upon the Holy Bible",
   creator: "Matthew Poole",
+  name: "Poole",
   attribution: { text: POOLE_ATTRIBUTION },
-  ingested: [{ book: "Prov", chapters: [3] }],
+  ingested: [
+    { book: "Prov", chapters: [3] },
+    { book: "John", chapters: [3] },
+  ],
 })
 
 const verse = (n: number, text: string) => ({ verse: n, text: [{ text }] })
@@ -158,6 +174,13 @@ export const HENRY_ON_PROV_3_11 = "My son, despise not the chastening of the Lor
 export const POOLE_ON_PROV_3_5 = "Trust in the Lord; rely upon his promises and providence."
 export const HENRY_ON_ISA_53_5 = "He was wounded for our transgressions; it was for our sakes."
 export const SCRIPT_IN_COMMENTARY = '<script>alert("not markup")</script>'
+export const CALVIN_ON_JOHN_3_16 = "For God so loved the world. Christ opens the first cause."
+/** A paragraph longer than a page, so Calvin on John 3:16 comes in two parts. */
+export const CALVIN_ON_JOHN_3_16_CONTINUED = "Faith embraces Christ, in whom life is offered. "
+  .repeat(250)
+  .trim()
+export const HUTCHESON_ON_JOHN_3_16 = "Christ points out the fountain of salvation, God's love."
+export const POOLE_ON_JOHN_3_16 = "God so loved the world; the world of mankind lying in sin."
 export const CALVIN_ON_THE_SOWER = "It is not without good reason that the Evangelists begin."
 export const BELGIC_ART_1_TEXT =
   "We all believe with the heart, and confess with the mouth, that there is one only God."
@@ -239,6 +262,37 @@ const files: Record<string, unknown> = {
     chapter: 1,
     headings: [],
     verses: [verse(1, "This is the revelation of Jesus Christ.")],
+  },
+  "text/bsb/John.3.json": {
+    resourceId: "bsb",
+    book: "John",
+    chapter: 3,
+    headings: [],
+    verses: [verse(16, "For God so loved the world that He gave His one and only Son.")],
+  },
+  "commentary/calvin-commentaries/John.3.json": {
+    resourceId: "calvin-commentaries",
+    book: "John",
+    chapter: 3,
+    sections: [
+      {
+        ref: "John.3.16",
+        paragraphs: [[{ text: CALVIN_ON_JOHN_3_16 }], [{ text: CALVIN_ON_JOHN_3_16_CONTINUED }]],
+        notes: [],
+      },
+    ],
+  },
+  "commentary/hutcheson-john/John.3.json": {
+    resourceId: "hutcheson-john",
+    book: "John",
+    chapter: 3,
+    sections: [{ ref: "John.3.16", paragraphs: [[{ text: HUTCHESON_ON_JOHN_3_16 }]], notes: [] }],
+  },
+  "commentary/poole-annotations/John.3.json": {
+    resourceId: "poole-annotations",
+    book: "John",
+    chapter: 3,
+    sections: [{ ref: "John.3.16", paragraphs: [[{ text: POOLE_ON_JOHN_3_16 }]], notes: [] }],
   },
   "text/bsb/Mark.4.json": {
     resourceId: "bsb",

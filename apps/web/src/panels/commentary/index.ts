@@ -1,9 +1,11 @@
 import {
+  type CatalogResource,
   chooseDefaultCommentary,
   type CommentaryItem,
   type Envelope,
   getCommentary,
   listResources,
+  otherCoveringCommentaries,
   passagePath,
 } from "@reformed-bible/core"
 import { Effect, Option } from "effect"
@@ -26,19 +28,22 @@ export const fetchCommentary = (resourceId: string, focus: string, cursor: Optio
 
 /**
  * Chooses the commentator for the focus's chapter from the release's own catalog, so the panel
- * never waits on the app's catalog load, then reads that commentator's comment. The catalog is
- * fixed for a release, so "show more" on the same focus chooses the same commentator again.
+ * never waits on the app's catalog load, then reads that commentator's comment and lists the other
+ * commentators who hold the chapter. The catalog is fixed for a release, so "show more" on the
+ * same focus chooses the same commentator again.
  */
 export const fetchDefaultCommentary = (focus: string, cursor: Option.Option<string>) =>
   load(
     Effect.gen(function* () {
       const listing = yield* listResources.handler({})
       const catalog = listing.items.map(({ value }) => value)
-      const work = Option.flatMap(
-        Option.flatMap(passageOfFocus(focus), ({ start }) =>
-          chooseDefaultCommentary(catalog, { book: start.book, chapter: start.chapter }),
-        ),
-        (id) => Option.fromUndefinedOr(catalog.find((resource) => resource.id === id)),
+      const chapter = Option.map(passageOfFocus(focus), ({ start }) => ({
+        book: start.book,
+        chapter: start.chapter,
+      }))
+      if (Option.isNone(chapter)) return Option.none()
+      const work = Option.flatMap(chooseDefaultCommentary(catalog, chapter.value), (id) =>
+        Option.fromUndefinedOr(catalog.find((resource) => resource.id === id)),
       )
       if (Option.isNone(work)) return Option.none()
       const envelope = yield* getCommentary.handler({
@@ -46,9 +51,38 @@ export const fetchDefaultCommentary = (focus: string, cursor: Option.Option<stri
         work: work.value.id,
         ...cursorInput(cursor),
       })
-      return Option.some({ work: work.value, envelope })
+      const others = otherCoveringCommentaries(catalog, chapter.value, work.value.id)
+      return Option.some({ work: work.value, envelope, others })
     }),
   )
+
+/**
+ * "Also on this chapter: Hutcheson, Poole", each name a button that opens that commentator's panel.
+ * Empty when no other commentator holds the chapter.
+ */
+export const otherCommentariesView = <M>(
+  others: ReadonlyArray<CatalogResource>,
+  select: (resourceId: string) => M,
+  h: HtmlBuilder<M>,
+) =>
+  others.length === 0
+    ? []
+    : [
+        h.p(
+          [h.Class("also-on")],
+          [
+            "Also on this chapter: ",
+            ...others.flatMap((resource, i) => [
+              ...(i === 0 ? [] : [", "]),
+              h.keyed("button")(
+                resource.id,
+                [h.Type("button"), h.OnClick(select(resource.id))],
+                [resource.name ?? resource.creator],
+              ),
+            ]),
+          ],
+        ),
+      ]
 
 /** "Also treats Mark 4:1-12; Luke 8:1-10", each passage a link, for a comment from a harmony. */
 const parallelsView = <M>(parallels: CommentaryItem["parallels"], h: HtmlBuilder<M>) =>

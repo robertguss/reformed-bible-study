@@ -1,0 +1,92 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A47643, Leighton, A practical commentary upon the first epistle general of St. Peter, Vol. II (1694), CC0 1.0, as keyed: the expositions of 1 Peter 3:1 to 3:4 and the first exposition of chapters 4 and 5, whose chapter divisions carry no number. Each division keeps its heading, its quotation and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="commentary">
+            <pb n="1" facs="tcp:104216:4" />
+            <div type="chapter">
+               <head>1 Ep. St. Peter Chap. III.</head>
+               <div type="verse">
+                  <head>Ver. 1.</head>
+                  <epigraph>
+                     <q>Likewise ye Wives be in subjection to your own
+Husbands: that if any one obey not the word,
+they also without the word may be won by the Con<g ref="char:EOLhyphen" />versation
+of the Wives.</q>
+                  </epigraph>
+                  <p>THE Tabernacle of the Sun (<hi>Psal.</hi> 19) is set
+high in the Heavens, but 'tis, that it may
+have influence below upon the Earth: And
+the <hi>Word of God,</hi> that is spoke</p>
+                  </div>
+               <div type="verse">
+                  <epigraph>
+                     <bibl>Verse 2.</bibl>
+                     <q>While they behold your chast Conversation coupled
+with fear.</q>
+                  </epigraph>
+                  <p>AS all Graces are connexed in their own Nature,
+so 'tis altogether necessary, that they be found
+so, for the end here propounded, the conversion of
+those that</p>
+                  </div>
+               <div type="verse">
+                  <epigraph>
+                     <bibl>Verses 3, 4.</bibl>
+                     <q>
+                        <p>3. Whose adorning, let it not be that outward adorning,
+of plaiting the hair, and of wearing of Gold, or of
+putting on of apparel:</p>
+                        <p>4. But let it be the hidden man of the heart, in that
+which is not corruptible, even the ornament of a meek
+and quiet spirit, which is in the sight of God of
+great price.</p>
+                     </q>
+                  </epigraph>
+                  <p>THat nothing may be wanting to the qualifying of
+a Christian Wife, she is taught how to dress her
+self, supposing a general desire, but especially in that</p>
+                  </div>
+               <trailer>The End of the Third Chapter.</trailer>
+            </div>
+            <div type="chapter">
+               <pb n="257" facs="tcp:104216:132" />
+               <head>1 Ep. St. <hi>Peter</hi> Chap. IV.</head>
+               <div type="verse">
+                  <head>Ver. 1.</head>
+                  <epigraph>
+                     <q>Forasmuch then as Christ hath suffered for us in the
+flesh, arm your selves likewise with the same
+mind: for he that hath suffered in the flesh, hath
+ceased from sin.</q>
+                  </epigraph>
+                  <p>THE main of a Christians duty lies in these
+two, patience in suffering, and avoidance of
+sin, <gap reason="foreign">
+                        <desc>〈 in non-Latin alphabet 〉</desc>
+              </gap></p>
+                  </div>
+               </div>
+            <div type="chapter">
+               <pb facs="tcp:104216:207" />
+               <pb n="407" facs="tcp:104216:207" />
+               <head>1 Ep. St. Peter Chap. V.</head>
+               <div type="verse">
+                  <head>Ver. 1.</head>
+                  <epigraph>
+                     <q>The elders which are among you, I exhort, who
+am also an elder, and a witness of the sufferings
+of Christ, and also a partaker of the glory that
+shall be revealed.</q>
+                  </epigraph>
+                  <p>THE Church of Christ being one body, is in<g ref="char:EOLhyphen" />teressed
+in the condition and carriage of each
+particular Christian, as a part of it; but more emi<g ref="char:EOLhyphen" />nently
+in those,</p>
+                  </div>
+               </div>
+         </div>
+      
+      </body>
+   </text>
+</TEI>

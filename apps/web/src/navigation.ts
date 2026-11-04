@@ -30,3 +30,20 @@ export const ScrollToVerse = Command.define("ScrollToVerse", {
       Effect.as(Message.CompletedScrollToVerse()),
     ),
 })
+
+/**
+ * Scrolls a panel in the column into view and moves focus to its heading. Panels are found by their
+ * `data-panel` attribute, since a panel id such as `commentary:poole-annotations` holds a colon.
+ */
+export const ScrollToPanel = Command.define("ScrollToPanel", {
+  args: { panelId: Schema.String },
+  messages: [Message.CompletedScrollToPanel],
+  execute: ({ panelId }) => {
+    const section = `[data-panel="${panelId}"]`
+    return Dom.scrollIntoViewAfterPaint(section).pipe(
+      Effect.andThen(Dom.focus(`${section} h2`, { preventScroll: true })),
+      Effect.ignore,
+      Effect.as(Message.CompletedScrollToPanel()),
+    )
+  },
+})

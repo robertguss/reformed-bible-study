@@ -1,0 +1,45 @@
+{
+  "id": "leighton",
+  "kind": "commentary",
+  "title": "A Practical Commentary upon the First Epistle General of St. Peter",
+  "name": "Leighton",
+  "creator": "Robert Leighton",
+  "edition": "Two volumes by Robert Leighton, published after his death, as keyed and encoded by the Early English Books Online Text Creation Partnership: A practical commentary, upon the two first chapters of the first epistle general of St. Peter (York, printed by J. White for the City of York and the five northern counties, 1693, Wing L1028A), Phase I text A47642; and A practical commentary upon the first epistle general of St. Peter, Vol. II, containing the third, fourth and fifth chapters, edited by James Fall (London, printed by B. G. for Sam. Keble, 1694, Wing L1029), Phase I text A47643",
+  "language": "en",
+  "scope": ["1Pet"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A47642",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A47642/bb3ae7614949e416a4e3ee73c355cfc275a09529/A47642.xml",
+        "sha256": "6cd3541c381a53bc7b6812ebe1cbf8191acabaab2c89627116138581056b64fc"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A47643/887bdc6b09426957eec4f696115c47a65381a7e4/A47643.xml",
+        "sha256": "989dc80eaf2197ca1085a55518382031b09f434984978705b676c6a68de30e94"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A47642",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A47643",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Robert Leighton, A Practical Commentary upon the First Epistle General of St. Peter (York, 1693, and London, 1694, in two volumes, the second edited by James Fall). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with its verse label and the words of the text it expounds, such as Verse 2. Elect according to the foreknowledge of God the Father, and the paragraphs after it stay with its verse. Each exposition the transcription divides off is one section, keyed by the verse label printed at its head, such as Verse. 3, 4. or Verses 19, 20, 21., and running from its first verse to the verse before the next section or the end of its chapter, so a verse that one exposition shares with the next stays with the later one. The two volumes are read as one book: chapters 1 and 2 from the first, and chapters 3 to 5 from the second, whose chapters are numbered by their headings, such as 1 Ep. St. Peter Chap. III. A verse named in the exposition is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the imprimatur, the title pages, the epistle to the pious reader, James Fall's epistle to the Christian reader, the list of Leighton's books, the errata, and the chapter headings such as Chap. Second.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

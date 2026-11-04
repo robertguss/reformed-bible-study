@@ -1,0 +1,49 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A52355, Nisbet, A brief exposition of the First and Second Epistles general of Peter (1658), CC0 1.0, as keyed: the expositions of 1 Peter 1:4 to 1:10, across the twelve pages the copy lacks. Each division keeps its quotation and its first paragraph, cut short, and the gap. -->
+   <text>
+      <body>
+         <div n="1" type="epistle_and_exposition">
+            <pb n="1" facs="tcp:105751:3" />
+            <head>A BRIEF EXPOSITION Of the firſt Epiſtle General of PETER.</head>
+            <div n="1" type="chapter">
+               <head>CHAP. I.</head>
+               <div n="4" type="verse_and_commentary">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſ. 4.</hi>
+                        </bibl> To an inheritance incorruptible, and undefiled, and that fadeth not away, reſerved in Heaven for you.</q>
+                  </epigraph>
+                  <p>The ſecond reaſon of that Song of praiſe which all the Regenerate ſhould keep up in their hearts, is, that they have a matchleſs inheritance to look for beyond</p>
+               </div>
+               <div n="5" type="verse_and_commentary">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſ. 5.</hi>
+                        </bibl> Who are kept by the power of God through faith unto ſalvation, ready to be revealed in the laſt time.</q>
+                  </epigraph>
+                  <p>The third reaſon of the joy and conſtancy of ſuffering Believers, is, That their perſeverance is made ſure, the Almighty Power of God being imployed as their</p>
+                  <gap reason="missing" extent="12 pages">
+                     <desc>〈12 pages missing〉</desc>
+                  </gap>
+               </div>
+               <div n="9" type="verse_and_commentary">
+                  <pb n="31" facs="tcp:105751:12" />
+                  <p>ſervice, to wit, an undoubted right to the ſalvation of his ſoul through Chriſt: for, the word, <hi>Receiving,</hi> here, whereby the Apoſtle expreſſeth the act of</p>
+               </div>
+               <div n="10" type="verse_and_commentary">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſ. 10.</hi>
+                        </bibl> Of which ſalvation the Prophets have enquired, and ſearched diligently, who propheſied of the grace that ſhould come unto you.</q>
+                  </epigraph>
+                  <p>In this and the two following Verſes, is contained the laſt reaſon of the joy and conſtancy of Believers under their ſufferings, (which might be branched out</p>
+               </div>
+               </div>
+            </div>
+         
+      </body>
+   </text>
+</TEI>

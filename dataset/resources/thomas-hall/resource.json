@@ -1,0 +1,37 @@
+{
+  "id": "thomas-hall",
+  "kind": "commentary",
+  "title": "Samaria's Downfall, or A Commentary on the Five Last Verses of the Thirteenth Chapter of Hosea",
+  "name": "Hall",
+  "creator": "Thomas Hall",
+  "edition": "Samaria's downfall, or, A commentary (by way of supplement) on the five last verses of the thirteenth chapter of Hosea, by Thomas Hall, B.D. and pastor of Kingsnorton (London, printed by R. I. for Jo. Cranford, 1660, Wing H440), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I text A45340",
+  "language": "en",
+  "scope": ["Hos"],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A45340",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A45340/c060b52321857d637e2ae9327e2b9b9d79333f74/A45340.xml",
+        "sha256": "c8896c36c7735eecedc4ebfa40a6219dbd59a0d30b970749b6388228be7c30f2"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A45340",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Thomas Hall, Samaria's Downfall, or A Commentary (by way of Supplement) on the Five Last Verses of the Thirteenth Chapter of Hosea (London, 1660). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. The commentary is read as Hosea 13:12 to 16, one section per verse, each keyed by the verse its heading names, such as HOSEA 13. 12. or VERSE 13., with the observations on that verse. The brief history of the twenty kings of Israel and the catalogue of those kings, printed after the observations on verse 16, stay with that verse. A verse named in the commentary is never read. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title page, the dedication to the City of London, the epistle to the reader, the table of the principal things and the table of the texts explained.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

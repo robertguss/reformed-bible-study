@@ -124,7 +124,87 @@ SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = "resources/owen-hebrews/**"
-SPDX-FileCopyrightText = "John Owen, A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews (1680); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-FileCopyrightText = "John Owen, An Exposition of the Two First Chapters of the Epistle of Paul the Apostle unto the Hebrews (1668) and A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews (1680); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/westminster-annotations/**"
+SPDX-FileCopyrightText = "The divines appointed by Parliament, Annotations upon all the Books of the Old and New Testament (1645); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/diodati-annotations/**"
+SPDX-FileCopyrightText = "Giovanni Diodati, Pious Annotations upon the Holy Bible (1643); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/jackson-annotations/**"
+SPDX-FileCopyrightText = "Arthur Jackson, A Help for the Understanding of the Holy Scripture and Annotations on the Old Testament (1643, 1646, 1658, 1682); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/dickson/**"
+SPDX-FileCopyrightText = "David Dickson, expositions of the Psalms (1653 to 1655), Matthew (1651) and the Epistles (1659, translated from his Latin by William Retchford); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/hutcheson/**"
+SPDX-FileCopyrightText = "George Hutcheson, expositions of Job (1669), the Twelve Small Prophets (1654) and John (1657); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/fergusson/**"
+SPDX-FileCopyrightText = "James Fergusson, expositions of Galatians and Ephesians (1659), Philippians and Colossians (1656) and Thessalonians (1674); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/nisbet/**"
+SPDX-FileCopyrightText = "Alexander Nisbet, A Brief Exposition of the First and Second Epistles General of Peter (1658); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/leighton/**"
+SPDX-FileCopyrightText = "Robert Leighton, A Practical Commentary upon the First Epistle General of St. Peter (1693, 1694, the second volume edited by James Fall); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/durham/**"
+SPDX-FileCopyrightText = "James Durham, expositions of the Song of Solomon (1668), Isaiah 53 (1683) and the Revelation (1658); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/burroughs/**"
+SPDX-FileCopyrightText = "Jeremiah Burroughs, An Exposition of the Prophesie of Hosea (1650 to 1652, the last three volumes published after his death by Thomas Goodwin and others); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/thomas-hall/**"
+SPDX-FileCopyrightText = "Thomas Hall, Samaria's Downfall, a commentary on Hosea 13:12 to 16 (1660); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/sibbes/**"
+SPDX-FileCopyrightText = "Richard Sibbes, The Returning Backslider, on Hosea 14 (1639), and a commentary on 2 Corinthians 1 (1655, edited by Simeon Ashe and Thomas Manton); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/manton/**"
+SPDX-FileCopyrightText = "Thomas Manton, A Practical Commentary on the Epistle of Jude (1658); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/perkins/**"
+SPDX-FileCopyrightText = "William Perkins, expositions of the Sermon on the Mount (1608, published by Thomas Pierson), Galatians 1 to 5 (1604, with Ralph Cudworth's supplement on chapter 6) and Hebrews 11 (1607, published by William Crashawe and Thomas Pierson); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/gouge/**"
+SPDX-FileCopyrightText = "William Gouge, A Learned and Very Useful Commentary on the Whole Epistle to the Hebrews (1655, published by his son Thomas Gouge, who completed one half chapter); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/junius/**"
+SPDX-FileCopyrightText = "Franciscus Junius, Apocalypsis, a commentary on the Revelation (1592, translated from his Latin by a translator the book does not name); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]

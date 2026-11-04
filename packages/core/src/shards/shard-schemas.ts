@@ -52,6 +52,8 @@ export const CatalogResource = Schema.Struct({
   id: ResourceId,
   kind: Schema.Literals(ResourceKinds),
   title: Schema.String,
+  /** A short label for the work. Absent means show the creator. */
+  name: Schema.optionalKey(Schema.String),
   creator: Schema.String,
   edition: Schema.String,
   language: Schema.String,

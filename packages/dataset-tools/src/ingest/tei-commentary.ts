@@ -6,6 +6,7 @@ import {
   type CommentaryBook,
   type CommentarySection,
   type TextRun,
+  type VerseRef,
 } from "@reformed-bible/core"
 import { Effect, Schema } from "effect"
 import { attribute, decodeEntities, elementName, parser, TEXT, type XmlNode } from "./xml-tree.ts"
@@ -17,16 +18,140 @@ export class TeiCommentaryError extends Schema.TaggedError<
   detail: Schema.String,
 }) {}
 
-/** Which TEI divisions hold a book, a chapter and a verse, by their `type` attribute. */
+/**
+ * Which TEI divisions hold a book, a chapter and a verse, by their `type` attribute, and how one
+ * work departs from the common layout. Each departure is optional, and Poole's layout and that of
+ * Owen's volume on Hebrews 6 to 10 leave every one out.
+ */
 export interface TeiCommentaryLayout {
   /** Left out when the text's whole body is its single book. */
   readonly bookDivisions?: ReadonlySet<string>
+  /**
+   * Matched against each division's heading. A matching division, such as the Apocrypha or a
+   * preface, holds no listed book and is left out with everything inside it.
+   */
+  readonly skipDivisions?: RegExp
+  /**
+   * Matched against the heading of each division directly inside a book. A matching division, such
+   * as a commentary on part of the next chapter bound after the work's own chapter, is left out with
+   * everything inside it.
+   */
+  readonly skipWithinBook?: RegExp
   readonly chapterDivisions: ReadonlySet<string>
+  /** Given when the book has no chapter divisions because the work expounds this one chapter. */
+  readonly onlyChapter?: number
+  /** The chapter an unnumbered first chapter division holds, as in a volume that begins mid-book. */
+  readonly firstChapter?: number
+  /** The chapter an unnumbered last chapter division holds, as in a volume that ends mid-book. */
+  readonly lastChapter?: number
+  /**
+   * Given when chapter divisions carry no `n` attribute and are told only by their headings, such
+   * as `1 Ep. St. Peter Chap. III.` Its first group is the chapter, in Arabic or Roman figures.
+   */
+  readonly chapterHeading?: RegExp
   /**
    * Given when each chapter holds one division per verse or group of verses, named by its `n`
-   * attribute, such as `4, 5, 6`. Otherwise a verse is a paragraph numbered by its `n` attribute.
+   * attribute, such as `4, 5, 6`, or by its label when the layout gives a label pattern. Otherwise
+   * a verse is a paragraph numbered by its `n` attribute.
    */
   readonly verseDivisions?: ReadonlySet<string>
+  /**
+   * Given when each chapter division sits inside the first of its verse divisions, as Durham prints
+   * each chapter inside its first lecture. The verse divisions after it, up to the next chapter,
+   * belong to that chapter.
+   */
+  readonly chaptersInFirstVerseDivision?: boolean
+  /**
+   * Given when verses are told by printed labels, such as `Ver. 1.` or `HOSEA 13. 12.`, and not by
+   * `n` attributes, which may number lectures, sermons or points instead. The pattern is matched
+   * only at a label position: a quotation, `bibl` or epigraph, read from its first `bibl` when it
+   * has one, or a verse division's heading. Its first group is the verse. A verse named in prose is
+   * never read. A labelled quotation opens a section, and a verse division opens one at its first
+   * matching label, so a lecture whose labels run from verse 8 to 14 is one section. The verse is
+   * in Arabic or Roman figures, as in `ISAIAH LIII.IV.`
+   */
+  readonly verseLabel?: RegExp
+  /**
+   * Given with `verseDivisions` and `verseLabel` when a verse division may quote its text in its
+   * first paragraph in place of an epigraph, as Durham's third lecture on Revelation 7 does. That
+   * paragraph is then a label position too.
+   */
+  readonly openingParagraphLabel?: boolean
+  /**
+   * Given with `verseLabel`, and no `verseDivisions`, when a heading inside a chapter may name the
+   * verse its passage expounds, as Perkins heads his example of Enoch with a quotation marked
+   * `Verse 5.` A heading the pattern matches opens a section at that verse instead of the verse after
+   * it.
+   */
+  readonly headingLabels?: boolean
+  /**
+   * Given when a work quotes verses again after expounding them, as Gouge's resolution of a passage
+   * quotes it again from its first verse. A label lower than the verse before it then continues that
+   * verse's section instead of failing.
+   */
+  readonly requotedLabels?: boolean
+  /**
+   * Printed verse labels moved to the verse their text quotes, keyed by the label as an OSIS
+   * reference: `Hos.14.10` to 9 where a sermon labelled 14.10 quotes the King James Version's 14:9.
+   */
+  readonly verseLabelMoves?: ReadonlyMap<string, number>
+  /**
+   * Verse labels read as the verse their text quotes, each told by the words its block opens with,
+   * such as `Ver. 8 LORD, how long` where the print labels verse 3 as 8. The words are matched
+   * against the start of the block's text as printed. A corrected label keeps its verse even where
+   * the labels around it would number it otherwise, as where the print labels both halves of a
+   * verse with its number and the first would be read as the verse before.
+   */
+  readonly labelCorrections?: ReadonlyArray<{ readonly opening: string; readonly verse: number }>
+  /**
+   * Given with `verseLabel` when a chapter may print its first verses unlabelled in its argument, as
+   * Dickson prints 2 Corinthians 7:1. The text before the chapter's first labelled verse is then
+   * verse 1, in the order printed, and its own section when that label is a later verse.
+   */
+  readonly unlabelledOpening?: boolean
+  /** The last verse the work expounds, where its last section ends instead of at the chapter's end. */
+  readonly lastVerse?: VerseRef
+  /**
+   * Given when each note opens with its verse printed at the start of a paragraph or quotation,
+   * such as `V. 4.` or `Vers. 12.`, and no `n` attribute numbers it. The pattern must match at the
+   * start of the block's own text, leaving its notes out, and its first group is the verse. A
+   * labelled block opens a section at that verse, and every other block continues the section
+   * before it, so a verse named inside a note is never read. The blocks before a chapter's first
+   * label are verse 1, or the verse the chapter's heading names under `headingVerse`. After a
+   * missing-pages gap, a label lower than the one before it starts the next chapter, whose heading
+   * was lost with the pages.
+   */
+  readonly openingLabel?: RegExp
+  /**
+   * Given with `openingLabel` when a chapter's heading names the verse of the note that follows it
+   * unlabelled, as `CHAP. XXVII. VERS. 4.` does. Its first group is the verse, in Arabic or Roman
+   * figures.
+   */
+  readonly headingVerse?: RegExp
+  /**
+   * Division types inside a book that only gather its chapter divisions, such as an `annotations`
+   * division printed after the book's argument. Their chapters are read as the book's own, and
+   * their own heading is left out.
+   */
+  readonly chapterGroups?: ReadonlySet<string>
+  /**
+   * Given when a chapter division may repeat the number of the one before it, as where the print
+   * resumes chapter 4 at verse 24 under a heading of its own. Its text continues that chapter.
+   */
+  readonly chaptersResume?: boolean
+  /**
+   * Runs of text the transcription keys out of the order they were printed in, as where the two
+   * pages of one image are keyed in reverse. Each run, from the start of `from` to the end of
+   * `through`, is moved to just after `after`, with a space before it. Each string is the first
+   * place it occurs, and each end of a run lies inside a paragraph, so the run closes the paragraph
+   * it joins and the paragraph it left stays whole. A run the text does not hold, as in an excerpt
+   * of the volume, is left alone.
+   */
+  readonly misplaced?: ReadonlyArray<{
+    readonly from: string
+    readonly through: string
+    readonly after: string
+  }>
 }
 
 const childrenOf = (node: XmlNode): ReadonlyArray<XmlNode> => {
@@ -34,11 +159,14 @@ const childrenOf = (node: XmlNode): ReadonlyArray<XmlNode> => {
   return name === undefined ? [] : ((node[name] ?? []) as ReadonlyArray<XmlNode>)
 }
 
+/** A text run as it reads: entities decoded and the long s printed as s. */
+const printed = (text: string): string => decodeEntities(text).replaceAll("ſ", "s")
+
 const textOf = (nodes: ReadonlyArray<XmlNode>): string =>
   nodes
     .map((node) => {
       const text = node[TEXT]
-      return typeof text === "string" ? decodeEntities(text) : textOf(childrenOf(node))
+      return typeof text === "string" ? printed(text) : textOf(childrenOf(node))
     })
     .join("")
 
@@ -100,7 +228,7 @@ const pieceOf = (nodes: ReadonlyArray<XmlNode>): Piece => {
     for (const node of children) {
       const text = node[TEXT]
       if (typeof text === "string") {
-        into.add(decodeEntities(text), emphasis)
+        into.add(printed(text), emphasis)
         continue
       }
       const name = elementName(node)
@@ -151,6 +279,48 @@ const marker = (node: XmlNode): number | undefined => {
   return n !== undefined && /^\d+$/.test(n) ? Number(n) : undefined
 }
 
+const LABEL_BLOCKS = new Set(["q", "bibl", "epigraph"])
+
+const ROMAN: Readonly<Record<string, number>> = { i: 1, v: 5, x: 10, l: 50, c: 100 }
+
+/** A number printed in Arabic figures, such as `24`, or Roman ones, such as `XXIV`. */
+const figures = (number: string): number | undefined => {
+  if (/^\d+$/.test(number)) return Number(number)
+  if (!/^[ivxlc]+$/i.test(number)) return undefined
+  const values = [...number.toLowerCase()].map((c) => ROMAN[c] as number)
+  return values.reduce((sum, value, i) => sum + (value < (values[i + 1] ?? 0) ? -value : value), 0)
+}
+
+/** The verse a label block's text names, read from its first `bibl` when it has one. */
+const labelOf = (node: XmlNode, pattern: RegExp): number | undefined => {
+  const [bibl] = descendants([node], "bibl")
+  const text = textOf(childrenOf(bibl ?? node))
+  const verse = pattern.exec(text.replace(/\s+/g, " ").trim())?.[1]
+  return verse === undefined ? undefined : figures(verse)
+}
+
+/**
+ * The verse named by a verse division's first heading or epigraph that carries a label, or by its
+ * first paragraph when the layout reads labels there too.
+ */
+const divisionLabelOf = (
+  division: XmlNode,
+  pattern: RegExp,
+  openingParagraph: boolean,
+): number | undefined => {
+  const children = childrenOf(division)
+  const paragraph = openingParagraph
+    ? children.find((node) => elementName(node) === "p")
+    : undefined
+  for (const node of children) {
+    const name = elementName(node)
+    const labelled = name === "head" || name === "epigraph" || node === paragraph
+    const verse = labelled ? labelOf(node, pattern) : undefined
+    if (verse !== undefined) return verse
+  }
+  return undefined
+}
+
 /** Each paragraph, heading or other block inside a container such as an argument, as pieces in order. */
 const piecesOf = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<Piece> =>
   nodes.flatMap((node) => {
@@ -164,9 +334,15 @@ const piecesOf = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<Piece> =>
 /**
  * The items of a chapter, in order. The chapter's own heading, such as `CHAP. I.`, is left out. Other
  * headings and arguments open the verse after them; anything else that is not a paragraph, such as
- * a page gap or a closing doxology, continues the verse before it.
+ * a page gap or a closing doxology, continues the verse before it. Given a label pattern, a labelled
+ * quotation is a verse item instead, and every paragraph continues the verse before it; so is a
+ * labelled heading, where the layout reads labels in headings.
  */
-const chapterItems = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<Item> => {
+const chapterItems = (
+  nodes: ReadonlyArray<XmlNode>,
+  verseLabel: RegExp | undefined,
+  headingLabels: boolean,
+): ReadonlyArray<Item> => {
   const items: Array<Item> = []
   let label = true
   const visit = (children: ReadonlyArray<XmlNode>) => {
@@ -180,12 +356,25 @@ const chapterItems = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<Item> => {
       const first = label
       label = false
       if (name === "head" && first) continue
+      const labelled = LABEL_BLOCKS.has(name) || (headingLabels && name === "head")
+      const verse = verseLabel !== undefined && labelled ? labelOf(node, verseLabel) : undefined
       if (name === "p") {
-        items.push({ kind: "verse", marker: marker(node), piece: pieceOf(childrenOf(node)) })
-      } else if (name === "head") items.push({ kind: "lead", piece: pieceOf(childrenOf(node)) })
-      else if (name === "argument") {
+        const piece = pieceOf(childrenOf(node))
+        items.push(
+          verseLabel === undefined
+            ? { kind: "verse", marker: marker(node), piece }
+            : { kind: "trail", piece },
+        )
+      } else if (name === "head") {
+        const piece = pieceOf(childrenOf(node))
+        items.push(
+          verse === undefined ? { kind: "lead", piece } : { kind: "verse", marker: verse, piece },
+        )
+      } else if (name === "argument") {
         for (const piece of piecesOf(childrenOf(node))) items.push({ kind: "lead", piece })
       } else if (name === "div") visit(childrenOf(node))
+      else if (verse !== undefined)
+        items.push({ kind: "verse", marker: verse, piece: pieceOf([node]) })
       else items.push({ kind: "trail", piece: pieceOf([node]) })
     }
   }
@@ -246,15 +435,17 @@ const joinPieces = (pieces: ReadonlyArray<Piece>): Piece => ({
 
 /**
  * The items of a chapter written as one division per verse or group of verses. Each division is a
- * verse item at the first verse its `n` attribute names, so divisions opening on the same verse
- * share a section. The chapter's own heading is left out. The text before the first division opens
- * it, or is verse 1 when the first division begins later, as when the chapter's introduction runs
- * on into the first verse's exposition. The text after the last division, such as `FINIS.`, is left
- * out.
+ * verse item at the first verse its `n` attribute, or else its label, names, so divisions opening
+ * on the same verse share a section. The chapter's own heading is left out. The text before the
+ * first division opens it, or is verse 1 when the first division begins later, as when the chapter's
+ * introduction runs on into the first verse's exposition. The text after the last division, such as
+ * `FINIS.`, is left out.
  */
 const verseDivisionItems = (
   nodes: ReadonlyArray<XmlNode>,
   verseDivisions: ReadonlySet<string>,
+  verseLabel: RegExp | undefined,
+  openingParagraph: boolean,
 ): ReadonlyArray<Item> => {
   const isVerse = (node: XmlNode) =>
     elementName(node) === "div" && verseDivisions.has(attribute(node, "type") ?? "")
@@ -268,9 +459,11 @@ const verseDivisionItems = (
     label = false
     if (isVerse(node)) {
       const n = /^\d+/.exec(attribute(node, "n") ?? "")?.[0]
+      const numbered = n === undefined ? undefined : Number(n)
       items.push({
         kind: "verse",
-        marker: n === undefined ? undefined : Number(n),
+        marker:
+          verseLabel === undefined ? numbered : divisionLabelOf(node, verseLabel, openingParagraph),
         piece: joinPieces(piecesOf(childrenOf(node))),
       })
     } else if (items.length > 0) items.push({ kind: "trail", piece: joinPieces(piecesOf([node])) })
@@ -283,6 +476,60 @@ const verseDivisionItems = (
     : [...intro.map((piece): Item => ({ kind: "lead", piece })), ...items]
 }
 
+/** A block's own text as printed, without its notes, so a label is read only where it is printed. */
+const ownTextOf = (nodes: ReadonlyArray<XmlNode>): string =>
+  nodes
+    .map((node) => {
+      const text = node[TEXT]
+      if (typeof text === "string") return printed(text)
+      return elementName(node) === "note" ? "" : ownTextOf(childrenOf(node))
+    })
+    .join("")
+
+const LABELLED_BLOCKS = new Set(["p", "q"])
+
+/**
+ * The items of a chapter whose notes open with printed verse labels. A paragraph or quotation whose
+ * own text starts with the label is a verse item; a later heading opens the verse after it, and
+ * anything else continues the verse before it. The chapter's own heading is left out, and the
+ * blocks before the first label are one verse item at the verse that heading names, or verse 1.
+ */
+const openingLabelItems = (
+  nodes: ReadonlyArray<XmlNode>,
+  openingLabel: RegExp,
+  headingVerse: RegExp | undefined,
+): ReadonlyArray<Item> => {
+  const intro: Array<Piece> = []
+  const items: Array<Item> = []
+  let headed: number | undefined
+  let label = true
+  for (const node of nodes) {
+    const name = elementName(node)
+    if (name === "pb" || (name === undefined && textOf([node]).trim() === "")) continue
+    const first = label
+    label = false
+    if (name === "head" && first) {
+      const named = headingVerse?.exec(textOf(childrenOf(node)).replace(/\s+/g, " "))?.[1]
+      headed = named === undefined ? undefined : figures(named)
+      continue
+    }
+    const pieces = name === undefined ? [pieceOf([node])] : piecesOf([node])
+    const opening =
+      name !== undefined && LABELLED_BLOCKS.has(name)
+        ? openingLabel.exec(ownTextOf(childrenOf(node)).replace(/\s+/g, " ").trim())
+        : null
+    if (opening !== null && opening.index === 0) {
+      items.push({ kind: "verse", marker: figures(opening[1] ?? ""), piece: joinPieces(pieces) })
+    } else if (items.length === 0) intro.push(...pieces)
+    else {
+      const kind = name === "head" ? "lead" : "trail"
+      for (const piece of pieces) items.push({ kind, piece })
+    }
+  }
+  if (intro.length === 0) return items
+  return [{ kind: "verse", marker: headed ?? 1, piece: joinPieces(intro) }, ...items]
+}
+
 interface ChapterItems {
   readonly chapter: number
   readonly intro: ReadonlyArray<Piece>
@@ -293,13 +540,16 @@ interface ChapterItems {
  * Where pages are missing, the chapter heading that followed them can be lost with them, so the
  * next chapter's verses run on inside this one. A verse number past the chapter's end, after a
  * missing-pages gap, starts the following chapter when the source has no division of its own for it.
+ * Where verses are told by printed labels, so does a label lower than the one before it.
  */
 const splitAfterMissingPages = (
   book: BookId,
   { chapter, intro, items }: ChapterItems,
   divided: ReadonlySet<number>,
+  labelsRestart: boolean,
 ): ReadonlyArray<ChapterItems> => {
   let missing = false
+  let before: number | undefined
   const next = chapter + 1
   for (let i = 0; i < items.length; i++) {
     const item = items[i] as Item
@@ -307,7 +557,8 @@ const splitAfterMissingPages = (
       missing &&
       item.kind === "verse" &&
       item.marker !== undefined &&
-      item.marker > verseCount(book, chapter) &&
+      (item.marker > verseCount(book, chapter) ||
+        (labelsRestart && before !== undefined && item.marker < before)) &&
       next <= chapterCount(book) &&
       !divided.has(next)
     ) {
@@ -317,30 +568,52 @@ const splitAfterMissingPages = (
           book,
           { chapter: next, intro: [], items: items.slice(i) },
           divided,
+          labelsRestart,
         ),
       ]
     }
     missing ||= item.piece.missing
+    if (item.kind === "verse") before = item.marker ?? before
   }
   return [{ chapter, intro, items }]
 }
 
 /**
  * One chapter's sections, each from its own verse to the verse before the next section or the end
- * of the chapter. Text before the first verse section, such as a book's argument or a psalm's
- * title, opens it, and a paragraph whose verse cannot be told continues the section before it.
+ * of the chapter, or the work's last verse when it ends in this chapter. Text before the first verse
+ * section, such as a book's argument or a psalm's title, opens it, and a paragraph whose verse
+ * cannot be told continues the section before it. A marker the layout moves keys its section to the
+ * verse it is moved to.
  */
 const sectionsOf = (
   book: BookId,
   { chapter, intro, items }: ChapterItems,
-  repairMarkers: boolean,
+  layout: TeiCommentaryLayout,
 ): Effect.Effect<ReadonlyArray<CommentarySection>, TeiCommentaryError> =>
   Effect.gen(function* () {
-    const max = verseCount(book, chapter)
-    const markers = items.flatMap((item) => (item.kind === "verse" ? [item.marker] : []))
-    const numbers = repairMarkers
-      ? numberMarkers(markers, max)
-      : markers.map((m) => (m !== undefined && m >= 1 && m <= max ? m : undefined))
+    const { lastVerse, verseLabelMoves, labelCorrections } = layout
+    const unlabelledOpening = layout.unlabelledOpening === true
+    const max =
+      lastVerse?.book === book && lastVerse.chapter === chapter
+        ? lastVerse.verse
+        : verseCount(book, chapter)
+    const moved = (m: number | undefined) =>
+      m === undefined ? m : (verseLabelMoves?.get(`${book}.${chapter}.${m}`) ?? m)
+    const corrected = (piece: Piece) => {
+      const text = (piece.paragraphs[0] ?? []).map((run) => run.text).join("")
+      return labelCorrections?.find(({ opening }) => text.startsWith(opening))?.verse
+    }
+    const corrections = items.flatMap((item) =>
+      item.kind === "verse" ? [corrected(item.piece)] : [],
+    )
+    const markers = items
+      .flatMap((item) => (item.kind === "verse" ? [moved(item.marker)] : []))
+      .map((m, i) => corrections[i] ?? m)
+    const numbers = (
+      layout.verseDivisions === undefined
+        ? numberMarkers(markers, max)
+        : markers.map((m) => (m !== undefined && m >= 1 && m <= max ? m : undefined))
+    ).map((n, i) => corrections[i] ?? n)
     const open: Array<{ readonly verse: number; readonly pieces: Array<Piece> }> = []
     const opening: Array<Piece> = [...intro]
     let lead: Array<Piece> = []
@@ -348,7 +621,7 @@ const sectionsOf = (
     for (const item of items) {
       const current = open.at(-1)
       if (item.kind === "lead") {
-        lead.push(item.piece)
+        ;(unlabelledOpening && current === undefined ? opening : lead).push(item.piece)
         continue
       }
       if (item.kind === "trail") {
@@ -356,12 +629,19 @@ const sectionsOf = (
         continue
       }
       const verse = numbers[v++]
-      if (verse === undefined || verse === current?.verse) {
+      const requoted =
+        layout.requotedLabels === true &&
+        verse !== undefined &&
+        current !== undefined &&
+        verse < current.verse
+      if (verse === undefined || verse === current?.verse || requoted) {
         ;(current?.pieces ?? opening).push(...lead, item.piece)
       } else if (current !== undefined && verse < current.verse) {
         return yield* new TeiCommentaryError({
           detail: `${book}.${chapter}: verse ${verse} follows verse ${current.verse}`,
         })
+      } else if (current === undefined && unlabelledOpening && verse > 1 && opening.length > 0) {
+        open.push({ verse: 1, pieces: [...opening] }, { verse, pieces: [...lead, item.piece] })
       } else
         open.push({
           verse,
@@ -385,25 +665,120 @@ const sectionsOf = (
 
 const fail = (detail: string) => Effect.fail(new TeiCommentaryError({ detail }))
 
+/** The text of a division's first heading, with its whitespace collapsed. */
+const headingOf = (division: XmlNode): string => {
+  const head = childrenOf(division).find((node) => elementName(node) === "head")
+  return head === undefined ? "" : textOf(childrenOf(head)).replace(/\s+/g, " ").trim()
+}
+
+const withChildren = (node: XmlNode, children: ReadonlyArray<XmlNode>): XmlNode => {
+  const name = elementName(node)
+  return name === undefined ? node : { ...node, [name]: children }
+}
+
+/** A division's children without its own heading, the first element when it is a `head`. */
+const withoutHeading = (children: ReadonlyArray<XmlNode>): ReadonlyArray<XmlNode> => {
+  const opening = children.find((child) => !["pb", undefined].includes(elementName(child)))
+  return opening !== undefined && elementName(opening) === "head"
+    ? children.filter((child) => child !== opening)
+    : children
+}
+
+/**
+ * Rebuilds a book printed with each chapter division inside its first verse division, such as a
+ * lecture, as chapter divisions holding their verse divisions. That first verse division holds the
+ * chapter's text in place of the chapter division, without the chapter's own heading, and the verse
+ * divisions after it, up to the next chapter, follow it.
+ */
+const gatherChapters = (
+  nodes: ReadonlyArray<XmlNode>,
+  isChapter: (node: XmlNode) => boolean,
+  isVerse: (node: XmlNode) => boolean,
+): ReadonlyArray<XmlNode> => {
+  const gathered: Array<XmlNode> = []
+  let chapter: { readonly node: XmlNode; readonly children: Array<XmlNode> } | undefined
+  const close = () => {
+    if (chapter !== undefined) gathered.push(withChildren(chapter.node, chapter.children))
+  }
+  for (const node of nodes) {
+    const inner = isVerse(node) ? childrenOf(node).find(isChapter) : undefined
+    if (inner !== undefined) {
+      close()
+      const own = withoutHeading(childrenOf(inner))
+      const first = childrenOf(node).flatMap((child) => (child === inner ? own : [child]))
+      chapter = { node: inner, children: [withChildren(node, first)] }
+    } else if (isChapter(node)) {
+      close()
+      chapter = { node, children: [...childrenOf(node)] }
+    } else if (chapter === undefined) gathered.push(node)
+    else chapter.children.push(node)
+  }
+  close()
+  return gathered
+}
+
 /**
  * One book's chapters. Chapter divisions are numbered by their `n` attribute, checked the way verse
- * markers are; a book printed without them is its single chapter. Text before a chapter division,
- * such as the book's argument, opens that chapter, and text after the last one is left out.
+ * markers are; a book printed without them is its single chapter, or the one chapter the layout
+ * names. Text before a chapter division, such as the book's argument, opens that chapter, and text
+ * after the last one is left out. A chapter division that resumes the chapter before it, where the
+ * layout allows one, continues that chapter.
  */
 const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayout) =>
   Effect.gen(function* () {
-    const children = childrenOf(division)
     const isChapter = (node: XmlNode) =>
       elementName(node) === "div" && layout.chapterDivisions.has(attribute(node, "type") ?? "")
+    const isVerse = (node: XmlNode) =>
+      elementName(node) === "div" &&
+      layout.verseDivisions?.has(attribute(node, "type") ?? "") === true
+    const isGroup = (node: XmlNode) =>
+      elementName(node) === "div" &&
+      layout.chapterGroups?.has(attribute(node, "type") ?? "") === true
+    const { skipWithinBook } = layout
+    const isSkipped = (node: XmlNode) =>
+      skipWithinBook !== undefined &&
+      elementName(node) === "div" &&
+      skipWithinBook.test(headingOf(node))
+    const own = childrenOf(division).flatMap((node) =>
+      isSkipped(node) ? [] : isGroup(node) ? withoutHeading(childrenOf(node)) : [node],
+    )
+    const children =
+      layout.chaptersInFirstVerseDivision === true ? gatherChapters(own, isChapter, isVerse) : own
     const divisions = children.filter(isChapter)
+    const itemsOf = (nodes: ReadonlyArray<XmlNode>) =>
+      layout.openingLabel !== undefined
+        ? openingLabelItems(nodes, layout.openingLabel, layout.headingVerse)
+        : layout.verseDivisions === undefined
+          ? chapterItems(nodes, layout.verseLabel, layout.headingLabels === true)
+          : verseDivisionItems(
+              nodes,
+              layout.verseDivisions,
+              layout.verseLabel,
+              layout.openingParagraphLabel === true,
+            )
     if (divisions.length === 0) {
-      if (chapterCount(book) !== 1)
+      const only = layout.onlyChapter ?? (chapterCount(book) === 1 ? 1 : undefined)
+      if (only === undefined)
         return yield* fail(`${book} has no chapter divisions but ${chapterCount(book)} chapters`)
-      return [{ chapter: 1, intro: [], items: chapterItems(children) }]
+      return [{ chapter: only, intro: [], items: itemsOf(children) }]
     }
-    const numbers = numberMarkers(divisions.map(marker), chapterCount(book))
+    const { chapterHeading } = layout
+    const headed = (node: XmlNode) => {
+      const named = chapterHeading?.exec(headingOf(node))?.[1]
+      return named === undefined ? undefined : figures(named)
+    }
+    const markers = divisions.map(
+      (node, i) =>
+        marker(node) ??
+        headed(node) ??
+        (i === 0 ? layout.firstChapter : undefined) ??
+        (i === divisions.length - 1 ? layout.lastChapter : undefined),
+    )
+    const numbers = numberMarkers(markers, chapterCount(book))
+    const resumes = layout.chaptersResume === true
     for (const [i, n] of numbers.entries()) {
-      if (n === undefined || (i > 0 && n <= (numbers[i - 1] ?? 0))) {
+      const before = numbers[i - 1] ?? 0
+      if (n === undefined || (i > 0 && (n < before || (n === before && !resumes)))) {
         const label = attribute(divisions[i] as XmlNode, "n")
         return yield* fail(`${book}: chapter division ${i + 1} (n="${label}") cannot be placed`)
       }
@@ -416,11 +791,15 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
     for (const node of children) {
       if (isChapter(node)) {
         const chapter = numbers[d++] as number
-        const items =
-          layout.verseDivisions === undefined
-            ? chapterItems(childrenOf(node))
-            : verseDivisionItems(childrenOf(node), layout.verseDivisions)
-        chapters.push(...splitAfterMissingPages(book, { chapter, intro, items }, divided))
+        const items = itemsOf(childrenOf(node))
+        const resumed = chapters.at(-1)
+        if (resumed?.chapter === chapter) {
+          const between = intro.map((piece): Item => ({ kind: "trail", piece }))
+          chapters[chapters.length - 1] = {
+            ...resumed,
+            items: [...resumed.items, ...between, ...items],
+          }
+        } else chapters.push({ chapter, intro, items })
         intro = []
         label = false
       } else if (elementName(node) !== undefined && elementName(node) !== "pb") {
@@ -428,7 +807,10 @@ const bookChapters = (book: BookId, division: XmlNode, layout: TeiCommentaryLayo
         label = false
       }
     }
-    return chapters
+    const labelsRestart = layout.openingLabel !== undefined
+    return chapters.flatMap((chapter) =>
+      splitAfterMissingPages(book, chapter, divided, labelsRestart),
+    )
   })
 
 /**
@@ -446,17 +828,35 @@ export const readTeiCommentary = (
   layout: TeiCommentaryLayout,
 ): Effect.Effect<ReadonlyArray<CommentaryBook>, TeiCommentaryError> =>
   Effect.gen(function* () {
+    let text = xml
+    for (const { from, through, after } of layout.misplaced ?? []) {
+      const start = text.indexOf(from)
+      const end = start < 0 ? -1 : text.indexOf(through, start)
+      if (end < 0) continue
+      const rest = text.slice(0, start) + text.slice(end + through.length)
+      const at = rest.indexOf(after)
+      if (at < 0) continue
+      const run = text.slice(start, end + through.length)
+      text = `${rest.slice(0, at + after.length)} ${run}${rest.slice(at + after.length)}`
+    }
     const tree = yield* Effect.try({
-      try: () => parser.parse(xml) as ReadonlyArray<XmlNode>,
+      try: () => parser.parse(text) as ReadonlyArray<XmlNode>,
       catch: (error) => new TeiCommentaryError({ detail: String(error) }),
     })
-    const { bookDivisions } = layout
+    const { bookDivisions, skipDivisions } = layout
     const isBook = (node: XmlNode) =>
       bookDivisions === undefined
         ? elementName(node) === "body"
         : elementName(node) === "div" && bookDivisions.has(attribute(node, "type") ?? "")
+    const isSkipped = (node: XmlNode) =>
+      skipDivisions !== undefined &&
+      elementName(node) === "div" &&
+      skipDivisions.test(headingOf(node))
     const findBooks = (nodes: ReadonlyArray<XmlNode>): ReadonlyArray<XmlNode> =>
-      nodes.flatMap((node) => (isBook(node) ? [node] : findBooks(childrenOf(node))))
+      nodes.flatMap((node) => {
+        if (isSkipped(node)) return []
+        return isBook(node) ? [node] : findBooks(childrenOf(node))
+      })
     const divisions = findBooks(tree)
     if (divisions.length !== books.length) {
       return yield* fail(`found ${divisions.length} book divisions for ${books.length} books`)
@@ -465,8 +865,7 @@ export const readTeiCommentary = (
     for (const [i, book] of books.entries()) {
       const chapters = yield* bookChapters(book, divisions[i] as XmlNode, layout)
       const sections: Array<CommentarySection> = []
-      for (const chapter of chapters)
-        sections.push(...(yield* sectionsOf(book, chapter, layout.verseDivisions === undefined)))
+      for (const chapter of chapters) sections.push(...(yield* sectionsOf(book, chapter, layout)))
       read.push({ resourceId, book, sections })
     }
     return read

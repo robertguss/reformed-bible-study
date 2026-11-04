@@ -2,6 +2,7 @@
   "id": "calvin-commentaries",
   "kind": "commentary",
   "title": "Calvin's Collected Commentaries",
+  "name": "Calvin",
   "creator": "John Calvin",
   "edition": "Calvin Translation Society English translations as transcribed by the Christian Classics Ethereal Library, collected in the CrossWire SWORD module CalvinCommentaries version 1.1 (2022-08-01)",
   "language": "en",

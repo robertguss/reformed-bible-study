@@ -1,0 +1,37 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A36467, Annotations upon all the books of the Old and New Testament (1645), CC0 1.0, as keyed: 1 Kings 8 and 9 around the leaf whose two pages are keyed in reverse, so that the notes on 1 Kings 8:12 to 8:47 follow 1 Kings 9:15. Chapter 8 keeps its notes on verses 11, 12, 49 and 50; chapter 9 keeps its notes on verses 1 and 15, the misplaced notes on 8:12, 8:13 and 8:47, and its note on verse 16. -->
+   <text>
+      <body>
+         <div n="1 Kings (3 Kings)" type="book">
+            <head>ANNOTATIONS On the first Book of the KINGS, Commonly called, The third Book of the KINGS.</head>
+            <div n="8" type="chapter">
+               <head>CHAP. VIII.</head>
+               <p>V. 11. <hi>could not stand</hi>] First, for reverence sake, as Exod. 3. 5. Secondly, upon a great amazement, 1 Chro. 21. 16, 30. Third<g ref="char:EOLhyphen"/>ly, for want of convenient light. <hi>Object.</hi> This phrase follow<g ref="char:EOLhyphen"/>ing (<hi>the glory of the Lord</hi>) implieth, light in the cloud. <hi>Ans.</hi> 1. Not necessarily. Well weigh verse 12. 2. It might be a great brightnesse, and yet not give convenient light to do any work thereby. 3. It might dazle them too much. The like is noted, Exod. 40. 35.</p>
+               <p>V. 12. <hi>Then</hi>] Upon that manifestation of Gods glory,</p>
+               <pb facs="tcp:65255:154"/>
+               <p>V. 49. <hi>their cause</hi>] Or, <hi>right.</hi> Take part with thy people that repent, and pray against the unjust oppression of their enemies, Isai. 10. 6, 7. and 47. 6. Zach. 1. 15.</p>
+               <p>V. 50. <hi>give them compassion</hi>] Procure pitty, grace, and fa<g ref="char:EOLhyphen"/>vour for them. Turn the heart of their enemies toward them, Gen. 39. 21. and 43. 14. Examples, Ezra 7. 6. Nehe. 2. 2. Esth. 2. 9, 17. and 6. 10. and 10. 2, 3. Dan. 1. 9, 17. and 2 48, 49. Psal. 106. 46.</p>
+            </div>
+            <div n="9" type="chapter">
+               <head>CHAP IX.</head>
+               <p>Vers. 1. <hi>IT came to passe when Solomon had finished the luilding <gap reason="illegible" resp="#keyers" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>f the house of the Lord</hi>] 2 Chron. 7. 11.</p>
+               <p>V. 15. <hi>levy</hi>] Of men, as chap. 5. 13. Because he had such plenty of money, and of all things fit to accomplith great works, he made great levies of men. This very word is apply<g ref="char:EOLhyphen"/>ed (v. 21.) to such men as he used for his works.</p>
+               <p>
+                  <hi>Millo</hi>] According to the Hebrew notation, it signifieth a <hi>fulnesse,</hi> or a place <hi>filled up.</hi> Some thereupon take it to be an high strong bulwark filled up with earth: Others, for a spaciou<gap reason="illegible" resp="#keyers" extent="1 letter">
+                     <desc>•</desc>
+                  </gap> place for people that attended the kings court to meet in. It is called an house, 2 King. 12. 20. and it appears to be an house of defence, or a sort, because in danger of enemies</p>
+               <pb facs="tcp:65255:154"/>
+               <p>Solomon discerning this to be a sign of Gods gracious presence quickly makes known as much.</p>
+               <p>
+                  <hi>said</hi>] 2 Chron. 6. 1. Levit. 16. 2. Psal. 18. 12. and 97. 2. In that God oft manifested himself in darknesse, it is as much as if he had said he would dwell therein.</p>
+               <p>V. 13. <hi>surely built</hi>] Or, <hi>building I have built</hi>] Or, perfectly finished.</p>
+               <p>V. 47. <hi>bethink themselves</hi>] Heb. <hi>bring back to their heart</hi>] Call to minde their sins.
+<pb facs="tcp:65255:155"/> Hezekiah repaired it, 2 Chron. 32. 5. It was in Zion which David won from the Jebusites. See on 2 Sam. 5. 7, 9. Solomon (both here and Chap. 11. 27.) is said to build it, in that he so repaired, and beautisied it, as he made it as a new one.</p>
+               <p>V. 16. <hi>taken Gezer</hi>] For the Canaanites and Philistines held it at that time, Judg. 1. 29. 1 Sam. 27. 8. 1 Chron. 20. 4.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

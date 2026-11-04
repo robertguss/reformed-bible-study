@@ -1,0 +1,45 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A41197, Fergusson, A brief exposition of the Epistles of Paul to the Galatians and Ephesians (1659), CC0 1.0, as keyed: the expositions of Ephesians 1:4 to 1:7, where verse 6 is labelled 5, and of 1:22 to 23, labelled with a dash. Each division keeps its heading and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="exposition">
+            <pb facs="tcp:44180:168" />
+            <pb n="1" facs="tcp:44180:168" />
+            <head>A brief Exposition of the Epistle of <hi>Paul</hi> to the <hi>Ephesians.</hi>
+            </head>
+            <div n="1" type="chapter">
+               <pb n="2" facs="tcp:44180:169" />
+               <head>CHAP. I.</head>
+               <div type="verse_and_explication">
+                  <head>
+                     <hi>Vers.</hi> 4. According as He hath chosen us in Him, before the foundation of the world, that we should be holy, and with<g ref="char:EOLhyphen" />out blame before Him in love.</head>
+                  <p>THe Apostle, in the second place, treateth of those spi<g ref="char:EOLhyphen" />ritual blessings more particularly, and so doth branch forth at large that reason of his thanksgiving to</p>
+               </div>
+               <div type="verse_and_explication">
+                  <head>
+                     <hi>Vers.</hi> 5. Having predestinated us unto the adoption of children by Jesus Christ to Himself, according to the good plea<g ref="char:EOLhyphen" />sure of His will.</head>
+                  <p>IN this Verse, the Apostle doth first expresse Gods eter<g ref="char:EOLhyphen" />nal decree of Election, formerly mentioned by another word, to wit, <hi>Predestination,</hi> which setteth forth</p>
+               </div>
+               <div type="verse_and_explication">
+                  <head>
+                     <hi>Vers.</hi> 5, To the praise of the glory of His Grace, wherein He hath made us accepted in the Beloved.</head>
+                  <p>THe Apostle (having already described the decree of Election from two of those ends which God propo<g ref="char:EOLhyphen" />sed unto Himself to be brought about by it, to wit, the</p>
+               </div>
+               <div type="verse_and_explication">
+                  <head>
+                     <hi>Vers.</hi> 7. In whom we have redemption through his bloud, the forgiveness of sins; according to the riches of his grace.</head>
+                  <p>THe Apostle (having already spoken of those spiritual blessings, mentioned ver. 3. as they were prepared, and appointed for Believers in God's eternal decree</p>
+               </div>
+               <div type="verse_and_explication">
+                  <pb n="72" facs="tcp:44180:204" />
+                  <head>
+                     <hi>Vers.—22.</hi> And gave Him to be the head over all things to the Church, 23. Which is his body, the fulness of Him that filleth all in all.</head>
+                  <p>THe Apostle, having spoken of Christ's glory and so<g ref="char:EOLhyphen" />veraignity in general over all the creatures, doth next hold forth His special dominion and soveraignity</p>
+               </div>
+            </div>
+            <trailer>FINIS.</trailer>
+         </div>
+      
+      </body>
+   </text>
+</TEI>

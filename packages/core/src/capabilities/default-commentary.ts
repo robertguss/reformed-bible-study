@@ -31,6 +31,28 @@ export const chooseDefaultCommentary = (
     ),
   )
 
+const labelOf = (resource: CatalogResource): string => resource.name ?? resource.creator
+
+/**
+ * Every other commentator whose commentary holds the chapter, by the same test the default choice
+ * uses, sorted by short name (the creator when the catalog gives none). The commentator shown is
+ * left out.
+ */
+export const otherCoveringCommentaries = (
+  catalog: ReadonlyArray<CatalogResource>,
+  chapter: ChapterRef,
+  shownId: string,
+): ReadonlyArray<CatalogResource> =>
+  catalog
+    .filter(
+      (resource) =>
+        resource.id !== shownId && resource.kind === "commentary" && hasChapter(resource, chapter),
+    )
+    .sort((a, b) => {
+      const [x, y] = [labelOf(a), labelOf(b)]
+      return x < y ? -1 : x > y ? 1 : 0
+    })
+
 const rankOf = (id: string): number => {
   const rank = DEFAULT_COMMENTARY_ORDER.indexOf(id)
   return rank < 0 ? DEFAULT_COMMENTARY_ORDER.length : rank

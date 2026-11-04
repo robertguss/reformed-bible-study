@@ -1,0 +1,85 @@
+{
+  "id": "jackson-annotations",
+  "kind": "commentary",
+  "title": "A Help for the Understanding of the Holy Scripture",
+  "name": "Jackson",
+  "creator": "Arthur Jackson",
+  "edition": "Four volumes by Arthur Jackson, as keyed and encoded by the Early English Books Online Text Creation Partnership: A help for the understanding of the Holy Scripture, the first part, on the five books of Moses (Cambridge, printed by Roger Daniel, 1643, Wing J67), Phase I text A46823; Annotations upon the remaining historicall part of the Old Testament, the second part, on Joshua to Esther (Cambridge, printed by Roger Daniel, 1646, Wing J65), Phase II text A46811; Annotations upon the five books immediately following the historicall part of the Old Testament, on Job, the Psalms, the Proverbs, Ecclesiastes and the Song of Solomon (London, printed by Roger Daniel for the author, 1658, Wing J64), Phase I text A46807; and Annotations upon the whole book of Isaiah (London, printed for Thomas Parkhurst, 1682, Wing J66), Phase II text A46816",
+  "language": "en",
+  "scope": [
+    "Gen",
+    "Exod",
+    "Lev",
+    "Num",
+    "Deut",
+    "Josh",
+    "Judg",
+    "Ruth",
+    "1Sam",
+    "2Sam",
+    "1Kgs",
+    "2Kgs",
+    "1Chr",
+    "2Chr",
+    "Ezra",
+    "Neh",
+    "Esth",
+    "Job",
+    "Ps",
+    "Prov",
+    "Eccl",
+    "Song",
+    "Isa"
+  ],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A46823",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A46823/d0392a158bb33a6d9e3080d0cfec734b04b9c20a/A46823.xml",
+        "sha256": "d80f83eaeb51d36410a35d9515d1a3127c815e720097fbb3e0aef28bd1c16233"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A46811/135e58c5bdf9c0146ea5073c2557c7e9d86b2ad5/A46811.xml",
+        "sha256": "432554456345bf63bdc9c02ea5b6ac310ef0b4e531fe8253e670370ae0b29486"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A46807/ae1d85b031c88588c37ff7705a4d027b5f64e116/A46807.xml",
+        "sha256": "4822a90b8bec76a04f9b0d4499a2ae10c407ad76568a86137a9190bc91360cf2"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A46816/5a3c5bf86b3027954e3e1d49c7f914099b115fda/A46816.xml",
+        "sha256": "8845e62bf05502875bfbd4766ca05e48127558902a2473df65b41efaf0a12ff9"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A46823",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A46811",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A46807",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A46816",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Arthur Jackson, A Help for the Understanding of the Holy Scripture and his Annotations on the Old Testament: Genesis to Deuteronomy (Cambridge, 1643), Joshua to Esther (Cambridge, 1646), Job to the Song of Solomon (London, 1658) and Isaiah (London, 1682). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each note opens with the words of the text it expounds as Jackson printed them, such as Vers. 2. And the earth was without form, and void.], and the notes after a labelled one stay with its verse. Sections are keyed by the verse labels printed at the start of the notes, such as Vers. 1. or V. 2., and a verse named inside a note is never read. A label misprinted between two that follow on is read as the number between them, and a label that cannot stand in its chapter's order, such as a repeated number, continues the section before it. A section runs from its own verse to the verse before the next section or the end of its chapter. The notes before a chapter's first label, such as an unlabelled note on the first verse or a psalm's title, are its verse 1. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word, 〈 in non-Latin alphabet 〉 for Greek or Hebrew, and 〈1 page duplicate〉 for a page filmed twice. Line-end hyphens are closed up. In the third volume two pages are missing in Psalm 4, taking the heading of Psalm 5 with them; the notes that follow the gap are placed in Psalm 5 from verse 3, and the end of the title note on Psalm 5 stays at the end of the note on Psalm 4:4, where the transcription runs it on. Left out: the portraits, the title pages, the dedications, the prefaces to the reader, the errata, the bookseller's list, and the headings of books and chapters such as CHAP. I. The volumes have no notes on Exodus 37, and no volume covers Jeremiah to Malachi or the New Testament.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

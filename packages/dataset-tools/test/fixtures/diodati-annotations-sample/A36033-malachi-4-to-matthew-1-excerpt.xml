@@ -1,0 +1,48 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A36033, Diodati, Pious annotations upon the Holy Bible (1643), CC0 1.0, as keyed: Malachi 4 whole, then the advertisement on the Apocrypha with its first book, then Matthew 1. Malachi 1 to 3, the long paragraph of the advertisement, Matthew's argument and Matthew 1 after verse 8 are left out. -->
+   <text>
+      <body>
+         <div type="commentary_on_book">
+            <head>The Booke of the Prophet MALACHI.</head>
+            <div n="4" type="chapter">
+                  <head>CHAP. IV.</head>
+                  <p>Ver. 1. <hi>THe day]</hi> of Christs comming, wherof he had spoken, Mal. 3 2, 3. <hi>Neither root]</hi> A proverbiall terme, as Job 18. 16. and 29. 19. Isa 5. 24. Amos. 2 9.</p>
+                  <p>V. 2. <hi>Ari<gap reason="illegible" resp="#APEX" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>e]</hi> by faith you shall know and enjoy Christ, who shall be a devouring fire to the wicked; but unto his Elect, a Son of yeelding; a vivifying and comfortable heate, by vertue of his perfect righteousnes; by which he will reconcile them to God his Father: and obtaine his Spirit for them; which shall regenerate, sanctifie, and save them perfectly. See Isa. 60. 1, 2, 19. <hi>Goe forth]</hi> A descrip<g ref="char:EOLhyphen"/>tion of the liberty of Spirit in the Elect, in joy, vi<g ref="char:EOLhyphen"/>gor, and promptitude of spirituall motions.</p>
+                  <p>V. 3. <hi>Tread down]</hi> A representation of the Chur<g ref="char:EOLhyphen"/>ches victory over her spirituall enemies, which is very frequent in the Prophets.</p>
+                  <p>
+                  <pb n="112" facs="tcp:59460:308"/>
+V. 5. <hi>Eliah]</hi> that is to say, John the Baptist, who shall come in the Spirit and power of Eliah, Luke 1. 17. <hi>The great]</hi> that stately apparition of the Sonne of God in the flesh, accompanied with the consuming power set downe before, Mal. 3. 2. &amp; 4 1. Especially, in regard of the Jewes, who shall be destroyed by him, by reason of their re<g ref="char:EOLhyphen"/>bellion and ingratitude.</p>
+                  <p>V. 6. <hi>Shall turne]</hi> his preaching shall be for <gap reason="illegible" resp="#APEX" extent="1 word">
+                     <desc>〈◊〉</desc>
+                  </gap> bring backe the children of Israel, that are gone astray, to the true faith and piety of their fore-fathers; whereby their fathers; as Abraham, Isaac, and Jacob, who (as one may say) did not know them againe, Isa. 29. 22, 23. shall re-accept them for their lawfull posterity; which thing failing, I will finally and totally destroy the whole Nation.</p>
+               </div>
+            <trailer>FINIS</trailer>
+         </div>
+         <div type="commentary_on_books">
+            <pb n="113" facs="tcp:59460:308"/>
+            <head>An Advertisement concerning the Books, which are called <hi>Apocrypha.</hi>
+            </head>
+            <div type="book">
+                  <head>The first Booke of the Apocripha called <hi>Esdra,</hi> being called the third of <hi>Esdra.</hi>
+               </head>
+                  <p>THis Book is but onely a summary repetiti<g ref="char:EOLhyphen"/>on of some holy and canonicall writings, namely, of the two last Chapters of the se<g ref="char:EOLhyphen"/>cond Book of Chronicles, and of the Book of the true Ezra, and of Nehemia. Which besides its being neither necessary nor profitable, doth also containe diverse things and circumstances direct<g ref="char:EOLhyphen"/>ly contrary to those foresaid bookes, that are of authenticall truth. As amongst the rest the nar<g ref="char:EOLhyphen"/>ration inserted in the third and fourth Chapter of the three young men that were of <hi>Darius</hi> his guard, contending for the reward of the best sen<g ref="char:EOLhyphen"/>tence propounded by every one of them: though it be also related by <hi>Iosephus,</hi> an ancient Hebrew Historian: which besides that it hath no signe of divine majesty and holinesse, is also plainly con<g ref="char:EOLhyphen"/>victed of falsehood: for this Booke taketh from thence the cause of the second returne of the Jewes from the Babylonian captivity, and of the re-undertaking of the building of the Temple, under <hi>Darius</hi> by <hi>Zorobabel,</hi> pretended to be one of the said young men. Whereas the true <hi>Ezra</hi> sets downe, that <hi>Zorobabel</hi> was conductor of the first company of Jewes, which returned under <hi>Cyrus</hi> many yeares before <hi>Darius.</hi> And therefore by very good reason this book hath been by una<g ref="char:EOLhyphen"/>nimous consent rejected amongst the ba<gap reason="illegible" resp="#APEX" extent="1 letter">
+                     <desc>•</desc>
+                  </gap>est and falsest sort of Apocrypha.</p>
+               </div>
+         </div>
+         <div type="commentary_on_book">
+            <pb n="1" facs="tcp:59460:312"/>
+            <head>THE HOLY GOSPELL OF OVR <hi>LORD JESVS CHRIST</hi> ACCORDING TO SAINT <hi>MATTHEW.</hi>
+            </head>
+            <div n="1" type="chapter">
+                  <head>CHAP. I.</head>
+                  <p>VER. 1. <hi>THe book]</hi> A register or muster roll of Christ his lineall descent according to the flesh, <hi>Luke</hi> 3. 23.</p>
+                  <p>V. 5. <hi>Of Rachab.]</hi> It is uncertaine whether it be meant of that <hi>Rachab. Ios.</hi> 21.</p>
+                  <p>V. 8. <hi>Joram]</hi> three successive Kings are left out here, <hi>Achazia, Joas</hi> and <hi>Amazia. 2 King.</hi> 8. 29. and 11. 2. and 12. 21. and 14. 21. whereof the reason is unknowne, as also of many other particularities in these generalogies.</p>
+               </div>
+         </div>
+      </body>
+   </text>
+</TEI>

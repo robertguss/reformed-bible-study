@@ -1,0 +1,69 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A35943, Dickson, A brief explication of the last fifty Psalmes (1654), CC0 1.0, as keyed: the title page, which holds the imprimatur as a text of its own, and Psalm 101, the first psalm of the volume. Every block of the psalm is kept in order; each exposition paragraph is cut short. -->
+   <text>
+      <front>
+         <div type="title_page">
+            <p>A BRIEF EXPLICATION Of the last Fifty Psalmes, From <hi>Ps.</hi> 100. to the end.</p>
+            <p>BY DAVID DICKSON.</p>
+            <p>Professor of DIVINITY in the <hi>COLLEDGE</hi> of EDENBURGH:</p>
+            <q>
+               <bibl>COL. 3.16.</bibl>
+               <p>Let the Word of Christ dwell in you richly, in all wisdom teach<g ref="char:EOLhyphen" />ing and admonishing one another, in Psalmes and Hymnes, and spiritual Songs, singing with grace in your hearts to the Lord.</p>
+            </q>
+            <p>
+               <floatingText xml:lang="eng">
+                  <body>
+                     <div type="imprimatur">
+                        <p>Imprimatur,</p>
+                        <closer>
+                           <signed>EDMUND CALAMY.</signed>
+                        </closer>
+                     </div>
+                  </body>
+               </floatingText>
+            </p>
+            <p>LONDON, Printed by <hi>T.R.</hi> and <hi>E. M</hi> for <hi>Tho. Iohnson</hi> at the golden Key in S. <hi>Pauls</hi> Church-yard. <hi>An. Dom.</hi> 1654.</p>
+            <gap reason="duplicate" extent="1 page">
+               <desc>〈1 page duplicate〉</desc>
+            </gap>
+         </div>
+      </front>
+      <body>
+         <div n="101" type="Psalm">
+            <head>A BRIEF EXPLICATION Upon the last Fifty Psalmes.</head>
+            <head>PSALM CI.</head>
+            <argument>
+               <p>
+                  <hi>
+                     <seg rend="decorInit">D</seg>Avid,</hi> not being as yet entered in possession of his Kingdome, doth by direction of the holy Spirit, fall upon a</p>
+            </argument>
+            <q>
+               <hi>Ver. 1. I</hi> Will sing of mercy and judgement, unto thee, O LORD, will I sing.</q>
+            <p>The first duty which he undertaketh, is, to delight himself in all royal vertues, required for the Government of good or bad subjects; and to make those duties</p>
+            <q>
+               <hi>Ver. 2.</hi> I will behave my self wisely in a perfect way: O when wilt thou come unto me? I will walk within my house with a perfect heart.</q>
+            <p>The second duty which he undertaketh, when God shall come unto him to performe his promise, and put him in possession of the Kingdome, is, that he will cast a</p>
+            <q>
+               <hi>Ver. 3</hi> I will set no wicked thing before mine eyes: I hate the work of them that turn aside, <hi>it</hi> shall not cleave to me.</q>
+            <p>The third duty undertaken is, that he will be far from plotting of any wicked thing, and far from communion with any per<g ref="char:EOLhyphen" />sons in an evil course, which is a</p>
+            <q>
+               <hi>Ver. 3.</hi> A froward heart shall depart from me, I will not know a wicked person.</q>
+            <p>The fourth duty undertaken is, in relation to the Court and places of trust: he will not have in his company, nor will coun<g ref="char:EOLhyphen" />tenance a perverse or wicked person; <hi />
+            </p>
+            <q>
+               <hi>Ver. 5.</hi> Who so privily slandereth his neighbour, him will I cut off: him that hath an high look and a proud heart will not I suffer.</q>
+            <p>The fifth duty undertaken, is the curbing of out-breaking wickednesse, especially of that which most hindereth the peace and welfare of the subjects, such as</p>
+            <q>
+               <hi>Ver. 6.</hi> Mine eyes <hi>shall be</hi> upon the faithful of the land, that they may dwell with me: he that walk<g ref="char:EOLhyphen" />eth in a perfect way, he shall serve me.</q>
+            <p>The sixth duty undertaken, is countenancing and encoura<g ref="char:EOLhyphen" />ging of the godly in the land. <hi>Whence learn,</hi> 1. The Magi<g ref="char:EOLhyphen" />strate should have a special care to countenance</p>
+            <q>
+               <hi>Ver. 7.</hi> He that worketh deceit, shall not dwell within my house: he that telleth lies, shall not tarry in my sight.</q>
+            <p>The seventh duty undertaken, is the purging out of discovered hypocrites, if they shall creep in into credit or trust. <hi>Whence learn,</hi> 1. Deceitful and false</p>
+            <q>
+               <hi>Ver. 8.</hi> I will early destroy all the wicked of the land, that I may cut off all wicked doers from the Ci<g ref="char:EOLhyphen" />ty of the LORD.</q>
+            <p>The eighth duty undertaken, is to suppresse all ungodlinesse in the land, and that for the good of religion, and furtherance of the welfare of the Church. <hi />
+            </p>
+         </div>
+      </body>
+   </text>
+</TEI>

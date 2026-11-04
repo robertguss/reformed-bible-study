@@ -1,0 +1,71 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A37035, Durham, A commentarie upon the book of the Revelation (1658), CC0 1.0, as keyed: the first four lectures on chapter 7. The chapter division sits inside its first lecture, as printed, and the third lecture quotes its text in its first paragraph, with no epigraph. Each lecture keeps its heading, its quoted text and its first two paragraphs, cut short, and the rest is cut. -->
+   <text>
+      <body>
+         <div type="text">
+            <pb facs="tcp:32234:5" />
+            <head>AN EXPOSITION Of the BOOK of the REVELATION.</head>
+            <div n="1" type="lecture">
+               <head>LECTURE I.</head>
+               <div n="7" type="chapter">
+                  <head>CHAP. VII.</head>
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Vers. 1.</hi>
+                        </bibl>
+                        <p>ANd after these things, I saw four Angels standing on the four corners of the earth, holding the four winds of the earth, that the wind should not blow on the earth, nor on the sea, nor on any tree.</p>
+                     </q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">A</seg>T the entry of the former Chapter we divided this prophesie into three principall prophesies, holding forth and relating unto three</p>
+                  <p>If we look to the order of revealing the matter contained in this Chapter, it doth belong to the sixth seal (the seventh not being yet opened;) But, if we look</p>
+                  </div>
+            </div>
+            <div n="2" type="lecture">
+               <head>LECTURE II.</head>
+               <epigraph>
+                  <q>
+                     <bibl>
+                        <hi>Vers. 2.</hi>
+                     </bibl>
+                     <p>And I saw another Angel ascending from the east, having the seal of the living God: and he cried with a loud voice to the four Angels, to whom it was given to hurt the earth and the sea,</p>
+                     <bibl>
+                        <hi>3.</hi>
+                     </bibl>
+                     <p>Saying, Hurt not the earth, neither the sea, nor the trees, till we have sealed the servants of our God in their foreheads.</p>
+                  </q>
+               </epigraph>
+               <p>WE have had some little view of that sad condition which the Church was to be into by the storm of heresie from all airths blowing upon her: which storm, we</p>
+               <p>We come now to consider the consolation which the Lord giveth unto His people, to guard and comfort them against that storm. It hath two parts, as is said. The</p>
+               </div>
+            <div n="3" type="lecture">
+               <pb n="389" facs="tcp:32234:199" />
+               <head>LECTURE III.</head>
+               <p>Vers. 4. <hi>And I heard the number of them which were sealed: and there were sealed an hundred and fourty and four thousand of all the tribes of the children of</hi></p>
+               <p n="5">5. Of the tribe of Iuda were sealed twelve thousand. Of the tribe of Reuben were sealed twelve thousand. Of the tribe of Gad were sealed twelve thousand.</p>
+               </div>
+            <div n="4" type="lecture">
+               <head>LECTURE IIII.</head>
+               <epigraph>
+                  <q>
+                     <bibl>
+                        <hi>Vers. 9.</hi>
+                     </bibl>
+                     <p>After this I beheld, and lo, a great multitude, which no man could number, of all nations, and kindreds, and people, and tongues, stood before the throne, and before the Lamb, clothed with white robes, and palms in their hands:</p>
+                     <bibl>
+                        <hi>10.</hi>
+                     </bibl>
+                     <p>And cried with a loud voice, saying, Salvation to our God which sitteth upon the throne, and unto the Lamb.</p>
+                  </q>
+               </epigraph>
+               <p>THe Lord, having described to <hi>Iohn</hi> and discovered to him, in the beginning of the Chapter, the hazard the Church was in by a coming storm, He laieth two</p>
+               <p>
+                  <pb n="391" facs="tcp:32234:200" />For clearing the meaning of this part of the Chapter, we are to enquire in these particu<g ref="char:EOLhyphen" />lars, 1. Who are to be understood by these that are</p>
+               </div>
+            <trailer>FINIS.</trailer>
+         </div>
+         
+      </body>
+   </text>
+</TEI>

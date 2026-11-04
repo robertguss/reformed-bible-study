@@ -1,0 +1,17 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Synthetic volume in the EEBO-TCP layout: the first volume of a Psalms commentary, holding Psalms 1 to 50, two of which are kept. -->
+   <text>
+      <body>
+         <div type="psalm" n="1">
+            <head>PSALM 1.</head>
+            <p n="1">Psalm 1, verse 1 expounded.</p>
+            <p n="2">Psalm 1, verse 2 expounded.</p>
+         </div>
+         <div type="psalm" n="50">
+            <head>PSALM 50.</head>
+            <p n="1">Psalm 50, verse 1 expounded.</p>
+            <p n="2">Psalm 50, verse 2 expounded.</p>
+         </div>
+      </body>
+   </text>
+</TEI>

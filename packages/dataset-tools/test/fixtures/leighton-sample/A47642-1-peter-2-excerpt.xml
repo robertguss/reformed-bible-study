@@ -1,0 +1,42 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A47642, Leighton, A practical commentary, upon the two first chapters of the first epistle general of St. Peter (1693), CC0 1.0, as keyed: the expositions of 1 Peter 2:21 to the end of the chapter. Each division keeps its heading, its quotation and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div n="2" type="chapter">
+            <pb n="217" facs="tcp:32810:117" />
+            <head>Chap. Second.</head>
+            <div n="21,22,23" type="verse">
+               <pb n="424" facs="tcp:32810:222" />
+               <head>Verse. 21.22, 23.</head>
+               <epigraph>
+                  <q>
+                     <p>For even hereunto were ye called: Because Christ also suffered for us, leaving us an example, that ye should follow his steps.</p>
+                     <p n="22">
+                        <hi>22.</hi> Who did no sinne, neither was guile found in his mouth.</p>
+                     <p n="23">
+                        <hi>23.</hi> Who when he was reviled, reviled not again; when he suffered, he threatned not: But committed himself to him that judgeth righteously.</p>
+                  </q>
+               </epigraph>
+               <p>THe rules that God hath set Men to live by are universally just, and there is an universall obligation upon all Men to obey them, but as they are particulary</p>
+               </div>
+            <div n="24" type="verse">
+               <head>Verse. 24.</head>
+               <epigraph>
+                  <q>Who his own self bare our sins in his own Body on the Tree, that we being dead to sin, should live unto Righteousness; by whose stripes ye were healed.</q>
+               </epigraph>
+               <p>THat which is deepest in the heart, is readily most in the mouth. That which abounds within, runs over most by the Tongue or Pen, when Men light upon the</p>
+               </div>
+            <div n="25" type="verse">
+               <pb n="477" facs="tcp:32810:250" />
+               <head>Verse. 25.</head>
+               <epigraph>
+                  <q>For ye were as Sheep going astray, but are now returned to the Shepherd and Bishop of your Souls.</q>
+               </epigraph>
+               <p>IN these few words we have a brief, and yet clear representation of the wretchedness of our Na<g ref="char:EOLhyphen" />tural condition, and our happiness in Christ. The resemblance is</p>
+               </div>
+            <trailer>FINIS</trailer>
+         </div>
+      
+      </body>
+   </text>
+</TEI>

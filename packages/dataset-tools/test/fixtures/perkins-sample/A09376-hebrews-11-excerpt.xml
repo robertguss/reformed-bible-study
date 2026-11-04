@@ -1,0 +1,111 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A09376, Perkins, A cloud of faithfull witnesses, or, A commentarie vpon the 11 chapter to the Hebrewes (1607), CC0 1.0, as keyed: the opening division on Hebrews 11:1 and 2, the examples of Abel, with Enoch's inside it, and of Noah, the last division of the chapter, on 11:35 and 40, and the opening of the commentary on Hebrews 12:1 bound after it. Each verse keeps its quoted text and a paragraph or two, cut short. -->
+   <text>
+      <body>
+         <div type="commentary">
+            <pb facs="tcp:26407:5"/>
+            <head>A Commentarie vpon the 11. Chapter of the Epistle to the Hebrewes.</head>
+            <div type="section">
+               <epigraph>
+                  <q>
+                     <bibl>
+                        <hi>VERSE 1.</hi>
+                     </bibl>
+                     <p>Now Faith is the ground of things which are hoped for: and the euidence of things not seene.</p>
+                  </q>
+               </epigraph>
+               <p>
+                  <seg rend="decorInit">C</seg>Oncerning Faith, 2. points are necessary to be knowne of euery Christian; the <hi>doctrine</hi> &amp; the <hi>practise</hi> of it.</p>
+            </div>
+            <div type="section">
+               <epigraph>
+                  <q>
+                     <bibl>
+                        <hi>VERSE 2.</hi>
+                     </bibl>
+                     <p>For, by it our Elders were well reported of.</p>
+                  </q>
+               </epigraph>
+               <p>THis verse containeth the <hi>second effect of sauing faith</hi>
+                  <g ref="char:punc">▪</g> which is, <hi>that faith is a meanes whereby a beleeuer is ap<g ref="char:EOLhyphen"/>proued of God.</hi>
+               </p>
+            </div>
+         </div>
+         <div type="commentary">
+            <pb n="37" facs="tcp:26407:26"/>
+            <head>Abels Faith.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>VERSE 4.</hi>
+                  </bibl>
+                  <p>By Faith, <hi>Abell</hi> offred vnto God a greater sacrifice then <hi>Cain:</hi> by which he obtayned witnesse that he was righteous; God te<g ref="char:EOLhyphen"/>stifying of his gifts: By which faith hee also being dead yet speaketh.</p>
+               </q>
+            </epigraph>
+            <p>
+               <seg rend="decorInit">T</seg>He second part of the Chapter, containeth an illustration and proofe of the former descripti<g ref="char:EOLhyphen"/>on, by a rehearsall of the most excellent pat<g ref="char:EOLhyphen"/>ternes and exsamples of <hi>faith.</hi>
+            </p>
+            <div type="section">
+               <head>The second is of <hi>Henoch:</hi> in these words;<note place="margin">2. Example, Henoch.</note>
+                  <q>By faith <hi>Henoch</hi> was translated, that he should not see death,<note place="margin">
+                        <hi>Verse 5.</hi>
+                     </note> neither was he found, for God tooke him away: for, before he was translated, he was reported of that hee had pleased God, &amp;c.</q>
+               </head>
+               <p>THe <hi>second example of faith,</hi> is taken also out of the old world, before the floud; and it is of <hi>Henoch</hi> the sea<g ref="char:EOLhyphen"/>uenth from <hi>Adam:</hi> to whom, strange and miraculous things befell, by reason of his faith.</p>
+               <p>Let the meaning of the words be first examined.</p>
+            </div>
+         </div>
+         <div type="commentary">
+            <pb n="101" facs="tcp:26407:60"/>
+            <head>Noahs Faith.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>HEBREVVES. 11.7.</hi>
+                  </bibl>
+                  <p>By Faith, <hi>Noah</hi> being warned of God of the things which were as yet not seene, moued with reuerence, prepared the Arke to the sauing of his houshold.</p>
+               </q>
+            </epigraph>
+            <p>
+               <seg rend="decorInit">I</seg>N this verse is contained the <hi>third ex<g ref="char:EOLhyphen"/>sample,</hi>
+               <note place="margin">3. Exsample of Noah.</note> and the last in order of those who liued afore the floud, in the first and olde world; namely, of the re<g ref="char:EOLhyphen"/>nowned Patriarke <hi>Noah,</hi> the tenth from <hi>Adam.</hi>
+            </p>
+         </div>
+         <div type="commentary">
+            <pb n="528" facs="tcp:26407:274"/>
+            <head>Beleeuers vnder the Maccabees.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>VERSE 35.</hi>
+                  </bibl>
+                  <p>Others also were racked, and would not bee deliuered, that they might receiue a better resurrection.</p>
+               </q>
+            </epigraph>
+            <p>
+               <seg rend="decorInit">I</seg>N these words, the author of this E<g ref="char:EOLhyphen"/>pistle proceedes to the fourth order of Examples of faith, contained in this Chapter.</p>
+            <q>
+               <bibl>
+                  <hi>VERSE 40.</hi>
+               </bibl>
+               <p>God prouiding a better thing for vs, that they without vs should not be made perfect.</p>
+            </q>
+            <p>BEcause some man might much maruel, that such men as receiued testimony of God for their faith, should not yet receiue the promise; therefore here the holy Ghost renders a reason thereof.</p>
+         </div>
+         <div type="commentary">
+            <pb n="573" facs="tcp:26407:296"/>
+            <head>A Commentarie vpon part of the 12. Chap<g ref="char:EOLhyphen"/>ter to the Hebrewes.</head>
+            <epigraph>
+               <q>
+                  <bibl>
+                     <hi>VERSE 1.</hi>
+                  </bibl>
+                  <p>Wherfore, let vs also, seeing wee are compassed with so great a clowd of witnesses, cast away euery thing that presseth down, and that sinne that hangeth so fast on: let vs runne with patience the race that is set before vs.</p>
+               </q>
+            </epigraph>
+            <p>
+               <seg rend="decorInit">I</seg>N these words, the holy Ghost pro<g ref="char:EOLhyphen"/>poundeth a worthy exhortation to the Christians of the newe Testa<g ref="char:EOLhyphen"/>ment.</p>
+         </div>
+      </body>
+   </text>
+</TEI>

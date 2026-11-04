@@ -58,6 +58,14 @@ cite that verse?"
   of Dort III/IV, article 4"). The license must be the SPDX id the tool gives,
   such as `CC-PDM-1.0`.
 
+**A commentator on a single book** (`agent/single-book.eval.ts`). The question
+is "What does David Dickson say about Romans 8:28?"
+
+- The agent calls `get_commentary` naming Dickson's work (`dickson`), and every
+  item those calls return is credited to that work.
+- Every quoted span in the answer appears word for word in some tool result, as
+  above.
+
 **Questions outside the dataset** (`agent/negative.eval.ts`):
 
 - Asked for Calvin on Revelation 1:1, the agent says his commentary does not

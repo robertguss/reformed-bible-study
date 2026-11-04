@@ -1,0 +1,99 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A37032, Durham, Clavis cantici, or, An exposition of the Song of Solomon (1668), CC0 1.0, as keyed: the opening of the Key of the Song and of its conclusions, and the expositions of Song of Solomon 1:1, 1:2, 1:7, 1:8, headed by its part, and 1:9 to 10. Each division keeps its heading, its quotation and its first paragraph, cut short. -->
+   <text>
+      <body>
+         <div type="text">
+            <pb n="1" facs="tcp:65401:4" />
+            <head>Clavis Cantici:
+OR, A
+KEY of the SONG,
+Useful for opening up thereof.</head>
+            <p>
+               <seg rend="decorInit">T</seg>His is a place of Scripture, the Exposition
+whereof, many in all Ages have sh<gap reason="illegible" resp="#TECH" extent="2 letters">
+                  <desc>••</desc>
+               </gap>ned to
+adventure upon; and</p>
+            <p>First, Because it is acknowledged by all, not only to be authentick
+Scripture, but an excellent Piece thereof; and therefore is to be
+<pb n="2" facs="tcp:65401:5" />
+made use of by the</p>
+            <div type="conclusions">
+               <head>We proceed now, and shall draw some Conclusions
+from these Propositions.</head>
+               <p>First <hi>Conclusion.</hi> We may then warantably read, and expone
+this Song; it being Scripture, it must be edifying, and ought to
+be made use of. It's true, this, and</p>
+               </div>
+            <div n="1" type="chapter">
+               <pb n="43" facs="tcp:65401:25" />
+               <head>CHAP. I.</head>
+               <div n="1" type="verse">
+                  <epigraph>
+                     <bibl>Vers. 1.</bibl>
+                     <q>The Song of Songs, which is Solomon's.</q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">B</seg>Efore we enter upon the purpose of this Chapter,
+or give the division of it, we would first speak
+to the Title contained, <hi>ver.</hi> 1.</p>
+                  </div>
+               <div n="2" type="verse">
+                  <epigraph>
+                     <bibl>Vers. 2.</bibl>
+                     <q>Let him kiss me with the kisses of
+his mouth: for thy love is better then
+Wine.</q>
+                  </epigraph>
+                  <p>Having spoken to the Title, we come now to the Song it
+self: which being by way of Conference, or Dialogue,
+we shall divide the several Chapters, according to</p>
+                  </div>
+               <div n="7" type="verse">
+                  <epigraph>
+                     <bibl>Vers. 7.</bibl>
+                     <q>Tell me, O thou whom my soul
+loveth, where thou feedest, where thou
+makest thy flocks to rest at noon: for why
+should I be as one that turneth aside by
+the flocks of thy companions?</q>
+                  </epigraph>
+                  <p>In the 7. Verse, We have the 3. part of the Brides first speech;
+in which, she turneth her self from the Daughters, to the Bride<g ref="char:EOLhyphen" />groom;
+and the scope of what</p>
+                  </div>
+               <div n="8" type="verse">
+                  <head>2 Part. CHRISTS Words.</head>
+                  <epigraph>
+                     <bibl>Vers. 8.</bibl>
+                     <q>If thou know not, (O thou fairest
+among Women) go thy way forth by the
+footsteps of the Flock, and feed thy Kids
+beside the Shepherds Tents.</q>
+                  </epigraph>
+                  <p>From the 8. <hi>vers.</hi> to the 12, follows Christ's expresse return
+to her former suit; and because it's he that speaks, we take it
+up as the second part of the</p>
+                  </div>
+               <div n="9-10" type="verse">
+                  <epigraph>
+                     <bibl>Vers. 9.</bibl>
+                     <q>I have compared thee, O my love,
+to a company of horses in <hi>Pharaoh's</hi>
+Chariots.</q>
+                  </epigraph>
+                  <epigraph>
+                     <bibl>Vers. 10.</bibl>
+                     <q>Thy cheeks are comely with rows
+of Iewels, thy neck with chains of Gold.</q>
+                  </epigraph>
+                  <p>The commendation followes, <hi>vers.</hi> 9, 10, in which the Bride<g ref="char:EOLhyphen" />groom
+hath respect to two things, which afflicted her most in her
+condition. 1. That she was in</p>
+                  </div>
+               </div>
+            </div>
+      
+      </body>
+   </text>
+</TEI>

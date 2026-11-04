@@ -1,0 +1,102 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A35941, Dickson, A brief explication of the first fifty Psalms (1655), CC0 1.0, as keyed: Psalms 1 and 2. Every block of the two psalms is kept in order; each exposition paragraph, and the argument of Psalm 2, is cut short. -->
+   <text>
+      <body>
+         <div type="text">
+            <pb n="1" facs="tcp:41635:6"/>
+            <head>A BRIEF EXPOSITION Of the first Fifty PSALMES.</head>
+            <div n="1" type="Psalm">
+               <pb n="4" facs="tcp:41635:8"/>
+               <head>PSALM I.</head>
+               <argument>
+                  <p>
+                     <seg rend="decorInit">T</seg>His Psalme teacheth, that no ungodly man is blessed, but the godly man only, <hi>ver.</hi> 1, 2. Which is proved by three reasons: The first, because God doth blesse the godly even in this life with grace to bring forth good works profi<g ref="char:EOLhyphen"/>table to themselves and others, in every state of life, <hi>ver.</hi> 3. But all that the wicked doe for making themselves happy, shall be blasted, and found to be meer vanity, <hi>ver.</hi> 4. Another reason is, because after this life the wicked shall be s<gap reason="illegible" resp="#PDCC" extent="1 letter">
+                        <desc>•</desc>
+                     </gap>
+                     <g ref="char:EOLhyphen"/>cluded from the presence of God, and societie of the godly at the day of judgment, <hi>v.</hi> 5. The third reason, confirming both the former, is, because God approveth the way of the godly, and will make the end of the way of the ungodly destruction, <hi>ver.</hi> 6.</p>
+               </argument>
+               <q>
+                  <p>
+                     <hi>Ver. 1.</hi> BLessed is the man that walketh not in the counsel of the ungodly, nor stand<g ref="char:EOLhyphen"/>eth in the way of sinners, nor sitteth in the seat of the scornful.</p>
+                  <p n="2">
+                     <hi>2.</hi> But his delight is in the law of the Lord, and in his law doth he meditate both day and night.</p>
+               </q>
+               <p>FRom the pronouncing of the godly man to be the blessed man, and not the ungodly, Learn 1. Though sin and misery
+<pb n="5" facs="tcp:41635:8"/>
+abound among men, yet blessednesse may be attained; for God here pronounceth some <hi>to be blessed.</hi>
+               </p>
+               <q>
+                  <p>
+                     <hi>Ver. 3.</hi> And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season: his leafe also shall not wither, and whatsoe<g ref="char:EOLhyphen"/>ver he doth shall prosper.</p>
+                  <p>
+                     <pb n="6" facs="tcp:41635:9"/>
+                     <hi>Ver. 4.</hi> The ungodly <hi>are</hi> not so: but <hi>are</hi> like the chaffe which the wind driveth away.</p>
+               </q>
+               <p>This is the first reason proving the Godly man to bee the only Blessed man, and not the ungodly: Hence learn, 1. In that measure a man studieth holy Communion with God, by delighting and meditating in his word, he shall bee fixed and furnished with the influence of Grace from Christ, for the entertaining of Spiritual Life in him; <hi>Hee shall be like a tree planted by the rivers of water.</hi>
+               </p>
+               <q>
+                  <hi>Ver. 5.</hi> Therfore the ungodly shall not stand in the judgment, nor sinners in the congregation of the righ<g ref="char:EOLhyphen"/>teous.</q>
+               <p>The second reason proving the Godly man to be the <hi>Bles<g ref="char:EOLhyphen"/>sed man,</hi> and not the ungodly, is a consequence of the first: Whence learn, 1. Not only shall all that the ungodly man soweth to his fleshly Felicity, prove <hi>chaffe</hi>; but also for his paines he shall answer to God in the day of judgement, and there be condemned; for it is said, <hi>Therfore the ungodly shal
+<pb n="7" facs="tcp:41635:9"/>
+not stand in the judgment.</hi>
+               </p>
+               <q>
+                  <hi>Ver. 6.</hi> For the Lord knoweth the way of the righ<g ref="char:EOLhyphen"/>teous: but the way of the ungodly shal perish.</q>
+               <p>The third reason confirmeth the former two: Whence learn, 1. Albeit there be no man that liveth and sinneth not, yet the godly man, being justified by faith, and carefull to bring forth the fruits of faith, is not a sinner in Gods esteeme; for hee is here called <hi>Righteous.</hi>
+               </p>
+            </div>
+            <div n="2" type="Psalm">
+               <head>PSAL. II.</head>
+               <argument>
+                  <p>That this Psalme doth mainly, if not only, concern Christ, appeareth by this, That it hath not so much as <hi>Davids</hi> name in the inscription, al<g ref="char:EOLhyphen"/>beit he did write it: and by <hi>Act.</hi> 4.25, 26. where it is appropriate to Christ. This Psalm hath two parts; in the former is set down the stability of
+<pb n="8" facs="tcp:41635:10"/>
+Christs Kingdome, against all the enemies ther<g ref="char:EOLhyphen"/>of, <hi>ver.</hi> 1, 2, 3. First, Because God the Father taketh part with his Son, against all his enemies, and wil establish Christs Kingdome, maugre them all, <hi>ver.</hi> 4, 5, 6.</p>
+               </argument>
+               <q>
+                  <p>
+                     <hi>Ver. 1.</hi> WHy do the Heathen rage, and the people imagine a vain thing?</p>
+                  <p n="2">
+                     <hi>2</hi> The Kings of the earth set themselves, and the Rulers take counsel together, against the Lord, and against his Annointed, <hi>saying,</hi>
+                  </p>
+                  <p n="3">
+                     <hi>3</hi> Let us break their bands asunder, and cast away their cords from us<g ref="char:punc">▪</g>
+                  </p>
+               </q>
+               <p>THe Prophet sheweth, That in vaine shall Christs ene<g ref="char:EOLhyphen"/>mies oppose his Kingdome: Whence learn, 1. Thae the ungodly world being strangers from the life of God, are incensed in a mad moode against the Church and Kingdom of</p>
+               <q>
+                  <p>
+                     <hi>Ver. 4.</hi> Hee that sitteth in the Heavens shall laugh: the LORD shall have them in derisi<g ref="char:EOLhyphen"/>on.</p>
+                  <p n="5">
+                     <hi>5.</hi> Then shal he speak unto them in his wrath, and vex them in his sore displeasure.</p>
+                  <p n="6">
+                     <hi>6.</hi> Yet have I set my King upon my holy hill of Si<g ref="char:EOLhyphen"/>on.</p>
+               </q>
+               <p>The first reason of the stability of Christs Kingdome is, because God scorneth mens opposing thereof, and will vex his enemies, and settle Christs Kingdome in his visible Church, in the sight of his enemies:</p>
+               <q>
+                  <p>
+                     <hi>V. 7.</hi> I will declare the Decree: the Lord hath said unto me, Thou art my Son, this day have I begot<g ref="char:EOLhyphen"/>ten thee.</p>
+                  <p n="8">
+                     <hi>8.</hi> Ask of me, and I shall give thee the Heathen for thine inheritance, and the uttermost parts of the earth for thy possession.</p>
+               </q>
+               <p>The second reason of the stability of Christs Kingdome is, the decreed agreement betweene God the Father and the <gap reason="illegible" resp="#PDCC" extent="1 word">
+                     <desc>〈◊〉</desc>
+                  </gap>, in the Covenant of Redemption;</p>
+               <q>
+                  <hi>9.</hi> Thou shalt breake them with a rod of Iron, thou shalt dash them in pieces like a Potters Ves<g ref="char:EOLhyphen"/>sel.</q>
+               <p>A third Article of the covenant of Redemption, is, a pro<g ref="char:EOLhyphen"/>mise made to Christ, of ful victory over all his, and his Churches enemies, <hi>ver.</hi> 9.</p>
+               <p n="2">
+                  <pb n="13" facs="tcp:41635:12"/>2. Though Christs Church be weak and unable to help it selfe against persecution, yet Christ wil owne the quarrel, and fight against all the enemies thereof himselfe,</p>
+               <q>
+                  <p>
+                     <hi>Ver. 10.</hi> Be wise now therefore, O yee Kings: be instructed, ye Iudges of the earth.</p>
+                  <p n="11">
+                     <hi>11.</hi> Serve the Lord with fear, and rejoyce with trembling.</p>
+                  <p n="12">
+                     <hi>12</hi> Kisse the Son lest he be angry, and yee perish <hi>from</hi> the way, when his wrath is kindled but a little: blessed <hi>are</hi> all they that put their trust in him.</p>
+               </q>
+               <p>This is the later part of the Psalme, wherein the uses of the former Doctrine are set down.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>
