@@ -8,11 +8,11 @@ These evals check that a real agent, given only this project's MCP tools, answer
 ANTHROPIC_API_KEY=sk-ant-... pnpm evals
 ```
 
-| Variable            | Default             | Meaning                                                                                                                       |
-| ------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `ANTHROPIC_API_KEY` | none (required)     | Your Anthropic API key. Without it, `pnpm evals` exits with a message.                                                        |
-| `EVAL_MODEL`        | `claude-sonnet-5-5` | The model that plays the agent.                                                                                               |
-| `EVAL_ENDPOINT`     | in process          | A deployed `/mcp` URL, such as `https://reformed-bible-preview.howtocode.workers.dev/mcp`. Unset, the Worker runs in process. |
+| Variable            | Default             | Meaning                                                                                                               |
+| ------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `ANTHROPIC_API_KEY` | none (required)     | Your Anthropic API key. Without it, `pnpm evals` exits with a message.                                                |
+| `EVAL_MODEL`        | `claude-sonnet-5-5` | The model that plays the agent.                                                                                       |
+| `EVAL_ENDPOINT`     | in process          | A deployed `/mcp` URL, such as `https://reformed-bible.howtocode.workers.dev/mcp`. Unset, the Worker runs in process. |
 
 By default the MCP server is the Worker running in process over the small test release, the same one the parity tests use. Tool results are deterministic and the only network traffic is the model calls. Set `EVAL_ENDPOINT` to run the same questions against a deployed server and its real dataset. A run makes about a dozen model calls.
 
@@ -38,7 +38,7 @@ Grading is deterministic, with no second model. The rules live in `agent/grade.t
 
 ## Client smoke checklist
 
-Run this by hand before launch, against the production `/mcp` URL (or the preview, `https://reformed-bible-preview.howtocode.workers.dev/mcp`). The server needs no sign-in, so choose "no authentication" wherever a client asks. Menu names change between client versions. If a step below doesn't match, look for "custom connector", "MCP server" or "developer mode".
+Run this by hand before launch, against the production `/mcp` URL, `https://reformed-bible.howtocode.workers.dev/mcp`. The server needs no sign-in, so choose "no authentication" wherever a client asks. Menu names change between client versions. If a step below doesn't match, look for "custom connector", "MCP server" or "developer mode".
 
 ### Connecting
 

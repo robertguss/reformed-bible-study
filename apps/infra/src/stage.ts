@@ -6,7 +6,7 @@ export const WORKERS_SUBDOMAIN = "howtocode"
 
 export const REPOSITORY = "robertguss/reformed-bible-study"
 
-export const STAGES = ["preview", "production"] as const
+export const STAGES = ["production"] as const
 export type Stage = (typeof STAGES)[number]
 
 export const isStage = (value: string): value is Stage =>
@@ -17,7 +17,7 @@ export const stageFromArgs = (command: string): Stage => {
   const { values } = parseArgs({ options: { stage: { type: "string" } } })
   const stage = values.stage ?? ""
   if (!isStage(stage)) {
-    console.error(`usage: ${command} --stage <preview | production>`)
+    console.error(`usage: ${command} --stage production`)
     process.exit(1)
   }
   return stage

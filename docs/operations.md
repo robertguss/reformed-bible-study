@@ -4,21 +4,16 @@ How the app is deployed to Cloudflare, what the owner provides, and how to check
 
 ## What runs where
 
-Each stage is one Cloudflare Worker declared in `apps/infra/alchemy.run.ts`:
-
-| Stage | Worker | URL |
-|---|---|---|
-| preview | `reformed-bible-preview` | https://reformed-bible-preview.howtocode.workers.dev |
-| production | `reformed-bible` | https://reformed-bible.howtocode.workers.dev |
+The app is one Cloudflare Worker, `reformed-bible`, declared in `apps/infra/alchemy.run.ts` and served at https://reformed-bible.howtocode.workers.dev. There is no separate preview stage: every push to `main` deploys production. The Alchemy stage is named `production`, and its state is kept under that name.
 
 The Worker's static assets hold the web build, the locked dataset release's files under `/data/<release>/`, and the discovery files (`/llms.txt`, `/llms-full.txt`, `/.well-known/mcp.json`). Assets are served without invoking the Worker. The Worker answers only `/v1/*`, `/mcp`, the OAuth discovery probes under `/.well-known/`, and `/data/*` paths outside the locked release, which get a 404 instead of the app page.
 
 The Worker's bindings:
 
-- `API_RATE_LIMIT`, `MCP_RATE_LIMIT` and `VENDOR_RATE_LIMIT`: rate-limit namespaces at 120, 60 and 600 requests a minute. Each stage gets its own namespace ids, derived from the stage and binding name.
+- `API_RATE_LIMIT`, `MCP_RATE_LIMIT` and `VENDOR_RATE_LIMIT`: rate-limit namespaces at 120, 60 and 600 requests a minute. Their namespace ids are derived from the stage and binding name, so a stage added later would not share their counters.
 - `LEGACY_MCP`: the Durable Object that keeps sessions for MCP clients on protocol revisions older than 2026-07-28.
-- `MCP_SESSION_SECRET`: the key that signs those sessions' ids. Alchemy generates it once per stage and keeps it in its state; it is never in the repository or the CI secrets.
-- `SITE_ORIGIN`: the stage's public origin, which `/mcp` accepts as a browser `Origin`.
+- `MCP_SESSION_SECRET`: the key that signs those sessions' ids. Alchemy generates it once and keeps it in its state; it is never in the repository or the CI secrets.
+- `SITE_ORIGIN`: the site's public origin, which `/mcp` accepts as a browser `Origin`.
 
 Alchemy keeps deployment state in the account's `alchemy-state-store` Worker, so CI and a laptop share it.
 
@@ -30,48 +25,48 @@ Alchemy keeps deployment state in the account's `alchemy-state-store` Worker, so
    - Account > Secrets Store > Edit (Alchemy's state store keeps its credentials there)
    - Account > Account Settings > Read
    - Account > Notifications > Edit (the production usage alert)
-3. **GitHub environments.** Create `preview` and `production`, each limited to the `main` branch. Required reviewers are not available for a private repository on this plan, so the workflow gates production by requiring a manual run instead.
+3. **GitHub environment.** Create `production`, limited to the `main` branch. It has no required reviewers: a push to `main` deploys.
 4. **GitHub secrets and variables.**
    - Repository variable `CLOUDFLARE_ACCOUNT_ID`: `3be56c3c31972ae39fd3478cdd4eb34f`
-   - Secret `CLOUDFLARE_API_TOKEN` in both environments: the token from step 2
+   - Secret `CLOUDFLARE_API_TOKEN` in `production`: the token from step 2
    - Secret `ALERT_EMAIL` in `production`: where the usage alert is sent
 
 ## Deploying
 
-`.github/workflows/deploy.yml` runs on every push to `main`: it deploys preview and runs the smoke probes against it. Production deploys only when you run the workflow by hand (Actions > deploy > Run workflow on `main`), which deploys and probes preview again first, then deploys production and probes that.
+`.github/workflows/deploy.yml` deploys production on every push to `main`. To redeploy without a push, run it by hand (Actions > deploy > Run workflow on `main`).
 
-Each job:
+The job:
 
 1. downloads the archive named in `dataset/release.lock.json` from the GitHub release;
 2. runs `pnpm dataset:from-archive`, which rebuilds the static data from the archive and fails unless the archive matches the lock's SHA-256 and the rebuild reproduces the locked release id. Sources are never re-ingested at deploy time;
-3. builds the web app, then `pnpm deploy:assemble --stage <stage>` collects the web build, the release data and the stage's discovery files into `dist/site/<stage>`;
-4. runs `alchemy deploy --stage <stage>`;
-5. runs `pnpm deploy:smoke --stage <stage>`.
+3. builds the web app, then `pnpm deploy:assemble --stage production` collects the web build, the release data and the discovery files into `dist/site/production`;
+4. runs `alchemy deploy --stage production`;
+5. runs `pnpm deploy:smoke --stage production`.
 
 A new dataset release reaches the site when its lock PR merges, because that merge is a push to `main`.
 
-To deploy preview from a laptop, with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` set:
+To deploy from a laptop, with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` set:
 
 ```sh
 gh release download "dataset-$(node -p "require('./dataset/release.lock.json').release")" \
   --pattern "$(node -p "require('./dataset/release.lock.json').archive")" --dir dist/release
 pnpm dataset:from-archive
 pnpm --filter @reformed-bible/web build
-pnpm deploy:assemble --stage preview
-pnpm --filter @reformed-bible/infra exec alchemy plan --stage preview
-pnpm --filter @reformed-bible/infra exec alchemy deploy --stage preview
-pnpm deploy:smoke --stage preview
+pnpm deploy:assemble --stage production
+pnpm --filter @reformed-bible/infra exec alchemy plan --stage production
+pnpm --filter @reformed-bible/infra exec alchemy deploy --stage production
+pnpm deploy:smoke --stage production
 ```
 
-Read the plan before deploying. Deploy production only through the workflow.
+Read the plan before deploying.
 
 ## Smoke probes
 
-`pnpm deploy:smoke --stage <stage>` checks, against the stage's origin:
+`pnpm deploy:smoke --stage production` checks, against the site's origin:
 
 - `/` and a deep link such as `/romans/8/28` return the app page;
 - `/v1/openapi.json` and `/v1/passages/Rom.8.28?translation=bsb` answer;
-- `/llms.txt` and `/.well-known/mcp.json` name the stage's own origin;
+- `/llms.txt` and `/.well-known/mcp.json` name the site's own origin;
 - the locked release's `catalog.json` is served, and a data path from another release returns 404;
 - an MCP `tools/list` on protocol 2026-07-28 lists the tools.
 
@@ -83,6 +78,5 @@ Rename `McpSessionSecret` in `apps/infra/alchemy.run.ts` (for example to `McpSes
 
 ## Not yet in place
 
-- **Custom domain.** Both stages use workers.dev. To move a stage, add the zone to the account, give the Worker a `domain` in `alchemy.run.ts`, and point `origin` in `apps/infra/src/stage.ts` at it.
+- **Custom domain.** The site uses workers.dev. To move it, add the zone to the account, give the Worker a `domain` in `alchemy.run.ts`, and point `origin` in `apps/infra/src/stage.ts` at it.
 - **Firewall rate-limit rule.** Cloudflare's WAF rules belong to a zone, and workers.dev is not one. Once a custom domain is attached, add a rate-limit rule on `/v1`, `/mcp` and `/.well-known/*` that blocks an address sending more than 100 requests in 10 seconds. The Worker's own limits still make every normal throttling decision.
-- **Public dataset archive.** The discovery files link the archive on the repository's GitHub release. While the repository is private, that link fails for everyone else.
