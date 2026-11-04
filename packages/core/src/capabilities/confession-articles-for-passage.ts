@@ -38,7 +38,7 @@ export const CitingArticle = Schema.Struct({
 export type CitingArticle = typeof CitingArticle.Type
 
 export const findConfessionArticlesContract = defineContract(NAME, {
-  description: `Finds the confession and catechism articles whose Scripture proofs cite a passage, such as the Westminster Confession, Larger Catechism and Shorter Catechism articles citing Romans 8:28. Each item gives the article's citation (for example "WCF 3.6" or "WLC Q45"), its text, and which verses of the request it cites; get_confession_article returns its full proof texts. Coverage is reported for every catalogued confession: not_ingested for one not yet transcribed, no_entry when none of its articles cite the passage. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
+  description: `Finds the articles of every catalogued confession and catechism whose Scripture proofs cite a passage, such as the articles citing Romans 8:28. Each item gives the article's citation (for example "WCF 3.6" or "WLC Q45"), its text, and which verses of the request it cites; get_confession_article returns its full proof texts. Coverage is reported for every catalogued confession: not_ingested for one not yet transcribed, no_entry when none of its articles cite the passage. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
   input: Schema.Struct({
     ref: Schema.String.annotate({ description: "The passage, such as Romans 8:28." }),
   }),

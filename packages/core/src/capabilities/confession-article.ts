@@ -30,11 +30,11 @@ export const ConfessionArticleItem = Schema.Struct({
 export type ConfessionArticleItem = typeof ConfessionArticleItem.Type
 
 export const getConfessionArticleContract = defineContract("get_confession_article", {
-  description: `Returns one confession or catechism article with its text and Scripture proof texts, each proof with a readable reference and a web link. Identify the confession by id (wcf for the Westminster Confession of Faith, wlc for the Larger Catechism, wsc for the Shorter Catechism) and the article as chapter and section for the Confession ("3.6") or question number for a catechism ("45" or "Q45"). A confession catalogued but not yet transcribed returns no items with coverage not_ingested. ${RESULT_SHAPE}`,
+  description: `Returns one confession or catechism article with its text and Scripture proof texts, each proof with a readable reference and a web link. Identify the confession by its id from list_resources, such as wcf for the Westminster Confession of Faith, and the article in that confession's own numbering as get_confession_outline lists it, such as "3.6" for a chapter and section or "45" or "Q45" for a catechism question. A confession catalogued but not yet transcribed returns no items with coverage not_ingested. ${RESULT_SHAPE}`,
   input: Schema.Struct({
-    id: Schema.String.annotate({ description: "Confession id, such as wcf, wlc or wsc." }),
+    id: Schema.String.annotate({ description: "Confession id from list_resources, such as wcf." }),
     article: Schema.String.annotate({
-      description: "Article within the confession, such as 3.6 for WCF or Q45 for WLC.",
+      description: "Article within the confession, as its outline numbers it, such as 3.6 or Q45.",
     }),
   }),
   output: makeEnvelope(ConfessionArticleItem),

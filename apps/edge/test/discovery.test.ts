@@ -5,6 +5,7 @@ import { describe, expect, it } from "@effect/vitest"
 import { capabilities } from "@reformed-bible/core"
 import { Effect } from "effect"
 import { discoveryFiles, writeDiscoveryFiles } from "../src/discovery.ts"
+import { MCP_INSTRUCTIONS } from "../src/mcp.ts"
 import { legacy, modern, ORIGIN, testApp } from "./support.ts"
 
 const ARCHIVE_URL = "https://downloads.example/dataset-2026-11-03.zip"
@@ -33,6 +34,11 @@ describe("discovery files", () => {
       expect(full).toContain(`GET ${contract.http.path}`)
       expect(full).toContain(contract.description)
     }
+  })
+
+  it("describes the corpus generically, naming no single commentator or confession", () => {
+    for (const text of [files.get("llms.txt") ?? "", MCP_INSTRUCTIONS])
+      expect(text).not.toMatch(/Calvin|Westminster/)
   })
 
   it.effect(

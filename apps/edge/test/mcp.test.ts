@@ -91,6 +91,34 @@ describe("MCP tools", () => {
     }),
   )
 
+  it.effect("answers Calvin on Revelation with a normal result saying it is outside his work", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", {
+        ref: "Revelation 1:1",
+        work: CALVIN,
+      })
+      expect(message?.result?.isError).toBeFalsy()
+      expect(envelopeOf(message).items).toEqual([])
+      expect(envelopeOf(message).resources).toEqual([
+        expect.objectContaining({ resourceId: CALVIN, coverage: "outside_work" }),
+      ])
+      expect(textOf(message)).toContain(`${CALVIN}: this work does not cover this passage`)
+    }),
+  )
+
+  it.effect("lists no Baptist work, so Spurgeon and the 1689 Confession are unknown", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { items } = envelopeOf((yield* callTool(app, "list_resources", {})).message)
+      expect(items.length).toBeGreaterThan(0)
+      for (const { attribution } of items)
+        expect(`${attribution.author} ${attribution.work}`).not.toMatch(/Spurgeon|Baptist|1689/)
+      const { message } = yield* callTool(app, "get_confession_outline", { id: "lbcf" })
+      expect(message?.result?.isError).toBe(true)
+    }),
+  )
+
   it.effect("answers an invalid reference with a tool error that carries the suggestion", () =>
     Effect.gen(function* () {
       const { app } = testApp()

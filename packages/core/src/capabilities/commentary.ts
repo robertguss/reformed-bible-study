@@ -49,7 +49,7 @@ export const CommentaryItem = Schema.Struct({
 export type CommentaryItem = typeof CommentaryItem.Type
 
 export const getCommentaryContract = defineContract(NAME, {
-  description: `Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
+  description: `Returns commentary sections on a passage, whole and in canonical order, each with the range the author comments on (Calvin on Romans 8:29 returns his section on 8:28-30). A call returns at most ${COMMENTARY_SECTION_CAP} sections or about ${COMMENTARY_CHARACTER_CAP} characters, never a cut section, with a cursor for the rest. Name a work to read one commentary; without one, every catalogued commentary is searched and the sections come grouped by commentator, in a fixed order that starts with Calvin. Coverage says when a work does not cover the book (outside_work) or the passage is not yet ingested. ${REFERENCE_GRAMMAR} ${RESULT_SHAPE}`,
   input: Schema.Struct({
     ref: Schema.String.annotate({ description: "The passage, such as Romans 8:28." }),
     work: Schema.optional(

@@ -40,9 +40,9 @@ export const ConfessionOutline = Schema.Struct({
 export type ConfessionOutline = typeof ConfessionOutline.Type
 
 export const getConfessionOutlineContract = defineContract("get_confession_outline", {
-  description: `Returns the outline of a confession or catechism: its chapters with their titles and the articles in each, or a catechism's questions, each with its citation and web link. Use it to find an article, then get_confession_article to read it. Confession ids come from list_resources, such as wcf, wlc and wsc. ${RESULT_SHAPE}`,
+  description: `Returns the outline of a confession or catechism: its chapters with their titles and the articles in each, or a catechism's questions, each with its citation and web link. Use it to find an article, then get_confession_article to read it. Confession ids come from list_resources. ${RESULT_SHAPE}`,
   input: Schema.Struct({
-    id: Schema.String.annotate({ description: "Confession id, such as wcf, wlc or wsc." }),
+    id: Schema.String.annotate({ description: "Confession id from list_resources, such as wcf." }),
   }),
   output: makeEnvelope(ConfessionOutline),
   failure: Schema.Union([UnknownResource, ContentNotFound, ContentUnavailable, ContentCorrupt]),
