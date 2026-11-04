@@ -57,6 +57,7 @@ export const buildCatalog = (
       id: record.id,
       kind: record.kind,
       title: record.title,
+      ...(record.name === undefined ? {} : { name: record.name }),
       creator: record.creator,
       edition: record.edition,
       language: record.language,

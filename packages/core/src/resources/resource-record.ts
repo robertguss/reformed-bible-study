@@ -33,6 +33,8 @@ export const ResourceRecord = Schema.Struct({
   id: ResourceId,
   kind: Schema.Literals(ResourceKinds),
   title: NonEmptyPlainText,
+  /** A short label for the work, such as "Poole", where the creator is too long to show. */
+  name: Schema.optionalKey(NonEmptyPlainText),
   creator: NonEmptyPlainText,
   edition: NonEmptyPlainText,
   language: Schema.String.check(Schema.isPattern(/^[a-z]{2,3}$/)),

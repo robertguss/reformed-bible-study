@@ -156,6 +156,13 @@ describe("license gate", () => {
     }
   })
 
+  it("accepts a short name and rejects one containing a URL", () => {
+    expect(run([recordFile(commentaryRecord({ name: "Calvin" }))])).toEqual([])
+    const violations = run([recordFile(commentaryRecord({ name: "Calvin https://evil.example" }))])
+    expect(violations.map((v) => v.rule)).toEqual(["record-schema"])
+    expect(violations[0]?.message).toContain("must not contain URLs")
+  })
+
   it("rejects a source URL with a javascript: or http: scheme", () => {
     for (const url of ["javascript:alert(1)", "http://www.ccel.org/"]) {
       const record = commentaryRecord({ source: { url, retrievedAt: "2026-11-03", files: [] } })

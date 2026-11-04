@@ -172,6 +172,35 @@ describe("release builder", () => {
     }),
   )
 
+  describe("a short name", () => {
+    const catalogEntry = (release: { readonly files: ReadonlyMap<string, unknown> }, id: string) =>
+      decoded(CatalogShard, release.files.get(shardPaths.catalog)).payload.resources.find(
+        (r) => r.id === id,
+      )
+
+    it.effect("on a record is carried onto its catalog entry", () =>
+      Effect.gen(function* () {
+        const base = input()
+        const release = yield* build({
+          records: [
+            ...base.records,
+            record({ id: "poole-annotations", kind: "commentary", name: "Poole" }),
+          ],
+        })
+        expect(catalogEntry(release, "poole-annotations")?.name).toBe("Poole")
+      }),
+    )
+
+    it.effect("absent from a record leaves the key off its catalog entry", () =>
+      Effect.gen(function* () {
+        const release = yield* build()
+        const calvin = catalogEntry(release, "calvin-commentaries")
+        expect(calvin).toBeDefined()
+        expect(Object.keys(calvin ?? {})).not.toContain("name")
+      }),
+    )
+  })
+
   it.effect(
     "leaves a withdrawn resource out of the files but keeps it in the catalog with its reason",
     () =>
