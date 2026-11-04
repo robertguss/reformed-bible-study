@@ -6,6 +6,7 @@ import { Effect, Layer, Schema } from "effect"
 import { buildRelease } from "../../../dataset-tools/src/build/release.ts"
 import { layerFs } from "../../../dataset-tools/src/content-store-fs.ts"
 import {
+  type CatalogResource,
   type CommentaryBook,
   Confession,
   type ContentStore,
@@ -50,10 +51,12 @@ const fixtureRecord = (
 
 export const WITHDRAWN_REASON = "License evidence was retracted by the publisher."
 
+/** A confession the catalog lists before its transcription is ingested. */
+export const UNINGESTED_CONFESSION = "uningested-confession"
+
 const records = [
   ...realRecords,
-  // A confession the catalog lists before its transcription is ingested.
-  fixtureRecord({ id: "hc", kind: "confession", title: "The Heidelberg Catechism" }),
+  fixtureRecord({ id: UNINGESTED_CONFESSION, kind: "confession" }),
   fixtureRecord({
     id: "withdrawn-commentary",
     kind: "commentary",
@@ -96,12 +99,21 @@ const prose = (words: string, length: number) =>
 
 const section = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
 
-/** Calvin on Romans 7 and 8: seven sections, two of them long enough to meet the character cap. */
+/**
+ * Calvin on Romans 7 and 8: seven sections. Romans 8:12-17 runs to three paragraphs, longer than a
+ * page, and 8:18-27 is long enough that it cannot share a page with the end of 8:12-17.
+ */
 export const CALVIN_ROMANS_8 = [
   section("Rom.7.24-Rom.8.1", "Wretched man that I am! He closes with an exclamation."),
   section("Rom.8.2-Rom.8.4", "For the law of the Spirit of life. This is a confirmation."),
   section("Rom.8.5-Rom.8.11", "For they who are according to the flesh."),
-  section("Rom.8.12-Rom.8.17", prose("We are debtors, not to the flesh.", 9000)),
+  {
+    ref: "Rom.8.12-Rom.8.17",
+    paragraphs: ["We are debtors.", "Ye have not received.", "The Spirit itself."].map((words) => [
+      { text: prose(words, 9000) },
+    ]),
+    notes: [[{ text: "Debtors: bound to live after the Spirit." }]],
+  },
   section(
     "Rom.8.18-Rom.8.27",
     prose("For I reckon that the sufferings of this present time.", 5000),
@@ -118,6 +130,64 @@ const calvin: CommentaryBook = {
   book: "Rom",
   sections: [section("Rom.7.1", "Know ye not, brethren."), ...CALVIN_ROMANS_8],
 }
+
+const parallel = (ref: string, parallels: ReadonlyArray<string>, text: string) => ({
+  ...section(ref, text),
+  parallels,
+})
+
+export const CALVIN_ON_THE_SOWER = "It is not without good reason that the Evangelists begin."
+
+/**
+ * Calvin's Harmony of the Gospels and of the Law, as ingested: each comment is keyed to the book it
+ * heads and names its pericope's passages in the other books. Luke and Deuteronomy hold no comment
+ * of their own here.
+ */
+const calvinHarmonies: ReadonlyArray<CommentaryBook> = [
+  {
+    resourceId: "calvin-commentaries",
+    book: "Exod",
+    sections: [parallel("Exod.20.3", ["Deut.5.7"], "Thou shalt have no other gods before me.")],
+  },
+  {
+    resourceId: "calvin-commentaries",
+    book: "Matt",
+    sections: [
+      parallel(
+        "Matt.8.28-Matt.8.34",
+        ["Mark.5.1-Mark.5.20", "Luke.8.26-Luke.8.39"],
+        "And when he was come to the other side into the country of the Gergesenes.",
+      ),
+      parallel(
+        "Matt.13.2-Matt.13.8",
+        ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        CALVIN_ON_THE_SOWER,
+      ),
+      parallel(
+        "Matt.13.9-Matt.13.17",
+        ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        "He that hath ears to hear, let him hear.",
+      ),
+      parallel(
+        "Matt.13.31-Matt.13.32",
+        ["Mark.4.30-Mark.4.32", "Luke.13.18-Luke.13.19"],
+        "The kingdom of heaven is like a grain of mustard seed.",
+      ),
+    ],
+  },
+  {
+    resourceId: "calvin-commentaries",
+    book: "Mark",
+    sections: [
+      parallel(
+        "Mark.4.12",
+        ["Matt.13.1-Matt.13.17", "Luke.8.1-Luke.8.10"],
+        "That seeing they may see, and not perceive.",
+      ),
+      section("Mark.5.1-Mark.5.20", "And they came over unto the other side of the sea."),
+    ],
+  },
+]
 
 /** Thirty cross-references from Romans 8:28, strongest first, so they fill more than one page. */
 export const XREF_TARGETS = Array.from({ length: 30 }, (_, i) => ({
@@ -191,8 +261,8 @@ const lexicon: ReadonlyArray<LexiconEntry> = [
   },
 ]
 
-/** The Westminster Standards as transcribed for the dataset, so proof-text links are real. */
-const confessions = ["wcf", "wlc", "wsc"].map((id) =>
+/** Every confession as transcribed for the dataset, so each real record has its text and proof-text links are real. */
+const confessions = readdirSync(join(repoRoot, "dataset/confessions")).map((id) =>
   Schema.decodeUnknownSync(Confession)(readJson(`dataset/confessions/${id}/confession.json`)),
 )
 
@@ -201,7 +271,7 @@ const built = await Effect.runPromise(
     {
       records,
       translations: bsb,
-      commentaries: [calvin],
+      commentaries: [calvin, ...calvinHarmonies],
       crossReferences: [xrefs],
       originals: [greek],
       lexicon,
@@ -227,6 +297,39 @@ for (const [path, text] of FILES) {
 }
 
 export const ORIGIN = "https://reformed.example"
+
+/**
+ * The fixture release with each commentator's sections on one chapter added, and the catalog
+ * listing that chapter as ingested for them.
+ */
+export const filesWithChapter = (
+  book: string,
+  chapter: number,
+  sections: Readonly<Record<string, ReadonlyArray<unknown>>>,
+) => {
+  const catalog = JSON.parse(FILES.get("catalog.json") ?? "null") as {
+    readonly release: string
+    readonly payload: { readonly resources: ReadonlyArray<CatalogResource> }
+  }
+  const resources = catalog.payload.resources.map((resource) =>
+    sections[resource.id] === undefined
+      ? resource
+      : { ...resource, ingested: [...resource.ingested, { book, chapters: [chapter] }] },
+  )
+  const files = new Map(FILES).set(
+    "catalog.json",
+    JSON.stringify({ ...catalog, payload: { resources } }),
+  )
+  for (const [resourceId, list] of Object.entries(sections))
+    files.set(
+      `commentary/${resourceId}/${book}.${chapter}.json`,
+      JSON.stringify({
+        release: RELEASE,
+        payload: { resourceId, book, chapter, sections: list },
+      }),
+    )
+  return files
+}
 
 /** Serves release files the way a static host does, from `/data/<release>/<path>`. */
 export const staticHost =

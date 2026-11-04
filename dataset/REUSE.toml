@@ -86,3 +86,53 @@ SPDX-License-Identifier = "CC-PDM-1.0"
 path = "versification/kjv.json"
 SPDX-FileCopyrightText = "Copyright (c) OpenBible.info; verse counts from bible-passage-reference-parser"
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "resources/hc/**"
+SPDX-FileCopyrightText = "The Heidelberg Catechism, 1563, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/hc/**"
+SPDX-FileCopyrightText = "The Heidelberg Catechism, 1563, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/cd/**"
+SPDX-FileCopyrightText = "Synod of Dort, 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/cd/**"
+SPDX-FileCopyrightText = "Synod of Dort, 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/bc/**"
+SPDX-FileCopyrightText = "Guy de Brès, 1561, revised 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "confessions/bc/**"
+SPDX-FileCopyrightText = "Guy de Brès, 1561, revised 1619, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/poole-annotations/**"
+SPDX-FileCopyrightText = "Matthew Poole and the divines who continued his work, Annotations upon the Holy Bible (1683, 1685); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/owen-hebrews/**"
+SPDX-FileCopyrightText = "John Owen, A Continuation of the Exposition of the Epistle of Paul the Apostle to the Hebrews (1680); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/matthew-henry/**"
+SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"
+
+[[annotations]]
+path = "resources/jamieson-fausset-brown/**"
+SPDX-FileCopyrightText = "Robert Jamieson, A. R. Fausset and David Brown, Commentary Critical and Explanatory on the Whole Bible (1871), public domain"
+SPDX-License-Identifier = "CC-PDM-1.0"

@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { join, resolve } from "node:path"
 import { describe, expect, it } from "@effect/vitest"
-import { Confession } from "@reformed-bible/core"
+import { Confession, contains, parseOsis } from "@reformed-bible/core"
 import { Effect, Exit, Result, Schema } from "effect"
 import { indexProofTexts, ingestConfessions } from "../../src/ingest/confession.ts"
 import { readNormalized } from "../../src/normalized.ts"
@@ -162,5 +162,78 @@ describe("the transcribed Westminster Standards", () => {
       datasetConfession(id).divisions.flatMap((d) => d.articles.map((a) => a.id))
     expect(ids("wlc")).toEqual(Array.from({ length: 196 }, (_, i) => `Q${i + 1}`))
     expect(ids("wsc")).toEqual(Array.from({ length: 107 }, (_, i) => `Q${i + 1}`))
+  })
+})
+
+describe("the transcribed Canons of Dort", () => {
+  const articles = (head: string, count: number) =>
+    Array.from({ length: count }, (_, i) => `${head}.${i + 1}`)
+
+  it("outlines the four heads of doctrine and the Conclusion as Schaff prints them", () => {
+    const cd = datasetConfession("cd")
+    expect(cd.divisions.map((d) => [d.id, d.title, d.articles.map((a) => a.id)])).toEqual([
+      ["I", "First Head of Doctrine: Of Divine Predestination", articles("I", 18)],
+      [
+        "II",
+        "Second Head of Doctrine: Of the Death of Christ, and the Redemption of Men thereby",
+        articles("II", 9),
+      ],
+      [
+        "III-IV",
+        "Third and Fourth Heads of Doctrine: Of the Corruption of Man, his Conversion to God, and the Manner thereof",
+        articles("III-IV", 17),
+      ],
+      ["V", "Fifth Head of Doctrine: Of the Perseverance of the Saints", articles("V", 15)],
+      ["Conclusion", "Conclusion", ["Conclusion"]],
+    ])
+  })
+
+  it("makes each inline citation a proof on the run that carries it", () => {
+    const first = datasetConfession("cd").divisions[0]!.articles[0]!
+    const runs = first.paragraphs[0]!.map((run) => run.text)
+    expect(runs).toHaveLength(3)
+    expect(runs[0]).toMatch(/\(Rom\. iii\. 19\), 'that every mouth .* guilty before God;'$/)
+    expect(runs[1]).toMatch(/^ \(ver\. 23\) 'for all have sinned, .* glory of God;'$/)
+    expect(runs[2]).toBe(" and (vi. 23), 'for the wages of sin is death.'")
+    expect(first.proofs).toEqual([
+      { refs: ["Rom.3.19"] },
+      { refs: ["Rom.3.23"] },
+      { refs: ["Rom.6.23"] },
+    ])
+  })
+
+  it("puts each article's n-th printed citation in its n-th run", () => {
+    const citation = /\([^()]*\b(?:[ivxl]+|ver)\.[^()]*\)/
+    for (const article of datasetConfession("cd").divisions.flatMap((d) => d.articles)) {
+      const runsWithCitation = article.paragraphs
+        .flat()
+        .flatMap((run, n) => (citation.test(run.text) ? [n] : []))
+      expect([article.id, runsWithCitation]).toEqual([article.id, article.proofs.map((_, n) => n)])
+    }
+  })
+})
+
+describe("every curated confession", () => {
+  const ids = ["bc", "cd", "hc", "wcf", "wlc", "wsc"]
+  const articlesOf = (id: string) => datasetConfession(id).divisions.flatMap((d) => d.articles)
+
+  it("prints no paragraph of an article twice", () => {
+    for (const id of ids)
+      for (const article of articlesOf(id)) {
+        const texts = article.paragraphs.map((paragraph) => JSON.stringify(paragraph))
+        expect([id, article.id, new Set(texts).size]).toEqual([id, article.id, texts.length])
+      }
+  })
+
+  it("drops a clause's reference that another reference of the clause already covers", () => {
+    for (const id of ids)
+      for (const article of articlesOf(id))
+        for (const proof of article.proofs.filter((p) => p.wholeArticle !== true)) {
+          const passages = proof.refs.map((ref) => Result.getOrThrow(parseOsis(ref)))
+          const covered = proof.refs.filter((_, i) =>
+            passages.some((outer, j) => j !== i && contains(outer, passages[i]!)),
+          )
+          expect([id, article.id, covered]).toEqual([id, article.id, []])
+        }
   })
 })

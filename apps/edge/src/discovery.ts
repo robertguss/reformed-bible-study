@@ -11,7 +11,7 @@ export interface DiscoveryOptions {
 }
 
 const SUMMARY =
-  "Free, openly licensed Reformed resources beside the Bible text: translations, John Calvin's commentaries, the Westminster Confession and Catechisms with their Scripture proofs, cross-references, and the Greek and Hebrew words of each verse with lexicon entries. Read-only, with no account or key."
+  "Free, openly licensed Reformed resources beside the Bible text: translations, Reformed commentaries, Reformed confessions and catechisms with their Scripture proofs, cross-references, and the Greek and Hebrew words of each verse with lexicon entries. Read-only, with no account or key."
 
 const CITATION_RULES = [
   "Quote only text that the API or an MCP tool returned. Do not present wording from memory as if it came from these resources.",

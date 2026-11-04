@@ -3,7 +3,7 @@ import { catalogEntry } from "./context.ts"
 import { PanelSpec, panelId } from "./panel.ts"
 
 export const DEFAULT_PANELS: ReadonlyArray<PanelSpec> = [
-  PanelSpec.Commentary({ resourceId: "calvin-commentaries" }),
+  PanelSpec.DefaultCommentary(),
   PanelSpec.Confessions(),
   PanelSpec.CrossReferences(),
   PanelSpec.OriginalLanguage(),
@@ -32,6 +32,7 @@ export const addablePanels = (
 ): ReadonlyArray<PanelOption> => {
   const open = new Set(panels.map(panelId))
   const options: ReadonlyArray<PanelOption> = [
+    { spec: PanelSpec.DefaultCommentary(), label: "Commentary (Calvin first)" },
     ...catalog
       .filter((resource) => resource.kind === "commentary" && resource.status.state === "active")
       .map((resource) => ({
@@ -45,9 +46,15 @@ export const addablePanels = (
   return options.filter(({ spec }) => !open.has(panelId(spec)))
 }
 
-export const panelTitle = (spec: PanelSpec, catalog: ReadonlyArray<CatalogResource>): string =>
+/** A panel's title; a default commentary panel names the commentator it is showing, if any. */
+export const panelTitle = (
+  spec: PanelSpec,
+  catalog: ReadonlyArray<CatalogResource>,
+  shown: CatalogResource | undefined,
+): string =>
   PanelSpec.match(spec, {
     Commentary: ({ resourceId }) => catalogEntry(catalog, resourceId)?.title ?? "Commentary",
+    DefaultCommentary: () => (shown === undefined ? "Commentary" : `Commentary: ${shown.creator}`),
     Confessions: () => "Confessions",
     CrossReferences: () => "Cross-references",
     OriginalLanguage: () => "Original language",

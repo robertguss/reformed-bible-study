@@ -32,6 +32,9 @@ export const catalogEntry = (
   resourceId: string,
 ): CatalogResource | undefined => catalog.find((resource) => resource.id === resourceId)
 
+export const notYetCovered = (passage: Passage): string =>
+  `${focusLabel(passage)} is not yet covered.`
+
 export const coverageMessage = (
   entry: ResourceCoverage,
   context: PanelContext,
@@ -45,7 +48,7 @@ export const coverageMessage = (
     case "covered":
       return Option.none()
     case "not_ingested":
-      return Option.some(`${focusLabel(context.passage)} is not yet covered.`)
+      return Option.some(notYetCovered(context.passage))
     case "outside_work": {
       const book = bookByOsis(context.passage.start.book)?.name ?? context.passage.start.book
       return Option.some(`${resource?.creator ?? title} did not write on ${book}.`)

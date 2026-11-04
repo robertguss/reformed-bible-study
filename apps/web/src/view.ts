@@ -14,7 +14,7 @@ import { addablePanels, panelTitle } from "./panels/arrangement.ts"
 import * as Panel from "./panels/panel.ts"
 import * as Reader from "./reader/index.ts"
 import { problemOf, type Reading, readingOfRoute, validReading } from "./reading.ts"
-import { AppRoute, articleOfRoute, homeRouter } from "./route.ts"
+import { AppRoute, articleOfRoute, type ConfessionRoute, homeRouter } from "./route.ts"
 import { DockTabs, translationOf } from "./update.ts"
 
 const SITE_NAME = "Reformed Bible Study"
@@ -116,6 +116,15 @@ const layoutNoticeView = (model: Model, h: HtmlBuilder<Message>): Html =>
       ),
   })
 
+const panelTitleOf = (model: Model, spec: Panel.PanelSpec): string => {
+  const panel = model.panels.find(({ id }) => id === Panel.panelId(spec))
+  return panelTitle(
+    spec,
+    catalogOf(model),
+    panel === undefined ? undefined : Panel.shownWork(panel),
+  )
+}
+
 const panelControls = (
   model: Model,
   spec: Panel.PanelSpec,
@@ -123,7 +132,7 @@ const panelControls = (
   h: HtmlBuilder<Message>,
 ) => {
   const id = Panel.panelId(spec)
-  const title = panelTitle(spec, catalogOf(model))
+  const title = panelTitleOf(model, spec)
   const last = model.saved.panels.length - 1
   return h.header(
     [h.Class("panel-header")],
@@ -255,7 +264,7 @@ const panelDock = (model: Model, h: HtmlBuilder<Message>) => {
                     return h.keyed("button")(
                       value,
                       [...tab],
-                      [spec === undefined ? value : panelTitle(spec, catalogOf(model))],
+                      [spec === undefined ? value : panelTitleOf(model, spec)],
                     )
                   }),
                 ),
@@ -345,11 +354,7 @@ const passageView = (model: Model, h: HtmlBuilder<Message>): Html =>
       }),
   })
 
-const confessionView = (
-  model: Model,
-  route: typeof AppRoute.ConfessionSection.Type | typeof AppRoute.ConfessionQuestion.Type,
-  h: HtmlBuilder<Message>,
-): Html =>
+const confessionView = (model: Model, route: ConfessionRoute, h: HtmlBuilder<Message>): Html =>
   Option.isNone(articleOfRoute(route))
     ? notFoundView(h)
     : h.main(
@@ -372,6 +377,7 @@ const titleOf = (model: Model): string =>
     Verses: () => pageTitle(model),
     ConfessionSection: () => `Confession · ${SITE_NAME}`,
     ConfessionQuestion: () => `Confession · ${SITE_NAME}`,
+    ConfessionConclusion: () => `Confession · ${SITE_NAME}`,
     NotFound: () => `Not found · ${SITE_NAME}`,
   })
 
@@ -395,6 +401,7 @@ export const view = (model: Model, h: HtmlBuilder<Message>): Document => ({
         Verses: () => passageView(model, h),
         ConfessionSection: (route) => confessionView(model, route, h),
         ConfessionQuestion: (route) => confessionView(model, route, h),
+        ConfessionConclusion: (route) => confessionView(model, route, h),
         NotFound: () => notFoundView(h),
       }),
     ],

@@ -82,9 +82,14 @@ export const LexiconEntry = Schema.Struct({
 })
 export type LexiconEntry = typeof LexiconEntry.Type
 
-/** One commentary section, keyed by the canonical range the author comments on. */
+/**
+ * One commentary section, keyed by the canonical range the author comments on. A comment from a
+ * harmony also lists the parallel passages in other books that its pericope covers; the field is
+ * omitted when there are none.
+ */
 export const CommentarySection = Schema.Struct({
   ref: OsisRef,
+  parallels: Schema.optionalKey(Schema.Array(OsisRef)),
   paragraphs: Schema.Array(TextRuns),
   notes: Schema.Array(TextRuns),
 })
@@ -98,17 +103,24 @@ export const CommentaryBook = Schema.Struct({
 })
 export type CommentaryBook = typeof CommentaryBook.Type
 
-/** References supporting one clause of a confession article; `label` is the print's clause letter when it has one. */
+/**
+ * References supporting one clause of a confession article; `label` is the print's clause letter
+ * when it has one. `wholeArticle` marks references the print gives for the whole article rather
+ * than for one clause; such a proof is not counted against the article's runs.
+ */
 export const ProofText = Schema.Struct({
   label: Schema.optionalKey(Schema.String),
+  wholeArticle: Schema.optionalKey(Schema.Literal(true)),
   refs: Schema.Array(OsisRef),
 })
 export type ProofText = typeof ProofText.Type
 
 /** A confession section or catechism question with its proof texts. */
 export const ConfessionArticle = Schema.Struct({
-  /** Stable article id within the confession, such as `3.5` or `Q30`. */
-  id: Schema.String.check(Schema.isPattern(/^(?:\d+\.\d+|Q\d+|[IVX]+\.\d+|Art\d+)$/)),
+  /** Stable, slash-free article id within the confession, such as `3.5`, `Q30`, `Art16`, `III-IV.4` or `Conclusion`. */
+  id: Schema.String.check(
+    Schema.isPattern(/^(?:\d+\.\d+|Q\d+|(?:I|II|III-IV|V)\.\d+|Art\d+|Conclusion)$/),
+  ),
   label: Schema.String,
   question: Schema.optionalKey(TextRuns),
   paragraphs: Schema.Array(TextRuns),

@@ -1,6 +1,6 @@
 import type { TextRun } from "@reformed-bible/core"
 import { Effect, Schema } from "effect"
-import { XMLParser } from "fast-xml-parser"
+import { attribute, decodeEntities, elementName, parser, TEXT, type XmlNode } from "./xml-tree.ts"
 
 export class OsisTextError extends Schema.TaggedError<
   OsisTextError,
@@ -9,44 +9,27 @@ export class OsisTextError extends Schema.TaggedError<
   detail: Schema.String,
 }) {}
 
-export interface OsisEntry {
+/** One `div type="section"` of an entry, under the reference its start tag annotates. */
+export interface OsisSection {
   readonly ref: string | undefined
   readonly paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>
   readonly notes: ReadonlyArray<ReadonlyArray<TextRun>>
 }
 
-const parser = new XMLParser({
-  preserveOrder: true,
-  ignoreAttributes: false,
-  attributeNamePrefix: "",
-  parseTagValue: false,
-  parseAttributeValue: false,
-  trimValues: false,
-  processEntities: false,
-  htmlEntities: false,
-  ignoreDeclaration: true,
-  ignorePiTags: true,
-})
-
-const PREDEFINED: Readonly<Record<string, string>> = {
-  lt: "<",
-  gt: ">",
-  amp: "&",
-  quot: '"',
-  apos: "'",
+/**
+ * One table of an entry: the plain text of each cell of its first row, and how many of the entry's
+ * sections had begun before it. In Calvin's harmonies the first row names each book's passage of
+ * the pericope that follows.
+ */
+export interface OsisTable {
+  readonly firstRow: ReadonlyArray<string>
+  readonly sectionsBefore: number
 }
 
-const decodeEntities = (text: string): string =>
-  text.replace(/&(lt|gt|amp|quot|apos|#\d+|#x[0-9a-fA-F]+);/g, (whole, name: string) => {
-    if (!name.startsWith("#")) return PREDEFINED[name] ?? whole
-    const code = name.startsWith("#x") ? Number.parseInt(name.slice(2), 16) : Number(name.slice(1))
-    return code <= 0x10ffff ? String.fromCodePoint(code) : whole
-  })
-
-type XmlNode = Readonly<Record<string, unknown>>
-
-const ATTRIBUTES = ":@"
-const TEXT = "#text"
+export interface OsisEntry {
+  readonly sections: ReadonlyArray<OsisSection>
+  readonly tables: ReadonlyArray<OsisTable>
+}
 
 class Paragraphs {
   readonly done: Array<Array<TextRun>> = []
@@ -100,49 +83,197 @@ const joinParagraphs = (paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>): Arra
   return runs
 }
 
-const elementName = (node: XmlNode): string | undefined =>
-  Object.keys(node).find((key) => key !== ATTRIBUTES && key !== TEXT)
+const childrenOf = (node: XmlNode, name: string): ReadonlyArray<XmlNode> =>
+  (node[name] ?? []) as ReadonlyArray<XmlNode>
 
-const attribute = (node: XmlNode, name: string): string | undefined => {
-  const attributes = node[ATTRIBUTES] as Readonly<Record<string, unknown>> | undefined
-  const value = attributes?.[name]
-  return typeof value === "string" ? value : undefined
+/** The text of nodes with notes left out, a line break read as a space, and spaces collapsed. */
+const plainText = (nodes: ReadonlyArray<XmlNode>): string => {
+  const parts: Array<string> = []
+  const collect = (list: ReadonlyArray<XmlNode>): void => {
+    for (const node of list) {
+      const text = node[TEXT]
+      if (typeof text === "string") parts.push(decodeEntities(text))
+      const name = elementName(node)
+      if (name === "lb") parts.push(" ")
+      else if (name !== undefined && name !== "note") collect(childrenOf(node, name))
+    }
+  }
+  collect(nodes)
+  return parts.join("").replace(/\s+/g, " ").trim()
 }
 
+const firstRowOf = (table: ReadonlyArray<XmlNode>): ReadonlyArray<string> => {
+  const row = table.find((node) => elementName(node) === "row")
+  return (row === undefined ? [] : childrenOf(row, "row"))
+    .filter((node) => elementName(node) === "cell")
+    .map((cell) => plainText(childrenOf(cell, "cell")))
+}
+
+interface OpenSection {
+  readonly ref: string | undefined
+  readonly body: Paragraphs
+  readonly notes: Array<Array<TextRun>>
+}
+
+/**
+ * Splits an entry into its sections, in order, and lists its tables. Text belongs to the section
+ * most recently started until any section ends; text outside every section, such as the
+ * translation of the next passage, is left out. A section that starts right after another with the
+ * same reference continues it.
+ */
 export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextError> =>
   Effect.gen(function* () {
     const tree = yield* Effect.try({
       try: () => parser.parse(`<entry>${xml}</entry>`) as ReadonlyArray<XmlNode>,
       catch: (error) => new OsisTextError({ detail: String(error) }),
     })
-    const body = new Paragraphs()
-    const notes: Array<Array<TextRun>> = []
+    const sections: Array<OpenSection> = []
+    const tables: Array<OsisTable> = []
+    let current: OpenSection | undefined
     let note: Paragraphs | undefined
-    let ref: string | undefined
-    let inSection = false
+    const target = () => note ?? current?.body
 
     const walk = (nodes: ReadonlyArray<XmlNode>, emphasis: boolean): void => {
       for (const node of nodes) {
         const text = node[TEXT]
         if (typeof text === "string") {
-          if (inSection) (note ?? body).add(decodeEntities(text), emphasis)
+          target()?.add(decodeEntities(text), emphasis)
           continue
         }
         const name = elementName(node)
         if (name === undefined) continue
-        const children = (node[name] ?? []) as ReadonlyArray<XmlNode>
-        if (name === "div") {
-          if (attribute(node, "type") === "section") {
+        const children = childrenOf(node, name)
+        if (name === "table")
+          tables.push({ firstRow: firstRowOf(children), sectionsBefore: sections.length })
+        if (name === "div" || name === "p") {
+          target()?.break()
+          if (name === "div" && attribute(node, "type") === "section") {
             if (attribute(node, "sID") !== undefined) {
-              inSection = true
-              ref ??= attribute(node, "annotateRef")?.replace(/^Bible:/, "")
-            } else if (attribute(node, "eID") !== undefined) inSection = false
+              const ref = attribute(node, "annotateRef")?.replace(/^Bible:/, "")
+              const last = sections.at(-1)
+              if (last !== undefined && last.ref === ref) current = last
+              else {
+                current = { ref, body: new Paragraphs(), notes: [] }
+                sections.push(current)
+              }
+            } else if (attribute(node, "eID") !== undefined) current = undefined
           }
-          ;(note ?? body).break()
           walk(children, emphasis)
-          ;(note ?? body).break()
+          target()?.break()
         } else if (name === "note") {
-          if (!inSection || note !== undefined) {
+          if (current === undefined || note !== undefined) {
+            walk(children, emphasis)
+            continue
+          }
+          note = new Paragraphs()
+          walk(children, false)
+          note.break()
+          const runs = joinParagraphs(note.done)
+          if (runs.length > 0) current.notes.push(runs)
+          note = undefined
+        } else if (name === "lb") target()?.add(" ", emphasis)
+        else walk(children, emphasis || name === "hi")
+      }
+    }
+
+    const root = tree.find((node) => elementName(node) === "entry")
+    walk(root === undefined ? [] : childrenOf(root, "entry"), false)
+    return {
+      sections: sections.map(({ ref, body, notes }) => {
+        body.break()
+        return { ref, paragraphs: body.done, notes }
+      }),
+      tables,
+    }
+  })
+
+/**
+ * Titles that head a passage within a chapter. Every other title names a volume, a book or a
+ * chapter, and is left out.
+ */
+const PASSAGE_HEADINGS: ReadonlySet<string> = new Set(["x-s3", "x-s4"])
+
+/** Titles that name a chapter, such as Jamieson-Fausset-Brown's "CHAPTER 2" or "PSALM 3". */
+const CHAPTER_TITLES: ReadonlySet<string> = new Set(["x-s", "x-s2"])
+
+/**
+ * Where a chapter's own text starts in the entry that opens it, after the book's front matter. In
+ * Henry's module it starts with the chapter's introduction division. In Jamieson-Fausset-Brown's
+ * it starts after the chapter's title, and in a book of one chapter, which has no chapter title,
+ * after the text printed before the first verse.
+ */
+export type ChapterStart = "introduction" | "chapter-title"
+
+/**
+ * Reads the text of an entry that has no section markers, as in the CrossWire modules of Matthew
+ * Henry and Jamieson-Fausset-Brown, into paragraphs and notes. A passage heading is a paragraph of
+ * its own, and a line of verse is too. Any other title is left out, as is text after a chapter's
+ * end until the next chapter starts.
+ *
+ * For a chapter's opening entry, the text of its chapter slot followed by its first verse entry,
+ * `opening` says where the chapter's own text starts. Everything before that is the book's front
+ * matter and is left out.
+ */
+export const parseOsisText = (
+  xml: string,
+  opening: ChapterStart | undefined,
+): Effect.Effect<Omit<OsisSection, "ref">, OsisTextError> =>
+  Effect.gen(function* () {
+    const tree = yield* Effect.try({
+      try: () => parser.parse(`<entry>${xml}</entry>`) as ReadonlyArray<XmlNode>,
+      catch: (error) => new OsisTextError({ detail: String(error) }),
+    })
+    let body = new Paragraphs()
+    let notes: Array<Array<TextRun>> = []
+    let note: Paragraphs | undefined
+    let inChapter = true
+    let titled = false
+    const target = () => (inChapter ? (note ?? body) : undefined)
+    const restart = () => {
+      body = new Paragraphs()
+      notes = []
+    }
+
+    const walk = (nodes: ReadonlyArray<XmlNode>, emphasis: boolean): void => {
+      for (const node of nodes) {
+        const text = node[TEXT]
+        if (typeof text === "string") {
+          target()?.add(decodeEntities(text), emphasis)
+          continue
+        }
+        const name = elementName(node)
+        if (name === undefined) continue
+        const children = childrenOf(node, name)
+        const type = attribute(node, "type") ?? ""
+        if (name === "chapter") {
+          if (attribute(node, "eID") !== undefined) {
+            body.break()
+            inChapter = false
+          } else if (attribute(node, "sID") !== undefined) inChapter = true
+        } else if (name === "title") {
+          body.break()
+          if (PASSAGE_HEADINGS.has(type)) {
+            walk(children, emphasis)
+            body.break()
+          } else if (opening === "chapter-title" && CHAPTER_TITLES.has(type)) {
+            restart()
+            titled = true
+          }
+        } else if (name === "div" || name === "p" || name === "lg" || name === "l") {
+          if (opening === "introduction" && type === "introduction" && attribute(node, "sID"))
+            restart()
+          if (
+            opening === "chapter-title" &&
+            !titled &&
+            attribute(node, "subType") === "x-preverse" &&
+            attribute(node, "eID")
+          )
+            restart()
+          target()?.break()
+          walk(children, emphasis)
+          target()?.break()
+        } else if (name === "note") {
+          if (note !== undefined || !inChapter) {
             walk(children, emphasis)
             continue
           }
@@ -152,14 +283,13 @@ export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextEr
           const runs = joinParagraphs(note.done)
           if (runs.length > 0) notes.push(runs)
           note = undefined
-        } else if (name === "lb") {
-          if (inSection) (note ?? body).add(" ", emphasis)
-        } else walk(children, emphasis || name === "hi")
+        } else if (name === "lb") target()?.add(" ", emphasis)
+        else walk(children, emphasis || name === "hi")
       }
     }
 
     const root = tree.find((node) => elementName(node) === "entry")
-    walk((root?.["entry"] ?? []) as ReadonlyArray<XmlNode>, false)
+    walk(root === undefined ? [] : childrenOf(root, "entry"), false)
     body.break()
-    return { ref, paragraphs: body.done, notes }
+    return { paragraphs: body.done, notes }
   })

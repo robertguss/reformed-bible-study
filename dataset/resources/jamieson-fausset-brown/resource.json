@@ -1,0 +1,37 @@
+{
+  "id": "jamieson-fausset-brown",
+  "kind": "commentary",
+  "title": "Commentary Critical and Explanatory on the Whole Bible",
+  "creator": "Robert Jamieson, A. R. Fausset and David Brown",
+  "edition": "Commentary Critical and Explanatory on the Whole Bible (1871) as transcribed by the Christian Classics Ethereal Library, in the CrossWire SWORD module JFB version 3.0 (2021-02-15)",
+  "language": "en",
+  "source": {
+    "url": "https://www.crosswire.org/sword/modules/ModInfo.jsp?modName=JFB",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/packages/rawzip/JFB.zip",
+        "sha256": "78eae01d4e4cea96aec496b4d4f149b582d6d7316c56c0b1f9ef07f8f784b2a6"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC-PDM-1.0",
+    "evidence": [
+      {
+        "url": "https://www.crosswire.org/ftpmirror/pub/sword/raw/mods.d/jfb.conf",
+        "quote": "DistributionLicense=Public Domain"
+      },
+      {
+        "url": "https://ccel.org/ccel/jamieson/jfb.xml",
+        "quote": "Public Domain"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Robert Jamieson, A. R. Fausset and David Brown, Commentary Critical and Explanatory on the Whole Bible (1871). Public domain. Text from the Christian Classics Ethereal Library by way of the CrossWire SWORD module JFB."
+  },
+  "modifications": "Converted from OSIS markup to plain text paragraphs with emphasis. Each passage heading is its own paragraph. Each section holds the notes on one verse, or on the verses its source links together, and runs from its first verse to the verse before the next section or the end of its chapter, so a verse with no note of its own falls in the section before it. A chapter's first section opens with the chapter's heading and starts at the chapter's first verse. Left out: the general introductions to the Pentateuch and historical books, the poetical books, the prophetical books and the prophets of the restoration, all printed before Genesis 1, each book's introduction, the chapter titles such as CHAPTER 1, and the notes on the electronic edition printed with them.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": { "state": "active" }
+}

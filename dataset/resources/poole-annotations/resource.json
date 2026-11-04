@@ -1,0 +1,41 @@
+{
+  "id": "poole-annotations",
+  "kind": "commentary",
+  "title": "Annotations upon the Holy Bible",
+  "creator": "Matthew Poole and the divines who continued his work after Isaiah 58",
+  "edition": "Annotations upon the Holy Bible, volume I (London, 1683, Wing P2820) and volume II, being a continuation of Mr. Pool's work by certain judicious and learned divines (London, 1685, Wing P2823), as keyed and encoded by the Early English Books Online Text Creation Partnership, Phase I texts A55363 and A55368",
+  "language": "en",
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A55363",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A55363/41a5d66565a933814dd6a5486595f6a2ae45e29f/A55363.xml",
+        "sha256": "fc494999def0b470be3e1d826d1bb310fe2e627da7d9946067485ddc92fbe6b5"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A55368/eadd8a9fdb03365d0d54aa36287b7defb034cc8c/A55368.xml",
+        "sha256": "88e15a73286b932440edfa76936b374ba63360ffea2d62d0d3ba514c5cf9a6e6"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A55363",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A55368",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "Matthew Poole, Annotations upon the Holy Bible (London, 1683 and 1685), continued after Isaiah 58 by the divines who finished his work. Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis. Each section opens with its verse as Poole printed it, with the sign of each note left in the text in parentheses, such as (a). Each annotation follows as its own paragraph, and each marginal note moves to the section's notes. Every gap the transcribers could not key is kept as the mark they gave it, such as 〈◊〉 for an illegible word or 〈 in non-Latin alphabet 〉 for Greek or Hebrew. Line-end hyphens are closed up. Sections are keyed by the verse and chapter numbers printed in the text. A number misprinted between two that follow on, such as a second 36 between 36 and 38, is read as the number between them, and so is the chapter of Psalm 45, numbered 65 in the transcription. An unnumbered paragraph takes the free verse between its neighbours, such as an unnumbered first verse. Leviticus 10:12 to 11:24 is missing from the source, and the rest of Leviticus 11, which the transcription runs on inside chapter 10, is placed in chapter 11. A section runs from its own verse to the verse before the next section or the end of its chapter. A book's argument or preface, a chapter's argument and a psalm's title open the chapter's first verse section. Left out: the title pages, the prefaces to each volume, the chapter headings such as CHAP. I., and the closing lines after a book's last chapter, such as FINIS.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": { "state": "active" }
+}

@@ -1,0 +1,1862 @@
+{
+  "resourceId": "bc",
+  "abbreviation": "BC",
+  "title": "The Belgic Confession",
+  "divisions": [
+    {
+      "id": "1",
+      "title": "There Is One Only God",
+      "articles": [
+        {
+          "id": "Art1",
+          "label": "Article 1",
+          "paragraphs": [
+            [
+              {
+                "text": "We all believe with the heart, and confess with the mouth, that there is one only simple and spiritual Being, which we call God; and that he is eternal, incomprehensible, invisible, immutable, infinite, almighty, perfectly wise, just, good, and the overflowing fountain of all good."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Eph.4.5",
+                "Deut.6.4",
+                "1Tim.2.5",
+                "1Cor.8.6",
+                "John.4.24",
+                "Isa.40.28",
+                "Rom.11.33",
+                "Rom.1.20",
+                "Mal.3.6",
+                "Isa.44.6",
+                "1Tim.1.17",
+                "Jer.12.1",
+                "Matt.19.17",
+                "Jas.1.17",
+                "1Chr.29.10-1Chr.29.12"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "By What Means God Is Made Known unto Us",
+      "articles": [
+        {
+          "id": "Art2",
+          "label": "Article 2",
+          "paragraphs": [
+            [
+              {
+                "text": "We know him by two means: first, by the creation, preservation, and government of the universe; which is before our eyes as a most elegant book, wherein all creatures, great and small, are as so many characters leading us to contemplate the invisible things of God, namely, his eternal power and Godhead, as the Apostle Paul saith (Rom. i. 20). All which things are sufficient to convince men, and leave them without excuse."
+              }
+            ],
+            [
+              {
+                "text": "Secondly, he makes himself more clearly and fully known to us by his holy and divine Word; that is to say, as far as is necessary for us to know in this life, to his glory and our salvation."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": ["Ps.19.1", "Eph.4.6", "Rom.1.20", "Ps.19.7", "1Cor.12.6"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Of the Written Word of God",
+      "articles": [
+        {
+          "id": "Art3",
+          "label": "Article 3",
+          "paragraphs": [
+            [
+              {
+                "text": "We confess that this Word of God was not sent nor delivered by the will of man, but that holy men of God spake as they were moved by the Holy Ghost, as the Apostle Peter saith. And that afterwards God, from a special care which he has for us and our salvation, commanded his servants, the Prophets and Apostles, to commit his revealed Word to writing; and he himself wrote with his own finger the two tables of the law. Therefore we call such writings holy and divine Scriptures."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "2Pet.1.21",
+                "Exod.24.4",
+                "Ps.102.18",
+                "Hab.2.2",
+                "2Tim.3.16",
+                "Rev.1.11",
+                "Exod.31.18"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Canonical Books of the Holy Scriptures",
+      "articles": [
+        {
+          "id": "Art4",
+          "label": "Article 4",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that the Holy Scriptures are contained in two books, namely, the Old and New Testaments, which are canonical, against which nothing can be alleged. These are thus named in the Church of God."
+              }
+            ],
+            [
+              {
+                "text": "The books of the Old Testament are: the five books of Moses, viz., Genesis, Exodus, Leviticus, Numbers, Deuteronomy; the book of Joshua, Judges, Ruth, two books of Samuel, and two of the Kings, two books of the Chronicles, commonly called Paralipomenon, the first of Ezra, Nehemiah, Esther; Job, the Psalms of David, the three books of Solomon, namely, the Proverbs, Ecclesiastes, and the Song of Songs; the four great Prophets: Isaiah, Jeremiah, Ezekiel, and Daniel; and the twelve lesser Prophets, viz., Hosea, Joel, Amos, Obadiah, Jonah, Micah, Nahum, Habakkuk, Zephaniah, Haggai, Zechariah, and Malachi."
+              }
+            ],
+            [
+              {
+                "text": "Those of the New Testament are: the four Evangelists, viz., Matthew, Mark, Luke, and John; the Acts of the Apostles; the fourteen Epistles of the Apostle Paul, viz., one to the Romans, two to the Corinthians, one to the Galatians, one to the Ephesians, one to the Philippians, one to the Colossians, two to the Thessalonians, two to Timothy, one to Titus, one to Philemon, and one to the Hebrews; the seven Epistles of the other Apostles, viz., one of James, two of Peter, three of John, one of Jude; and the Revelation of the Apostle John."
+              }
+            ]
+          ],
+          "proofs": []
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Whence Do the Holy Scriptures Derive Their Dignity and Authority",
+      "articles": [
+        {
+          "id": "Art5",
+          "label": "Article 5",
+          "paragraphs": [
+            [
+              {
+                "text": "We receive all these books, and these only, as holy and canonical, for the regulation, foundation, and confirmation of our faith; believing, without any doubt, all things contained in them, not so much because the Church receives and approves them as such, but more especially because the Holy Ghost witnesseth in our hearts that they are from God, whereof they carry the evidence in themselves. For the very blind are able to perceive that the things foretold in them are fulfilling."
+              }
+            ]
+          ],
+          "proofs": []
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "The Difference Between the Canonical and Apocryphal Books",
+      "articles": [
+        {
+          "id": "Art6",
+          "label": "Article 6",
+          "paragraphs": [
+            [
+              {
+                "text": "We distinguish these sacred books from the apocryphal, viz., the third and fourth book of Esdras, the books of Tobias, Judith, Wisdom, Jesus Syrach, Baruch, the appendix to the book of Esther, the Song of the Three Children in the Furnace, the History of Susannah, of Bell and the Dragon, the Prayer of Manasses, and the two books of Maccabees. All which the Church may read and take instruction from, so far as they agree with the canonical books; but they are far from having such power and efficacy as that we may from their testimony confirm any point of faith or of the Christian religion; much less to detract from the authority of the other sacred books."
+              }
+            ]
+          ],
+          "proofs": []
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "The Sufficiency of the Holy Scriptures to Be the Only Rule of Faith",
+      "articles": [
+        {
+          "id": "Art7",
+          "label": "Article 7",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that these Holy Scriptures fully contain the will of God, and that whatsoever man ought to believe unto salvation, is sufficiently taught therein. For since the whole manner of worship which God requires of us is written in them at large, it is unlawful for any one, though an Apostle, to teach otherwise than we are now taught in the Holy Scriptures: nay, though it were an angel from heaven, as the Apostle Paul saith. For since it is forbidden to add unto or take away any thing from the Word of God, it doth thereby evidently appear that the doctrine thereof is most perfect and complete in all respects. Neither may we compare any writings of men, though ever so holy, with those divine Scriptures; nor ought we to compare custom, or the great multitude, or antiquity, or succession of times or persons, or councils, decrees, or statutes, with the truth of God, for the truth is above all: for all men are of themselves liars, and more vain than vanity itself. Therefore we reject with all our hearts whatsoever doth not agree with this infallible rule, which the Apostles have taught us, saying, Try the spirits whether they are of God; likewise, If there come any unto you, and bring not this doctrine, receive him not into your house."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.15.4",
+                "John.4.25",
+                "2Tim.3.15-2Tim.3.17",
+                "1Pet.1.1",
+                "Prov.30.5",
+                "Rev.22.18",
+                "John.15.15",
+                "Acts.2.27",
+                "1Pet.4.11",
+                "1Cor.15.2-1Cor.15.3",
+                "2Tim.3.14",
+                "1Tim.1.3",
+                "2John.1.10",
+                "Gal.1.8-Gal.1.9",
+                "1Cor.15.2",
+                "Acts.26.22",
+                "Deut.12.32",
+                "Prov.30.6",
+                "Matt.15.3",
+                "Matt.17.5",
+                "Mark.7.7",
+                "Isa.1.12",
+                "1Cor.2.4",
+                "Rom.3.4",
+                "2Tim.4.3-2Tim.4.4",
+                "Ps.62.9",
+                "Gal.6.16",
+                "1Cor.3.11",
+                "2Thess.2.2",
+                "1John.4.1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "God Is One in Essence, Yet Distinguished in Three Persons",
+      "articles": [
+        {
+          "id": "Art8",
+          "label": "Article 8",
+          "paragraphs": [
+            [
+              {
+                "text": "According to this truth and this Word of God, we believe in one only God, who is one single essence, in which are three persons, really, truly, and eternally distinct, according to their incommunicable properties; namely, the Father, and the Son, and the Holy Ghost. The Father is the cause, origin, and beginning of all things, visible and invisible; the Son is the Word, Wisdom, and Image of the Father; the Holy Ghost is the eternal Power and Might, proceeding from the Father and the Son. Nevertheless God is not by this distinction divided into three, since the Holy Scriptures teach us that the Father, and the Son, and the Holy Ghost have each his personality, distinguished by their properties; but in such wise that these three persons are but one only God. Hence, then, it is evident that the Father is not the Son, nor the Son the Father, and likewise the Holy Ghost is neither the Father nor the Son. Nevertheless these persons thus distinguished are not divided nor intermixed; for the Father hath not assumed the flesh, nor hath the Holy Ghost, but the Son only. The Father hath never been without his Son, or without his Holy Ghost. For they are all three co-eternal and co-essential. There is neither first nor last; for they are all three one, in truth, in power, in goodness, and in mercy."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Isa.43.10",
+                "1John.5.7",
+                "Heb.1.3",
+                "Matt.28.19",
+                "1Cor.8.6",
+                "Col.1.16",
+                "John.1.1-John.1.2",
+                "Rev.19.13",
+                "Prov.8.12",
+                "Prov.8.22",
+                "Col.1.15",
+                "Matt.12.28",
+                "John.15.26",
+                "Gal.4.6",
+                "Phil.2.6-Phil.2.7",
+                "Gal.4.4",
+                "John.1.14"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "title": "The Proof of the Foregoing Article of the Trinity of Persons in One God",
+      "articles": [
+        {
+          "id": "Art9",
+          "label": "Article 9",
+          "paragraphs": [
+            [
+              {
+                "text": "All this we know, as well from the testimonies of Holy Writ as from their operations, and chiefly by those we feel in ourselves. The testimonies of the Holy Scriptures, that teach us to believe this Holy Trinity, are written in many places of the Old Testament, which are not so necessary to enumerate as to choose them out with discretion and judgment. In Genesis i. 26,27, God saith: Let us make man in our image, after our likeness, etc. So God created man in his own image, male and female created he them. And Gen. iii. 22: Behold, the man has become as one of us. From this saying, Let us make man in our image, it appears that there are more persons than one in the Godhead; and when he saith God created, this signifies the unity. It is true he doth not say how many persons there are, but that which appears to us somewhat obscure in the Old Testament is very plain in the New."
+              }
+            ],
+            [
+              {
+                "text": "For when our Lord was baptized in Jordan, the voice of the Father was heard, saying, This is my beloved Son: the Son was seen in the water; and the Holy Ghost appeared in the shape of a dove. This form is also instituted by Christ in the baptism of all believers. Baptize all nations, in the name of the Father and of the Son, and of the Holy Ghost. In the Gospel of Luke the angel Gabriel thus addressed Mary, the mother of our Lord: The Holy Ghost shall come upon thee, and the power of the Highest shall overshadow thee, therefore also that holy thing which shall be born of thee shall be called the Son of God. Likewise, The grace of our Lord Jesus Christ, and the love of God, and the communion of the Holy Ghost be with you. And There are three that bear record in heaven, the Father, the Word, and the Holy Ghost, and these three are one. In all which places we are fully taught that there are three persons in one only divine essence. And although this doctrine far surpasses all human understanding, nevertheless we now believe it by means of the Word of God, but expect hereafter to enjoy the perfect knowledge and benefit thereof in heaven."
+              }
+            ],
+            [
+              {
+                "text": "Moreover we must observe the particular offices and operations of these three persons towards us. The Father is called our Creator by his power; the Son is our Saviour and Redeemer by his blood; the Holy Ghost is our Sanctifier by his dwelling in our hearts."
+              }
+            ],
+            [
+              {
+                "text": "This doctrine of the Holy Trinity hath always been defended and maintained by the true Church, since the times of the Apostles to this very day, against the Jews, Mohammedans, and some false Christians and heretics, as Marcion, Manes, Praxeas, Sabellius, Samosatenus, Arius, and such like, who have been justly condemned by the orthodox fathers."
+              }
+            ],
+            [
+              {
+                "text": "Therefore, in this point, we do willingly receive the three creeds, namely, that of the Apostles, of Nice, and of Athanasius; likewise that which, conformable thereunto, is agreed upon by the ancient fathers."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Gen.1.26-Gen.1.27",
+                "Gen.3.22",
+                "Matt.3.16-Matt.3.17",
+                "Matt.28.19",
+                "Luke.1.35",
+                "2Cor.13.14",
+                "1John.5.7",
+                "Ps.45.7",
+                "Isa.61.1",
+                "Eccl.12.3",
+                "Mal.2.10",
+                "1Pet.1.2",
+                "1John.1.7",
+                "1John.4.14",
+                "1Cor.6.11",
+                "Gal.4.6",
+                "Titus.3.5",
+                "Rom.8.9",
+                "John.14.16"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Jesus Christ Is True and Eternal God",
+      "articles": [
+        {
+          "id": "Art10",
+          "label": "Article 10",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that Jesus Christ, according to his divine nature, is the only begotten Son of God, begotten from eternity, not made nor created (for then he would be a creature), but co-essential and co-eternal with the Father, the express image of his person, and the brightness of his glory, equal unto him in all things. Who is the Son of God, not only from the time that he assumed our nature, but from all eternity, as these testimonies, when compared together, teach us. Moses saith that God created the world; and John saith that all things were made by that Word, which he calleth God; and the Apostle saith that God made the worlds by his Son; likewise, that God created all things by Jesus Christ. Therefore it must needs follow that he—who is called God, the Word, the Son, and Jesus Christ—did exist at that time when all things were created by him. Therefore the Prophet Micah saith: His goings forth have been from of old, from everlasting. And the Apostle: He hath neither beginning of days nor end of life. He therefore is that true, eternal, and almighty God, whom we invoke, worship, and serve."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "John.1.18",
+                "John.1.49",
+                "John.1.14",
+                "Col.1.15",
+                "John.10.30",
+                "Phil.2.6",
+                "John.1.2",
+                "John.17.5",
+                "Rev.1.8",
+                "Heb.1.3",
+                "John.8.23",
+                "John.8.58",
+                "John.9.35-John.9.37",
+                "Acts.8.37",
+                "Rom.9.5",
+                "Gen.1.1",
+                "John.1.3",
+                "Heb.1.2",
+                "Col.1.16",
+                "Mic.5.2",
+                "Heb.7.3"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "title": "The Holy Ghost Is True and Eternal God",
+      "articles": [
+        {
+          "id": "Art11",
+          "label": "Article 11",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe and confess also that the Holy Ghost from eternity proceeds from the Father and Son; and therefore is neither made, created, nor begotten, but only proceedeth from both; who in order is the third person of the Holy Trinity; of one and the same essence, majesty, and glory with the Father and the Son; and therefore is the true and eternal God, as the Holy Scripture teaches us."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Ps.33.6",
+                "Ps.33.17",
+                "John.14.16",
+                "Gal.4.6",
+                "Rom.8.9",
+                "John.15.26",
+                "Gen.1.2",
+                "Isa.48.16",
+                "Isa.61.1",
+                "Acts.5.3-Acts.5.4",
+                "Acts.28.25",
+                "1Cor.3.16",
+                "1Cor.6.19",
+                "Ps.139.7"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "title": "Of the Creation",
+      "articles": [
+        {
+          "id": "Art12",
+          "label": "Article 12",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that the Father, by the Word—that is, by his Son—created of nothing the heaven, the earth, and all creatures, as it seemed good unto him, giving unto every creature its being, shape, form, and several offices to serve its Creator; that he doth also still uphold and govern them by his eternal providence and infinite power for the service of mankind, to the end that man may serve his God. He also created the angels good, to be his messengers and to serve his elect: some of whom are fallen from that excellency, in which God created them, into everlasting perdition; and the others have, by the, grace of God, remained steadfast, and continued in their primitive state. The devils and evil spirits are so depraved that they are enemies of God and every good thing to the utmost of their power, as murderers watching to ruin the Church and every member thereof, and by their wicked stratagems to destroy all; and are therefore, by their own wickedness, adjudged to eternal damnation, daily expecting their horrible torments. Therefore we reject and abhor the error of the Sadducees, who deny the existence of spirits and angels; and also that of the Manichees, who assert that the devils have their origin of themselves, and that they are wicked of their own nature, without having been corrupted."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Gen.1.1",
+                "Isa.40.26",
+                "Heb.3.4",
+                "Rev.4.11",
+                "1Cor.8.6",
+                "John.1.3",
+                "Col.1.16",
+                "Heb.1.3",
+                "Ps.104.10",
+                "Acts.17.25",
+                "1Tim.4.3-1Tim.4.4",
+                "Gen.1.29-Gen.1.30",
+                "Gen.9.2-Gen.9.3",
+                "Ps.104.14-Ps.104.15",
+                "1Cor.3.22",
+                "1Cor.6.20",
+                "Matt.4.10",
+                "Ps.103.20",
+                "Ps.34.7",
+                "Ps.148.2",
+                "Heb.1.14",
+                "John.8.44",
+                "2Pet.2.4",
+                "Luke.8.31",
+                "Jude.1.6",
+                "Matt.25.31",
+                "1Pet.5.8",
+                "Job.1.7",
+                "Gen.3.1",
+                "Matt.13.25",
+                "2Cor.2.11",
+                "2Cor.11.3",
+                "2Cor.11.14",
+                "Matt.25.41",
+                "Luke.8.30-Luke.8.31",
+                "Acts.23.8"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Of Divine Providence",
+      "articles": [
+        {
+          "id": "Art13",
+          "label": "Article 13",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that the same God, after he had created all things, did not forsake them, or give them up to fortune or chance, but that he rules and governs them, according to his holy will, so that nothing happens in this world without his appointment; nevertheless, God neither is the author of, nor can be charged with, the sins which are committed. For his power and goodness are so great and incomprehensible, that he orders and executes his work in the most excellent and just manner even when the devil and wicked men act unjustly. And as to what he doth surpassing human understanding we will not curiously inquire into it further than our capacity will admit of; but with the greatest humility and reverence adore the righteous judgments of God which are hid from us, contenting ourselves that we are disciples of Christ, to learn only those things which he has revealed to us in his Word without transgressing these limits."
+              }
+            ],
+            [
+              {
+                "text": "This doctrine affords us unspeakable consolation, since we are taught thereby that nothing can befall us by chance, but by the direction of our most gracious and heavenly Father, who watches over us with a paternal care, keeping all creatures so under his power that not a hair of our head (for they are all numbered), nor a sparrow, can fall to the ground, without the will of our Father, in whom we do entirely trust; being persuaded that he so restrains the devil and all our enemies that, without his will and permission, they can not hurt us."
+              }
+            ],
+            [
+              {
+                "text": "And therefore we reject that damnable error of the Epicureans, who say that God regards nothing, but leaves all things to chance."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "John.5.17",
+                "Heb.1.3",
+                "Prov.16.4",
+                "Ps.104.9",
+                "Ps.139.2",
+                "Jas.4.15",
+                "Job.1.21",
+                "1Kgs.22.20",
+                "Acts.4.28",
+                "1Sam.2.25",
+                "Ps.115.3",
+                "Ps.14.7",
+                "Amos.3.6",
+                "Deut.19.5",
+                "Prov.21.1",
+                "Ps.105.25",
+                "Isa.10.5-Isa.10.7",
+                "2Thess.2.11",
+                "Ezek.14.9",
+                "Rom.1.28",
+                "Gen.45.8",
+                "Gen.50.20",
+                "2Sam.16.10",
+                "Gen.27.20",
+                "Ps.75.6-Ps.75.7",
+                "Isa.45.7",
+                "Lam.3.37-Lam.3.38",
+                "1Kgs.22.34",
+                "1Kgs.22.38",
+                "Exod.21.13",
+                "Matt.8.31-Matt.8.32",
+                "John.3.8",
+                "Rom.11.33-Rom.11.34",
+                "Matt.8.31",
+                "Job.1.12",
+                "Job.2.6",
+                "Matt.10.29-Matt.10.30"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Of the Creation and Fall of Man, and His Incapacity to Perform What Is Truly Good",
+      "articles": [
+        {
+          "id": "Art14",
+          "label": "Article 14",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that God created man out of the dust of the earth, and made and formed him after his own image and likeness, good, righteous, and holy, capable in all things to will agreeably to the will of God. But being in honor, he understood it not, neither knew his excellency, but willfully subjected himself to sin, and consequently to death and the curse, giving ear to the words of the devil. For the commandment of life, which he had received, he transgressed; and by sin separated himself from God, who was his true life, having corrupted his whole nature, whereby he made himself liable to corporal and spiritual death. And being thus become wicked, perverse, and corrupt in all his ways, he hath lost all his excellent gifts which he had received from God, and only retained a few remains thereof, which, however, are sufficient to leave man without excuse; for all the light which is in us is changed into darkness, as the Scriptures teach us, saying: The light shineth in darkness, and the darkness comprehendeth it not: where St. John calleth men darkness."
+              }
+            ],
+            [
+              {
+                "text": "Therefore we reject all that is taught repugnant to this concerning the free will of man, since man is but a slave to sin; and has nothing of himself unless it is given him from heaven. For who may presume to boast that he of himself can do any good, since Christ saith, No man can come to me, except the Father which hath sent me draw him? Who will glory in his own will, who understands that to be carnally minded is enmity against God? Who can speak of his knowledge, since the natural man receiveth not the things of the Spirit of God? In short, who dare suggest any thought, since he knows that we are not sufficient of ourselves to think any thing as of ourselves, but that our sufficiency is of God? And therefore what the Apostle saith ought justly to be held sure and firm, that God worketh in us both to will and to do of his good pleasure. For there is no will nor understanding, conformable to the divine will and understanding, but what Christ hath wrought in man: which he teaches us when he saith, Without me ye can do nothing."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Gen.1.26",
+                "Eccl.7.29",
+                "Eph.4.24",
+                "Gen.1.31",
+                "Ps.49.20",
+                "Isa.59.2",
+                "Gen.3.6",
+                "Gen.3.17",
+                "Gen.1.3",
+                "Gen.1.7",
+                "Eph.4.18",
+                "Rom.5.12",
+                "Gen.2.17",
+                "Gen.3.19",
+                "Rom.3.10",
+                "Acts.14.16-Acts.14.17",
+                "Acts.17.27",
+                "Rom.1.20-Rom.1.21",
+                "Eph.5.8",
+                "Matt.6.23",
+                "John.1.5",
+                "Isa.26.12",
+                "Ps.94.11",
+                "John.8.34",
+                "Rom.6.17",
+                "Rom.7.5",
+                "Rom.7.17",
+                "John.3.27",
+                "John.6.44",
+                "John.6.65",
+                "Rom.8.7",
+                "1Cor.2.14",
+                "2Cor.3.5",
+                "Phil.2.13",
+                "John.15.5"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Of Original Sin",
+      "articles": [
+        {
+          "id": "Art15",
+          "label": "Article 15",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that, through the disobedience of Adam, original sin is extended to all mankind; which is a corruption of the whole nature, and an hereditary disease, wherewith infants themselves are infected even in their mother's womb, and which produceth in man all sorts of sin, being in him as a root thereof; and therefore is so vile and abominable in the sight of God that it is sufficient to condemn all mankind. Nor is it by any means abolished or done away by baptism; since sin always issues forth from this woful source, as water from a fountain: notwithstanding it is not imputed to the children of God unto condemnation, but by his grace and mercy is forgiven them. Not that they should rest securely in sin, but that a sense of this corruption should make believers often to sigh, desiring to be delivered from this body of death. Wherefore we reject the error of the Pelagians, who assert that sin proceeds only from imitation."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.5.12-Rom.5.13",
+                "Ps.51.5",
+                "Rom.3.10",
+                "Gen.6.3",
+                "John.3.6",
+                "Job.14.4",
+                "Isa.48.8",
+                "Rom.5.14",
+                "Gal.5.19",
+                "Rom.7.8",
+                "Rom.7.10",
+                "Rom.7.13",
+                "Rom.7.17-Rom.7.18",
+                "Rom.7.20",
+                "Rom.7.23",
+                "Eph.2.3",
+                "Eph.2.5",
+                "Rom.7.18",
+                "Rom.7.24"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Of Eternal Election",
+      "articles": [
+        {
+          "id": "Art16",
+          "label": "Article 16",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that all the posterity of Adam, being thus fallen into perdition and ruin by the sin of our first parents, God then did manifest himself such as he is; that is to say, merciful and just: merciful, since he delivers and preserves from this perdition all whom he, in his eternal and unchangeable council, of mere goodness hath elected in Christ Jesus our Lord, without any respect to their works: just, in leaving others in the fall and perdition wherein they have involved themselves."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.9.18",
+                "Rom.9.22-Rom.9.23",
+                "Rom.3.12",
+                "Rom.9.15-Rom.9.16",
+                "Rom.11.32",
+                "Eph.2.8-Eph.2.10",
+                "Ps.100.3",
+                "1John.4.10",
+                "Deut.32.8",
+                "1Sam.12.22",
+                "Ps.65.4",
+                "Mal.1.2",
+                "2Tim.1.9",
+                "Rom.8.29",
+                "Rom.9.11",
+                "Rom.9.21",
+                "Rom.11.5-Rom.11.6",
+                "Eph.1.4",
+                "Titus.3.4-Titus.3.5",
+                "Acts.2.47",
+                "Acts.13.48",
+                "2Tim.2.19-2Tim.2.20",
+                "1Pet.1.2",
+                "John.6.27",
+                "John.15.16",
+                "John.17.9",
+                "Rom.9.17-Rom.9.18",
+                "2Tim.2.20"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Of the Recovery of Fallen Man",
+      "articles": [
+        {
+          "id": "Art17",
+          "label": "Article 17",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that our most gracious God, in his admirable wisdom and goodness, seeing that man had thus thrown himself into temporal and spiritual death, and made himself wholly miserable, was pleased to seek and comfort him when he trembling fled from his presence, promising him that he would give his Son, who should be made of a woman, to bruise the head of the serpent, and would make him happy."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Gen.3.8-Gen.3.9",
+                "Gen.3.19",
+                "Isa.65.1-Isa.65.2",
+                "Heb.2.14",
+                "Gen.22.18",
+                "Isa.7.14",
+                "John.7.42",
+                "2Tim.2.8",
+                "Heb.7.14",
+                "Gen.3.15",
+                "Gal.4.4"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Of the Incarnation of Jesus Christ",
+      "articles": [
+        {
+          "id": "Art18",
+          "label": "Article 18",
+          "paragraphs": [
+            [
+              {
+                "text": "We confess, therefore, that God did fulfill the promise which he made to the fathers by the mouth of his holy prophets when he sent into the world, at the time appointed by him, his own only-begotten and eternal Son, who took upon him the form of a servant, and became like unto men, really assuming the true human nature, with all its infirmities, sin excepted, being conceived in the womb of the blessed Virgin Mary, by the power of the Holy Ghost, without the means of man; and did not only assume human nature as to the body, but also a true human soul, that he might be a real man. For since the soul was lost as well as the body, it was necessary that he should take both upon him, to save both. Therefore we confess (in opposition to the heresy of the Anabaptists, who deny that Christ assumed human flesh of his mother) that Christ is become a partaker of the flesh and blood of the children; that he is a fruit of the loins of David after the flesh; made of the seed of David according to the flesh; a fruit of the womb of the Virgin Mary; made of a woman; a branch of David; a shoot of the root of Jesse; sprung from the tribe of Judah; descended from the Jews according to the flesh: of the seed of Abraham, since he took upon him the seed of Abraham, and became like unto his brethren in all things, sin excepted; so that in truth he is our Immanuel, that is to say, God with us."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Isa.11.1",
+                "Luke.1.55",
+                "Gen.26.4",
+                "2Sam.7.12",
+                "Ps.132.11",
+                "Acts.13.23",
+                "1Tim.2.5",
+                "1Tim.3.16",
+                "Phil.2.7",
+                "Heb.2.14-Heb.2.15",
+                "Heb.4.15",
+                "Luke.1.31",
+                "Luke.1.34-Luke.1.35",
+                "Matt.26.38",
+                "John.12.27",
+                "Heb.2.14",
+                "Acts.2.30",
+                "Rom.1.3",
+                "Luke.1.42",
+                "Gal.4.4",
+                "Jer.33.15",
+                "Heb.7.14",
+                "Rom.9.5",
+                "Gen.22.18",
+                "Matt.1.1",
+                "Gal.3.16",
+                "Heb.2.15-Heb.2.17",
+                "Isa.7.14",
+                "Matt.1.23"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "title": "Of the Union and Distinction of the Two Natures in the Person of Christ",
+      "articles": [
+        {
+          "id": "Art19",
+          "label": "Article 19",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that by this conception the person of the Son is inseparably united and connected with the human nature; so that there are not two Sons of God, nor two persons, but two natures united in one single person; yet each nature retains its own distinct properties. As then the divine nature hath always remained uncreated, without beginning of days or end of life, filling heaven and earth, so also hath the human nature not lost its properties, but remained a creature, having beginning of days, being a finite nature, and retaining all the properties of a real body. And though he hath by his resurrection given immortality to the same, nevertheless he hath not changed the reality of his human nature; forasmuch as our salvation and resurrection also depend on the reality of his body. But these two natures are so closely united in one person, that they were not separated even by his death. Therefore that which he, when dying, commended into the hands of his Father, was a real human spirit, departing from his body. But in the mean time the divine nature always remained united with the human, even when he lay in the grave; and the Godhead did not cease to be in him, any more than it did when he was an infant, though it did not so clearly manifest itself for a while."
+              }
+            ],
+            [
+              {
+                "text": "Wherefore we confess that he is very God and very Man: very God by his power to conquer death, and very man that he might die for us according to the infirmity of his flesh."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Heb.7.3",
+                "1Cor.15.13",
+                "1Cor.15.21",
+                "Phil.3.21",
+                "Matt.26.11",
+                "Acts.1.2",
+                "Acts.1.11",
+                "Acts.3.21",
+                "Luke.24.39",
+                "John.20.25",
+                "John.20.27",
+                "Luke.23.46",
+                "Matt.27.50"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "title": "God Hath Manifested His Justice and Mercy in Christ",
+      "articles": [
+        {
+          "id": "Art20",
+          "label": "Article 20",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that God, who is perfectly merciful and also perfectly just, sent his Son to assume that nature in which the disobedience was committed, to make satisfaction in the same, and to bear the punishment of sin by his most bitter passion and death. God therefore manifested his justice against his Son when he laid our iniquities upon him, and poured forth his mercy and goodness on us, who were guilty and worthy of damnation, out of mere and perfect love, giving his Son unto death for us, and raising him for our justification, that through him we might obtain immortality and life eternal."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Heb.2.14",
+                "Rom.8.3",
+                "Rom.8.32-Rom.8.33",
+                "Isa.53.6",
+                "John.1.29",
+                "1John.4.9",
+                "Rom.4.25"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "title": "Of the Satisfaction of Christ, Our Only High-Priest, for Us",
+      "articles": [
+        {
+          "id": "Art21",
+          "label": "Article 21",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that Jesus Christ is ordained with an oath to be an everlasting High-Priest, after the order of Melchisedec: who hath presented himself in our behalf before his Father, to appease his wrath by his full satisfaction, by offering himself on the tree of the cross, and pouring out his precious blood to purge away our sins; as the prophets had foretold. For it is written, He was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him, and with his stripes we are healed; he was brought as a lamb to the slaughter, and numbered with the transgressors; and condemned by Pontius Pilate as a malefactor, though he had first declared him innocent. Therefore, he restored that which he took not away, and suffered the just for the unjust, as well in his body as in his soul, feeling the terrible punishment which our sins had merited; insomuch that his sweat became like unto drops of blood falling on the ground. He called out, My God, my God, why hast thou forsaken me? And hath suffered all this for the remission of our sins. Wherefore we justly say with the Apostle Paul, that we know nothing but Jesus Christ, and him crucified; we count all things but loss and dung for the excellency of the knowledge of Christ Jesus our Lord: in whose wounds we find all manner of consolation. Neither is it necessary to seek or invent any other means of being reconciled to God, than this only sacrifice, once offered, by which believers are made perfect forever. This is also the reason why he was called by the angel of God, Jesus, that is to say, Saviour, because he should save his people from their sins."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Ps.110.4",
+                "Heb.5.10",
+                "Col.1.14",
+                "Rom.5.8-Rom.5.9",
+                "Col.2.14",
+                "Heb.2.17",
+                "Heb.9.14",
+                "Rom.3.24",
+                "Rom.8.2",
+                "John.15.3",
+                "Acts.2.24",
+                "Acts.13.28",
+                "John.3.16",
+                "1Tim.2.6",
+                "Isa.53.5",
+                "Isa.53.7",
+                "Isa.53.12",
+                "Luke.23.22",
+                "Luke.23.24",
+                "Ps.22.15",
+                "John.18.38",
+                "Ps.69.4",
+                "1Pet.3.18",
+                "Luke.22.44",
+                "Ps.22.1",
+                "Matt.27.46",
+                "1Cor.2.2",
+                "Phil.3.8",
+                "Heb.9.25-Heb.9.26",
+                "Heb.10.14",
+                "Matt.1.21",
+                "Acts.4.12"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "title": "Of Our Justification Through Faith in Jesus Christ",
+      "articles": [
+        {
+          "id": "Art22",
+          "label": "Article 22",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that, to attain the true knowledge of this great mystery, the Holy Ghost kindleth in our hearts an upright faith, which embraces Jesus Christ with all his merits, appropriates him, and seeks nothing more besides him. For it must needs follow, either that all things which are requisite to our salvation are not in Jesus Christ, or if all things are in him, that then those who possess Jesus Christ through faith have complete salvation in Him. Therefore, for any to assert that Christ is not sufficient, but that something more is required besides him, would be too gross a blasphemy; for hence it would follow that Christ was but half a Saviour. Therefore we justly say with Paul, that we are justified by faith alone, or by faith without works. However, to speak more clearly, we do not mean that faith itself justifies us, for it is only an instrument with which we embrace Christ our Righteousness. But Jesus Christ, imputing to us all his merits, and so many holy works, which he hath done for us and in our stead, is our Righteousness. And faith is an instrument that keeps us in communion with him in all his benefits, which, when they become ours, are more than sufficient to acquit us of our sins."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Eph.3.16-Eph.3.17",
+                "Ps.51.11",
+                "Eph.1.17-Eph.1.18",
+                "1Cor.2.12",
+                "1Cor.2.2",
+                "Acts.4.12",
+                "Gal.2.21",
+                "Jer.23.6",
+                "1Cor.1.30",
+                "Jer.31.10",
+                "Matt.1.21",
+                "Rom.3.27",
+                "Rom.8.1",
+                "Rom.8.33",
+                "Gal.2.6",
+                "1Pet.1.4-1Pet.1.5",
+                "Rom.10.4",
+                "2Tim.1.2",
+                "Luke.1.77",
+                "Rom.3.24-Rom.3.25",
+                "Rom.4.5",
+                "Ps.32.1-Ps.32.2",
+                "Phil.3.9",
+                "Titus.3.5",
+                "2Tim.1.9"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "title": "Our Justification Consists in the Forgiveness of Sin and the Imputation of Christ's Righteousness",
+      "articles": [
+        {
+          "id": "Art23",
+          "label": "Article 23",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that our salvation consists in the remission of our sins for Jesus Christ's sake, and that therein our righteousness before God is implied; as David and Paul teach us, declaring this to be the happiness of man, that God imputes righteousness to him without works. And the same Apostle saith, that we are justified freely by his grace, through the redemption which is in Jesus Christ. And therefore we always hold fast this foundation, ascribing all the glory to God, humbling ourselves before him, and acknowledging ourselves to be such as we really are, without presuming to trust in any thing in ourselves, or in any merit of ours, relying and resting upon the obedience of Christ crucified alone, which becomes ours when we believe in him. This is sufficient to cover all our iniquities, and to give us confidence in approaching to God; freeing the conscience of fear, terror, and dread, without following the example of our first father, Adam, who, trembling, attempted to cover himself with fig-leaves. And, verily, if we should appear before God, relying on ourselves or on any other creature, though ever so little, we should, alas! be consumed. And therefore every one must pray with David: O Lord, enter not into judgment with thy servant: for in thy sight shall no man living be justified."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Luke.1.77",
+                "Col.1.14",
+                "Ps.32.1-Ps.32.2",
+                "Rom.4.6-Rom.4.7",
+                "Rom.3.23-Rom.3.24",
+                "Acts.4.12",
+                "Ps.115.1",
+                "1Cor.4.7",
+                "Rom.4.2",
+                "1Cor.1.29",
+                "1Cor.1.31",
+                "Rom.5.19",
+                "Heb.11.6-Heb.11.7",
+                "Eph.2.8",
+                "2Cor.5.19",
+                "1Tim.2.6",
+                "Rom.5.1",
+                "Eph.3.12",
+                "1John.2.1",
+                "Gen.3.7",
+                "Isa.33.14",
+                "Deut.27.26",
+                "Jas.2.10",
+                "Ps.130.3",
+                "Matt.18.23-Matt.18.26",
+                "Ps.143.2",
+                "Luke.16.15"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "24",
+      "title": "Of Man's Sanctification and Good Works",
+      "articles": [
+        {
+          "id": "Art24",
+          "label": "Article 24",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that this true faith, being wrought in man by the hearing of the Word of God and the operation of the Holy Ghost, doth regenerate and make him a new man, causing him to live a new life, and freeing him from the bondage of sin. Therefore it is so far from being true, that this justifying faith makes men remiss in a pious and holy life, that on the contrary without it they would never do any thing out of love to God, but only out of self-love or fear of damnation. Therefore it is impossible that this holy faith can be unfruitful in man: for we do not speak of a vain faith, but of such a faith as is called in Scripture a faith that worketh by love, which excites man to the practice of those works which God has commanded in his Word. Which works, as they proceed from the good root of faith, are good and acceptable in the sight of God, forasmuch as they are all sanctified by his grace: howbeit they are of no account towards our justification. For it is by faith in Christ that we are justified, even before we do good works, otherwise they could not be good works any more than the fruit of a tree can be good before the tree itself is good."
+              }
+            ],
+            [
+              {
+                "text": "Therefore we do good works, but not to merit by them (for what can we merit ?)—nay, we are beholden to God for the good works we do, and not he to us, since it is he that worketh in us both to will and to do of his good pleasure. Let us therefore attend to what is written: When ye shall have done all those things which are commanded you, say we are unprofitable servants: we have done that which was our duty to do."
+              }
+            ],
+            [
+              {
+                "text": "In the mean time we do not deny that God rewards good works, but it is through his grace that he crowns his gifts. Moreover, though we do good works, we do not found our salvation upon them; for we can do no work but what is polluted by our flesh, and also punishable; and although we could perform such works, still the remembrance of one sin is sufficient to make God reject them. Thus, then, we should always be in doubt, tossed to and fro without any certainty, and our poor consciences would be continually vexed if they relied not on the merits of the suffering and death of our Saviour."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "1Pet.1.23",
+                "Rom.10.17",
+                "John.5.24",
+                "1Thess.1.5",
+                "Rom.8.15",
+                "John.6.29",
+                "Col.2.12",
+                "Phil.1.1",
+                "Phil.1.29",
+                "Eph.2.8",
+                "Acts.15.9",
+                "Rom.6.4",
+                "Rom.6.22",
+                "Titus.2.12",
+                "John.8.36",
+                "Titus.3.8",
+                "John.15.5",
+                "Heb.11.6",
+                "1Tim.1.5",
+                "Gal.5.6",
+                "2Tim.1.9",
+                "Rom.9.32",
+                "Titus.3.5",
+                "Rom.4.4",
+                "Gen.4.4",
+                "Rom.14.23",
+                "Matt.7.17",
+                "1Cor.4.7",
+                "Isa.26.12",
+                "Gal.3.5",
+                "1Thess.2.13",
+                "Phil.2.13",
+                "Luke.17.10",
+                "Matt.10.42",
+                "Matt.25.34-Matt.25.35",
+                "Rev.3.12",
+                "Rev.3.21",
+                "Rom.2.6",
+                "Rev.2.11",
+                "2John.1.8",
+                "Rom.11.6",
+                "Eph.2.9-Eph.2.10",
+                "Isa.64.6",
+                "Isa.28.16",
+                "Rom.10.11",
+                "Hab.2.4"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "title": "Of the Abolishing of the Ceremonial Law",
+      "articles": [
+        {
+          "id": "Art25",
+          "label": "Article 25",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that the ceremonies and figures of the law ceased at the coming of Christ, and that all the shadows are accomplished; so that the use of them must be abolished among Christians: yet the truth and substance of them remain with us in Jesus Christ, in whom they have their completion. In the mean time we still use the testimonies taken out of the law and the prophets, to confirm us in the doctrine of the gospel, and to regulate our life in all honesty to the glory of God, according to his will."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.10.4",
+                "Gal.5.2-Gal.5.4",
+                "Gal.3.1",
+                "Gal.4.10-Gal.4.11",
+                "Col.2.16-Col.2.17",
+                "2Pet.1.19"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "title": "Of Christ's Intercession",
+      "articles": [
+        {
+          "id": "Art26",
+          "label": "Article 26",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that we have no access unto God save alone through the only Mediator and Advocate, Jesus Christ the righteous, who therefore became man, having united in one person the divine and human natures, that we men might have access to the divine Majesty, which access would otherwise be barred against us. But this Mediator, whom the Father hath appointed between him and us, ought in nowise to affright us by his majesty, or cause us to seek another according to our fancy. For there is no creature, either in heaven or on earth, who loveth us more than Jesus Christ; who, though he was in the form of God, yet made himself of no reputation, and took upon him the form of a man and of a servant for us, and was made like unto his brethren in all things. If, then, we should seek for another mediator, who would be well affected towards us, whom could we find who loved us more than he who laid down his life for us, even when we were his enemies? And if we seek for one who hath power and majesty, who is there that hath so much of both as he who sits at the right hand of his Father, and who hath all power in heaven and on earth? And who will sooner be heard than the own well-beloved Son of God?"
+              }
+            ],
+            [
+              {
+                "text": "Therefore it was only through diffidence that this practice of dishonoring instead of honoring the saints was introduced, doing that which they never have done nor required, but have, on the contrary, steadfastly rejected, according to their bounden duty, as appears by their writings. Neither must we plead here our unworthiness; for the meaning is not that we should offer our prayers to God on account of our own worthiness, but only on account of the excellence and worthiness of our Lord Jesus Christ, whose righteousness is become ours by faith."
+              }
+            ],
+            [
+              {
+                "text": "Therefore the Apostle, to remove this foolish fear or, rather, distrust from us, justly saith that Jesus Christ was made like unto his brethren in all things, that he might be a merciful and faithful high-priest, to make reconciliation for the sins of the people. For in that he himself hath suffered, being tempted, he is able to succor them that are tempted. And further to encourage us, he adds: Seeing, then, that we have a great high-priest that is passed into the heavens, Jesus the Son of God, let us hold fast our profession. For we have not a high-priest which can not be touched with the feeling of our infirmities; but was in all points tempted like as we are, yet without sin. Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need. The same Apostle saith: Having boldness to enter into the holiest by the blood of Jesus, let us draw near with a true heart in full assurance of faith, etc. Likewise, Christ hath an unchangeable priesthood, wherefore he is able, also to save them to the uttermost that come unto God by him, seeing he ever liveth to make intercession for them. What more can be required? since Christ himself saith: I am the way, and the truth, and the life; no man cometh unto the Father but by me. To what purpose should we then seek another advocate, since it hath pleased God to give us his own Son as our Advocate? Let us not forsake him to take another, or rather to seek after another, without ever being able to find him; for God well knew, when he gave him to us, that we were sinners."
+              }
+            ],
+            [
+              {
+                "text": "Therefore, according to the command of Christ, we call upon the heavenly Father through Jesus Christ, our only Mediator, as we are taught in the Lord's Prayer; being assured that whatever we ask of the Father in his name will be granted us."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "1Tim.2.5",
+                "1John.2.1",
+                "Rom.8.33",
+                "Hos.13.9",
+                "Jer.2.13",
+                "Jer.2.33",
+                "John.10.11",
+                "1John.4.10",
+                "Rom.5.8",
+                "Eph.3.19",
+                "John.15.13",
+                "Phil.2.7",
+                "Mark.16.19",
+                "Col.3.1",
+                "Matt.11.27",
+                "Matt.28.18",
+                "Acts.10.26",
+                "Acts.14.15",
+                "Dan.9.17-Dan.9.18",
+                "John.16.23",
+                "Eph.3.12",
+                "Acts.4.12",
+                "1Cor.1.31",
+                "Eph.2.18",
+                "Heb.2.17-Heb.2.18",
+                "Heb.4.14-Heb.4.16",
+                "Heb.10.19",
+                "Heb.10.22",
+                "Heb.7.24-Heb.7.25",
+                "John.14.6",
+                "Ps.44.20",
+                "Luke.11.2",
+                "John.4.17",
+                "John.14.13"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "title": "Of the Catholic Christian Church",
+      "articles": [
+        {
+          "id": "Art27",
+          "label": "Article 27",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe and profess one catholic or universal Church, which is a holy congregation and assembly of true Christian believers, expecting all their salvation in Jesus Christ, being washed by his blood, sanctified and sealed by the Holy Ghost."
+              }
+            ],
+            [
+              {
+                "text": "This Church hath been from the beginning of the world, and will be to the end thereof; which is evident from this, that Christ is an eternal king, which, without subjects, he can not be. And this holy Church is preserved or supported by God against the rage of the whole world; though she sometimes (for a while) appear very small, and, in the eyes of men, to be reduced to nothing: as during the perilous reign of Ahab, when nevertheless the Lord reserved unto him seven thousand men, who had not bowed their knees to Baal."
+              }
+            ],
+            [
+              {
+                "text": "Furthermore, this holy Church is not confined, bound, or limited to a certain place or to certain persons, but is spread and dispersed over the whole world; and yet is joined and united with heart and will, by the power of faith, in one and the same spirit."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Isa.2.2",
+                "Ps.46.4",
+                "Ps.102.13",
+                "Jer.31.36",
+                "Matt.28.20",
+                "2Sam.7.16",
+                "Luke.1.32-Luke.1.33",
+                "Ps.89.36-Ps.89.37",
+                "Ps.110.2-Ps.110.4",
+                "Matt.16.18",
+                "John.16.33",
+                "Gen.22.17",
+                "2Tim.2.19",
+                "Luke.12.32",
+                "Isa.1.9",
+                "Rev.12.6",
+                "Rev.12.14",
+                "Luke.17.21",
+                "Rom.12.4",
+                "Rom.11.2",
+                "Rom.11.4",
+                "1Kgs.19.18",
+                "Rom.9.29",
+                "Acts.4.32",
+                "Eph.4.3-Eph.4.4"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "title": "Every One Is Bound to Join Himself to the True Church",
+      "articles": [
+        {
+          "id": "Art28",
+          "label": "Article 28",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe, since this holy congregation is an assemblage of those who are saved, and out of it there is no salvation, that no person of whatsoever state or condition he may be, ought to withdraw himself, to live in a separate state from it; but that all men are in duty bound to join and unite themselves with it; maintaining the unity of the Church; submitting themselves to the doctrine and discipline thereof; bowing their necks under the yoke of Jesus Christ; and as mutual members of the same body, serving to the edification of the brethren, according to the talents God has given them. And that this may be better observed, it is the duty of all believers, according to the Word of God, to separate themselves from those who do not belong to the Church, and to join themselves to this congregation, wheresoever God hath established it, even though the magistrates and edicts of princes be against it; yea, though they should suffer death or bodily punishment."
+              }
+            ],
+            [
+              {
+                "text": "Therefore all those who separate themselves from the same, or do not join themselves to it, act contrary to the ordinance of God."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "1Pet.3.20",
+                "Joel.2.32",
+                "Acts.2.40",
+                "Isa.52.11",
+                "Ps.22.22",
+                "Eph.4.3",
+                "Eph.4.12",
+                "Heb.2.12",
+                "Ps.2.1-Ps.2.12",
+                "Matt.11.29",
+                "Eph.4.16",
+                "1Cor.12.12",
+                "2Cor.6.17",
+                "Rev.18.4",
+                "Matt.12.30",
+                "Matt.24.28",
+                "Isa.49.22",
+                "Rev.17.14",
+                "Dan.3.17-Dan.3.18",
+                "Dan.6.8-Dan.6.10",
+                "Rev.14.14",
+                "Acts.4.17",
+                "Acts.4.19",
+                "Acts.17.7",
+                "Acts.18.13"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "title": "Of the Marks of the True Church, and Wherein She Differs from the False Church",
+      "articles": [
+        {
+          "id": "Art29",
+          "label": "Article 29",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that we ought diligently and circumspectly to discern from the Word of God which is the true Church, since all sects which are in the world assume to themselves the name of the Church."
+              }
+            ],
+            [
+              {
+                "text": "But we speak here not of the company of hypocrites, who are mixed in the Church with the good, yet are not of the Church, though externally in it; but we say that the body and communion of the true Church must be distinguished from all sects who call themselves the Church."
+              }
+            ],
+            [
+              {
+                "text": "The marks by which the true Church is known are these: If the pure doctrine of the gospel is preached therein; if she maintains the pure administration of the sacraments as instituted by Christ; if church discipline is exercised in punishing of sin; in short, if all things are managed according to the pure Word of God, all things contrary thereto rejected, and Jesus Christ acknowledged as the only Head of the Church. Hereby the true Church may certainly be known, from which no man has a right to separate himself. With respect to those who are members of the Church, they may be known by the marks of Christians, namely, by faith; and when they have received Jesus Christ the only Saviour, they avoid sin, follow after righteousness, love the true God and their neighbor, neither turn aside to the right or left, and crucify the flesh with the works thereof. But this is not to be understood as if there did not remain in them great infirmities; but they fight against them through the Spirit all the days of their life, continually taking their refuge in the blood, death, passion, and obedience of our Lord Jesus Christ, in whom they have remission of sins through faith in him."
+              }
+            ],
+            [
+              {
+                "text": "As for the false Church, she ascribes more power and authority to herself and her ordinances than to the Word of God, and will not submit herself to the yoke of Christ. Neither does she administer the Sacraments, as appointed by Christ in his Word, but adds to and takes from them as she thinks proper; she relieth more upon men than upon Christ; and persecutes those who live holily according to the Word of God, and rebuke her for her errors, covetousness, and idolatry. These two Churches are easily known and distinguished from each other."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Matt.13.22",
+                "2Tim.2.18-2Tim.2.20",
+                "Rom.9.6",
+                "John.10.27",
+                "Eph.2.20",
+                "Acts.17.11-Acts.17.12",
+                "Col.1.23",
+                "John.8.47",
+                "Matt.28.19",
+                "Luke.22.19",
+                "1Cor.11.23",
+                "Matt.18.15-Matt.18.18",
+                "2Thess.3.14-2Thess.3.15",
+                "Matt.28.2",
+                "Gal.1.6-Gal.1.8",
+                "Eph.1.22-Eph.1.23",
+                "John.10.4-John.10.5",
+                "John.10.14",
+                "Eph.1.13",
+                "John.17.20",
+                "1John.4.2",
+                "1John.3.8-1John.3.10",
+                "Rom.6.2",
+                "Gal.5.24",
+                "Rom.7.6",
+                "Rom.7.17",
+                "Gal.5.17",
+                "Col.1.14",
+                "Col.2.18-Col.2.19",
+                "Ps.2.3",
+                "Rev.12.4",
+                "John.16.2",
+                "Rev.17.3-Rev.17.4",
+                "Rev.17.6"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "30",
+      "title": "Concerning the Government of, and Offices in, the Church",
+      "articles": [
+        {
+          "id": "Art30",
+          "label": "Article 30",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that this true Church must be governed by the spiritual policy which our Lord has taught us in his Word—namely, that there must be Ministers or Pastors to preach the Word of God, and to administer the Sacraments; also elders and deacons, who, together with the pastors, form the council of the Church; that by these means the true religion may be preserved, and the true doctrine every where propagated, likewise transgressors punished and restrained by spiritual means; also that the poor and distressed may be relieved and comforted, according to their necessities. By these means every thing will be carried on in the Church with good order and decency, when faithful men are chosen, according to the rule prescribed by St. Paul to Timothy."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Eph.4.11",
+                "1Cor.4.1-1Cor.4.2",
+                "2Cor.5.20",
+                "John.20.23",
+                "Acts.26.17-Acts.26.18",
+                "Luke.10.16",
+                "Acts.6.3",
+                "Acts.14.23",
+                "Matt.18.17",
+                "1Cor.5.4-1Cor.5.5",
+                "1Tim.3.1",
+                "Titus.1.5"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "31",
+      "title": "Of the Ministers, Elders, and Deacons",
+      "articles": [
+        {
+          "id": "Art31",
+          "label": "Article 31",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that the Ministers of God's Word, and the Elders and Deacons, ought to be chosen to their respective offices by a lawful election of the Church, with calling upon the name of the Lord, and in that order which the Word of God teacheth. Therefore every one must take heed not to intrude himself by indecent means, but is bound to wait till it shall please God to call him; that he may have testimony of his calling, and be certain and assured that it is of the Lord."
+              }
+            ],
+            [
+              {
+                "text": "As for the Ministers of God's Word, they have equally the same power and authority wheresoever they are, as they are all Ministers of Christ, the only universal Bishop, and the only Head of the Church."
+              }
+            ],
+            [
+              {
+                "text": "Moreover, that this holy ordinance of God may not be violated or slighted, we say that every one ought to esteem the Ministers of God's Word and the Elders of the Church very highly for their work's sake, and be at peace with them without murmuring, strife, or contention, as much as possible."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "1Tim.5.22",
+                "Acts.6.3",
+                "Jer.23.21",
+                "Heb.5.4",
+                "Acts.1.23",
+                "Acts.13.2",
+                "1Cor.4.1",
+                "1Cor.3.9",
+                "2Cor.5.20",
+                "Acts.26.16-Acts.26.17",
+                "1Pet.2.25",
+                "1Pet.5.4",
+                "Isa.61.1",
+                "Eph.1.22",
+                "Col.1.18",
+                "1Thess.5.12-1Thess.5.13",
+                "1Tim.5.17",
+                "Heb.13.17"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "32",
+      "title": "Of the Order and Discipline of the Church",
+      "articles": [
+        {
+          "id": "Art32",
+          "label": "Article 32",
+          "paragraphs": [
+            [
+              {
+                "text": "In the mean time we believe though it is useful and beneficial that those who are rulers of the Church institute and establish certain ordinances among themselves, for maintaining the body of the Church; yet they ought studiously to take care that they do not depart from those things which Christ, our only master, hath instituted. And, therefore, we reject all human inventions, and all laws which man would introduce into the worship of God, thereby to bind and compel the conscience in any manner whatever."
+              }
+            ],
+            [
+              {
+                "text": "Therefore we admit only of that which tends to nourish and preserve concord and unity, and to keep all men in obedience to God. For this purpose excommunication or church discipline is requisite, with the several circumstances belonging to it, according to the Word of God."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Col.2.6-Col.2.7",
+                "1Cor.7.23",
+                "Matt.15.9",
+                "Isa.29.13",
+                "Gal.5.1",
+                "Rom.16.17-Rom.16.18",
+                "Matt.18.17",
+                "1Cor.5.5",
+                "1Tim.1.20"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "33",
+      "title": "Of the Sacraments",
+      "articles": [
+        {
+          "id": "Art33",
+          "label": "Article 33",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that our gracious God, on account of our weakness and infirmities, hath ordained the Sacraments for us, thereby to seal unto us his promises, and to be pledges of the good will and grace of God towards us, and also to nourish and strengthen our faith, which he hath joined to the word of the gospel, the better to present to our senses, both that which he signifies to us by his Word, and that which he works inwardly in our hearts, thereby assuring and confirming in us the salvation which he imparts to us. For they are visible signs and seals of an inward and invisible thing, by means whereof God worketh in us by the power of the Holy Ghost. Therefore the signs are not in vain or insignificant, so as to deceive us. For Jesus Christ is the true object presented by them, without whom they would be of no moment."
+              }
+            ],
+            [
+              {
+                "text": "Moreover, we are satisfied with the number of Sacraments which Christ our Lord hath instituted, which are two only, namely, the Sacrament of Baptism, and the Holy Supper of our Lord Jesus Christ."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.4.11",
+                "Gen.9.13",
+                "Gen.17.11",
+                "Col.2.11",
+                "Col.2.17",
+                "1Cor.5.7",
+                "Matt.26.36",
+                "Matt.28.19"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "34",
+      "title": "Of Holy Baptism",
+      "articles": [
+        {
+          "id": "Art34",
+          "label": "Article 34",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe and confess that Jesus Christ, who is the end of the law, hath made an end, by the shedding of his blood, of all other sheddings of blood which men could or would make as a propitiation or satisfaction for sin; and that he, having abolished circumcision, which was done with blood, hath instituted the Sacrament of Baptism instead thereof, by which we are received into the Church of God, and separated from all other people and strange religions, that we may wholly belong to him whose ensign and banner we bear, and which serves as a testimony unto us that he will forever be our gracious God and Father. Therefore he has commanded all those who are his to be baptized with pure water, in the name of the Father, and of the Son, and of the Holy Ghost: thereby signifying to us, that as water washeth away the filth of the body, when poured upon it, and is seen on the body of the baptized, when sprinkled upon him, so doth the blood of Christ, by the power of the Holy Ghost, internally sprinkle the soul, cleanse it from its sins, and regenerate us from children of wrath unto children of God. Not that this is effected by the external water, but by the sprinkling of the precious blood of the Son of God; who is our Red Sea, through which we must pass to escape the tyranny of Pharaoh, that is, the devil, and to enter into the spiritual land of Canaan. Therefore, the Ministers, on their part, administer the Sacrament, and that which is visible, but our Lord giveth that which is signified by the Sacrament, namely, the gifts and invisible grace; washing, cleansing, and purging our souls of all filth and unrighteousness; renewing our hearts and filling them with all comfort; giving unto us a true assurance of his fatherly goodness; putting on us the new man, and putting off the old man with all his deeds."
+              }
+            ],
+            [
+              {
+                "text": "Therefore, we believe that every man who is earnestly studious of obtaining life eternal ought to be but once baptized with this only Baptism, without ever repeating the same: since we can not be born twice. Neither doth this Baptism only avail us at the time when the water is poured upon us and received by us, but also through the whole course of our life. Therefore we detest the error of the Anabaptists, who are not content with the one only baptism they have once received, and moreover condemn the baptism of the infants of believers, who, we believe, ought to be baptized and sealed with the sign of the covenant, as the children in Israel formerly were circumcised upon the same promises which are made unto our children. And, indeed, Christ shed his blood no less for the washing of the children of the faithful than for adult persons; and, therefore, they ought to receive the sign and sacrament of that which Christ hath done for them; as the Lord commanded in the law, that they should be made partakers of the sacrament of Christ's suffering and death shortly after they were born, by offering for them a lamb, which was a sacrament of Jesus Christ. Moreover, what Circumcision was to the Jews, that Baptism is to our children. And for this reason Paul calls Baptism the Circumcision of Christ."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Rom.10.4",
+                "Col.2.11",
+                "1Pet.3.21",
+                "1Cor.10.2",
+                "Matt.28.19",
+                "1Cor.6.11",
+                "Titus.3.5",
+                "Heb.9.14",
+                "1John.1.7",
+                "Rev.1.6",
+                "John.19.34",
+                "Matt.3.11",
+                "1Cor.3.5",
+                "1Cor.3.7",
+                "Rom.6.3",
+                "Eph.5.26",
+                "Acts.22.16",
+                "Gal.3.27",
+                "1Cor.12.13",
+                "Eph.4.22-Eph.4.24",
+                "Mark.16.16",
+                "Eph.4.5",
+                "Heb.6.2",
+                "Acts.2.38",
+                "Acts.8.16",
+                "Matt.19.14",
+                "1Cor.7.14",
+                "Gen.17.11-Gen.17.12",
+                "Col.2.11-Col.2.12",
+                "John.1.29",
+                "Lev.12.6"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "35",
+      "title": "Of the Holy Supper of Our Lord Jesus Christ",
+      "articles": [
+        {
+          "id": "Art35",
+          "label": "Article 35",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe and confess that our Saviour Jesus Christ did ordain and institute the Sacrament of the Holy Supper, to nourish and support those whom he hath already regenerated and incorporated into his family, which is his Church. Now those who are regenerated have in them a twofold life, the one bodily and temporal, which they have from the first birth, and is common to all men; the other spiritual and heavenly, which is given them in their second birth, which is effected by the word of the gospel, in the communion of the body of Christ; and this life is not common, but is peculiar to God's elect. In like manner God hath given us, for the support of the bodily and earthly life, earthly and common bread, which is subservient thereto, and is common to all men, even as life itself. But for the support of the spiritual and heavenly life which believers have, he hath sent a living bread, which descended from heaven, namely, Jesus Christ, who nourishes and strengthens the spiritual life of believers, when they eat him, that is to say, when they apply and receive him by faith, in the Spirit. Christ, that he might represent unto us this spiritual and heavenly bread, hath instituted an earthly and visible bread as a Sacrament of his body, and wine as a Sacrament of his blood, to testify by them unto us, that, as certainly as we receive and hold this Sacrament in our hands, and eat and drink the same with our mouths, by which our life is afterwards nourished, we also do as certainly receive by faith (which is the hand and mouth of our soul) the true body and blood of Christ our only Saviour in our souls, for the support of our spiritual life."
+              }
+            ],
+            [
+              {
+                "text": "Now, as it is certain and beyond all doubt that Jesus Christ hath not enjoined to us the use of his Sacraments in vain, so he works in us all that he represents to us by these holy signs, though the manner surpasses our understanding, and can not be comprehended by us, as the operations of the Holy Ghost are hidden and incomprehensible. In the mean time we err not when we say that what is eaten and drunk by us is the proper and natural body and the proper blood of Christ. But the manner of our partaking of the same is not by the mouth, but by the Spirit through faith. Thus, then, though Christ always sits at the right hand of his Father in the heavens, yet doth he not, therefore, cease to make us partakers of himself by faith. This feast is a spiritual table, at which Christ communicates himself with all his benefits to us, and gives us there to enjoy both himself and the merits of his sufferings and death, nourishing, strengthening, and comforting our poor comfortless souls, by the eating of his flesh, quickening and refreshing them by the drinking of his blood."
+              }
+            ],
+            [
+              {
+                "text": "Further, though the Sacraments are connected with the thing signified, nevertheless both are not received by all men: the ungodly indeed receives the Sacrament to his condemnation, but he doth not receive the truth of the Sacrament. As Judas and Simon the sorcerer both, indeed, received the Sacrament, but not Christ, who was signified by it, of whom believers only are made partakers. Lastly, we receive this holy Sacrament in the assembly of the people of God, with humility and reverence, keeping up among us a holy remembrance of the death of Christ our Saviour, with thanksgiving, making there confession of our faith and of the Christian religion. Therefore no one ought to come to this table without having previously rightly examined himself; lest by eating of this bread and drinking of this cup he eat and drink judgment to himself. In a word, we are excited by the use of this holy Sacrament to a fervent love towards God and our neighbor."
+              }
+            ],
+            [
+              {
+                "text": "Therefore, we reject all mixtures and damnable inventions, which men have added unto and blended with the Sacraments, as profanations of them, and affirm that we ought to rest satisfied with the ordinance which Christ and his Apostles have taught us, and that we must speak of them in the same manner as they have spoken."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Matt.26.26",
+                "Mark.14.22",
+                "Luke.22.19",
+                "1Cor.11.23-1Cor.11.25",
+                "John.3.6",
+                "John.3.5",
+                "John.5.23",
+                "John.5.25",
+                "1John.5.12",
+                "John.10.28",
+                "John.6.32-John.6.33",
+                "John.6.51",
+                "John.6.63",
+                "Mark.6.26",
+                "1Cor.10.16-1Cor.10.17",
+                "Eph.3.17",
+                "John.6.35",
+                "John.6.55-John.6.56",
+                "1Cor.10.16",
+                "Acts.3.21",
+                "Mark.16.19",
+                "Matt.26.11",
+                "Luke.22.19-Luke.22.20",
+                "1Cor.10.2-1Cor.10.4",
+                "Isa.55.2",
+                "Rom.8.22-Rom.8.23",
+                "1Cor.11.29",
+                "2Cor.6.14-2Cor.6.15",
+                "1Cor.2.14",
+                "Acts.2.42",
+                "Acts.20.7",
+                "1Cor.11.27-1Cor.11.28"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "36",
+      "title": "Of Magistrates",
+      "articles": [
+        {
+          "id": "Art36",
+          "label": "Article 36",
+          "paragraphs": [
+            [
+              {
+                "text": "We believe that our gracious God, because of the depravity of mankind, hath appointed kings, princes, and magistrates, willing that the world should be governed by certain laws and policies; to the end that the dissoluteness of men might be restrained, and all things carried on among them with good order and decency. For this purpose he hath invested the magistracy with the sword, for the punishment of evil doers, and for the praise of them that do well. And their office is, not only to have regard unto and watch for the welfare of the civil state, but also that they protect the sacred ministry, and thus may remove and prevent all idolatry and false worship; that the kingdom of antichrist may be thus destroyed, and the kingdom of Christ promoted. They must, therefore, countenance the preaching of the word of the gospel every where, that God may be honored and worshiped by every one, as he commands in his Word."
+              }
+            ],
+            [
+              {
+                "text": "Moreover, it is the bounden duty of every one, of what state, quality, or condition soever he may be, to subject himself to the magistrates; to pay tribute, to show due honor and respect to them, and to obey them in all things which are not repugnant to the Word of God; to supplicate for them in their prayers, that God may rule and guide them in all their ways, and that we may lead a quiet and peaceable life in all godliness and honesty."
+              }
+            ],
+            [
+              {
+                "text": "Wherefore we detest the error of the Anabaptists and other seditious people, and in general all those who reject the higher powers and magistrates, and would subvert justice, introduce a community of goods, and confound that decency and good order which God hath established among men."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Exod.18.20",
+                "Rom.13.1",
+                "Prov.8.15",
+                "Jer.21.12",
+                "Jer.22.2-Jer.22.3",
+                "Ps.82.1",
+                "Ps.82.6",
+                "Ps.101.2",
+                "Deut.1.15-Deut.1.16",
+                "Deut.16.18",
+                "Deut.17.15",
+                "Dan.2.21",
+                "Dan.2.37",
+                "Dan.5.18",
+                "Isa.49.23",
+                "Isa.49.25",
+                "1Kgs.15.12",
+                "2Kgs.23.2-2Kgs.23.4",
+                "Titus.3.1",
+                "Mark.12.17",
+                "Matt.17.24",
+                "Acts.4.17-Acts.4.19",
+                "Acts.5.29",
+                "Hos.5.11",
+                "Jer.29.7",
+                "1Tim.2.1-1Tim.2.2",
+                "2Pet.2.10",
+                "Jude.1.8",
+                "Jude.1.10"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "37",
+      "title": "Of the Last Judgment",
+      "articles": [
+        {
+          "id": "Art37",
+          "label": "Article 37",
+          "paragraphs": [
+            [
+              {
+                "text": "Finally, we believe, according to the Word of God, when the time appointed by the Lord (which is unknown to all creatures) is come, and the number of the elect complete, that our Lord Jesus Christ will come from heaven, corporally and visibly, as he ascended with great glory and majesty, to declare himself Judge of the quick and the dead, burning this old world with fire and flame to cleanse it. And then all men will personally appear before this great Judge, both men and women and children, that have been from the beginning of the world to the end thereof, being summoned by the voice of the archangel, and by the sound of the trumpet of God. For all the dead shall be raised out of the earth, and their souls joined and united with their proper bodies in which they formerly lived. As for those who shall then be living, they shall not die as the others, but be changed in the twinkling of an eye, and from corruptible become incorruptible."
+              }
+            ],
+            [
+              {
+                "text": "Then the books (that is to say, the consciences) shall be opened, and the dead judged according to what they shall have done in this world, whether it be good or evil. Nay, all men shall give an account of every idle word they have spoken, which the world only counts amusement and jest; and then the secrets and hypocrisy of men shall be disclosed and laid open before all."
+              }
+            ],
+            [
+              {
+                "text": "And, therefore, the consideration of this judgment is justly terrible and dreadful to the wicked and ungodly, but most desirable and comfortable to the righteous and the elect; because then their full deliverance shall be perfected, and there they shall receive the fruits of their labor and trouble which they have borne. Their innocence shall be known to all, and they shall see the terrible vengeance which God shall execute on the wicked, who most cruelly persecuted, oppressed, and tormented them in this world; and who shall be convicted by the testimony of their own consciences, and, being immortal, shall be tormented in that everlasting fire which is prepared for the devil and his angels."
+              }
+            ],
+            [
+              {
+                "text": "But on the contrary, the faithful and elect shall be crowned with glory and honor; and the Son of God will confess their names before God his Father, and his elect angels; all tears shall be wiped from their eyes; and their cause, which is now condemned by many judges and magistrates as heretical and impious, will then be known to be the cause of the Son of God. And, for a gracious reward, the Lord will cause them to possess such a glory as never entered into the heart of man to conceive."
+              }
+            ],
+            [
+              {
+                "text": "Therefore we expect that great day with a most ardent desire, to the end that we may fully enjoy the promises of God in Christ Jesus our Lord. Amen."
+              }
+            ],
+            [
+              {
+                "text": "Even so, come Lord Jesus. Rev. xxii. 20."
+              }
+            ]
+          ],
+          "proofs": [
+            {
+              "wholeArticle": true,
+              "refs": [
+                "Matt.24.36",
+                "Matt.25.13",
+                "1Thess.5.1-1Thess.5.2",
+                "Rev.6.11",
+                "Acts.1.7",
+                "2Pet.3.10",
+                "Acts.1.11",
+                "2Thess.1.7-2Thess.1.8",
+                "Acts.17.31",
+                "Matt.24.30",
+                "Matt.25.31",
+                "Jude.1.15",
+                "1Pet.4.5",
+                "2Tim.4.1",
+                "2Pet.3.7",
+                "2Thess.1.8",
+                "Rev.20.12-Rev.20.13",
+                "Heb.6.2",
+                "Heb.9.27",
+                "2Cor.5.10",
+                "Rom.14.10",
+                "1Cor.15.42",
+                "1Thess.4.16",
+                "John.5.28-John.5.29",
+                "John.6.54",
+                "Dan.12.2",
+                "Job.19.26-Job.19.27",
+                "1Cor.15.51-1Cor.15.53",
+                "1Cor.4.5",
+                "Rom.14.11-Rom.14.12",
+                "Job.34.11",
+                "John.5.24",
+                "Ps.62.12",
+                "Matt.11.22",
+                "Matt.23.33",
+                "John.5.29",
+                "Rom.2.5-Rom.2.6",
+                "Rom.2.5",
+                "Matt.12.36",
+                "Rom.2.1-Rom.2.2",
+                "Rom.2.16",
+                "Matt.7.1-Matt.7.2",
+                "Rev.6.15-Rev.6.16",
+                "Heb.10.27",
+                "Luke.21.28",
+                "1John.3.2",
+                "1John.4.17",
+                "Rev.14.7",
+                "2Thess.1.5",
+                "2Thess.1.7",
+                "Luke.14.14",
+                "Dan.7.26",
+                "Matt.25.46",
+                "2Thess.1.6-2Thess.1.8",
+                "Mal.4.3",
+                "Rom.2.15",
+                "Rev.21.8",
+                "2Pet.2.9",
+                "Mal.4.1",
+                "Matt.25.41",
+                "Matt.25.34",
+                "Matt.13.43",
+                "Matt.10.32",
+                "Isa.25.8",
+                "Rev.21.4",
+                "Isa.66.5",
+                "Isa.64.4",
+                "1Cor.2.9",
+                "Heb.10.36-Heb.10.38",
+                "Rev.22.20"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import { ReloadOntoCurrentBuild } from "./reload.ts"
 import {
   AppRoute,
   articleOfRoute,
+  isConfessionRoute,
   chapterRouter,
   hrefOfRoute,
   urlToAppRoute,
@@ -185,8 +186,7 @@ const syncPanels: Step = (model) =>
 
 const syncConfessionPage: Step = (model) => {
   const { route } = model
-  if (!AppRoute.guards.ConfessionSection(route) && !AppRoute.guards.ConfessionQuestion(route))
-    return { model }
+  if (!isConfessionRoute(route)) return { model }
   return Option.match(articleOfRoute(route), {
     onNone: () => ({ model }),
     onSome: (key) => foldConfessionArticle(model, key),

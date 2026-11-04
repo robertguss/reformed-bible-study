@@ -25,6 +25,8 @@ const resource = (
 })
 
 export const CALVIN_ATTRIBUTION = "John Calvin, Commentary on Romans, translated by John Owen."
+export const HENRY_ATTRIBUTION = "Matthew Henry, Commentary on the Whole Bible, public domain."
+export const POOLE_ATTRIBUTION = "Matthew Poole, Annotations upon the Holy Bible, public domain."
 export const XREF_ATTRIBUTION = "Cross references from OpenBible.info, CC BY 4.0."
 export const SBLGNT_ATTRIBUTION = "SBL Greek New Testament, CC BY 4.0."
 export const WCF_ATTRIBUTION = "The Westminster Confession of Faith (1647), public domain."
@@ -39,6 +41,9 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
     attribution: { text: BSB_ATTRIBUTION },
     ingested: [
       { book: "Gen", chapters: [1] },
+      { book: "Prov", chapters: [3] },
+      { book: "Isa", chapters: [53] },
+      { book: "Mark", chapters: [4] },
       { book: "Rom", chapters: [1, 8, 16] },
       { book: "Rev", chapters: [1] },
     ],
@@ -56,8 +61,24 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
     title: "Calvin's Commentaries",
     creator: "John Calvin",
     attribution: { text: CALVIN_ATTRIBUTION },
-    scope: ["Gen", "Rom"],
-    ingested: [{ book: "Rom", chapters: [8] }],
+    scope: ["Gen", "Isa", "Matt", "Mark", "Rom"],
+    ingested: [
+      { book: "Gen", chapters: [1] },
+      { book: "Mark", chapters: [4] },
+      { book: "Rom", chapters: [8] },
+    ],
+  }),
+  resource({
+    id: "matthew-henry",
+    kind: "commentary",
+    title: "Matthew Henry's Commentary",
+    creator: "Matthew Henry",
+    attribution: { text: HENRY_ATTRIBUTION },
+    ingested: [
+      { book: "Gen", chapters: [1] },
+      { book: "Prov", chapters: [3] },
+      { book: "Isa", chapters: [53] },
+    ],
   }),
   resource({
     id: "openbible-xrefs",
@@ -97,6 +118,25 @@ export const CATALOG: ReadonlyArray<CatalogResource> = [
   }),
 ]
 
+/** The Belgic Confession, listed only by a host made with `withBelgic`, for proofs of a whole article. */
+export const BELGIC: CatalogResource = resource({
+  id: "bc",
+  kind: "confession",
+  title: "The Belgic Confession",
+  creator: "Guido de Brès",
+  ingested: [],
+})
+
+/** Poole, listed only by a host made with `withPoole`, for the fallback order's first step after Calvin. */
+export const POOLE: CatalogResource = resource({
+  id: "poole-annotations",
+  kind: "commentary",
+  title: "Annotations upon the Holy Bible",
+  creator: "Matthew Poole",
+  attribution: { text: POOLE_ATTRIBUTION },
+  ingested: [{ book: "Prov", chapters: [3] }],
+})
+
 const verse = (n: number, text: string) => ({ verse: n, text: [{ text }] })
 
 export const ROMANS_8_28_BSB =
@@ -105,7 +145,25 @@ export const ROMANS_8_28_KJV =
   "And we know that all things work together for good to them that love God."
 export const CALVIN_ON_8_28 = "So far are afflictions from hindering our salvation."
 export const CALVIN_ON_8_31 = "What then shall we say to these things? Paul now concludes."
+export const CALVIN_ON_GEN_1_1 =
+  "In the beginning. To take the word beginning as Christ is too weak."
+export const HENRY_ON_GEN_1_1 = "The first verse of the Bible gives us a surprising account."
+export const HENRY_ON_PROV_3_1 = "My son, forget not my law. Solomon here speaks as a father."
+export const HENRY_ON_PROV_3_5 = "Trust in the Lord with all thine heart. We must depend upon him."
+export const HENRY_ON_PROV_3_9 = "Honour the Lord with thy substance. Here is a precept of piety."
+/** A paragraph longer than a page, so Henry on Proverbs 3:9-12 comes in two parts. */
+export const HENRY_ON_PROV_3_11 = "My son, despise not the chastening of the Lord. "
+  .repeat(250)
+  .trim()
+export const POOLE_ON_PROV_3_5 = "Trust in the Lord; rely upon his promises and providence."
+export const HENRY_ON_ISA_53_5 = "He was wounded for our transgressions; it was for our sakes."
 export const SCRIPT_IN_COMMENTARY = '<script>alert("not markup")</script>'
+export const CALVIN_ON_THE_SOWER = "It is not without good reason that the Evangelists begin."
+export const BELGIC_ART_1_TEXT =
+  "We all believe with the heart, and confess with the mouth, that there is one only God."
+export const HC_Q1_QUESTION = "What is thy only comfort in life and in death?"
+export const HC_Q1_ANSWER =
+  "That I, with body and soul, both in life and in death, am not my own, but belong to my faithful Saviour Jesus Christ."
 export const WCF_3_6_TEXT =
   "As God hath appointed the elect unto glory, so hath he foreordained all the means thereunto."
 
@@ -154,12 +212,100 @@ const files: Record<string, unknown> = {
     headings: [],
     verses: [verse(1, "In the beginning God created the heavens and the earth.")],
   },
+  "text/bsb/Prov.3.json": {
+    resourceId: "bsb",
+    book: "Prov",
+    chapter: 3,
+    headings: [],
+    verses: [
+      verse(1, "My son, do not forget my teaching."),
+      verse(5, "Trust in the LORD with all your heart."),
+      verse(9, "Honor the LORD with your possessions."),
+    ],
+  },
+  "text/bsb/Isa.53.json": {
+    resourceId: "bsb",
+    book: "Isa",
+    chapter: 53,
+    headings: [],
+    verses: [
+      verse(1, "Who has believed our message?"),
+      verse(5, "But He was pierced for our transgressions."),
+    ],
+  },
   "text/bsb/Rev.1.json": {
     resourceId: "bsb",
     book: "Rev",
     chapter: 1,
     headings: [],
     verses: [verse(1, "This is the revelation of Jesus Christ.")],
+  },
+  "text/bsb/Mark.4.json": {
+    resourceId: "bsb",
+    book: "Mark",
+    chapter: 4,
+    headings: [],
+    verses: [verse(3, "Listen! A farmer went out to sow his seed.")],
+  },
+  // Calvin's Harmony of the Gospels keys the sower to Matthew; Mark 4 holds it as a parallel.
+  "commentary/calvin-commentaries/Mark.4.json": {
+    resourceId: "calvin-commentaries",
+    book: "Mark",
+    chapter: 4,
+    sections: [
+      {
+        ref: "Matt.13.2-Matt.13.8",
+        parallels: ["Mark.4.1-Mark.4.12", "Luke.8.1-Luke.8.10"],
+        paragraphs: [[{ text: CALVIN_ON_THE_SOWER }]],
+        notes: [],
+      },
+    ],
+  },
+  "commentary/calvin-commentaries/Gen.1.json": {
+    resourceId: "calvin-commentaries",
+    book: "Gen",
+    chapter: 1,
+    sections: [{ ref: "Gen.1.1", paragraphs: [[{ text: CALVIN_ON_GEN_1_1 }]], notes: [] }],
+  },
+  "commentary/matthew-henry/Gen.1.json": {
+    resourceId: "matthew-henry",
+    book: "Gen",
+    chapter: 1,
+    sections: [{ ref: "Gen.1.1-Gen.1.2", paragraphs: [[{ text: HENRY_ON_GEN_1_1 }]], notes: [] }],
+  },
+  "commentary/matthew-henry/Prov.3.json": {
+    resourceId: "matthew-henry",
+    book: "Prov",
+    chapter: 3,
+    // Four sections, so a request for verses 1-12 fills one page of three and leaves one more.
+    sections: [
+      { ref: "Prov.3.1-Prov.3.4", paragraphs: [[{ text: HENRY_ON_PROV_3_1 }]], notes: [] },
+      { ref: "Prov.3.5-Prov.3.6", paragraphs: [[{ text: HENRY_ON_PROV_3_5 }]], notes: [] },
+      {
+        ref: "Prov.3.7-Prov.3.8",
+        paragraphs: [[{ text: "Be not wise in thine own eyes." }]],
+        notes: [],
+      },
+      {
+        ref: "Prov.3.9-Prov.3.12",
+        paragraphs: [[{ text: HENRY_ON_PROV_3_9 }], [{ text: HENRY_ON_PROV_3_11 }]],
+        notes: [],
+      },
+    ],
+  },
+  "commentary/matthew-henry/Isa.53.json": {
+    resourceId: "matthew-henry",
+    book: "Isa",
+    chapter: 53,
+    sections: [
+      { ref: "Isa.53.4-Isa.53.6", paragraphs: [[{ text: HENRY_ON_ISA_53_5 }]], notes: [] },
+    ],
+  },
+  "commentary/poole-annotations/Prov.3.json": {
+    resourceId: "poole-annotations",
+    book: "Prov",
+    chapter: 3,
+    sections: [{ ref: "Prov.3.5", paragraphs: [[{ text: POOLE_ON_PROV_3_5 }]], notes: [] }],
   },
   "commentary/calvin-commentaries/Rom.8.json": {
     resourceId: "calvin-commentaries",
@@ -226,7 +372,15 @@ const files: Record<string, unknown> = {
   "confession-index/Rom.8.json": {
     book: "Rom",
     chapter: 8,
-    verses: [{ verse: 28, citations: [{ resourceId: "wcf", articleId: "3.6", label: "WCF 3.6" }] }],
+    verses: [
+      {
+        verse: 28,
+        citations: [
+          { resourceId: "wcf", articleId: "3.6", label: "WCF 3.6" },
+          { resourceId: "hc", articleId: "Q1", label: "HC Q1" },
+        ],
+      },
+    ],
   },
   "confessions/wcf.json": {
     resourceId: "wcf",
@@ -247,14 +401,52 @@ const files: Record<string, unknown> = {
       },
     ],
   },
+  "confessions/hc.json": {
+    resourceId: "hc",
+    abbreviation: "HC",
+    title: "The Heidelberg Catechism",
+    divisions: [
+      {
+        id: "1",
+        title: "Lord's Day 1",
+        articles: [
+          {
+            id: "Q1",
+            label: "Question 1",
+            question: [{ text: HC_Q1_QUESTION }],
+            paragraphs: [[{ text: HC_Q1_ANSWER }]],
+            proofs: [{ refs: ["Rom.8.28"] }],
+          },
+        ],
+      },
+    ],
+  },
+  "confessions/bc.json": {
+    resourceId: "bc",
+    abbreviation: "BC",
+    title: "The Belgic Confession",
+    divisions: [
+      {
+        id: "1",
+        title: "There Is One Only God",
+        articles: [
+          {
+            id: "Art1",
+            label: "Article 1",
+            paragraphs: [[{ text: BELGIC_ART_1_TEXT }]],
+            proofs: [{ wholeArticle: true, refs: ["Eph.4.5", "Deut.6.4"] }],
+          },
+        ],
+      },
+    ],
+  },
 }
+
+const published = (payload: unknown) => JSON.stringify({ release: RELEASE, payload })
 
 /** Published files as served, keyed by path within the release. */
 export const FILES: ReadonlyMap<string, string> = new Map(
-  Object.entries(files).map(([path, payload]) => [
-    path,
-    JSON.stringify({ release: RELEASE, payload }),
-  ]),
+  Object.entries(files).map(([path, payload]) => [path, published(payload)]),
 )
 
 const APP_PAGE = '<!doctype html><html><body><div id="root"></div></body></html>'
@@ -262,9 +454,19 @@ const APP_PAGE = '<!doctype html><html><body><div id="root"></div></body></html>
 /**
  * A static host for the fixture. Paths in `servesAppPage` answer with the app's HTML page, as a
  * single-page-app fallback does for a file a newer deploy removed; `unavailable` paths answer 503.
+ * `withPoole` serves a catalog that also lists Poole, `withBelgic` one that also lists the Belgic
+ * Confession, and `withHeidelberg` one where the Heidelberg Catechism is available.
  */
 export const staticHost =
-  (options: { servesAppPage?: ReadonlyArray<string>; unavailable?: ReadonlyArray<string> } = {}) =>
+  (
+    options: {
+      servesAppPage?: ReadonlyArray<string>
+      unavailable?: ReadonlyArray<string>
+      withPoole?: boolean
+      withBelgic?: boolean
+      withHeidelberg?: boolean
+    } = {},
+  ) =>
   (request: Request): Promise<Response> => {
     const prefix = `/data/${RELEASE}/`
     const { pathname } = new URL(request.url)
@@ -273,7 +475,20 @@ export const staticHost =
       return Promise.resolve(new Response(APP_PAGE, { headers: { "content-type": "text/html" } }))
     if (options.unavailable?.includes(path) === true)
       return Promise.resolve(new Response("busy", { status: 503 }))
-    const body = FILES.get(path)
+    const body =
+      path === "catalog.json"
+        ? published({
+            resources: [
+              ...CATALOG.map((entry) =>
+                entry.id === "hc" && options.withHeidelberg === true
+                  ? { ...entry, available: true }
+                  : entry,
+              ),
+              ...(options.withPoole === true ? [POOLE] : []),
+              ...(options.withBelgic === true ? [BELGIC] : []),
+            ],
+          })
+        : FILES.get(path)
     return Promise.resolve(
       body === undefined ? new Response(APP_PAGE, { status: 404 }) : new Response(body),
     )

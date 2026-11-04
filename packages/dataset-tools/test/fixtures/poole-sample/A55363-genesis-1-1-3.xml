@@ -1,0 +1,59 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A55363, Poole, Annotations upon the Holy Bible, vol. I (1683), CC0 1.0: the opening of Genesis through chapter 1, verse 3, as keyed. -->
+   <text>
+      <body>
+         <div type="text">
+            <div type="book">
+               <head>GENESIS.</head>
+               <argument>
+                  <head>The ARGUMENT.</head>
+                  <p>THis Book is called <hi>Genesis,</hi> i. e. Generation, or Birth, giving an accompt of passages during 2300 years, and upwards, <hi>viz.</hi> From the Creation of all things, to the death of <hi>Joseph.</hi> In which History <hi>Moses,</hi> by Divine inspiration, treats of the Creation of the World, with all the parts, and uses in it, and of it, but chiefly of Man, who alone was made after God's Image; where he lays down God's concessions, and prohibitions to him, and Man's Trans<g ref="char:EOLhyphen"/>gressio<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                        <desc>•…</desc>
+                     </gap>
+                     <g ref="char:punc">▪</g> together with the woful effects, and the remedy of them in the promise of a Saviour. The Original, Pro<g ref="char:EOLhyphen"/>gress, and Preser<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                        <desc>•…</desc>
+                     </gap>ion of the true Church springing from <hi>Abel,</hi> and carried on by <hi>Seth, Enoch,</hi> &amp;c. And the ground, and rise of Apostasi<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                        <desc>•…</desc>
+                     </gap> begun in <hi>Cain,</hi> and carried on by his posterity<g ref="char:punc">▪</g> separating themselves from the Holy Seed, till by their monstrous provocations they had brought an universal Deluge to destroy all mankind from off the Earth, excepting only <hi>Noah,</hi> and his Family; out of which, as the Church did again spring forth, so another cursed race carrying on the former enmity to a greater height, not only fell into Idolatry after it had continued a considerable time in <hi>Sem'</hi>s race, but breaking out into all Outrages, and Tyrannical oppressions, it was almost extinct among those numerous Nations, that <hi>Noah's</hi> Posterity sprang out into. But God calling <hi>Abraham</hi> into the Land of Promise, who was an Idolater in <hi>Chaldea,</hi> and giving him Temporal, and Spiritual Promises, and especially that of the <hi>Messiah</hi> coming out of his Loins, and assuring it by a special Covenant Sealed by Circumcision, the Church began now to take Root, and to be imbodyed in <hi>Jacob's</hi> Family under the name of <hi>Israel,</hi> and here God undertook the protection of his People and Worship, by the visible presence of Christ her Head, that Angel of the Covenant going continually with them, Comforting, and Defending them, till they came into <hi>Aegypt,</hi> where the Church continued until <hi>Joseph's</hi> Death, where this Book ends.</p>
+               </argument>
+               <div n="1" type="chapter">
+                  <head>CHAP. I.</head>
+                  <p>IN <note n="*" place="margin">
+                        <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap> 
+                        <gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap>6. 102. <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap>
+                        <g ref="char:punc">▪</g> 
+                        <gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap>. 146. 6. <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap> 24. Jer. <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap>
+                        <g ref="char:punc">▪</g> 51. 15. <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap> 12. 1. Acts <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap> 1<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap>. 17. 24. <gap reason="illegible" resp="#APEX" extent="1 word">
+                           <desc>〈◊〉</desc>
+                        </gap> 11. 3.</note> the beginning <note n="a" place="bottom">
+                        <hi>To wit,</hi> Of Time and Things, in the first place, before things were distinguished and perfected in manner here<g ref="char:EOLhyphen"/>after expressed. Or, the sense is this, The beginning of the World was thus. And this phrase further informeth us, that the World and all things in it had a beginning, and were not from E<g ref="char:EOLhyphen"/>ternity, as some Philosophers dreamed.</note> God Created <note n="b" place="bottom">Made out of nothing.</note> the Heaven and the Earth <note n="c" place="bottom">Either 1. The Heaven and Earth as now they are with their Inhabitants. So this verse is a sum in or brief of what is particularly declared in the rest of this Chapter. Or, 2. The substance and common matter of Heaven and Earth. Which seems more pro<g ref="char:EOLhyphen"/>bable by comparing this verse with the next, where the <hi>Earth</hi> here mentioned is declared to be <hi>without form,</hi> and the Heavens without Light, as also with <hi>Gen.</hi> 2. 1. Where <hi>the Heavens and the Earth,</hi> here only said to be created, are said to be <hi>finished</hi> or <hi>perfected.</hi> Yet I conceive the third Heaven to be included under the Title of <hi>the Heaven,</hi> and to have been created and perfected the first day, toge<g ref="char:EOLhyphen"/>ther with its blessed Inhabitants the Holy Angels, as may be collect<g ref="char:EOLhyphen"/>ed from <hi>Iob</hi> 33. 6, 7. But the Scripture being written for men and not for Angels, the Holy Ghost thought it sufficient to compre<g ref="char:EOLhyphen"/>hend them and their dwelling place under that general term of <hi>the Heavens,</hi> and proceedeth to give a more particular account of the vi<g ref="char:EOLhyphen"/>sible Heavens and Earth, which were created for the use of man. In the Hebrew it is, <hi>The Heavens and the Earth.</hi> For there are three Hea<g ref="char:EOLhyphen"/>vens mentioned in Scripture, The Aereal; the place of Birds, Clouds, and Meteors, <hi>Matth.</hi> 26. 64. <hi>Rev.</hi> 19. 17. &amp; 20. 9. The Star<g ref="char:EOLhyphen"/>ry; the Region of the Sun, the Moon, and Stars, <hi>Gen.</hi> 22. 17. The highest or third Heaven; 2 <hi>Cor.</hi> 12. 2. the dwelling of the Blessed Angels.</note>.</p>
+                  <p n="2">2. And the Earth<note n="e" place="bottom">The same confused mass or heap is here called both <hi>Earth,</hi> from its most solid and substantial part; and the <hi>deep,</hi> from its vast bulk and depth; and <hi>Waters,</hi> from its outward face and covering. See <hi>Psal.</hi> 104. 6. 2 <hi>Pet.</hi> 3. 5.</note> was without form and void<note n="f" place="bottom">
+                        <hi>(i. e.)</hi> Without order and beauty, and without furniture and use.</note>, and darkness <hi>was</hi> upon the face<note n="g" place="bottom">The surface or uppermost part of it, upon which the light afterward shone. Thus not the Earth onely, but also the Heaven above it was without light, as is manifest from the following verses.</note> of the deep: and the Spirit of God<note n="h" place="bottom">Not the Wind, which was not yet Created, as is manifest, because the Air, the Matter or Subject of it, was not yet produced: But the Third Person of the Glorious Trinity, called the Holy Ghost, to whom the work of Creation is attributed, <hi>Iob</hi> 26. 13. as it is ascrib'd to the Second Person, the Son, <hi>Ioh.</hi> 1. 3. <hi>Col.</hi> 1. 16, 17. <hi>Heb.</hi> 1. 3. and to the first Person, the Father, every where.</note> moved upon the face of the Wa<g ref="char:EOLhyphen"/>ters<note n="*" place="bottom">
+                        <hi>(i. e.) Upon the Waters.</hi> To cherish quicken, and dispose them to the production of the things after mentioned. It is a Metaphor from Birds hovering and fluttering over, and sitting up<g ref="char:EOLhyphen"/>on their Eggs and young Oaes, to cherish, warm, and quicken them.</note>.</p>
+                  <p n="3">
+                     <pb facs="tcp:107763:5"/>3. And God said <note n="i" place="bottom">(<hi>i. e.</hi>) Commanded, not by such a word or speech as we use, which agreeth not with the spiritual nature of God; but either by an act of his powerful will, called <hi>the Word of his Power,</hi> Heb. 1. 3. Or, by his substantial Word, his <hi>Son, by whom he made the Worlds,</hi> Heb. 1. 2. Psal. 33. 6. who is called, <hi>The Word,</hi> partly, if not princi<g ref="char:EOLhyphen"/>pally, for this reason, <hi>Iohn</hi> 1. 1, 2, 3. 10.</note> 
+                     <note n="*" place="margin">2 Cor. 4. 6.</note> Let there be Light: And there was Light <note n="k" place="bottom">Which was some bright and lucid Body, peradventure like the fiery Cloud in the Wilderness, giving a small and imperfect Light, successively moving over the several parts of the Earth; and afterwards con<g ref="char:EOLhyphen"/>densed, encreased, perfected, and gathered together in the Sun.</note>.</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

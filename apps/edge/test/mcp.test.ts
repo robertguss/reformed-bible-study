@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest"
 import { capabilities, escapeMarkdown, shardPaths } from "@reformed-bible/core"
 import { Effect } from "effect"
-import { staticHost } from "../../../packages/core/test/capabilities/fixture.ts"
+import { filesWithChapter, staticHost } from "../../../packages/core/test/capabilities/fixture.ts"
 import { mintSessionId } from "../src/legacy-mcp/session-id.ts"
 import {
   callTool,
@@ -91,6 +91,34 @@ describe("MCP tools", () => {
     }),
   )
 
+  it.effect("answers Calvin on Revelation with a normal result saying it is outside his work", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", {
+        ref: "Revelation 1:1",
+        work: CALVIN,
+      })
+      expect(message?.result?.isError).toBeFalsy()
+      expect(envelopeOf(message).items).toEqual([])
+      expect(envelopeOf(message).resources).toEqual([
+        expect.objectContaining({ resourceId: CALVIN, coverage: "outside_work" }),
+      ])
+      expect(textOf(message)).toContain(`${CALVIN}: this work does not cover this passage`)
+    }),
+  )
+
+  it.effect("lists no Baptist work, so Spurgeon and the 1689 Confession are unknown", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { items } = envelopeOf((yield* callTool(app, "list_resources", {})).message)
+      expect(items.length).toBeGreaterThan(0)
+      for (const { attribution } of items)
+        expect(`${attribution.author} ${attribution.work}`).not.toMatch(/Spurgeon|Baptist|1689/)
+      const { message } = yield* callTool(app, "get_confession_outline", { id: "lbcf" })
+      expect(message?.result?.isError).toBe(true)
+    }),
+  )
+
   it.effect("answers an invalid reference with a tool error that carries the suggestion", () =>
     Effect.gen(function* () {
       const { app } = testApp()
@@ -169,6 +197,61 @@ describe("MCP tools", () => {
       expect(text).not.toContain("[the full gloss](https://evil.example/x)")
       const line = text.split("\n").find((l) => l.includes("the full gloss"))
       expect(line).toBe("> Read \\[the full gloss\\]\\(https:\\/\\/evil.example/x\\) now.")
+    }),
+  )
+
+  it.effect("names every commentary covering the passage when no work is named", () =>
+    Effect.gen(function* () {
+      const comment = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
+      const files = filesWithChapter("Eph", 1, {
+        [CALVIN]: [comment("Eph.1.1-Eph.1.2", "Paul, an apostle.")],
+        "matthew-henry": [comment("Eph.1.1-Eph.1.2", "We have here the preface.")],
+      })
+      const { app } = testApp({ assets: { fetch: staticHost(files) } })
+      const unscoped = yield* callTool(app, "get_commentary", { ref: "Ephesians 1:1" })
+      expect(textOf(unscoped.message).split("\n")[0]).toBe(
+        "Commentaries covering this passage, in this order: calvin-commentaries, matthew-henry. Pass one as work to read only its sections.",
+      )
+      const scoped = yield* callTool(app, "get_commentary", { ref: "Ephesians 1:1", work: CALVIN })
+      expect(textOf(scoped.message)).not.toContain("Commentaries covering this passage")
+    }),
+  )
+
+  it.effect("says a Belgic article's proofs stand for the whole article", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_confession_article", {
+        id: "bc",
+        article: "16",
+      })
+      const proofLines = textOf(message)
+        .split("\n")
+        .filter((line) => line.startsWith("> Proofs"))
+      expect(proofLines).toHaveLength(1)
+      expect(proofLines[0]).toMatch(/^> Proofs for the whole article: Romans 9:/)
+    }),
+  )
+
+  it.effect("numbers each part of a section longer than a page", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", {
+        ref: "Romans 8:14",
+        work: CALVIN,
+      })
+      expect(textOf(message).split("\n")[0]).toBe("> On Romans 8:12-17, part 1 of 3")
+    }),
+  )
+
+  it.effect("names a harmony comment's parallels under its own heading for Mark 4:3", () =>
+    Effect.gen(function* () {
+      const { app } = testApp()
+      const { message } = yield* callTool(app, "get_commentary", { ref: "Mark 4:3", work: CALVIN })
+      const lines = textOf(message).split("\n")
+      expect(lines.slice(0, 2)).toEqual([
+        "> On Matthew 13:2-8",
+        "> Also treats Mark 4:1-12; Luke 8:1-10",
+      ])
     }),
   )
 })

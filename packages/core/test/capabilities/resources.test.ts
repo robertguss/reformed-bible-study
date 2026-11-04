@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
 import { listResources, resolveReference } from "../../src/capabilities/index.ts"
-import { call, ORIGIN, WITHDRAWN_REASON } from "./fixture.ts"
+import { call, ORIGIN, UNINGESTED_CONFESSION, WITHDRAWN_REASON } from "./fixture.ts"
 
 describe("list_resources", () => {
   it.effect(
@@ -28,7 +28,15 @@ describe("list_resources", () => {
           expect(ids).toContain(id)
         const calvin = result.items.find((item) => item.value.id === "calvin-commentaries")
         expect(calvin?.value.license.spdx).toBe("CC-PDM-1.0")
-        expect(calvin?.value.ingested).toEqual([{ book: "Rom", chapters: [7, 8] }])
+        // Deuteronomy 5 and Luke 8 and 13 hold only harmony comments keyed to another book.
+        expect(calvin?.value.ingested).toEqual([
+          { book: "Exod", chapters: [20] },
+          { book: "Deut", chapters: [5] },
+          { book: "Matt", chapters: [8, 13] },
+          { book: "Mark", chapters: [4, 5] },
+          { book: "Luke", chapters: [8, 13] },
+          { book: "Rom", chapters: [7, 8] },
+        ])
         expect(calvin?.attribution.licenseUrl).toBe(
           "https://creativecommons.org/publicdomain/mark/1.0/",
         )
@@ -37,7 +45,7 @@ describe("list_resources", () => {
           coverage.get("bsb"),
           coverage.get("calvin-commentaries"),
           coverage.get("wcf"),
-          coverage.get("hc"),
+          coverage.get(UNINGESTED_CONFESSION),
         ]).toEqual(["covered", "covered", "covered", "not_ingested"])
       }),
   )

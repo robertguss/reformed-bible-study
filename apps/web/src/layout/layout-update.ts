@@ -64,6 +64,8 @@ export const dropUnavailable = (
     spec,
     removed: PanelSpec.match(spec, {
       Commentary: ({ resourceId }) => nameIfGone(resourceId, "commentary"),
+      // Chooses among active commentators itself, so it never names a withdrawn one.
+      DefaultCommentary: () => Option.none<string>(),
       Confessions: () => Option.none<string>(),
       CrossReferences: () => Option.none<string>(),
       OriginalLanguage: () => Option.none<string>(),

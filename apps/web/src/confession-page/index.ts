@@ -105,6 +105,16 @@ export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { ca
             return h.p([h.Class("coverage")], [`${title} is not yet available.`])
           }
           const { value } = item
+          const refLinks = (refs: (typeof value.proofs)[number]["refs"]) =>
+            refs.flatMap((ref, index) => [
+              ...(index === 0 ? [] : ["; "]),
+              Option.match(passageOfFocus(ref.osis), {
+                onNone: () => ref.display,
+                onSome: (passage) => h.a([h.Href(passagePath(passage))], [ref.display]),
+              }),
+            ])
+          const articleProofs = value.proofs.filter((proof) => proof.wholeArticle === true)
+          const clauseProofs = value.proofs.filter((proof) => proof.wholeArticle !== true)
           return h.div(
             [],
             [
@@ -115,25 +125,29 @@ export const view = Submodel.defineView<Model, Message, ViewInputs>((model, { ca
                 : [h.p([h.Class("question")], runsView(value.question, h))]),
               ...paragraphsView(value.paragraphs, h),
               h.h2([], ["Scripture proofs"]),
-              h.ul(
-                [h.Class("proofs")],
-                value.proofs.map((proof) =>
-                  h.keyed("li")(
-                    `${proof.label ?? ""}:${proof.refs.map(({ osis }) => osis).join(",")}`,
-                    [],
-                    [
-                      ...(proof.label === undefined ? [] : [`${proof.label}. `]),
-                      ...proof.refs.flatMap((ref, index) => [
-                        ...(index === 0 ? [] : ["; "]),
-                        Option.match(passageOfFocus(ref.osis), {
-                          onNone: () => ref.display,
-                          onSome: (passage) => h.a([h.Href(passagePath(passage))], [ref.display]),
-                        }),
-                      ]),
-                    ],
-                  ),
+              ...articleProofs.map((proof) =>
+                h.p(
+                  [h.Class("article-proofs")],
+                  ["For the whole article: ", ...refLinks(proof.refs)],
                 ),
               ),
+              ...(clauseProofs.length === 0 && articleProofs.length > 0
+                ? []
+                : [
+                    h.ul(
+                      [h.Class("proofs")],
+                      clauseProofs.map((proof) =>
+                        h.keyed("li")(
+                          `${proof.label ?? ""}:${proof.refs.map(({ osis }) => osis).join(",")}`,
+                          [],
+                          [
+                            ...(proof.label === undefined ? [] : [`${proof.label}. `]),
+                            ...refLinks(proof.refs),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
               attributionFooter([item.attribution], h),
             ],
           )

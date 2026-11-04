@@ -3,7 +3,7 @@
   "kind": "commentary",
   "title": "Calvin's Collected Commentaries",
   "creator": "John Calvin",
-  "edition": "Calvin Translation Society English translations as transcribed by the Christian Classics Ethereal Library, collected in the CrossWire SWORD module CalvinCommentaries version 1.1 (2022-08-01); Commentary on Romans translated by John Owen",
+  "edition": "Calvin Translation Society English translations as transcribed by the Christian Classics Ethereal Library, collected in the CrossWire SWORD module CalvinCommentaries version 1.1 (2022-08-01)",
   "language": "en",
   "scope": [
     "Gen",
@@ -79,9 +79,9 @@
     ]
   },
   "attribution": {
-    "text": "John Calvin, Commentary on the Epistle to the Romans, translated by John Owen for the Calvin Translation Society. Public domain. Text from the Christian Classics Ethereal Library by way of the CrossWire SWORD module CalvinCommentaries."
+    "text": "John Calvin, Commentaries, translated from the Latin by the translators of the Calvin Translation Society. Public domain. Text from the Christian Classics Ethereal Library by way of the CrossWire SWORD module CalvinCommentaries."
   },
-  "modifications": "Converted from OSIS markup to plain text paragraphs with emphasis. Footnotes moved from the body into a separate notes list. Each section is keyed to the range from its own verse to the verse before the next section, or to the end of the book. Left out: the English and Latin translation table printed before each passage with its notes, the chapter headings, the appended translation of Calvin's version of the whole epistle, and links to pages on the Christian Classics Ethereal Library site.",
+  "modifications": "Converted from OSIS markup to plain text paragraphs with emphasis. Footnotes moved from the body into a separate notes list. Each section is keyed to the range from its own verse to the verse before the next section in its book, or to the end of its own chapter, whichever comes first. A section on a whole chapter, such as the introduction to a psalm, is folded into the chapter's first verse section as its opening paragraphs. Left out: the title pages, prefaces, dedications and arguments printed before a book's first section, the English and Latin translation table printed before each passage with its notes, appended translations of Calvin's version of a whole book, the translator's note at Ezekiel 21:1 saying that Calvin's commentary ends with chapter 20, and links to pages on the Christian Classics Ethereal Library site.",
   "surfaces": ["web", "api", "mcp", "dataset"],
   "status": { "state": "active" }
 }

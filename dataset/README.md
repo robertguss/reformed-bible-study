@@ -47,7 +47,14 @@ Content files are JSON. Any field named `ref` holds one OSIS reference such as
 `Rom.8.28` or `Rom.8.28-Rom.8.30`, and any field named `refs` holds a list of
 them. Every reference uses KJV verse numbering and must exist in
 `versification/kjv.json`. Within one commentary, no two `ref` sections may cover
-the same verse.
+the same verse; the rule applies to a section's own `ref` only. A comment from
+Calvin's Harmony of the Gospels or Harmony of the Law may also list `parallels`,
+the passages in the harmony's other books that its pericope heading names, and
+these may overlap other sections. A commentary section runs from its own verse
+to the verse before the next section in its book, or to the end of its own
+chapter, or for a harmony comment to the end of its pericope's passage in its
+own book, whichever comes first. A section on a whole chapter, such as the
+introduction to a psalm, opens the chapter's first verse section.
 
 ## Proof texts in confessions
 
@@ -56,10 +63,16 @@ as a list. The n-th proof text in an article supports the clause that ends the
 n-th run, counted across the article's paragraphs in order. A Shorter Catechism
 answer is a single run with one or more proof texts.
 
+A proof text marked `"wholeArticle": true` supports the whole article rather
+than one clause, and is not counted against the runs. Use it when the print
+gives references that cannot be tied to a clause of the transcribed text, as
+with the Belgic Confession, whose notes are printed against the French column.
+Leave the field out otherwise; it is never `false`.
+
 ## Ingest
 
 ```sh
-pnpm dataset:ingest all            # or: translations, cross-references, original-language, calvin, confessions
+pnpm dataset:ingest all            # or: translations, cross-references, original-language, calvin, confessions, poole, owen, henry, jfb
 ```
 
 Ingest downloads each pinned source into `.cache/sources/`, checks its SHA-256,

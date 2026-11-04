@@ -48,19 +48,26 @@ cite that verse?"
   line, not a quotation. Comparison ignores case, Markdown escapes, emphasis
   stars, and typographic quotes and dashes. A quotation may skip text with an
   ellipsis or a bracketed insertion, and each remaining piece must match.
-- Every Westminster article the answer names was returned by a tool, and the
+- Every confession article the answer names was returned by a tool, and the
   answer gives that article's author, work, edition and license exactly as the
   result did (punctuation aside). Articles are recognised as `WCF 3.6`,
-  `WLC Q45`, `WSC Q7` and the long forms ("Westminster Confession of Faith,
-  chapter 5, section 7", "Larger Catechism Q. 45"). The license must be the SPDX
-  id the tool gives, such as `CC-PDM-1.0`.
+  `WLC Q45`, `WSC Q7`, `HC Q1`, `HC LD 32` (read as that Lord's Day's first
+  question), `BC Art. 1`, `CD III-IV.1`, `CD Conclusion` and the long forms
+  ("Westminster Confession of Faith, chapter 5, section 7", "Larger Catechism Q.
+  45", "Heidelberg Catechism, Q&A 21", "Belgic Confession, Article 16", "Canons
+  of Dort III/IV, article 4"). The license must be the SPDX id the tool gives,
+  such as `CC-PDM-1.0`.
 
 **Questions outside the dataset** (`agent/negative.eval.ts`):
 
-- Asked for Calvin on Genesis 1:1, the agent says it is not covered.
-- Asked for Matthew Henry on Romans 8:28, the agent says the source is not
-  available.
-- In both, any quotation must still come from a tool result.
+- Asked for Calvin on Revelation 1:1, the agent says his commentary does not
+  cover it. Calvin wrote no commentary on Revelation, so this stays true as more
+  of his books are ingested.
+- Asked for Spurgeon on Psalm 23, the agent says the source is not available.
+- Asked what the 1689 London Baptist Confession says about baptism, the agent
+  says the confession is not available. No Baptist confession, catechism or
+  commentary ships, so the last two stay true as other works are added.
+- In each, any quotation must still come from a tool result.
 
 "Says it is not covered" means the answer contains a negation followed closely
 by a word for coverage or availability ("is not yet covered", "isn't available",
@@ -100,11 +107,13 @@ Ask each question in a fresh chat with the connector enabled.
    cite that verse?" Pass if the client calls the commentary and
    confession-article tools, quotes only what they returned, and credits each
    source with its author, work, edition and license.
-2. "What does John Calvin say about Genesis 1:1?" Pass if it says the passage is
-   not covered and does not quote Calvin from memory.
-3. "What does Matthew Henry's commentary say about Romans 8:28?" Pass if it says
+2. "What does John Calvin say about Revelation 1:1?" Pass if it says his
+   commentary does not cover Revelation and does not quote Calvin from memory.
+3. "What does Charles Spurgeon's commentary say about Psalm 23?" Pass if it says
    the source is not available here.
-4. "Show me Romans 17." Pass if it reports that the reference is out of range
+4. "What does the 1689 London Baptist Confession say about baptism?" Pass if it
+   says the confession is not available here.
+5. "Show me Romans 17." Pass if it reports that the reference is out of range
    and offers Romans 16.
 
 ### Results
@@ -112,9 +121,9 @@ Ask each question in a fresh chat with the connector enabled.
 Record a pass or a fail for each question, with a short note on any failure (for
 example, which quotation was not from a tool, or a missing credit).
 
-| Client      | Date | Client version | 1. Calvin and confessions | 2. Genesis 1:1 | 3. Matthew Henry | 4. Romans 17 | Notes |
-| ----------- | ---- | -------------- | ------------------------- | -------------- | ---------------- | ------------ | ----- |
-| Claude.ai   |      |                |                           |                |                  |              |       |
-| Claude Code |      |                |                           |                |                  |              |       |
-| Cursor      |      |                |                           |                |                  |              |       |
-| ChatGPT     |      |                |                           |                |                  |              |       |
+| Client      | Date | Client version | 1. Calvin and confessions | 2. Revelation 1:1 | 3. Spurgeon | 4. 1689 Confession | 5. Romans 17 | Notes |
+| ----------- | ---- | -------------- | ------------------------- | ----------------- | ----------- | ------------------ | ------------ | ----- |
+| Claude.ai   |      |                |                           |                   |             |                    |              |       |
+| Claude Code |      |                |                           |                   |             |                    |              |       |
+| Cursor      |      |                |                           |                   |             |                    |              |       |
+| ChatGPT     |      |                |                           |                   |             |                    |              |       |

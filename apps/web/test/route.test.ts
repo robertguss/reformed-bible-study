@@ -4,7 +4,9 @@ import { fromString } from "foldkit/url"
 import { describe, expect, it } from "vitest"
 import {
   AppRoute,
+  articleOfRoute,
   chapterRouter,
+  confessionArticleHref,
   confessionQuestionRouter,
   confessionSectionRouter,
   hrefOfRoute,
@@ -88,6 +90,28 @@ describe("confession article routes", () => {
     const question = parse("/confessions/wsc/30")
     expect(question).toEqual(AppRoute.ConfessionQuestion({ confession: "wsc", number: 30 }))
     expect(confessionQuestionRouter({ confession: "wsc", number: 30 })).toBe("/confessions/wsc/30")
+  })
+
+  it("carries the Canons of Dort's joined third and fourth head and prints it back", () => {
+    const route = parse("/confessions/cd/III-IV/4")
+    expect(route).toEqual(
+      AppRoute.ConfessionSection({ confession: "cd", part: "III-IV", section: 4 }),
+    )
+    expect(hrefOfRoute(route)).toBe("/confessions/cd/III-IV/4")
+    expect(confessionArticleHref("cd", "III-IV.4")).toBe("/confessions/cd/III-IV/4")
+    expect(
+      articleOfRoute(AppRoute.ConfessionSection({ confession: "cd", part: "III-IV", section: 4 })),
+    ).toEqual(Option.some({ confession: "cd", article: "III-IV.4" }))
+  })
+
+  it("carries the Canons of Dort's Conclusion and prints it back", () => {
+    const route = parse("/confessions/cd/conclusion")
+    expect(route).toEqual(AppRoute.ConfessionConclusion({ confession: "cd" }))
+    expect(hrefOfRoute(route)).toBe("/confessions/cd/conclusion")
+    expect(confessionArticleHref("cd", "Conclusion")).toBe("/confessions/cd/conclusion")
+    expect(articleOfRoute(AppRoute.ConfessionConclusion({ confession: "cd" }))).toEqual(
+      Option.some({ confession: "cd", article: "Conclusion" }),
+    )
   })
 })
 
