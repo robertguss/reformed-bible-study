@@ -1,0 +1,116 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A37035, Durham, A commentarie upon the book of the Revelation (1658), CC0 1.0, as keyed: the two lectures on chapter 5 and the opening of the first lecture on chapter 6. Each chapter division sits inside its first lecture, as printed. Each lecture keeps its heading, its quoted text and its first paragraphs, cut short, and the rest is cut. -->
+   <text>
+      <body>
+         <div type="text">
+            <pb facs="tcp:32234:5"/>
+            <head>AN EXPOSITION Of the BOOK of the REVELATION.</head>
+            <div n="1" type="lecture">
+               <pb n="283" facs="tcp:32234:146"/>
+               <head>LECTURE I.</head>
+               <div n="5" type="chapter">
+                  <head>CHAP. V.</head>
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Vers. 1.</hi>
+                        </bibl>
+                        <p>ANd I saw in the right hand of him that sat on the throne, a book written within, and on the backside sealed with seals.</p>
+                        <bibl>
+                           <hi>2.</hi>
+                        </bibl>
+                        <p>And I saw a strong angel proclaiming with a loud voice, Who is worthy to open the book, and to loose the seals thereof?</p>
+                        <bibl>
+                           <hi>3.</hi>
+                        </bibl>
+                        <p>And no man in heaven, nor in earth, neither under the earth, was able to open the book, neither to look thereon.</p>
+                        <bibl>
+                           <hi>4.</hi>
+                        </bibl>
+                        <p>And I wept much because no man was found worthy to open, and to read the book, neither to look thereon.</p>
+                        <bibl>
+                           <hi>5.</hi>
+                        </bibl>
+                        <p>And one of the elders saith unto me, Weep not: behold, the lion of the tri<gap reason="illegible" resp="#PDCC" extent="1 letter">
+                              <desc>•</desc>
+                           </gap>e of Iudah, the root of David, hath prevailed to open the book, and to loose the seven seals thereof.</p>
+                        <bibl>
+                           <hi>6.</hi>
+                        </bibl>
+                        <p>And I beheld, and lo, in the midst of the throne, and of the four beasts, and in the midst of the elders stood a Lamb as it had been slain, having seven horns, and seven eyes, which are the seven Spirits of God sent forth into all the earth.</p>
+                        <bibl>
+                           <hi>7.</hi>
+                        </bibl>
+                        <p>And he came and took the book out of the right hand of him that sat upon the throne.</p>
+                     </q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">I</seg>N this Chapter, the preparation to the following revelation goeth on; and in it He who was described in the former Chapter to sit upon the Throne, is here represented as having a sealed Book in His hand, which none in Heaven nor Earth can unfold but Jesus Christ the Mediator, who, for His Churches good, doth the same; which is turned to be matter of praise, in the last part of the Chapter.</p>
+                  <p>The Proclamation, <hi>vers.</hi> 2. is in these words, <hi>I saw a strong Angel, proclaiming with a loud voice, Who is worthy to open the book, and to loose the seals thereof</hi>? This Procla<g ref="char:EOLhyphen"/>mation is not made as if there were an expectation to find any creature by whom this might be done; but by putting all creatures to it, (and thereby declaring their insufficiency) the greater way is made for the glory of Christ, the Mediator, the performer thereof.</p>
+               </div>
+            </div>
+            <div n="2" type="lecture">
+               <head>LECTURE II.</head>
+               <epigraph>
+                  <q>
+                     <bibl>
+                        <hi>Vers. 8.</hi>
+                     </bibl>
+                     <p>And when he had taken the book, the four beasts and four and twenty elders fell down before the Lamb, having every one of them, harps, and golden vials full of odours, which are the prayers of saints.</p>
+                     <bibl>
+                        <hi>9.</hi>
+                     </bibl>
+                     <p>And they sung a new song, saying, Thou art worthy to take the book, and to open the seals thereof: for thou wast slain, and hast redeemed us to God by thy blo<gap reason="illegible" resp="#PDCC" extent="1 letter">
+                           <desc>•</desc>
+                        </gap>d, out of every kindred, and tongue, and people, and nation:</p>
+                     <bibl>
+                        <hi>10.</hi>
+                     </bibl>
+                     <p>And hast made us unto our God kings and priests, and we shall reign on the earth.</p>
+                     <bibl>
+                        <hi>11.</hi>
+                     </bibl>
+                     <p>And I beheld, and I heard the voice of many Angels round about the Throne, and the beasts and the elders, and the number of them was ten thousand times ten thousand, and thousands of thousands,</p>
+                     <bibl>
+                        <pb n="288" facs="tcp:32234:149"/>
+                        <hi>12.</hi>
+                     </bibl>
+                     <p>Saying with a loud voice, Worthy is the Lamb that was slain, to receive power, and riches, and wisdom, and strength, and honour, and glory, and blessing.</p>
+                     <bibl>
+                        <hi>13.</hi>
+                     </bibl>
+                     <p>And every creature which is in heaven, and on the earth, and under the earth, and such as are in the sea and all that are in them, heard I, saying, Blessing, honour, glory, and power, be unto Him that sitteth upon the throne, and unto the Lamb for ever and ever.</p>
+                     <bibl>
+                        <hi>14.</hi>
+                     </bibl>
+                     <p>And the four beasts said, Amen. And the four and twenty elders fell down and worshipped Him that liveth for ever and ever.</p>
+                  </q>
+               </epigraph>
+               <p>THis is the third part of the Chapter, and expresseth the main scope of what went before, to wit, the exalting of the Mediator.</p>
+               <p>The praise it self may be taken up in three parts, according to the severall parties that take part therein. For, 1. The redeemed Church begin, and they sing, in the last part of the 8. <hi>vers.</hi> and in the 9. and 10. <hi>verses.</hi> Then, 2. The Angels follow, <hi>vers.</hi> 11, and 12. In the third place, all creatures are brought-in joyning in this Song, <hi>vers.</hi> 13.</p>
+               <div type="part">
+                  <head>Concerning the nature of Christs death, or, if it be properly a satisfaction.</head>
+                  <p>BEside what Observations have been already hinted at and held forth from this Chapter, there are two more; which being clear of themselves from the words, and contributing much to the clearing of two concerning Truths, in these dayes not a little controverted; we may insist a little more in speaking to them, as the place giveth ground.</p>
+               </div>
+            </div>
+            <div n="1" type="lecture">
+               <pb n="326" facs="tcp:32234:168"/>
+               <head>LECTURE I.</head>
+               <div n="6" type="chapter">
+                  <head>CHAP. VI.</head>
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Vers. 1.</hi>
+                        </bibl>
+                        <p>ANd I saw when the Lamb opened one of the seals, and I heard, as it were the noise of thunder, one of the four beasts, say<g ref="char:EOLhyphen"/>ing, Come, and see.</p>
+                     </q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">T</seg>His Chapter beginneth that part of this Book which is properly and mainly prophetical.</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

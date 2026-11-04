@@ -1,0 +1,47 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A12190, Sibbes, The returning backslider, or, A commentarie upon the whole XIIII. chapter of the prophecy of the prophet Hosea (1639), CC0 1.0, as keyed: the openings of the tenth sermon, labelled Hosea 14.8, and the fourteenth, labelled 14.10, whose text is the King James Version's Hosea 14:9. The sermons between them and the second text the volume binds in are cut. Each sermon keeps its heading, its quoted text and a few blocks, cut short. -->
+   <text>
+      <group>
+         <text xml:lang="eng">
+            <body>
+               <div type="sermons">
+                  <pb facs="tcp:17937:13"/>
+                  <pb n="1" facs="tcp:17937:13"/>
+                  <head>THE RETVRNING BACKSLIDER.</head>
+                  <div n="10" type="sermon">
+                     <pb facs="tcp:17937:176"/>
+                     <pb n="303" facs="tcp:17937:176"/>
+                     <head>THE TENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.8.</hi>
+                           </bibl>
+                           <p>Ephraim ſhall ſay, what have J any more to doe with Idols? J have heard him and obſerved him: J am like a greene firre tree, from me is thy fruit found.</p>
+                        </q>
+                     </epigraph>
+                     <p>
+                        <seg rend="decorInit">W</seg>EE have heard at ſeverall times heretofore, how God out of the largeneſſe of his goodneſſe, goeth beyond thoſe deſires which hee putteth into his peoples hearts.</p>
+                     <p n="1">1. The manner of expreſſion, with a great indignation of ſoule, <hi>What have I any more to doe,</hi> &amp;c.</p>
+                  </div>
+                  <div n="14" type="sermon">
+                     <pb n="421" facs="tcp:17937:239"/>
+                     <head>THE FOVRTEENTH SERMON.</head>
+                     <epigraph>
+                        <q>
+                           <bibl>
+                              <hi>HOS. 14.10.</hi>
+                           </bibl>
+                           <p>Who is wiſe and he ſhall underſtand theſe things? prudent and he ſhall know them? for the wayes of the Lord are equall, the juſt ſhall walke in them, but the tranſgreſſors ſhall fall therein.</p>
+                        </q>
+                     </epigraph>
+                     <p>
+                        <seg rend="decorInit">T</seg>Heſe wordes ſeale up the whole Prophecy, for the Prophet immediately be<g ref="char:EOLhyphen"/>fore prophecying of the captivity, diſcovers to them at length their ſinnes as we heard their Idolatry, adding new Idols to their former Idols, <hi>Baall</hi> to
+<pb n="422" facs="tcp:17937:240"/> the <hi>Calves,</hi> the Princes remooved the bounds, (old orders and lawes) the Prophets they were fooles and did not ſee the judgements of God hanging over their heads; and none of them all could ſee their <hi>gray-haires,</hi> that is, the ſignes of their owne ruine.</p>
+                  </div>
+               </div>
+            </body>
+         </text>
+      </group>
+   </text>
+</TEI>

@@ -1,0 +1,82 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A30574, Burroughs, An exposition with practical observations continued upon the eighth, ninth, & tenth chapters of the prophesy of Hosea (1650), CC0 1.0, as keyed: the openings of chapters 8, 9 and 10, Hosea 8:4 and 8:11, and the close of 10:15. The first chapter division has no n, as printed. Each verse division keeps its heading, its quoted text and a few blocks, cut short, and the rest is cut. -->
+   <text>
+      <body>
+         <div type="exposition">
+            <pb n="1" facs="tcp:104281:15"/>
+            <head>AN EXPOSITION Of the PROPHESY of HOSEA.</head>
+            <div type="chapter">
+               <head>CHAP. VIII.</head>
+               <div n="1" type="verse">
+                  <head>VERS. 1.</head>
+                  <epigraph>
+                     <q>Set the Trumpet to thy mouth: he ſhall come as an Eagle againſt the Houſe of the LORD: becauſe they have tranſgreſſed my Covenant, and treſpaſſed againſt my Law.</q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">T</seg>HE Prophet ſtill continues the Denuncia<g ref="char:EOLhyphen"/>tion of Judgment againſt Iſrael, with the Declaration and Aggravation of their ſins.</p>
+               </div>
+               <div n="4" type="verse">
+                  <head>VER. 4.</head>
+                  <epigraph>
+                     <q>They have ſet up Kings, but not by me: they have made Princes, and I knew it not.</q>
+                  </epigraph>
+                  <div type="part">
+                     <head>They ſet up Kings,<note place="margin">Expoſ. 1.</note> but not by me</head>
+                     <p>Firſt,<note place="margin">Ieroboams ſin.</note> Becauſe <hi>Jeroboam</hi> did not ſeek God.</p>
+                     <p>Thirdly, <hi>Jeroboam</hi> had not right ends in taking the Kingdom.</p>
+                  </div>
+               </div>
+               <div n="11" type="verse">
+                  <head>VER. 11.</head>
+                  <epigraph>
+                     <q>Becauſe Ephraim hath made many Altars to ſin, Altars ſhall be unto him to ſin.</q>
+                  </epigraph>
+                  <div type="part">
+                     <head>And then, Ephraim hath made many Altars to ſin.</head>
+                     <p>God ſtill remembers the firſt and the chief Actors in ſin
+<pb n="83" facs="tcp:104281:56"/>
+                        <hi>[Ephraim]</hi> he ſpeaks to the ten Tribes, and yet only names <hi>Ephraim,</hi>
+                        <note place="margin">Obſ. 1.</note> becauſe the Governors were of that Tribe.</p>
+                  </div>
+               </div>
+            </div>
+            <div n="9" type="chapter">
+               <pb n="135" facs="tcp:104281:82"/>
+               <head>CHAP. IX.</head>
+               <div n="1" type="verse">
+                  <head>VERS. 1.</head>
+                  <epigraph>
+                     <q>Rejoyce not, O Iſrael for joy as other people; for thou haſt gone a whoring from thy God, thou haſt loved a reward upon every corn-flour.</q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">H</seg>ERE begins another Sermon of the Pro<g ref="char:EOLhyphen"/>phets.<note place="margin">Gualt.</note>
+                  </p>
+               </div>
+            </div>
+            <div n="10" type="chapter">
+               <pb n="299" facs="tcp:104281:154"/>
+               <head>CHAP. X.</head>
+               <div n="1" type="verse">
+                  <head>VERS. 1.</head>
+                  <epigraph>
+                     <q>Iſrael is an empty Vine, he bringeth forth fruit unto himſelf: according to the multitude of his fruit, he hath encreaſed the Altars: according to the goodneſs of his Land, they have made goodly Ima<g ref="char:EOLhyphen"/>ges.</q>
+                  </epigraph>
+                  <p>
+                     <seg rend="decorInit">H</seg>ERE <hi>Gualter</hi> makes the beginning of <hi>Hoſea's</hi> ſeventh Sermon.</p>
+               </div>
+               <div n="15" type="verse">
+                  <head>VER. 15.</head>
+                  <epigraph>
+                     <q>So ſhall Bethel do unto you, becauſe of your great wicked<g ref="char:EOLhyphen"/>neſs.</q>
+                  </epigraph>
+                  <p>
+                     <hi>SO ſhall</hi> Bethel.] What ſhall <hi>Bethel</hi> riſe up againſt the reſt of the ten Tribes, and come and deſtroy Mother and Children together? That's not the meaning.</p>
+                  <div type="part">
+                     <trailer>FINIS.</trailer>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

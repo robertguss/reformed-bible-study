@@ -1,0 +1,42 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A45340, Hall, Samaria's downfall, or, A commentary (by way of supplement) on the five last verses of the thirteenth chapter of Hosea (1660), CC0 1.0, as keyed: the body's heading and the openings of its divisions on verses 12 and 13. Each division keeps its headings and first blocks, and the rest is cut. -->
+   <text>
+      <body>
+         <head>
+            <pb n="1" facs="tcp:96885:5"/>Samarias Downfall:
+OR,
+A COMMENTARY
+(By way of Supplement) on the five
+last verses of the thirteenth Chapter
+of HOSEA.</head>
+         <div type="verse">
+            <head>HOSEA 13. 12.</head>
+            <head type="sub">The iniquity of Ephraim is bound up [by God] his sin is
+hid [with him.]</head>
+            <p>
+               <seg rend="decorInit">T</seg>His Chapter contains the sum of the eleventh
+Sermon of <hi>Hosea,</hi>
+               <note place="margin">Inter omnes Prophetas Hose<g ref="char:EOLhyphen"/>as maxime ve<g ref="char:EOLhyphen"/>lut summaria concionum sua<g ref="char:EOLhyphen"/>rum ponit. <hi>Mercer.</hi>
+               </note> wherein the Propher (like
+the sweet Singer of <hi>Israel</hi>) treats both of
+Judgement and Mercy; and useth both draw<g ref="char:EOLhyphen"/>ing
+and driving Motives, (one or both of which
+usually work upon all ingenuous dispositions.)
+to bring them to Repentance.</p>
+            <div type="observations">
+               <head>OBSERVATIONS.</head>
+               <p>1. The Lord is very patient and bears long with sinners.</p>
+            </div>
+         </div>
+         <div type="verse">
+            <head>VERSE 13.</head>
+            <head type="sub">The sorrows of a travelling woman shall come upon him,
+he is an unwise son, for he should not stay long in the
+place of the breaking forth of children.</head>
+            <p>IN this Verse the Prophet goeth on to denounce judgements
+against an obstinate and rebellious people, if by any means
+he might awaken them out of their security.</p>
+         </div>
+      </body>
+   </text>
+</TEI>
