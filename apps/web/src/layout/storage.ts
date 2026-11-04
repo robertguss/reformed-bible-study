@@ -7,10 +7,14 @@ import { defaultSaved, Saved } from "../model.ts"
 import { PanelSpec, panelId } from "../panels/panel.ts"
 import {
   LAYOUT_STORAGE_KEY,
+  LAYOUT_V1_STORAGE_KEY,
   LAYOUT_VERSION,
   type StoredLayout,
   StoredLayoutJson,
+  StoredLayoutV1Json,
   type StoredPanel,
+  type StoredPanelV1,
+  V1_DEFAULT_PANELS,
 } from "./layout-schema.ts"
 
 type Store = Layer.Layer<KeyValueStore.KeyValueStore>
@@ -57,12 +61,47 @@ const fromStored = (stored: StoredLayout): Saved => ({
   readingPosition: Option.fromUndefinedOr(stored.readingPosition),
 })
 
+const isV1Default = (panels: ReadonlyArray<StoredPanelV1>): boolean =>
+  panels.length === V1_DEFAULT_PANELS.length &&
+  panels.every((panel, index) => {
+    const expected = V1_DEFAULT_PANELS[index]
+    const resourceId = panel.kind === "commentary" ? panel.resourceId : undefined
+    return panel.kind === expected?.kind && resourceId === expected.resourceId
+  })
+
+/**
+ * A layout the reader never changed gets today's default; one they changed keeps its panels, so a
+ * Calvin panel they arranged stays Calvin's. Translation and reading position carry over in both.
+ */
+const fromStoredV1 = (stored: typeof StoredLayoutV1Json.Type): Saved => ({
+  translation: stored.translation,
+  panels: isV1Default(stored.panels) ? defaultSaved.panels : stored.panels.map(fromStoredPanel),
+  readingPosition: Option.fromUndefinedOr(stored.readingPosition),
+})
+
+const put = (kv: KeyValueStore.KeyValueStore, saved: Saved) =>
+  Effect.flatMap(Schema.encodeEffect(StoredLayoutJson)(toStored(saved)), (text) =>
+    kv.set(LAYOUT_STORAGE_KEY, text),
+  )
+
+/**
+ * Reads the current record, or else migrates the version 1 record and writes the result under the
+ * current key. The version 1 record is left in place, and is migrated again whenever the current
+ * record is missing or cannot be decoded.
+ */
 export const readSaved = (store: Store): Effect.Effect<Saved> =>
   Effect.gen(function* () {
     const kv = yield* KeyValueStore.KeyValueStore
-    const text = yield* kv.get(LAYOUT_STORAGE_KEY)
-    if (text === undefined) return defaultSaved
-    return fromStored(yield* Schema.decodeEffect(StoredLayoutJson)(text))
+    const current = Option.flatMap(
+      Option.fromUndefinedOr(yield* kv.get(LAYOUT_STORAGE_KEY)),
+      Schema.decodeOption(StoredLayoutJson),
+    )
+    if (Option.isSome(current)) return fromStored(current.value)
+    const old = yield* kv.get(LAYOUT_V1_STORAGE_KEY)
+    if (old === undefined) return defaultSaved
+    const migrated = fromStoredV1(yield* Schema.decodeEffect(StoredLayoutV1Json)(old))
+    yield* Effect.ignoreCause(put(kv, migrated))
+    return migrated
   }).pipe(
     // oxlint-disable-next-line effecttsgo/strict-effect-provide
     Effect.provide(store),
@@ -71,8 +110,7 @@ export const readSaved = (store: Store): Effect.Effect<Saved> =>
 
 export const writeSaved = (store: Store, saved: Saved): Effect.Effect<void> =>
   Effect.gen(function* () {
-    const kv = yield* KeyValueStore.KeyValueStore
-    yield* kv.set(LAYOUT_STORAGE_KEY, yield* Schema.encodeEffect(StoredLayoutJson)(toStored(saved)))
+    yield* put(yield* KeyValueStore.KeyValueStore, saved)
   }).pipe(
     // oxlint-disable-next-line effecttsgo/strict-effect-provide
     Effect.provide(store),
