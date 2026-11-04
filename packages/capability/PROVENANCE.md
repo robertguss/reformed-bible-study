@@ -6,7 +6,8 @@ This package is a copy of part of the `capability` package from rat-stack:
 - Commit: `81a12c4b86cd65bf86e4bdba98eda122d0133844` (main, resolved 2026-11-03)
 - Upstream path: `packages/capability/`
 
-The copy is maintained here and is not resynced with upstream. Changes upstream do not flow into this package, and changes here are not sent back.
+The copy is maintained here and is not resynced with upstream. Changes upstream
+do not flow into this package, and changes here are not sent back.
 
 ## Files
 
@@ -28,13 +29,20 @@ The copy is maintained here and is not resynced with upstream. Changes upstream 
 
 All changes:
 
-- Import specifiers end in `.ts` instead of `.js`, because this workspace runs TypeScript sources directly.
-- Service and middleware keys start with `@reformed-bible/capability/` instead of `@rat-stack/capability/`.
+- Import specifiers end in `.ts` instead of `.js`, because this workspace runs
+  TypeScript sources directly.
+- Service and middleware keys start with `@reformed-bible/capability/` instead
+  of `@rat-stack/capability/`.
 - Formatting follows this repository's formatter (no semicolons).
-- The package root exports only contracts and handlers. The HTTP API projection is at `@reformed-bible/capability/http-api` and the toolkit (MCP) projection at `@reformed-bible/capability/toolkit`, so code that only runs handlers, such as the web app, never bundles them.
-- Code mode, the sandbox, the command, RPC and catalog projections, `define.ts` and `actor-watch.ts` are left out.
+- The package root exports only contracts and handlers. The HTTP API projection
+  is at `@reformed-bible/capability/http-api` and the toolkit (MCP) projection
+  at `@reformed-bible/capability/toolkit`, so code that only runs handlers, such
+  as the web app, never bundles them.
+- Code mode, the sandbox, the command, RPC and catalog projections, `define.ts`
+  and `actor-watch.ts` are left out.
 
-The upstream commit already builds against Effect 4.1.2, the version this workspace pins, so no Effect API changes were needed.
+The upstream commit already builds against Effect 4.1.2, the version this
+workspace pins, so no Effect API changes were needed.
 
 ## License
 

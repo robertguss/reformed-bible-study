@@ -1,0 +1,39 @@
+#!/bin/sh
+# Formats the staged files with oxfmt before each commit, so CI's `pnpm format:check` passes.
+# `pnpm install` turns this hook on through the root `prepare` script. Skip it once with
+# `git commit --no-verify`.
+set -eu
+
+whole=$(mktemp)
+partial=$(mktemp)
+trap 'rm -f "$whole" "$partial"' EXIT
+
+# Split the staged files into those staged in full and those with further unstaged edits.
+git diff --cached --name-only --diff-filter=ACMR | while IFS= read -r file; do
+  if git diff --quiet -- "$file"; then
+    printf '%s\n' "$file" >>"$whole"
+  else
+    printf '%s\n' "$file" >>"$partial"
+  fi
+done
+
+# Files staged in full are formatted and staged again.
+if [ -s "$whole" ]; then
+  if ! output=$(tr '\n' '\0' <"$whole" |
+    xargs -0 pnpm -s exec oxfmt --no-error-on-unmatched-pattern 2>&1); then
+    printf '%s\n' "$output" >&2
+    exit 1
+  fi
+  tr '\n' '\0' <"$whole" | xargs -0 git add --
+fi
+
+# Formatting a partly staged file would stage its unstaged edits too, so those are only checked.
+if [ -s "$partial" ]; then
+  unformatted=$(tr '\n' '\0' <"$partial" |
+    xargs -0 pnpm -s exec oxfmt --no-error-on-unmatched-pattern --list-different 2>/dev/null || true)
+  if [ -n "$unformatted" ]; then
+    echo "pre-commit: these partly staged files need formatting; run pnpm format and stage them:" >&2
+    printf '%s\n' "$unformatted" | sed 's/^/  /' >&2
+    exit 1
+  fi
+fi
