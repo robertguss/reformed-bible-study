@@ -61,6 +61,20 @@ export interface TeiCommentaryLayout {
    * reference: `Hos.14.10` to 9 where a sermon labelled 14.10 quotes the King James Version's 14:9.
    */
   readonly verseLabelMoves?: ReadonlyMap<string, number>
+  /**
+   * Verse labels read as the verse their text quotes, each told by the words its block opens with,
+   * such as `Ver. 8 LORD, how long` where the print labels verse 3 as 8. The words are matched
+   * against the start of the block's text as printed. A corrected label keeps its verse even where
+   * the labels around it would number it otherwise, as where the print labels both halves of a
+   * verse with its number and the first would be read as the verse before.
+   */
+  readonly labelCorrections?: ReadonlyArray<{ readonly opening: string; readonly verse: number }>
+  /**
+   * Given with `verseLabel` when a chapter may print its first verses unlabelled in its argument, as
+   * Dickson prints 2 Corinthians 7:1. The text before the chapter's first labelled verse is then
+   * verse 1, in the order printed, and its own section when that label is a later verse.
+   */
+  readonly unlabelledOpening?: boolean
   /** The last verse the work expounds, where its last section ends instead of at the chapter's end. */
   readonly lastVerse?: VerseRef
   /**
@@ -523,18 +537,29 @@ const sectionsOf = (
   layout: TeiCommentaryLayout,
 ): Effect.Effect<ReadonlyArray<CommentarySection>, TeiCommentaryError> =>
   Effect.gen(function* () {
-    const { lastVerse, verseLabelMoves } = layout
+    const { lastVerse, verseLabelMoves, labelCorrections } = layout
+    const unlabelledOpening = layout.unlabelledOpening === true
     const max =
       lastVerse?.book === book && lastVerse.chapter === chapter
         ? lastVerse.verse
         : verseCount(book, chapter)
     const moved = (m: number | undefined) =>
       m === undefined ? m : (verseLabelMoves?.get(`${book}.${chapter}.${m}`) ?? m)
-    const markers = items.flatMap((item) => (item.kind === "verse" ? [moved(item.marker)] : []))
-    const numbers =
+    const corrected = (piece: Piece) => {
+      const text = (piece.paragraphs[0] ?? []).map((run) => run.text).join("")
+      return labelCorrections?.find(({ opening }) => text.startsWith(opening))?.verse
+    }
+    const corrections = items.flatMap((item) =>
+      item.kind === "verse" ? [corrected(item.piece)] : [],
+    )
+    const markers = items
+      .flatMap((item) => (item.kind === "verse" ? [moved(item.marker)] : []))
+      .map((m, i) => corrections[i] ?? m)
+    const numbers = (
       layout.verseDivisions === undefined
         ? numberMarkers(markers, max)
         : markers.map((m) => (m !== undefined && m >= 1 && m <= max ? m : undefined))
+    ).map((n, i) => corrections[i] ?? n)
     const open: Array<{ readonly verse: number; readonly pieces: Array<Piece> }> = []
     const opening: Array<Piece> = [...intro]
     let lead: Array<Piece> = []
@@ -542,7 +567,7 @@ const sectionsOf = (
     for (const item of items) {
       const current = open.at(-1)
       if (item.kind === "lead") {
-        lead.push(item.piece)
+        ;(unlabelledOpening && current === undefined ? opening : lead).push(item.piece)
         continue
       }
       if (item.kind === "trail") {
@@ -556,6 +581,8 @@ const sectionsOf = (
         return yield* new TeiCommentaryError({
           detail: `${book}.${chapter}: verse ${verse} follows verse ${current.verse}`,
         })
+      } else if (current === undefined && unlabelledOpening && verse > 1 && opening.length > 0) {
+        open.push({ verse: 1, pieces: [...opening] }, { verse, pieces: [...lead, item.piece] })
       } else
         open.push({
           verse,

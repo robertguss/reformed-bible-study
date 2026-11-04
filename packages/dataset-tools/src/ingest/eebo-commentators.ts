@@ -9,6 +9,7 @@ import { Effect, Schema } from "effect"
 import { writeNormalized } from "../normalized.ts"
 import { download, type SourceSpec } from "./download.ts"
 import { ANNOTATION_SETS } from "./eebo-annotation-sets.ts"
+import { SCOTTISH_EXPOSITIONS } from "./eebo-scottish-expositions.ts"
 import { readTeiCommentary, type TeiCommentaryLayout } from "./tei-commentary.ts"
 
 /** One pinned EEBO-TCP volume, the books it holds in order, and how its TEI is laid out. */
@@ -31,6 +32,7 @@ export interface EeboCommentator {
 export const EEBO_COMMENTATORS: ReadonlyArray<EeboCommentator> = [
   // One `...GROUP,` line per group module.
   ...ANNOTATION_SETS,
+  ...SCOTTISH_EXPOSITIONS,
 ]
 
 /** A later volume holds verses of a book that an earlier volume already holds. */

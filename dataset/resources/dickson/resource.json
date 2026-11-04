@@ -1,0 +1,93 @@
+{
+  "id": "dickson",
+  "kind": "commentary",
+  "title": "Expositions of the Psalms, Matthew and the Epistles",
+  "name": "Dickson",
+  "creator": "David Dickson",
+  "edition": "Five volumes by David Dickson, as keyed and encoded by the Early English Books Online Text Creation Partnership: A brief explication of the first fifty Psalms (London, printed by T. M. for Thomas Johnson, 1655, Wing D1392), Phase I text A35941; A brief explication of the other fifty Psalmes, from Ps. 50 to Ps. 100 (London, printed by T. R. and E. M. for Ralph Smith, 1653, Wing D1396), Phase I text A35945; A brief explication of the last fifty Psalmes, from Ps. 100 to the end (London, printed by T. R. and E. M. for Thomas Johnson, 1654, Wing D1394A), Phase I text A35943; A brief exposition of the evangel of Jesus Christ according to Matthew (London, printed for Ralph Smith, 1651, Wing D1400), Phase I text A35949; and An exposition of all St. Pauls epistles, together with an explanation of those other epistles of the apostles St. James, Peter, John and Jude, the English of his Expositio analytica omnium apostolicarum epistolarum translated by William Retchford (London, printed by R. I. for Francis Eglesfield, 1659, Wing D1403), Phase I text A35951",
+  "language": "en",
+  "scope": [
+    "Ps",
+    "Matt",
+    "Rom",
+    "1Cor",
+    "2Cor",
+    "Gal",
+    "Eph",
+    "Phil",
+    "Col",
+    "1Thess",
+    "2Thess",
+    "1Tim",
+    "2Tim",
+    "Titus",
+    "Phlm",
+    "Heb",
+    "Jas",
+    "1Pet",
+    "2Pet",
+    "1John",
+    "2John",
+    "3John",
+    "Jude"
+  ],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A35941",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A35941/cbe8ed339902b750e453f31a6bcaedf43f6e6e84/A35941.xml",
+        "sha256": "001a504e442083ad9a789ef3be2f25c36a305bf89458e1c313e5369c9faa7439"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A35945/5fecb86a9388c0ca2f12ff67d8d541d5d8515e43/A35945.xml",
+        "sha256": "4295af71f391a2cde4234c9454c7bb2a0057597c1fc8b2124095aa1d7be289f5"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A35943/c9fcfdc4df67ded3e296b9d6a9ab78bb0236e9a9/A35943.xml",
+        "sha256": "25a7833bdbb9c39fd7377e5ed314b6bf01dc7cbcc97a761fdf15b34b0a28fb07"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A35949/902f0588787d794e2212b9dd36b20bdeb8d07048/A35949.xml",
+        "sha256": "1a38122be08c90310dfce02b499cfc0fc99a6701082f410ab5b25eb46ca6fa6f"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A35951/b04a2217988531c6e67913179f0051eaf19b882e/A35951.xml",
+        "sha256": "f5c47823b3b3d4bd452e30d170e1ae1cca1982802b6de18b7399c819dc20a73b"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A35941",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A35945",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A35943",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A35949",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A35951",
+        "quote": "This Phase I text is available for reuse, according to the terms of Creative Commons 0 1.0 Universal."
+      }
+    ]
+  },
+  "attribution": {
+    "text": "David Dickson, A Brief Explication of the Psalms (London, 1653 to 1655, in three volumes), A Brief Exposition of the Evangel of Jesus Christ according to Matthew (London, 1651) and An Exposition of All St. Paul's Epistles, with the Epistles of James, Peter, John and Jude (London, 1659), translated from his Latin by William Retchford. Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with the text it expounds as Dickson printed it, such as Ver. 1. Blessed is the man, and the paragraphs after it stay with its verse. Sections are keyed by the verse labels printed at the start of these quotations, such as Ver. 1., Vers. 3. or a bare 9., and a verse named in an argument or the exposition, such as ver. 4., is never read. A label misprinted between two that follow on is read as the number between them, and a label that cannot stand in its chapter's order continues the section before it. Labels the print gets wrong are read as the verse their text quotes: Psalm 94:3, printed 8; Psalm 119:49, 152, 166 and 169, printed 9, 12, a blotted 66 and 149; Matthew 12:8, 9 and 27, printed 18, 8 and 17; and Matthew 17:14, printed 15. Where both halves of Romans 16:16 and 1 Corinthians 1:17 carry the verse's label, both stay at that verse. A section runs from its own verse to the verse before the next section or the end of its chapter. An argument opens its psalm's or chapter's first section, and where 1 Corinthians 11, 2 Corinthians 7 and 2 Thessalonians 1 print their first verses in the argument, it is the chapter's verse 1. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter, 〈◊〉 for an illegible word and 〈2 pages missing〉; the volume on Psalms 51 to 100 has many. Line-end hyphens are closed up. Left out: the title pages, dedications, epistles to the reader, the translator's epistle, the imprimatur, the errata, the booksellers' lists, headings such as PSALM I. or CHAP. V., the discourse on the title of the New Testament before Matthew, and The Epistle of Paul to the Hebrews with Observations, a separate work by Dickson printed after the analytic exposition of Hebrews.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

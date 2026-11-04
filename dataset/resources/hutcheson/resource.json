@@ -1,0 +1,84 @@
+{
+  "id": "hutcheson",
+  "kind": "commentary",
+  "title": "Expositions of Job, the Twelve Small Prophets and John",
+  "name": "Hutcheson",
+  "creator": "George Hutcheson",
+  "edition": "Five volumes by George Hutcheson, as keyed and encoded by the Early English Books Online Text Creation Partnership: An exposition of the book of Job, being the sum of CCCXVI lectures preached in the city of Edenburgh (London, printed for Ralph Smith, 1669, Wing H3825), Phase II text A45240; A brief exposition on the XII. smal prophets, the first volume, containing an exposition on the prophecies of Hosea, Joel and Amos (London, printed for Ralph Smith, dated 1655 and issued in 1654, Wing H3823), Phase II text A86936; A brief exposition of the prophecies of Obadiah, Jonah, Micah, Nahum, Habakkuk and Zephaniah (London, printed for Ralph Smith, 1654, Wing H3822), Phase II text A86934; A brief exposition of the prophecies of Haggai, Zechariah and Malachi (London, printed by T. R. and E. M. for Ralph Smith, 1654, Wing H3820), Phase II text A86932; and An exposition of the Gospel of Jesus Christ according to John (London, printed for Ralph Smith, 1657, Wing H3826), Phase II text A45241",
+  "language": "en",
+  "scope": [
+    "Job",
+    "Hos",
+    "Joel",
+    "Amos",
+    "Obad",
+    "Jonah",
+    "Mic",
+    "Nah",
+    "Hab",
+    "Zeph",
+    "Hag",
+    "Zech",
+    "Mal",
+    "John"
+  ],
+  "source": {
+    "url": "https://github.com/textcreationpartnership/A45241",
+    "retrievedAt": "2026-11-04",
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A45240/940db82d0d01b33332a999bc0528e2f802520a5b/A45240.xml",
+        "sha256": "f240ff268630286304d6862758d076f5962d8b11b92c68a076520c60889a93c2"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A86936/f37db7aca903c580baf23d3d0dd2439095f612a1/A86936.xml",
+        "sha256": "816747e12c98fae1837058a904dfcb73543b544d79a06d5e5c69003defb89c76"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A86934/436aeee746152a26b243092d78fc9a4c1251f0b7/A86934.xml",
+        "sha256": "08a7c55bd430cecd70eaad8a808a986f40d0475b55dc5c24005caec008b2c5bc"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A86932/d3cbea4793683ccdebe42cffbc2138deb7907585/A86932.xml",
+        "sha256": "afcb597ecc4985c5fe97e6b1458a8a06e271f093d337ee07afac451e9caacc06"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/textcreationpartnership/A45241/721483c781b9c5bae7e81a537d08e4982db02ab2/A45241.xml",
+        "sha256": "d755f249e55400e09a6bdae30d56abb904899c17fa5633eb3055d838f4bdbb0d"
+      }
+    ]
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "evidence": [
+      {
+        "url": "https://github.com/textcreationpartnership/A45240",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A86936",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A86934",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A86932",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      },
+      {
+        "url": "https://github.com/textcreationpartnership/A45241",
+        "quote": "To the extent possible under law, the Text Creation Partnership has waived all copyright and related or neighboring rights to this keyboarded and encoded edition of the work described above, according to the terms of the CC0 1.0 Public Domain Dedication"
+      }
+    ]
+  },
+  "attribution": {
+    "text": "George Hutcheson, An Exposition of the Book of Job (London, 1669), A Brief Exposition on the Twelve Small Prophets (London, 1654, in three volumes) and An Exposition of the Gospel of Jesus Christ according to John (London, 1657). Text keyed and encoded by the Early English Books Online Text Creation Partnership and dedicated to the public domain under CC0 1.0."
+  },
+  "modifications": "Converted from TEI XML to plain text paragraphs with emphasis, with the long s printed as s. Each exposition opens with the words of the text it expounds as Hutcheson printed them, such as Verse 1. In the beginning was the Word, and the paragraphs after a quotation stay with its verse. On Job and John each exposition the transcription divides off is one section, keyed by the verse label printed at its head, such as Verse 1. or Vers. 6. On the Minor Prophets each quotation's label opens a section; a label misprinted between two that follow on is read as the number between them, and a label that cannot stand in its chapter's order continues the section before it. A verse named in an argument or in the exposition, such as ver. 4., is never read. Two labels in Job the print gets wrong are read as the verse their text quotes: Job 21:21, printed 22, and Job 33:2, printed 3. A section runs from its own verse to the verse before the next section or the end of its chapter. A book's or chapter's argument opens its first section. Every gap the transcribers could not key is kept as the mark they gave it, such as • for an illegible letter and 〈◊〉 for an illegible word. Line-end hyphens are closed up. Left out: the title pages, the half-titles, the dedications, the epistles to the reader, the licensers' epistles and imprimaturs, the errata, the booksellers' lists, and the chapter headings such as CHAP. I.",
+  "surfaces": ["web", "api", "mcp", "dataset"],
+  "status": {
+    "state": "active"
+  }
+}

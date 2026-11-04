@@ -1,0 +1,71 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A45240, Hutcheson, An exposition of the book of Job (1669), CC0 1.0, as keyed: Job 33 to the exposition of verse 5, whose second division is labelled verse 3 but quotes verse 2. Each division keeps its quotation and its first two paragraphs, cut short. -->
+   <text>
+      <body>
+         <div type="exposition_of_Job">
+            <div n="33" type="chapter">
+               <head>CHAP. XXXIII.</head>
+               <argument>
+                  <p>After the former general Preface, <hi>Elihu</hi> comes now to deal more particularly with <hi>Job,</hi> without medling any more with his Friends. This he doth in four speeches;</p>
+                  <p>In this Chapter (which contains his firſt ſpeech) his ſcope is to instruct that <hi>Job</hi> had un<g ref="char:EOLhyphen" />juſtly taxed the Dispenſations of God toward him a righteous man. The</p>
+               </argument>
+               <div n="1" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſe 1.</hi>
+                        </bibl> Wherefore, <hi>Job,</hi> I pray thee, hear my ſpeeches, and hearken to all my words.</q>
+                  </epigraph>
+                  <p>AFter the general Preface, in the former Chap<g ref="char:EOLhyphen" />ter, <hi>Elihu,</hi> being to take <hi>Job</hi> to task, doth yet premit a particular Preface to him; craving (in this Verſe) not</p>
+                  <p>
+                     <hi>Doct.</hi> 1. There is a godly prudence required, in managing thorny debates ſo as may tend moſt to edi<g ref="char:EOLhyphen" />fication; For, of this <hi>Elihu</hi> gave</p>
+               </div>
+               <div n="3" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Ver. 3.</hi>
+                        </bibl> Behold, now I have opened my mouth, my tongue hath ſpoken in my mouth.</q>
+                  </epigraph>
+                  <p>The following purpoſe, to <hi>v.</hi> 8. may be re<g ref="char:EOLhyphen" />duced to two Arguments perſwading <hi>Job</hi> to hearken to him.</p>
+                  <p n="1">1. Becauſe he will ſpeak truth ſincerely and clear<g ref="char:EOLhyphen" />ly to him, <hi>v.</hi> 2, 3.</p>
+               </div>
+               <div n="3" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſe 3.</hi>
+                        </bibl> My words <hi>ſhall be of</hi> the upright<g ref="char:EOLhyphen" />neſs of my heart: And my lips ſhall utter knowledge clearly.</q>
+                  </epigraph>
+                  <p>The next Argument of attention (in this Verſe) is taken from his purpoſe to deal faithfully with
+<hi>Chap.</hi> 32.21. He pro<g ref="char:EOLhyphen" />miſeth that he ſhall deal ſincerely in</p>
+                  <p>
+                     <hi>Doct.</hi> 1. It is mens duty to deal ſincerely and up<g ref="char:EOLhyphen" />rightly with others, eſpecially in ſpeaking of matters which concern their Soul, wherein</p>
+               </div>
+               <div n="4" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſe 4.</hi>
+                        </bibl> The Spirit of God hath made me, and the breath of the Almighty hath given me life.</q>
+                  </epigraph>
+                  <p>This Verſe, abſtracting from what followeth, may contain a third Argument of attention, That, being ſenſible that he is a Creature formed and quickned by the</p>
+                  <p>
+                     <hi>Doct.</hi> 1. The Holy Spirit is a Worker, with the Father, and the Son, in the creating and forming of man; For, as all the perſons of the</p>
+               </div>
+               <div n="5" type="verse">
+                  <epigraph>
+                     <q>
+                        <bibl>
+                           <hi>Verſe 5.</hi>
+                        </bibl> If thou canst anſwer me, ſet <hi>thy words</hi> in order before me, ſtand up.</q>
+                  </epigraph>
+                  <p>The fourth Argument of attention (and a con<g ref="char:EOLhyphen" />ſequent of the former) is, That, being ſenſible they were fellow-creatures, he would not take ad<g ref="char:EOLhyphen" />vantage of his</p>
+                  <p>
+                     <hi>Doct.</hi> 1. It is an evidence of honeſty, when men deſire not to prevail in their cauſe, unleſs it be juſt and right; For, here he deſires</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

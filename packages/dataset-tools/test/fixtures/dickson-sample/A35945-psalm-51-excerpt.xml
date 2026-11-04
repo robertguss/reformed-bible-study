@@ -1,0 +1,96 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<!-- Excerpt of EEBO-TCP A35945, Dickson, A brief explication of the other fifty Psalmes (1653), CC0 1.0, as keyed: Psalm 51, the first psalm of the volume. Every block of the psalm is kept in order; each exposition paragraph is cut short. -->
+   <text>
+      <body>
+         <div type="text">
+            <head>A BRIEF EXPOSITION Upon the other fifty Psalmes.</head>
+            <div n="51" type="Psalm">
+               <head>PSAL. LI. To the chief Musician. A Psalme of <hi>David,</hi> when <hi>Natha<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                        <desc>•…</desc>
+                     </gap>
+                     <g ref="char:punc">▪</g>
+                  </hi> the Prophet came unto him, after he had gone in to <hi>Bathsheba.</hi>
+               </head>
+               <p>
+                  <seg rend="decorInit">T</seg>HE Psalmist in the sad sense of his guil<g ref="char:EOLhyphen" />tinesse, prayeth for remission of sinne, with an eye to the Lords large mercy, <hi>ver.</hi> 1, 2. and</p>
+               <p>From the Ins<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                     <desc>•…</desc>
+                  </gap>ription, <hi>Learn,</hi> 1. How soone the most morti<g ref="char:EOLhyphen" />fied lust may be kindled and break forth like fire in the embers, when it meeteth with powder; how</p>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 1. HAve mercy upon me, O God, according t<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap> thy loving kindnesse: according unto the multitude of thy tender mercies blot out my transgres<g ref="char:EOLhyphen" />sions.</p>
+                     <p>2. Wash me throughly from mine iniquity, and cleanse me from my sin.</p>
+                  </q>
+                  <p>In this first affectionate prayer for remission of sins, <hi>Learn,</hi> 1. As the conscience, till it be awakened by God, cannot appre<g ref="char:EOLhyphen" />hend how displeasant sin is to</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 3. For I acknowledge my transgressions, and my sin is ever before me.</p>
+                     <p>4. Against thee, thee onely have I sinned, and <gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap>e this evil in thy sight, that thou mightest be justi<g ref="char:EOLhyphen" />sied
+<hi>and</hi> be clear when thou judgest.</p>
+                     <p>5. Behold, I was shapen in iniquity: and in sinne did my mother conceive me.</p>
+                     <p>6. Behold, thou desirest truth in the inward parts: and in the hidden <hi>part</hi> thou shalt make me to know wisdome.</p>
+                  </q>
+                  <p>Here he maketh confession of his sin and sinfulnesse, and ag<g ref="char:EOLhyphen" />gravateth his guiltinesse, from the very root of original sinne, and subscribeth whatsoever God</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 7. Purge me with bysope, and I shall be clean: wash me and I shall be whiter then snow.</p>
+                     <p>8. Make me to hear joy and gladnesse: <hi>that</hi> the bones <hi>which</hi> thou hast broken may rejoyce.</p>
+                  </q>
+                  <p>He prayeth for remission of sin the second time, with an eye to the bloud of the Messiah Christ, and joyneth with it, a peti<g ref="char:EOLhyphen" />tion for comfort to his afflicted</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 9. Hide thy face from my sint, and blo out all mine iniquities.</p>
+                     <p>10. Create in me a clean heart, O God; and renew a right spirit within me.</p>
+                     <p>11. Cast me not away from thy presence: and take not thy holy Spirit from me.</p>
+                     <p>12. Restore unto me the joy of thy salvation, and uphold me <hi>with thy</hi> free spirit.</p>
+                     <p>13. <hi>Then</hi> will I teach transgressours thy wayes, and sinners shall be converted unto thee.</p>
+                  </q>
+                  <p>He prayeth for remission of sin the third time, <hi>ver.</hi> 9. And joyneth therewith a petition for rectifying his sad condition; first by renovation of that grace</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 14. Deliver me from blood-guiltinesse, O God, thou God of my salvation: <hi>and</hi> my tongue shall sing a<g ref="char:EOLhyphen" />loud of thy righteousnesse.</p>
+                  </q>
+                  <p>He prayeth the fourth time for remission of sin, and namely of that fearful and bloody transgression in the matter of <hi>Ur<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                           <desc>•…</desc>
+                        </gap>,</hi> which now did most trouble his</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 15. O Lord open thou my lips, and my mouth shall shew forth thy praise.</p>
+                     <p>16. For thou desirest not sacrifice, else would I give <hi>it:</hi> thou delightest not in burnt-offering.</p>
+                     <p>17. The sacrifices of God <hi>are</hi> a broken spirit: a broken and contrite heart, O God, thou will not de<g ref="char:EOLhyphen" />spise.</p>
+                  </q>
+                  <p>He pursueth this fourth petition for remission of sin, with <gap reason="illegible" resp="#APEX" extent="1 word">
+                        <desc>〈◊〉</desc>
+                     </gap> request for enlarging of his heart, and furnishing him with m<gap reason="illegible" resp="#APEX" extent="1+ letters">
+                        <desc>•…</desc>
+                     </gap>
+                     <g ref="char:EOLhyphen" />te: and ability</p>
+               </div>
+               <div type="section">
+                  <q>
+                     <p>
+                        <hi>Ver.</hi> 18. Do good in thy good pleasure unto Sion, build thou the walls of Ierusalem.</p>
+                     <p>19. Then shalt thou be pleased with the sacrifices of righteousnesse, with burnt-offering, and whole burnt-offering: then shall they offer bullocks upon thine Altar.</p>
+                  </q>
+                  <p>In the last verse <hi>David</hi> prayeth for the Lords people; that what breach had been made in the walls of Gods protecti<g ref="char:EOLhyphen" />on about them, by his sins and theirs, might</p>
+               </div>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

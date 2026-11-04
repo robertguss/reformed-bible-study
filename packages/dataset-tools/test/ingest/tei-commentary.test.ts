@@ -294,6 +294,91 @@ describe("readTeiCommentary", () => {
     }),
   )
 
+  const QUOTED: TeiCommentaryLayout = {
+    bookDivisions: new Set(["book"]),
+    chapterDivisions: new Set(["chapter"]),
+    verseLabel: /^Vers?\.\s*(\d+)/,
+  }
+
+  const quoted = (label: string, text: string) =>
+    `<q><hi>${label}</hi> ${text}</q><p>Exposition of ${label}</p>`
+
+  it.effect("keys a corrected label to the verse its text quotes, whatever its neighbours", () =>
+    Effect.gen(function* () {
+      const layout: TeiCommentaryLayout = {
+        ...QUOTED,
+        labelCorrections: [
+          { opening: "Ver. 8 LORD, how long", verse: 3 },
+          { opening: "Vers. 16. — Salute one", verse: 16 },
+        ],
+      }
+      const psalm = yield* read(
+        tei(
+          chapter(
+            94,
+            quoted("Ver. 1.", "O LORD God, to whom vengeance belongeth."),
+            quoted("Ver. 8", "LORD, how long shall the wicked triumph?"),
+            quoted("Ver. 5.", "They break in pieces thy people."),
+            quoted("Ver. 8.", "Understand, ye brutish among the people."),
+          ),
+        ),
+        "Ps",
+        layout,
+      )
+      // A label misprinted as a later verse would otherwise pull verses 3 to 7 into verse 8.
+      expect(refs(psalm)).toEqual([
+        "Ps.94.1-Ps.94.2",
+        "Ps.94.3-Ps.94.4",
+        "Ps.94.5-Ps.94.7",
+        "Ps.94.8-Ps.94.23",
+      ])
+      const romans = yield* read(
+        tei(
+          chapter(
+            16,
+            quoted("Vers. 14.", "Salute Asyncritus, Phlegon."),
+            quoted("Vers. 16.", "— Salute one another with an holy kiss."),
+            quoted("Vers. 16.", "— The Churches of Christ salute you."),
+            quoted("Vers. 17.", "Now I beseech you, Brethren."),
+          ),
+        ),
+        "Rom",
+        layout,
+      )
+      // Both halves of verse 16 carry its label, and the first stays at 16 rather than filling 15.
+      expect(refs(romans)).toEqual(["Rom.16.14-Rom.16.15", "Rom.16.16", "Rom.16.17-Rom.16.27"])
+      expect(section(romans, "Rom.16.16")?.paragraphs.map(plain)).toEqual([
+        "Vers. 16. — Salute one another with an holy kiss.",
+        "Exposition of Vers. 16.",
+        "Vers. 16. — The Churches of Christ salute you.",
+        "Exposition of Vers. 16.",
+      ])
+    }),
+  )
+
+  it.effect("keys the verses a chapter prints unlabelled in its argument as its verse 1", () =>
+    Effect.gen(function* () {
+      const sections = yield* read(
+        tei(
+          chapter(
+            1,
+            "<argument><p>Ver. 1. Paul, and Sylvanus, and Timotheus. 2. Grace unto you.</p></argument>",
+            "<p>In the direction of the Epistle the same persons salute them.</p>",
+            quoted("Vers. 3.", "Wee are bound to thank God alwaies for you."),
+          ),
+        ),
+        "2Thess",
+        { ...QUOTED, unlabelledOpening: true },
+      )
+      expect(refs(sections)).toEqual(["2Thess.1.1-2Thess.1.2", "2Thess.1.3-2Thess.1.12"])
+      // The argument and the exposition after it stay in the order printed.
+      expect(sections[0]?.paragraphs.map(plain)).toEqual([
+        "Ver. 1. Paul, and Sylvanus, and Timotheus. 2. Grace unto you.",
+        "In the direction of the Epistle the same persons salute them.",
+      ])
+    }),
+  )
+
   it.effect("ends the last section at the work's last verse rather than the chapter's end", () =>
     Effect.gen(function* () {
       const division = (n: number, text: string) =>

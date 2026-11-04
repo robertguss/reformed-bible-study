@@ -143,6 +143,16 @@ SPDX-FileCopyrightText = "Arthur Jackson, A Help for the Understanding of the Ho
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
+path = "resources/dickson/**"
+SPDX-FileCopyrightText = "David Dickson, expositions of the Psalms (1653 to 1655), Matthew (1651) and the Epistles (1659, translated from his Latin by William Retchford); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "resources/hutcheson/**"
+SPDX-FileCopyrightText = "George Hutcheson, expositions of Job (1669), the Twelve Small Prophets (1654) and John (1657); text keyed by the Early English Books Online Text Creation Partnership, dedicated to the public domain"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
 path = "resources/matthew-henry/**"
 SPDX-FileCopyrightText = "Matthew Henry, Commentary on the Whole Bible, public domain"
 SPDX-License-Identifier = "CC-PDM-1.0"
