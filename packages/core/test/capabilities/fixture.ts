@@ -6,6 +6,7 @@ import { Effect, Layer, Schema } from "effect"
 import { buildRelease } from "../../../dataset-tools/src/build/release.ts"
 import { layerFs } from "../../../dataset-tools/src/content-store-fs.ts"
 import {
+  type CatalogResource,
   type CommentaryBook,
   Confession,
   type ContentStore,
@@ -296,6 +297,39 @@ for (const [path, text] of FILES) {
 }
 
 export const ORIGIN = "https://reformed.example"
+
+/**
+ * The fixture release with each commentator's sections on one chapter added, and the catalog
+ * listing that chapter as ingested for them.
+ */
+export const filesWithChapter = (
+  book: string,
+  chapter: number,
+  sections: Readonly<Record<string, ReadonlyArray<unknown>>>,
+) => {
+  const catalog = JSON.parse(FILES.get("catalog.json") ?? "null") as {
+    readonly release: string
+    readonly payload: { readonly resources: ReadonlyArray<CatalogResource> }
+  }
+  const resources = catalog.payload.resources.map((resource) =>
+    sections[resource.id] === undefined
+      ? resource
+      : { ...resource, ingested: [...resource.ingested, { book, chapters: [chapter] }] },
+  )
+  const files = new Map(FILES).set(
+    "catalog.json",
+    JSON.stringify({ ...catalog, payload: { resources } }),
+  )
+  for (const [resourceId, list] of Object.entries(sections))
+    files.set(
+      `commentary/${resourceId}/${book}.${chapter}.json`,
+      JSON.stringify({
+        release: RELEASE,
+        payload: { resourceId, book, chapter, sections: list },
+      }),
+    )
+  return files
+}
 
 /** Serves release files the way a static host does, from `/data/<release>/<path>`. */
 export const staticHost =

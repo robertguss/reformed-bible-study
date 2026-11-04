@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest"
 import { capabilities, escapeMarkdown, shardPaths } from "@reformed-bible/core"
 import { Effect } from "effect"
-import { staticHost } from "../../../packages/core/test/capabilities/fixture.ts"
+import { filesWithChapter, staticHost } from "../../../packages/core/test/capabilities/fixture.ts"
 import { mintSessionId } from "../src/legacy-mcp/session-id.ts"
 import {
   callTool,
@@ -197,6 +197,23 @@ describe("MCP tools", () => {
       expect(text).not.toContain("[the full gloss](https://evil.example/x)")
       const line = text.split("\n").find((l) => l.includes("the full gloss"))
       expect(line).toBe("> Read \\[the full gloss\\]\\(https:\\/\\/evil.example/x\\) now.")
+    }),
+  )
+
+  it.effect("names every commentary covering the passage when no work is named", () =>
+    Effect.gen(function* () {
+      const comment = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
+      const files = filesWithChapter("Eph", 1, {
+        [CALVIN]: [comment("Eph.1.1-Eph.1.2", "Paul, an apostle.")],
+        "matthew-henry": [comment("Eph.1.1-Eph.1.2", "We have here the preface.")],
+      })
+      const { app } = testApp({ assets: { fetch: staticHost(files) } })
+      const unscoped = yield* callTool(app, "get_commentary", { ref: "Ephesians 1:1" })
+      expect(textOf(unscoped.message).split("\n")[0]).toBe(
+        "Commentaries covering this passage, in this order: calvin-commentaries, matthew-henry. Pass one as work to read only its sections.",
+      )
+      const scoped = yield* callTool(app, "get_commentary", { ref: "Ephesians 1:1", work: CALVIN })
+      expect(textOf(scoped.message)).not.toContain("Commentaries covering this passage")
     }),
   )
 

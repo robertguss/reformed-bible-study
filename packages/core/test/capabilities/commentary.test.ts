@@ -2,7 +2,15 @@ import { describe, expect, it } from "@effect/vitest"
 import { Effect } from "effect"
 import { COMMENTARY_CHARACTER_CAP, getCommentary } from "../../src/capabilities/index.ts"
 import type { CatalogResource } from "../../src/shards/index.ts"
-import { CALVIN_ROMANS_8, call, FILES, fetchStore, RELEASE, WITHDRAWN_REASON } from "./fixture.ts"
+import {
+  CALVIN_ROMANS_8,
+  call,
+  FILES,
+  fetchStore,
+  filesWithChapter,
+  RELEASE,
+  WITHDRAWN_REASON,
+} from "./fixture.ts"
 
 const CALVIN = "calvin-commentaries"
 const POOLE = "poole-annotations"
@@ -18,35 +26,11 @@ interface CatalogFile {
 const catalogFile = (): CatalogFile =>
   JSON.parse(FILES.get("catalog.json") ?? "null") as CatalogFile
 
-/**
- * The fixture release with each commentator's sections on one chapter added, and the catalog
- * listing that chapter as ingested for them.
- */
 const withChapter = (
   book: string,
   chapter: number,
   sections: Readonly<Record<string, ReadonlyArray<unknown>>>,
-) => {
-  const catalog = catalogFile()
-  const resources = catalog.payload.resources.map((resource) =>
-    sections[resource.id] === undefined
-      ? resource
-      : { ...resource, ingested: [...resource.ingested, { book, chapters: [chapter] }] },
-  )
-  const files = new Map(FILES).set(
-    "catalog.json",
-    JSON.stringify({ ...catalog, payload: { resources } }),
-  )
-  for (const [resourceId, list] of Object.entries(sections))
-    files.set(
-      `commentary/${resourceId}/${book}.${chapter}.json`,
-      JSON.stringify({
-        release: RELEASE,
-        payload: { resourceId, book, chapter, sections: list },
-      }),
-    )
-  return fetchStore(files)
-}
+) => fetchStore(filesWithChapter(book, chapter, sections))
 
 const comment = (ref: string, text: string) => ({ ref, paragraphs: [[{ text }]], notes: [] })
 
