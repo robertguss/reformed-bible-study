@@ -104,7 +104,37 @@ describe("namedArticles", () => {
   })
 
   it("does not read a year before Christ as a Belgic article", () => {
-    expect([...namedArticles("Jerusalem fell in 586 BC, 2 Kings 25 records it.")]).toEqual([])
+    for (const answer of [
+      "Jerusalem fell in 586 BC, 2 Kings 25 records it.",
+      "Jerusalem fell in 586 BC 2 Kings 25 records it.",
+    ])
+      expect([answer, [...namedArticles(answer)]]).toEqual([answer, []])
+  })
+
+  it("does not read a confession's year as an article", () => {
+    for (const answer of [
+      "The Heidelberg Catechism 1563 was written at Heidelberg.",
+      "The Canons of Dort, 1619, answer the Remonstrants.",
+    ])
+      expect([answer, [...namedArticles(answer)]]).toEqual([answer, []])
+    expect([
+      ...namedArticles("The Belgic Confession (1561), Article 37, and HC (1563) Q. 52."),
+    ]).toEqual(["HC Q52", "BC Art. 37"])
+  })
+
+  it("reads a Lord's Day followed by its question as that question", () => {
+    expect([...namedArticles("The Heidelberg Catechism, Lord's Day 32, Q&A 87.")]).toEqual([
+      "HC Q87",
+    ])
+  })
+
+  it("reads the Canons of Dort's heads written out and a comma before the article", () => {
+    const answer = [
+      "The Canons of Dort, First Head of Doctrine, Article 7.",
+      "The Canons of Dort, Third and Fourth Heads of Doctrine, Article 4.",
+      "The Canons of Dort III/IV, 12.",
+    ].join("\n")
+    expect([...namedArticles(answer)].sort()).toEqual(["CD I.7", "CD III-IV.12", "CD III-IV.4"])
   })
 })
 
@@ -189,6 +219,10 @@ describe("saysNotCovered", () => {
       "Matthew Henry's commentary is not in this dataset.",
       "Calvin never wrote on Revelation.",
       "Calvin did not write a commentary on Revelation, so there is nothing to quote.",
+      "Calvin did not comment on Revelation.",
+      "Revelation falls outside Calvin's work.",
+      "The 1689 London Baptist Confession is not part of this library.",
+      "There is no commentary from Spurgeon in these tools.",
     ])
       expect([answer, saysNotCovered(answer)]).toEqual([answer, true])
   })
@@ -201,6 +235,7 @@ describe("saysNotCovered", () => {
     for (const answer of [
       "Matthew Henry argues that God does not abandon his people, and his commentary has a lovely section on providence.",
       "Calvin says creation is not an accident; the commentary includes a long discussion of it.",
+      "Calvin says Christ suffered outside the gate, and his comment on Hebrews 13:12 follows.",
     ])
       expect([answer, saysNotCovered(answer)]).toEqual([answer, false])
   })
