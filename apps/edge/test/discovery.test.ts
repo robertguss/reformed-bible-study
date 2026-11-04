@@ -6,7 +6,7 @@ import { capabilities } from "@reformed-bible/core"
 import { Effect } from "effect"
 import { discoveryFiles, writeDiscoveryFiles } from "../src/discovery.ts"
 import { MCP_INSTRUCTIONS } from "../src/mcp.ts"
-import { legacy, modern, ORIGIN, testApp } from "./support.ts"
+import { FILES, legacy, modern, ORIGIN, testApp } from "./support.ts"
 
 const ARCHIVE_URL = "https://downloads.example/dataset-2026-11-03.zip"
 const files = discoveryFiles({ origin: ORIGIN, archiveUrl: ARCHIVE_URL })
@@ -37,8 +37,19 @@ describe("discovery files", () => {
   })
 
   it("describes the corpus generically, naming no single commentator or confession", () => {
-    for (const text of [files.get("llms.txt") ?? "", MCP_INSTRUCTIONS])
-      expect(text).not.toMatch(/Calvin|Westminster/)
+    const catalog = JSON.parse(FILES.get("catalog.json") ?? "null") as {
+      readonly payload: {
+        readonly resources: ReadonlyArray<{ readonly kind: string; readonly name?: string }>
+      }
+    }
+    const commentators = catalog.payload.resources.flatMap(({ kind, name }) =>
+      kind === "commentary" && name !== undefined ? [name] : [],
+    )
+    expect(commentators).toContain("Dickson")
+    for (const text of [files.get("llms.txt") ?? "", MCP_INSTRUCTIONS]) {
+      expect(text).not.toMatch(/Westminster/)
+      for (const name of commentators) expect(text).not.toContain(name)
+    }
   })
 
   it.effect(

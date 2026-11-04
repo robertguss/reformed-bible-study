@@ -193,12 +193,28 @@ interface Attributed {
   }>
 }
 
+interface Commentary {
+  readonly items: ReadonlyArray<{
+    readonly value: { readonly ref: string }
+    readonly attribution: { readonly resourceId: string; readonly author: string }
+  }>
+  readonly resources: ReadonlyArray<{ readonly resourceId: string; readonly coverage: string }>
+}
+
+const caseNamed = (name: string): Case => {
+  const found = CASES.find((testCase) => testCase.name === name)
+  if (found === undefined) throw new Error(`No parity case is named ${name}`)
+  return found
+}
+
 describe("parity across the handler, the web app, the public API and MCP", () => {
   it("covers the agreed cases", () => {
     expect(CASES.map((testCase) => testCase.name)).toEqual([
       "Romans 8:28 text",
       "Calvin on Romans 8:29",
       "Calvin on Mark 4:3, a parallel of his comment on Matthew 13",
+      "Dickson, a single-book commentator, on Romans 8:28",
+      "every commentary on Romans 8:28",
       "confession articles citing Romans 8:28",
       "Heidelberg Catechism Question 1",
       "cross-references from Romans 8:28, page two",
@@ -263,6 +279,46 @@ describe("parity across the handler, the web app, the public API and MCP", () =>
           })
         }),
     )
+
+  it.effect(
+    "a single-book commentator named as the work returns only its own items, with its attribution, on the API and MCP",
+    () =>
+      Effect.gen(function* () {
+        const testCase = caseNamed("Dickson, a single-book commentator, on Romans 8:28")
+        for (const outcome of [yield* viaApi(testCase), yield* viaMcp(testCase)]) {
+          if (outcome.kind !== "envelope") throw new Error(testCase.name)
+          const { items } = outcome.envelope as Commentary
+          expect(items.map(({ value, attribution }) => [value.ref, attribution])).toEqual([
+            [
+              "Rom.8.28",
+              expect.objectContaining({ resourceId: "dickson", author: "David Dickson" }),
+            ],
+          ])
+        }
+      }),
+  )
+
+  it.effect(
+    "a commentary request naming no work lists the single-book commentator among the covering works, ahead of the comments",
+    () =>
+      Effect.gen(function* () {
+        const testCase = caseNamed("every commentary on Romans 8:28")
+        const api = yield* viaApi(testCase)
+        const mcp = yield* viaMcp(testCase)
+        if (api.kind !== "envelope" || mcp.kind !== "envelope") throw new Error(testCase.name)
+        const { items, resources } = api.envelope as Commentary
+        expect(
+          resources.filter(({ coverage }) => coverage === "covered").map((r) => r.resourceId),
+        ).toEqual(["calvin-commentaries", "dickson"])
+        expect(items.map(({ attribution }) => attribution.resourceId)).toEqual([
+          "calvin-commentaries",
+          "dickson",
+        ])
+        expect(mcp.text?.split("\n")[0]).toBe(
+          "Commentaries covering this passage, in this order: calvin-commentaries, dickson. Pass one as work to read only its sections.",
+        )
+      }),
+  )
 
   it.effect("MCP adds a Markdown text form that names each item's source and the release", () =>
     Effect.gen(function* () {

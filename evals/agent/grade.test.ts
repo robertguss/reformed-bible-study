@@ -3,6 +3,7 @@ import {
   articleProblems,
   missingCalls,
   namedArticles,
+  namedCommentaryProblems,
   quotedSpans,
   saysNotCovered,
   type ToolCall,
@@ -207,6 +208,37 @@ describe("missingCalls", () => {
         "find_confession_articles",
       ]),
     ).toEqual(["find_confession_articles"])
+  })
+})
+
+describe("namedCommentaryProblems", () => {
+  const byName = (resourceIds: ReadonlyArray<string>): ToolCall => ({
+    name: "get_commentary",
+    args: { ref: "Romans 8:28", work: "dickson" },
+    isError: false,
+    text: "> Ver. 28. The fourth reason of consolation.",
+    structured: { items: resourceIds.map((resourceId) => ({ attribution: { resourceId } })) },
+  })
+
+  it("passes when every item of a call naming the work is credited to it", () => {
+    expect(namedCommentaryProblems(transcript("", [byName(["dickson"])]), "dickson")).toEqual([])
+  })
+
+  it("flags an item of a call naming the work that is credited to another work", () => {
+    expect(
+      namedCommentaryProblems(
+        transcript("", [byName(["dickson", "calvin-commentaries"])]),
+        "dickson",
+      ),
+    ).toEqual([
+      "A get_commentary call naming dickson returned an item credited to calvin-commentaries.",
+    ])
+  })
+
+  it("flags a transcript whose commentary calls never name the work", () => {
+    expect(namedCommentaryProblems(transcript("", [commentary]), "dickson")).toEqual([
+      "No get_commentary call named dickson.",
+    ])
   })
 })
 

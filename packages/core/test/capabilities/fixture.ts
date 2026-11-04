@@ -54,8 +54,24 @@ export const WITHDRAWN_REASON = "License evidence was retracted by the publisher
 /** A confession the catalog lists before its transcription is ingested. */
 export const UNINGESTED_CONFESSION = "uningested-confession"
 
+/** A commentator who wrote on one book, ingested for Romans 8 alone. */
+const SINGLE_BOOK_COMMENTATOR = "dickson"
+
 const records = [
-  ...realRecords,
+  // The fixture stands in for the real commentator of the same id, so the tests keep one Romans record.
+  ...realRecords.filter((record) => record.id !== SINGLE_BOOK_COMMENTATOR),
+  fixtureRecord({
+    id: SINGLE_BOOK_COMMENTATOR,
+    kind: "commentary",
+    title: "An Exposition of the Epistle to the Romans",
+    name: "Dickson",
+    creator: "David Dickson",
+    scope: ["Rom"],
+    license: {
+      spdx: "CC0-1.0",
+      evidence: [{ url: "https://example.org/license", quote: "CC0 1.0 Universal" }],
+    },
+  }),
   fixtureRecord({ id: UNINGESTED_CONFESSION, kind: "confession" }),
   fixtureRecord({
     id: "withdrawn-commentary",
@@ -129,6 +145,18 @@ const calvin: CommentaryBook = {
   resourceId: "calvin-commentaries",
   book: "Rom",
   sections: [section("Rom.7.1", "Know ye not, brethren."), ...CALVIN_ROMANS_8],
+}
+
+const dickson: CommentaryBook = {
+  resourceId: SINGLE_BOOK_COMMENTATOR,
+  book: "Rom",
+  sections: [
+    section(
+      "Rom.8.28",
+      "Ver. 28. The fourth reason of consolation: all things, even afflictions, work together for the good of them that love God.",
+    ),
+    section("Rom.8.29", "Ver. 29. The fifth reason: whom God foreknew, them he predestinated."),
+  ],
 }
 
 const parallel = (ref: string, parallels: ReadonlyArray<string>, text: string) => ({
@@ -271,7 +299,7 @@ const built = await Effect.runPromise(
     {
       records,
       translations: bsb,
-      commentaries: [calvin, ...calvinHarmonies],
+      commentaries: [calvin, ...calvinHarmonies, dickson],
       crossReferences: [xrefs],
       originals: [greek],
       lexicon,

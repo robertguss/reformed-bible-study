@@ -17,6 +17,7 @@ const POOLE = "poole-annotations"
 const HENRY = "matthew-henry"
 const JFB = "jamieson-fausset-brown"
 const OWEN = "owen-hebrews"
+const DICKSON = "dickson"
 
 interface CatalogFile {
   readonly release: string
@@ -134,6 +135,7 @@ describe("get_commentary", () => {
         [POOLE, "not_ingested", "active"],
         [HENRY, "not_ingested", "active"],
         [JFB, "not_ingested", "active"],
+        [DICKSON, "covered", "active"],
         [OWEN, "outside_work", "active"],
         ["withdrawn-commentary", "not_ingested", "withdrawn"],
       ])
@@ -160,10 +162,11 @@ describe("get_commentary", () => {
           HENRY,
           JFB,
           "aaa-commentary",
+          DICKSON,
           OWEN,
           "withdrawn-commentary",
         ])
-        expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN])
+        expect(result.items.map((item) => item.attribution.resourceId)).toEqual([CALVIN, DICKSON])
       }),
   )
 
@@ -208,6 +211,7 @@ describe("get_commentary", () => {
           [POOLE, "covered"],
           [HENRY, "not_ingested"],
           [JFB, "not_ingested"],
+          [DICKSON, "outside_work"],
           [OWEN, "outside_work"],
           ["withdrawn-commentary", "not_ingested"],
         ])
@@ -273,6 +277,7 @@ describe("get_commentary", () => {
         [POOLE, "not_ingested"],
         [HENRY, "covered"],
         [JFB, "covered"],
+        [DICKSON, "outside_work"],
         [OWEN, "outside_work"],
         ["withdrawn-commentary", "not_ingested"],
       ])

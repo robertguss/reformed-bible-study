@@ -206,6 +206,39 @@ export const articleProblems = (transcript: Transcript): ReadonlyArray<string> =
   return problems
 }
 
+const CommentaryEnvelope = Schema.Struct({
+  items: Schema.Array(Schema.Struct({ attribution: Schema.Struct({ resourceId: Schema.String }) })),
+})
+
+const decodeCommentary = Schema.decodeUnknownOption(CommentaryEnvelope)
+
+const decodeWork = Schema.decodeUnknownOption(Schema.Struct({ work: Schema.String }))
+
+/**
+ * Checks that the agent asked for one commentary by name and that every item of those calls is
+ * credited to that commentary, not to another work.
+ */
+export const namedCommentaryProblems = (
+  transcript: Transcript,
+  work: string,
+): ReadonlyArray<string> => {
+  const calls = transcript.calls.filter(
+    (call) =>
+      call.name === "get_commentary" &&
+      !call.isError &&
+      Option.exists(decodeWork(call.args), (args) => args.work === work),
+  )
+  if (calls.length === 0) return [`No get_commentary call named ${work}.`]
+  return calls.flatMap((call) =>
+    Option.getOrElse(decodeCommentary(call.structured), () => ({ items: [] }))
+      .items.filter(({ attribution }) => attribution.resourceId !== work)
+      .map(
+        ({ attribution }) =>
+          `A get_commentary call naming ${work} returned an item credited to ${attribution.resourceId}.`,
+      ),
+  )
+}
+
 export const missingCalls = (
   transcript: Transcript,
   tools: ReadonlyArray<string>,
