@@ -9,7 +9,8 @@ export class OsisTextError extends Schema.TaggedError<
   detail: Schema.String,
 }) {}
 
-export interface OsisEntry {
+/** One `div type="section"` of an entry, under the reference its start tag annotates. */
+export interface OsisSection {
   readonly ref: string | undefined
   readonly paragraphs: ReadonlyArray<ReadonlyArray<TextRun>>
   readonly notes: ReadonlyArray<ReadonlyArray<TextRun>>
@@ -109,40 +110,57 @@ const attribute = (node: XmlNode, name: string): string | undefined => {
   return typeof value === "string" ? value : undefined
 }
 
-export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextError> =>
+interface OpenSection {
+  readonly ref: string | undefined
+  readonly body: Paragraphs
+  readonly notes: Array<Array<TextRun>>
+}
+
+/**
+ * Splits an entry into its sections, in order. Text belongs to the section most recently started
+ * until any section ends; text outside every section, such as the translation of the next passage,
+ * is left out. A section that starts right after another with the same reference continues it.
+ */
+export const parseOsisEntry = (
+  xml: string,
+): Effect.Effect<ReadonlyArray<OsisSection>, OsisTextError> =>
   Effect.gen(function* () {
     const tree = yield* Effect.try({
       try: () => parser.parse(`<entry>${xml}</entry>`) as ReadonlyArray<XmlNode>,
       catch: (error) => new OsisTextError({ detail: String(error) }),
     })
-    const body = new Paragraphs()
-    const notes: Array<Array<TextRun>> = []
+    const sections: Array<OpenSection> = []
+    let current: OpenSection | undefined
     let note: Paragraphs | undefined
-    let ref: string | undefined
-    let inSection = false
+    const target = () => note ?? current?.body
 
     const walk = (nodes: ReadonlyArray<XmlNode>, emphasis: boolean): void => {
       for (const node of nodes) {
         const text = node[TEXT]
         if (typeof text === "string") {
-          if (inSection) (note ?? body).add(decodeEntities(text), emphasis)
+          target()?.add(decodeEntities(text), emphasis)
           continue
         }
         const name = elementName(node)
         if (name === undefined) continue
         const children = (node[name] ?? []) as ReadonlyArray<XmlNode>
-        if (name === "div") {
-          if (attribute(node, "type") === "section") {
+        if (name === "div" || name === "p") {
+          target()?.break()
+          if (name === "div" && attribute(node, "type") === "section") {
             if (attribute(node, "sID") !== undefined) {
-              inSection = true
-              ref ??= attribute(node, "annotateRef")?.replace(/^Bible:/, "")
-            } else if (attribute(node, "eID") !== undefined) inSection = false
+              const ref = attribute(node, "annotateRef")?.replace(/^Bible:/, "")
+              const last = sections.at(-1)
+              if (last !== undefined && last.ref === ref) current = last
+              else {
+                current = { ref, body: new Paragraphs(), notes: [] }
+                sections.push(current)
+              }
+            } else if (attribute(node, "eID") !== undefined) current = undefined
           }
-          ;(note ?? body).break()
           walk(children, emphasis)
-          ;(note ?? body).break()
+          target()?.break()
         } else if (name === "note") {
-          if (!inSection || note !== undefined) {
+          if (current === undefined || note !== undefined) {
             walk(children, emphasis)
             continue
           }
@@ -150,16 +168,17 @@ export const parseOsisEntry = (xml: string): Effect.Effect<OsisEntry, OsisTextEr
           walk(children, false)
           note.break()
           const runs = joinParagraphs(note.done)
-          if (runs.length > 0) notes.push(runs)
+          if (runs.length > 0) current.notes.push(runs)
           note = undefined
-        } else if (name === "lb") {
-          if (inSection) (note ?? body).add(" ", emphasis)
-        } else walk(children, emphasis || name === "hi")
+        } else if (name === "lb") target()?.add(" ", emphasis)
+        else walk(children, emphasis || name === "hi")
       }
     }
 
     const root = tree.find((node) => elementName(node) === "entry")
     walk((root?.["entry"] ?? []) as ReadonlyArray<XmlNode>, false)
-    body.break()
-    return { ref, paragraphs: body.done, notes }
+    return sections.map(({ ref, body, notes }) => {
+      body.break()
+      return { ref, paragraphs: body.done, notes }
+    })
   })
